@@ -1,5 +1,6 @@
 package com.example.bokningsapp.repository;
 
+import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
 import com.example.bokningsapp.model.Equipment;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,6 @@ import java.util.List;
 public interface EquipmentRepo extends JpaRepository <Equipment, Integer> {
 
     List<Equipment> findByEquipmentType(EquipmentType equipmentType);
+    List<Equipment> findAllByEquipmentStatus(EquipmentStatus equipmentStatus);
 
 }

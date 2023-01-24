@@ -5,6 +5,7 @@ import com.example.bokningsapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +14,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -46,6 +49,23 @@ public class UserServiceImpl implements UserService {
             // Kan jag få ut Error meddelandet på något sätt?
 
         }
+    }
+
+    @Override
+    public User createUser(User user) {
+        // check for existing user with same email
+        User existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser != null) {
+            throw new IllegalArgumentException("User with email " + user.getEmail() + " already exists");
+        }
+        // encrypt the password
+        user.setPassword(encryptPassword(user.getPassword()));
+
+        return userRepository.save(user);
+    }
+    @Override
+    public String encryptPassword(String password) {
+        return passwordEncoder.encode(password);
     }
 
     @Override

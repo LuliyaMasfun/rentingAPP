@@ -41,6 +41,11 @@ public class EquipmentServiceImpl implements EquipmentService {
         return equipmentRepo.findByEquipmentType(equipmentType);
     }
 
+    @Override
+    public List<Equipment> findAllByEquipmentStatus(EquipmentStatus equipmentStatus) {
+        return equipmentRepo.findAllByEquipmentStatus(equipmentStatus);
+    }
+
     @Transactional
     @Override
     public void deleteEquipment(int id) {
