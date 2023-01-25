@@ -26,12 +26,14 @@ dependencies {
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 	implementation 'org.jetbrains:annotations:20.1.0'
 	implementation group: 'org.postgresql', name: 'postgresql'
+	implementation group: 'org.postgresql', name: 'postgresql'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {
