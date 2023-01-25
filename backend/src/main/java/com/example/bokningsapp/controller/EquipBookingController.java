@@ -3,6 +3,7 @@ package com.example.bokningsapp.controller;
 
 import com.example.bokningsapp.dto.EquipBookingDto;
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
+import com.example.bokningsapp.enums.EquipmentType;
 import com.example.bokningsapp.exception.BookingNotFoundException;
 import com.example.bokningsapp.exception.EquipmentNotAvailableException;
 import com.example.bokningsapp.exception.UnauthorizedUserException;
@@ -20,6 +21,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -61,8 +64,14 @@ public class EquipBookingController {
         catch (EquipmentNotAvailableException ex) {
             return new ResponseEntity<>(null, HttpStatus.CONFLICT);
         }
-
     }
 
-
+    @GetMapping("/user/{userId}/equipmentType/{equipmentType}")
+    public ResponseEntity<List<EquipmentBooking>> getBookingsByUserAndEquipment(@PathVariable Long userId, @PathVariable EquipmentType equipmentType) {
+        List<EquipmentBooking> bookings = equipBookingService.findAllByUserIdAndEquipmentType(userId, equipmentType);
+        if (bookings.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(bookings, HttpStatus.OK);
+    }
 }
