@@ -26,20 +26,19 @@ public class UserController {
     @GetMapping(value = "/users")
     public ResponseEntity<List<User>> getAllUsers(){
         try {
-            List<User> userList = userRepository.findAll();
+          List<User> userList = userServiceImpl.getAllUsers();
 
-            if (!userList.isEmpty()) {
-                return new ResponseEntity<>(userList, HttpStatus.OK);
+          if (!userList.isEmpty()){
+
+          return new ResponseEntity<>(userList,HttpStatus.OK);
             }
             else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-
-
         }catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-            // Kan jag få ut Error meddelandet på något sätt?
+
 
         }
     }
@@ -54,10 +53,19 @@ public class UserController {
 
     @PostMapping(value = "/user")
     public ResponseEntity<User> addUser(@RequestBody User user){
-        userRepository.save(new User(user.getName(),user.getLastName(),user.getEmail(), user.getEquipmentBookings()));
+
+
         try{
-            User savedUser = userRepository.save(new User(user.getName(),user.getLastName(),user.getEmail(), user.getEquipmentBookings()));
-            return new ResponseEntity<>(savedUser,HttpStatus.CREATED);
+
+          if(userRepository.existsByEmail(user.getEmail())){
+              return new ResponseEntity<>(user,HttpStatus.CONFLICT);
+          }
+          else{
+              User savedUser = new User(user.getName(),user.getLastName(),user.getEmail(), user.getEquipmentBookings());
+              userServiceImpl.saveUser(savedUser);
+              return new ResponseEntity<>(savedUser,HttpStatus.CREATED);
+          }
+
 
         } catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);

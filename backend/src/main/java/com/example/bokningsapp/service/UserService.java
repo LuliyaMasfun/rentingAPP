@@ -10,11 +10,11 @@ import java.util.List;
 public interface UserService {
 
 
-    ResponseEntity<User> getUser(long id);
+    User getUser(long id);
 
-    ResponseEntity<List<User>> getAllUsers(String userName); //dubbelchecka denna med Kristoffer
-    ResponseEntity<User> saveUser (User user);
-    ResponseEntity<User> updateUser(User user);
-    ResponseEntity<User> deleteUser (long id);
+    List<User> getAllUsers(); //dubbelchecka denna med Kristoffer
+    User saveUser (User user);
+    User updateUser(User user);
+    User deleteUser (long id);
 
 }

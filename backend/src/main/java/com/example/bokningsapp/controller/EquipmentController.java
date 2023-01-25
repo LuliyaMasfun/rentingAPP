@@ -19,18 +19,29 @@ import java.util.List;
 public class EquipmentController {
 
     private final EquipmentRepo equipmentRepo;
-    private final EquipmentService equipmentService;
+    private final EquipmentServiceImpl equipmentServiceImpl;
 
     @Autowired
-    public EquipmentController(EquipmentRepo equipmentRepo, EquipmentService equipmentService) {
+    public EquipmentController(EquipmentRepo equipmentRepo, EquipmentServiceImpl equipmentServiceImpl) {
         this.equipmentRepo = equipmentRepo;
-        this.equipmentService = equipmentService;
+        this.equipmentServiceImpl = equipmentServiceImpl;
     }
     @PostMapping(value = "/createEquipment")
     public ResponseEntity<Equipment> createEquipment(@RequestBody Equipment equipment) {
 
-        Equipment newEquipment = equipmentService.saveEquipment(equipment);
-        return new ResponseEntity<>(newEquipment, HttpStatus.CREATED);
+        try{
+            if (equipment == null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            else{
+                equipmentServiceImpl.saveEquipment(equipment);
+                return new ResponseEntity<>(equipment,HttpStatus.CREATED);
+            }
+        } catch(Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+
     }
     @GetMapping(value = "/allEquipment")
     public List<Equipment> getAllEquipment() {
@@ -40,7 +51,7 @@ public class EquipmentController {
     @DeleteMapping("/equipment/{id}")
     public ResponseEntity<?> deleteEquipment(@PathVariable int id) {
         try {
-            equipmentService.deleteEquipment(id);
+            equipmentServiceImpl.deleteEquipment(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EquipmentNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

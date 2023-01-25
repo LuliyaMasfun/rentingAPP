@@ -20,46 +20,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<User> getUser(long id) {
-        User user = userRepository.getReferenceById(id);
+    public User getUser(long id) {
 
-            return new ResponseEntity<>(user, HttpStatus.OK);
+        return userRepository.getReferenceById(id);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+
+        return userRepository.findAll();
 
     }
 
     @Override
-    public ResponseEntity<List<User>> getAllUsers(String userName) {
-        try {
-            List<User> userList = userRepository.findAll();
+    public User saveUser(User user) {
 
-            if (!userList.isEmpty()) {
-                return new ResponseEntity<>(userList, HttpStatus.OK);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
+        User _user = new User(user.getName(), user.getLastName(), user.getEmail(), user.getEquipmentBookings());
 
+        userRepository.save(_user);
 
-
-        }catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-            // Kan jag få ut Error meddelandet på något sätt?
-
-        }
+        return _user;
     }
 
     @Override
-    public ResponseEntity<User> saveUser(User user) {
+    public User updateUser(User user) {
         return null;
     }
 
     @Override
-    public ResponseEntity<User> updateUser(User user) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<User> deleteUser(long id) {
+    public User deleteUser(long id) {
         return null;
     }
 }

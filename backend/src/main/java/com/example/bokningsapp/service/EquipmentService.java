@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public interface EquipmentService {
+
     public Equipment saveEquipment(Equipment equipment);
     public void updateEquipmentStatus(int equipmentId, boolean isBooked);
     public List<Equipment> findEquipmentByType(EquipmentType equipmentType);

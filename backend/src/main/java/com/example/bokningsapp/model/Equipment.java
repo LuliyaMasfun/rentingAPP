@@ -54,7 +54,7 @@ import java.time.LocalDate;
         public Equipment() {
         }
 
-        public int getId() {return id;}
+    public int getId() {return id;}
         public String getEquipmentName() {
             return equipmentName;
         }
