@@ -27,6 +27,7 @@ public class EquipBookingServiceImpl implements EquipBookingService {
   private final EquipBookingRepo equipBookingRepo;
   private final EquipmentRepo equipmentRepo;
   private final UserRepository userRepository;
+
   @Autowired
     public EquipBookingServiceImpl(EquipBookingRepo equipBookingRepo, EquipmentRepo equipmentRepo, UserRepository userRepository) {
         this.equipBookingRepo = equipBookingRepo;
@@ -114,6 +115,8 @@ public class EquipBookingServiceImpl implements EquipBookingService {
         equipmentRepo.save(equipment);
         return equipmentBooking;
     }
+
+
     public boolean isNotAvailable(LocalDate startDate, LocalDate endDate, int equipmentId) {
         // check if equipment is available for the given start and end date
         List<EquipmentBooking> bookings = equipBookingRepo.findAllByEquipmentIdAndBookingStatus(equipmentId, BookingStatus.APPROVED);

@@ -5,7 +5,6 @@ import com.example.bokningsapp.dto.UpdatedEquipmentDto;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.exception.BookingNotFoundException;
 import com.example.bokningsapp.exception.EquipmentNotAvailableException;
-import com.example.bokningsapp.exception.UnauthorizedUserException;
 import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.repository.EquipBookingRepo;
 import com.example.bokningsapp.service.AdminService;
@@ -22,20 +21,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
 public class AdminController {
 
     private final AdminService adminService;
     private final EquipBookingService equipBookingService;
-    private final EquipmentService equipmentService;
-    private final EquipBookingRepo equipBookingRepo;
 
 
     @Autowired
-    public AdminController(EquipBookingService equipBookingService, EquipmentService equipmentService,  EquipBookingRepo equipBookingRepo, AdminService adminService) {
+    public AdminController(EquipBookingService equipBookingService, AdminService adminService) {
         this.equipBookingService = equipBookingService;
-        this.equipmentService = equipmentService;
-        this.equipBookingRepo = equipBookingRepo;
         this.adminService = adminService;
     }
 

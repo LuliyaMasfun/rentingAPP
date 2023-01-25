@@ -1,6 +1,5 @@
 package com.example.bokningsapp.model;
 
-import com.example.bokningsapp.userAuthorities.ERole;
 import jakarta.persistence.*;
 
 @Table
@@ -13,8 +12,23 @@ public class Admin {
 
     @Column
     private String name;
-    @Column
-    private ERole role_Admin;
 
+    public Admin(String name) {
+        this.name = name;
+    }
 
+    public Admin() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
