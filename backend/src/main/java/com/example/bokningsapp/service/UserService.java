@@ -14,7 +14,10 @@ public interface UserService {
 
     ResponseEntity<List<User>> getAllUsers(String userName); //dubbelchecka denna med Kristoffer
     ResponseEntity<User> saveUser (User user);
-    ResponseEntity<User> updateUser(User user);
+    ResponseEntity<User> updateUser2(User user);
     ResponseEntity<User> deleteUser (long id);
+    public User createUser(User user);
+    public String encryptPassword(String password);
+    public User updateUser(Long id, User updatedUser);
 
 }

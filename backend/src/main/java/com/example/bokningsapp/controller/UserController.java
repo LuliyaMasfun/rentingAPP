@@ -2,7 +2,7 @@ package com.example.bokningsapp.controller;
 
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
-import com.example.bokningsapp.service.UserServiceImpl;
+import com.example.bokningsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +15,15 @@ public class UserController {
 
 
     private final UserRepository userRepository;
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, UserServiceImpl userServiceImpl) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
-        this.userServiceImpl = userServiceImpl;
+        this.userService = userService;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping(value = "/getAllUsers")
     public ResponseEntity<List<User>> getAllUsers(){
         try {
             List<User> userList = userRepository.findAll();
@@ -35,8 +35,6 @@ public class UserController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-
-
         }catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             // Kan jag få ut Error meddelandet på något sätt?
@@ -44,42 +42,6 @@ public class UserController {
         }
     }
 
-//    @GetMapping(value = "user/{id}")
-//    public ResponseEntity<User>getUser(@PathVariable long id) {
-//
-//        User user = userRepository.getReferenceById(id);
-//
-//    }
-
-
-    @PostMapping(value = "/user")
-    public ResponseEntity<User> addUser(@RequestBody User user){
-        userRepository.save(new User(user.getName(),user.getLastName(),user.getEmail(), user.getEquipmentBookings()));
-        try{
-            User savedUser = userRepository.save(new User(user.getName(),user.getLastName(),user.getEmail(), user.getEquipmentBookings()));
-            return new ResponseEntity<>(savedUser,HttpStatus.CREATED);
-
-        } catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @PutMapping(value = "user/{id}")
-    public ResponseEntity<User> updateUser (@PathVariable long id, @RequestBody User user) {
-        User updatedUser = userRepository.getReferenceById(id);
-
-        try {
-            updatedUser.setName(user.getName());
-            updatedUser.setLastName(user.getLastName());
-            updatedUser.setEmail(user.getEmail());
-
-            userRepository.save(updatedUser);
-
-            return new ResponseEntity<>(updatedUser,HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-        }
-    }
     @DeleteMapping(value = "user/{id}")
     public ResponseEntity<Long> deleteUser(@PathVariable long id){
 
@@ -94,9 +56,39 @@ public class UserController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-
     }
+    @PutMapping(value = "user/{id}")
+    public ResponseEntity<User> updateUser2(@PathVariable long id, @RequestBody User user) {
+        User updatedUser = userRepository.getReferenceById(id);
+
+        try {
+            updatedUser.setFirstName(user.getFirstName());
+            updatedUser.setLastName(user.getLastName());
+            updatedUser.setEmail(user.getEmail());
+
+            userRepository.save(updatedUser);
+
+            return new ResponseEntity<>(updatedUser,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+    }
+
+    //ALLA NYA HTTP METODER
+    @PostMapping(value = "/createUser")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User newUser = userService.createUser(user);
+        return new ResponseEntity<>(newUser,HttpStatus.CREATED);
+    }
+    @PutMapping("/updateUser/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User user = userService.updateUser(id, updatedUser);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+
+
 
 
 }

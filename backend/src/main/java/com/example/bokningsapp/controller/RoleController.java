@@ -1,6 +1,6 @@
 package com.example.bokningsapp.controller;
 
-import com.example.bokningsapp.model.Role;
+import com.example.bokningsapp.userAuthorities.ERole;
 import com.example.bokningsapp.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +22,9 @@ public class RoleController {
     }
 
     @GetMapping(value = "/roles")
-    public ResponseEntity<List<Role>> roleList() {
+    public ResponseEntity<List<ERole>> roleList() {
 
-           List<Role> roleList = roleRepository.findAll();
+           List<ERole> roleList = roleRepository.findAll();
            try {
                if (!roleList.isEmpty()){
                    return new ResponseEntity<>(roleList, HttpStatus.OK);

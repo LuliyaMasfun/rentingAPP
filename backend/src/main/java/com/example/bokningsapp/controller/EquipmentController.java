@@ -1,5 +1,6 @@
 package com.example.bokningsapp.controller;
 
+import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
 import com.example.bokningsapp.exception.BookingNotFoundException;
 import com.example.bokningsapp.exception.EquipmentNotFoundException;
@@ -54,5 +55,19 @@ public class EquipmentController {
         }
         return new ResponseEntity<>(equipmentList, HttpStatus.OK);
     }
-}
+
+    @GetMapping("/equipmentStatus/{status}")
+    public ResponseEntity<List<Equipment>> findAllByEquipmentStatus(@PathVariable EquipmentStatus status){
+        List<Equipment> equipmentList = equipmentRepo.findAllByEquipmentStatus(status);
+        if (equipmentList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(equipmentList, HttpStatus.OK);
+    }
+
+
+    }
+
+
+
 

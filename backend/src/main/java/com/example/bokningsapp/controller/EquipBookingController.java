@@ -1,14 +1,11 @@
 package com.example.bokningsapp.controller;
 
 
-import com.example.bokningsapp.dto.EquipBookingDTO;
-import com.example.bokningsapp.dto.EquipUpdatedBookingDto;
-import com.example.bokningsapp.enums.BookingStatus;
-import com.example.bokningsapp.enums.EquipmentStatus;
+import com.example.bokningsapp.dto.EquipBookingDto;
+import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.exception.BookingNotFoundException;
 import com.example.bokningsapp.exception.EquipmentNotAvailableException;
 import com.example.bokningsapp.exception.UnauthorizedUserException;
-import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.EquipBookingRepo;
@@ -18,13 +15,11 @@ import com.example.bokningsapp.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.Duration;
-import java.time.LocalDate;
 
 
 @RestController
@@ -43,7 +38,7 @@ public class EquipBookingController {
         this.equipBookingRepo = equipBookingRepo;
     }
     @PostMapping("/createBooking")
-    public ResponseEntity<EquipmentBooking>createBooking(@Validated @RequestBody EquipBookingDTO equipBookingDTO){
+    public ResponseEntity<EquipmentBooking>createBooking(@Validated @RequestBody EquipBookingDto equipBookingDTO){
         try {
             EquipmentBooking equipmentBooking = equipBookingService.createBooking(equipBookingDTO);
             return new ResponseEntity<>(equipmentBooking,HttpStatus.CREATED);
@@ -53,8 +48,7 @@ public class EquipBookingController {
     }
 
     @PutMapping("/updateBooking/{id}")
-    public ResponseEntity<EquipmentBooking> updateBooking(@PathVariable int id, @RequestBody EquipUpdatedBookingDto updatedEquipmentBookingDto, @AuthenticationPrincipal User user) {
-
+    public ResponseEntity<EquipmentBooking> updateBooking(@PathVariable int id, @RequestBody UpdatedEquipBookingDto updatedEquipmentBookingDto, @AuthenticationPrincipal User user) {
         try {
           equipBookingService.updateBooking(id, updatedEquipmentBookingDto, user);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -69,5 +63,6 @@ public class EquipBookingController {
         }
 
     }
+
 
 }

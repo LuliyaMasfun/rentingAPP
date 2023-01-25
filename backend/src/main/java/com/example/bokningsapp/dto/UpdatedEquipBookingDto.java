@@ -1,50 +1,40 @@
 package com.example.bokningsapp.dto;
 
 import com.example.bokningsapp.enums.BookingStatus;
-import com.example.bokningsapp.model.Equipment;
-import com.example.bokningsapp.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class EquipBookingDTO {
+public class UpdatedEquipBookingDto {
 
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
-    @JoinColumn(name = "equipment_id", referencedColumnName = "id")
-    private Equipment equipment;
-
+    @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
 
+    @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate endDate;
 
-    private BookingStatus bookingStatus;
-
+    @NotNull
     @JsonFormat(pattern = "HH:mm")
     private LocalTime pickUp;
 
+    @NotNull
     @JsonFormat(pattern = "HH:mm")
     private LocalTime dropOff;
 
-    public User getUser() {
-        return user;
-    }
+    @NotNull
+    private BookingStatus bookingStatus;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
-    public Equipment getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(Equipment equipment) {
-        this.equipment = equipment;
+    public UpdatedEquipBookingDto(@NotNull LocalDate startDate, @NotNull LocalDate endDate, @NotNull LocalTime pickUp, @NotNull LocalTime dropOff, @NotNull BookingStatus bookingStatus) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.pickUp = pickUp;
+        this.dropOff = dropOff;
+        this.bookingStatus = bookingStatus;
     }
 
     public LocalDate getStartDate() {
@@ -63,14 +53,6 @@ public class EquipBookingDTO {
         this.endDate = endDate;
     }
 
-    public BookingStatus getBookingStatus() {
-        return bookingStatus;
-    }
-
-    public void setBookingStatus(BookingStatus bookingStatus) {
-        this.bookingStatus = bookingStatus;
-    }
-
     public LocalTime getPickUp() {
         return pickUp;
     }
@@ -86,6 +68,20 @@ public class EquipBookingDTO {
     public void setDropOff(LocalTime dropOff) {
         this.dropOff = dropOff;
     }
+
+    public BookingStatus getBookingStatus() {
+        return bookingStatus;
+    }
+
+    public void setBookingStatus(BookingStatus bookingStatus) {
+        this.bookingStatus = bookingStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "UpdatedEquipmentBookingDto{" +
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }
-
-
