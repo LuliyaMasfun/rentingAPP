@@ -1,3 +1,4 @@
+import Navbar from '@/components/Navbar'
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 
@@ -33,6 +34,7 @@ const EquipmentDefault = () => {
 
     return (
         <main className='min-h-screen'>
+            <Navbar />
             <div className='flex border-8 m-8'>
                 {data.map(item => (
                     <div key={item.id}>
