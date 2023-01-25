@@ -2,6 +2,7 @@ package com.example.bokningsapp.service;
 import com.example.bokningsapp.dto.EquipBookingDto;
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.enums.BookingStatus;
+import com.example.bokningsapp.enums.EquipmentType;
 import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.model.User;
 import org.springframework.stereotype.Service;
@@ -19,4 +20,6 @@ public interface EquipBookingService {
     public EquipmentBooking updateBooking(int bookingId, UpdatedEquipBookingDto updatedEquipmentBookingDto, User user);
 
     public EquipmentBooking createBooking(EquipBookingDto equipBookingDTO);
+
+    public List<EquipmentBooking> findAllByUserIdAndEquipmentType(Long userId,  EquipmentType equipmentType);
 }

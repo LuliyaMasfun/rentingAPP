@@ -4,6 +4,7 @@ import com.example.bokningsapp.dto.EquipBookingDto;
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.enums.EquipmentStatus;
+import com.example.bokningsapp.enums.EquipmentType;
 import com.example.bokningsapp.exception.*;
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.EquipmentBooking;
@@ -122,5 +123,10 @@ public class EquipBookingServiceImpl implements EquipBookingService {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<EquipmentBooking> findAllByUserIdAndEquipmentType(Long userId, EquipmentType equipmentType) {
+        return equipBookingRepo.findAllByUserIdAndEquipmentType(userId, equipmentType);
     }
 }
