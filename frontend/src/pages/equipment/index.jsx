@@ -33,7 +33,7 @@ const EquipmentDefault = () => {
 
 
     return (
-        <main className='min-h-screen'>
+        <main className='min-h-screen flex-grow'>
             <Navbar />
             <div className='flex border-8 m-8'>
                 {data.map(item => (
