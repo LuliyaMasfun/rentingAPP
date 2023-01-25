@@ -5,7 +5,7 @@ import com.example.bokningsapp.enums.EquipmentStatus;
 import jakarta.persistence.*;
 
     @Entity
-    @Table(name="sound")
+    @Table(name="sounds")
     public class Sound {
 
         @Id

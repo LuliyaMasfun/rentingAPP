@@ -5,7 +5,7 @@ import com.example.bokningsapp.enums.EquipmentStatus;
 import jakarta.persistence.*;
 
     @Entity
-    @Table(name="light")
+    @Table(name="lights")
     public class Light {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
