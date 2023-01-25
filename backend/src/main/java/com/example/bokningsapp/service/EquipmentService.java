@@ -10,10 +10,10 @@ import java.util.List;
 
 @Service
 public interface EquipmentService {
-    public Equipment saveEquipment(Equipment equipment);
-    public void updateEquipmentStatus(int equipmentId, boolean isBooked);
-    public List<Equipment> findEquipmentByType(EquipmentType equipmentType);
-    public List<Equipment> findAllByEquipmentStatus(EquipmentStatus equipmentStatus);
-    public void deleteEquipment(int id);
+     Equipment saveEquipment(Equipment equipment);
+     void updateEquipmentStatus(int equipmentId, boolean isBooked);
+     List<Equipment> findEquipmentByType(EquipmentType equipmentType);
+     List<Equipment> findAllByEquipmentStatus(EquipmentStatus equipmentStatus);
+     void deleteEquipment(int id);
 
 }
