@@ -1,7 +1,7 @@
 package com.example.bokningsapp.service;
 
-import com.example.bokningsapp.dto.EquipBookingDTO;
-import com.example.bokningsapp.dto.EquipUpdatedBookingDto;
+import com.example.bokningsapp.dto.EquipBookingDto;
+import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.exception.*;
@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 
@@ -51,9 +50,9 @@ public class EquipBookingServiceImpl implements EquipBookingService {
 
 
     @Override
-    public void updateBooking(int id, EquipUpdatedBookingDto updatedEquipmentBookingDto, User user) {
+    public EquipmentBooking updateBooking(int bookingId, UpdatedEquipBookingDto updatedEquipmentBookingDto, User user) {
         //check if the booking exists
-        EquipmentBooking equipmentBooking = equipBookingRepo.findById(id)
+        EquipmentBooking equipmentBooking = equipBookingRepo.findById(bookingId)
                 .orElseThrow(() -> new BookingNotFoundException("Booking not found"));
 
         //check if the booking belongs to the user
@@ -72,15 +71,18 @@ public class EquipBookingServiceImpl implements EquipBookingService {
         equipmentBooking.setEndDate(updatedEquipmentBookingDto.getEndDate());
         equipmentBooking.setPickUp(updatedEquipmentBookingDto.getPickUp());
         equipmentBooking.setDropOff(updatedEquipmentBookingDto.getDropOff());
-        equipBookingRepo.save(equipmentBooking);
+
+        EquipmentBooking updatedBooking = equipBookingRepo.save(equipmentBooking);
         //update the equipment status
         equipment.setEquipmentStatus(EquipmentStatus.UNAVAILABLE);
         equipmentRepo.save(equipment);
+
+        return updatedBooking;
     }
 
     @Override
     @Transactional
-    public EquipmentBooking createBooking(EquipBookingDTO equipBookingDTO) {
+    public EquipmentBooking createBooking(EquipBookingDto equipBookingDTO) {
         User user = userRepository.findById(equipBookingDTO.getUser().getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found with id " + equipBookingDTO.getUser().getId()));
         Equipment equipment = equipmentRepo.findById(equipBookingDTO.getEquipment().getId())

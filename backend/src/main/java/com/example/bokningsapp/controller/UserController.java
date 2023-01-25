@@ -3,7 +3,6 @@ package com.example.bokningsapp.controller;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.service.UserService;
-import com.example.bokningsapp.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,29 +42,6 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/createUser")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = userService.createUser(user);
-        return new ResponseEntity<>(newUser,HttpStatus.CREATED);
-    }
-    
-    @PutMapping(value = "user/{id}")
-    public ResponseEntity<User> updateUser (@PathVariable long id, @RequestBody User user) {
-        User updatedUser = userRepository.getReferenceById(id);
-
-        try {
-            updatedUser.setName(user.getName());
-            updatedUser.setLastName(user.getLastName());
-            updatedUser.setEmail(user.getEmail());
-
-            userRepository.save(updatedUser);
-
-            return new ResponseEntity<>(updatedUser,HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-        }
-    }
     @DeleteMapping(value = "user/{id}")
     public ResponseEntity<Long> deleteUser(@PathVariable long id){
 
@@ -80,9 +56,39 @@ public class UserController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-
     }
+    @PutMapping(value = "user/{id}")
+    public ResponseEntity<User> updateUser2(@PathVariable long id, @RequestBody User user) {
+        User updatedUser = userRepository.getReferenceById(id);
+
+        try {
+            updatedUser.setFirstName(user.getFirstName());
+            updatedUser.setLastName(user.getLastName());
+            updatedUser.setEmail(user.getEmail());
+
+            userRepository.save(updatedUser);
+
+            return new ResponseEntity<>(updatedUser,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+    }
+
+    //ALLA NYA HTTP METODER
+    @PostMapping(value = "/createUser")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User newUser = userService.createUser(user);
+        return new ResponseEntity<>(newUser,HttpStatus.CREATED);
+    }
+    @PutMapping("/updateUser/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User user = userService.updateUser(id, updatedUser);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+
+
 
 
 }

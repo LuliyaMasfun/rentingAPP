@@ -1,13 +1,20 @@
 package com.example.bokningsapp.controller;
 
+import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
+import com.example.bokningsapp.dto.UpdatedEquipmentDto;
 import com.example.bokningsapp.enums.BookingStatus;
+import com.example.bokningsapp.exception.BookingNotFoundException;
+import com.example.bokningsapp.exception.EquipmentNotAvailableException;
+import com.example.bokningsapp.exception.UnauthorizedUserException;
 import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.repository.EquipBookingRepo;
+import com.example.bokningsapp.service.AdminService;
 import com.example.bokningsapp.service.EquipBookingService;
 import com.example.bokningsapp.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.*;
@@ -18,29 +25,33 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
+    private final AdminService adminService;
     private final EquipBookingService equipBookingService;
     private final EquipmentService equipmentService;
     private final EquipBookingRepo equipBookingRepo;
 
+
     @Autowired
-    public AdminController(EquipBookingService equipBookingService, EquipmentService equipmentService,  EquipBookingRepo equipBookingRepo) {
+    public AdminController(EquipBookingService equipBookingService, EquipmentService equipmentService,  EquipBookingRepo equipBookingRepo, AdminService adminService) {
         this.equipBookingService = equipBookingService;
         this.equipmentService = equipmentService;
         this.equipBookingRepo = equipBookingRepo;
+        this.adminService = adminService;
     }
 
-    @PutMapping("/handleBooking/{id}/status")
-    public ResponseEntity<EquipmentBooking> updateBookingStatus (@PathVariable int id, @RequestBody BookingStatus bookingStatus){
+    @PutMapping("/handleBooking/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<EquipmentBooking> handleBookingRequest(@PathVariable int id, @RequestBody UpdatedEquipBookingDto updatedEquipmentBookingDto, UpdatedEquipmentDto updatedEquipmentDto){
+        try {
+            adminService.handleBookingRequest(id, updatedEquipmentBookingDto, updatedEquipmentDto);
+            return new ResponseEntity<>(HttpStatus.OK);
 
-       EquipmentBooking equipmentBooking = equipBookingRepo.findById(id).orElseThrow();
-
-        if(equipmentBooking == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (BookingNotFoundException e) {
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
         }
-        equipmentBooking.setBookingStatus(equipmentBooking.getBookingStatus());
-        equipmentBooking = equipBookingService.save(equipmentBooking);
-        return new ResponseEntity<>(equipmentBooking, HttpStatus.OK);
-
+        catch (EquipmentNotAvailableException ex) {
+            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+        }
     }
 
     @GetMapping("/getBookingsByStatus")

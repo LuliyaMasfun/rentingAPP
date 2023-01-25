@@ -1,7 +1,5 @@
 package com.example.bokningsapp.service;
 
-import com.example.bokningsapp.model.Role;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service

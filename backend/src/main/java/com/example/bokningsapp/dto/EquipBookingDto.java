@@ -1,30 +1,50 @@
 package com.example.bokningsapp.dto;
 
+import com.example.bokningsapp.enums.BookingStatus;
+import com.example.bokningsapp.model.Equipment;
+import com.example.bokningsapp.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.jetbrains.annotations.NotNull;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class EquipUpdatedBookingDto {
+public class EquipBookingDto {
 
-    @NotNull
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    @JoinColumn(name = "equipment_id", referencedColumnName = "id")
+    private Equipment equipment;
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
 
-    @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate endDate;
 
-    @NotNull
+    private BookingStatus bookingStatus;
+
     @JsonFormat(pattern = "HH:mm")
     private LocalTime pickUp;
 
-    @NotNull
     @JsonFormat(pattern = "HH:mm")
     private LocalTime dropOff;
 
-    public EquipUpdatedBookingDto() {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
     }
 
     public LocalDate getStartDate() {
@@ -43,6 +63,14 @@ public class EquipUpdatedBookingDto {
         this.endDate = endDate;
     }
 
+    public BookingStatus getBookingStatus() {
+        return bookingStatus;
+    }
+
+    public void setBookingStatus(BookingStatus bookingStatus) {
+        this.bookingStatus = bookingStatus;
+    }
+
     public LocalTime getPickUp() {
         return pickUp;
     }
@@ -58,12 +86,6 @@ public class EquipUpdatedBookingDto {
     public void setDropOff(LocalTime dropOff) {
         this.dropOff = dropOff;
     }
-
-    @Override
-    public String toString() {
-        return "UpdatedEquipmentBookingDto{" +
-                "startDate=" + startDate +
-                ", endDate=" + endDate +
-                '}';
-    }
 }
+
+

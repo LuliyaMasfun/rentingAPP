@@ -1,6 +1,6 @@
 package com.example.bokningsapp.service;
-import com.example.bokningsapp.dto.EquipBookingDTO;
-import com.example.bokningsapp.dto.EquipUpdatedBookingDto;
+import com.example.bokningsapp.dto.EquipBookingDto;
+import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.model.User;
@@ -16,7 +16,7 @@ public interface EquipBookingService {
     public List<EquipmentBooking> findAllByStatus(BookingStatus status);
 
     public List<EquipmentBooking> findAll();
-    public void updateBooking(int id, EquipUpdatedBookingDto updatedEquipmentBookingDto, User user);
+    public EquipmentBooking updateBooking(int bookingId, UpdatedEquipBookingDto updatedEquipmentBookingDto, User user);
 
-    public EquipmentBooking createBooking(EquipBookingDTO equipBookingDTO);
+    public EquipmentBooking createBooking(EquipBookingDto equipBookingDTO);
 }
