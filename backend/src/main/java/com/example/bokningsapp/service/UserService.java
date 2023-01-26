@@ -16,8 +16,8 @@ public interface UserService {
     ResponseEntity<User> saveUser (User user);
     ResponseEntity<User> updateUser2(User user);
     ResponseEntity<User> deleteUser (long id);
-    public User createUser(User user);
-    public String encryptPassword(String password);
-    public User updateUser(Long id, User updatedUser);
+     User createUser(User user);
+    String encryptPassword(String password);
+    User updateUser(Long id, User updatedUser);
 
 }

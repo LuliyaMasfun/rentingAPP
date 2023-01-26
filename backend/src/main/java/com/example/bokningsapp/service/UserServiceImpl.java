@@ -5,12 +5,12 @@ import com.example.bokningsapp.exception.UnauthorizedUserException;
 import com.example.bokningsapp.exception.UserNotFoundException;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
+import com.example.bokningsapp.security.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.example.bokningsapp.security.UserPrincipal;
@@ -19,12 +19,12 @@ import com.example.bokningsapp.security.UserPrincipal;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final BcryptPasswordConfig bcryptPasswordConfig;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, BcryptPasswordConfig bcryptPasswordConfig) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.bcryptPasswordConfig = bcryptPasswordConfig;
     }
 
     @Override
@@ -47,12 +47,9 @@ public class UserServiceImpl implements UserService {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-
-
         }catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             // Kan jag få ut Error meddelandet på något sätt?
-
         }
     }
 
@@ -88,8 +85,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public String encryptPassword(String password) {
-        return passwordEncoder.encode(password);
-    }
+        return bcryptPasswordConfig.bCryptPasswordEncoder().encode(password);   }
 
     //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
     @Override
