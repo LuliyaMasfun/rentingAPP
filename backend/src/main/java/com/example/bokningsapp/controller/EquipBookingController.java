@@ -66,12 +66,12 @@ public class EquipBookingController {
         }
     }
 
-    @GetMapping("/user/{userId}/equipmentType/{equipmentType}")
+  /*  @GetMapping("/user/{userId}/equipmentType/{equipmentType}")
     public ResponseEntity<List<EquipmentBooking>> getBookingsByUserAndEquipment(@PathVariable Long userId, @PathVariable EquipmentType equipmentType) {
         List<EquipmentBooking> bookings = equipBookingService.findAllByUserIdAndEquipmentType(userId, equipmentType);
         if (bookings.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(bookings, HttpStatus.OK);
-    }
+    } */
 }
