@@ -128,8 +128,8 @@ public class EquipBookingServiceImpl implements EquipBookingService {
         return false;
     }
 
-    @Override
+    /*@Override
     public List<EquipmentBooking> findAllByUserIdAndEquipmentType(Long userId, EquipmentType equipmentType) {
         return equipBookingRepo.findAllByUserIdAndEquipmentType(userId, equipmentType);
-    }
+    } */
 }
