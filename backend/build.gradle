@@ -11,6 +11,7 @@ sourceCompatibility = '17'
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
+
 	}
 }
 
@@ -19,14 +20,15 @@ repositories {
 }
 
 dependencies {
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'io.springfox:springfox-swagger2:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 	implementation 'org.jetbrains:annotations:20.1.0'
-	implementation group: 'org.postgresql', name: 'postgresql'
 	compileOnly 'org.projectlombok:lombok'
+	implementation group: 'org.postgresql', name: 'postgresql'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
