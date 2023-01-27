@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public String encryptPassword(String password) {
-        return bcryptPasswordConfig.bCryptPasswordEncoder().encode(password);   }
+        return bcryptPasswordConfig.bCryptPasswordEncoder1().encode(password);   }
 
     //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
     @Override
