@@ -41,9 +41,9 @@ public class EquipBookingController {
         this.equipBookingRepo = equipBookingRepo;
     }
     @PostMapping("/createBooking")
-    public ResponseEntity<EquipmentBooking>createBooking(@Validated @RequestBody EquipBookingDto equipBookingDTO){
+    public ResponseEntity<EquipmentBooking>createBooking(@Validated @RequestBody EquipmentBooking equipmentBooking){
         try {
-            EquipmentBooking equipmentBooking = equipBookingService.createBooking(equipBookingDTO);
+            EquipmentBooking newBooking = equipBookingService.createBooking(equipmentBooking);
             return new ResponseEntity<>(equipmentBooking,HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -65,13 +65,4 @@ public class EquipBookingController {
             return new ResponseEntity<>(null, HttpStatus.CONFLICT);
         }
     }
-
-  /*  @GetMapping("/user/{userId}/equipmentType/{equipmentType}")
-    public ResponseEntity<List<EquipmentBooking>> getBookingsByUserAndEquipment(@PathVariable Long userId, @PathVariable EquipmentType equipmentType) {
-        List<EquipmentBooking> bookings = equipBookingService.findAllByUserIdAndEquipmentType(userId, equipmentType);
-        if (bookings.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(bookings, HttpStatus.OK);
-    } */
 }
