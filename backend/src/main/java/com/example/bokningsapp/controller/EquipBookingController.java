@@ -41,7 +41,7 @@ public class EquipBookingController {
         this.equipBookingRepo = equipBookingRepo;
     }
     @PostMapping("/createBooking")
-    public ResponseEntity<EquipmentBooking>createBooking(@Validated @RequestBody EquipmentBooking equipmentBooking){
+    public ResponseEntity<EquipmentBooking>createBooking(@RequestBody EquipmentBooking equipmentBooking){
         try {
             EquipmentBooking newBooking = equipBookingService.createBooking(equipmentBooking);
             return new ResponseEntity<>(equipmentBooking,HttpStatus.CREATED);
