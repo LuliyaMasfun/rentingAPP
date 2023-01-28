@@ -47,7 +47,7 @@ import java.time.LocalDate;
             this.equipmentDescription = equipmentDescription;
             this.equipmentBrand = equipmentBrand;
             this.equipmentType = equipmentType;
-            this.equipmentStatus = equipmentStatus;
+            this.equipmentStatus = EquipmentStatus.AVAILABLE;
             this.isAvailable = isAvailable;
         }
 

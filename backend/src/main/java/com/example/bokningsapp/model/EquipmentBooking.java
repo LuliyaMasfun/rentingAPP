@@ -59,7 +59,7 @@ public class EquipmentBooking {
         this.equipment = equipment;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.bookingStatus = bookingStatus;
+        this.bookingStatus = BookingStatus.PENDING;
         this.pickUp = pickUp;
         this.dropOff = dropOff;
     }

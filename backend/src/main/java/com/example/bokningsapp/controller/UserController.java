@@ -1,11 +1,18 @@
 package com.example.bokningsapp.controller;
 
+import com.example.bokningsapp.enums.ERole;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
+import com.example.bokningsapp.security.UserPrincipal;
 import com.example.bokningsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,70 +30,44 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/getAllUsers")
-    public ResponseEntity<List<User>> getAllUsers(){
-        try {
-            List<User> userList = userRepository.findAll();
-
-            if (!userList.isEmpty()) {
-                return new ResponseEntity<>(userList, HttpStatus.OK);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-        }catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-            // Kan jag få ut Error meddelandet på något sätt?
-
-        }
-    }
-
-    @DeleteMapping(value = "user/{id}")
-    public ResponseEntity<Long> deleteUser(@PathVariable long id){
-
-        User deletedUser = userRepository.getReferenceById(id);
-        try{
-            if (userRepository.existsById(id)) {
-                userRepository.delete(deletedUser);
-                return new ResponseEntity<>(id,HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(id,HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @PutMapping(value = "user/{id}")
-    public ResponseEntity<User> updateUser2(@PathVariable long id, @RequestBody User user) {
-        User updatedUser = userRepository.getReferenceById(id);
-
-        try {
-            updatedUser.setFirstName(user.getFirstName());
-            updatedUser.setLastName(user.getLastName());
-            updatedUser.setEmail(user.getEmail());
-
-            userRepository.save(updatedUser);
-
-            return new ResponseEntity<>(updatedUser,HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-        }
-    }
-
-    //ALLA NYA HTTP METODER
     @PostMapping(value = "/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User newUser = userService.createUser(user);
         return new ResponseEntity<>(newUser,HttpStatus.CREATED);
     }
+
+    //User
     @PutMapping("/updateUser/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         User user = userService.updateUser(id, updatedUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    //Admin
+    @PutMapping("/updateUserAdmin/{id}")
+    public ResponseEntity<?> updateUserAdmin(@PathVariable Long id, @RequestBody User user) {
+        // Get the current authenticated user
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal currentUser = (UserPrincipal) auth.getPrincipal();
+
+        // Check if the current user is an admin
+        if (!currentUser.getAuthorities().contains(new SimpleGrantedAuthority(ERole.ROLE_ADMIN.toString()))) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        User updatedUser = userService.updateUserAdmin(id, user);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "deleteUser/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        try {
+            userService.deleteUser(id);
+            return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error deleting user: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
 
 
