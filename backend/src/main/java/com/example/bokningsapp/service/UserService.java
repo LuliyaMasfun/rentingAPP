@@ -12,7 +12,7 @@ public interface UserService {
 
     ResponseEntity<User> getUser(long id);
 
-    ResponseEntity<List<User>> getAllUsers(String userName); //dubbelchecka denna med Kristoffer
+    ResponseEntity<List<User>> getAllUsers(); //dubbelchecka denna med Kristoffer
     ResponseEntity<User> saveUser (User user);
     ResponseEntity<User> updateUser2(User user);
     ResponseEntity<User> deleteUser (long id);

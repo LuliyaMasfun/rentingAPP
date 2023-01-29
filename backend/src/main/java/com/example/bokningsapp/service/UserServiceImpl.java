@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<List<User>> getAllUsers(String userName) {
+    public ResponseEntity<List<User>> getAllUsers() {
         try {
             List<User> userList = userRepository.findAll();
 
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public String encryptPassword(String password) {
-        return bcryptPasswordConfig.bCryptPasswordEncoder().encode(password);   }
+        return bcryptPasswordConfig.bCryptPasswordEncoder1().encode(password);   }
 
     //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
     @Override

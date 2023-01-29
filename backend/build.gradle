@@ -29,6 +29,7 @@ dependencies {
 	implementation 'org.jetbrains:annotations:20.1.0'
 	implementation group: 'org.postgresql', name: 'postgresql'
 	compileOnly 'org.projectlombok:lombok'
+	implementation group: 'org.postgresql', name: 'postgresql'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

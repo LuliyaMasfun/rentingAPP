@@ -20,11 +20,6 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable());
         return http.build();
     }
-    @Bean
-    @Primary
-    public BCryptPasswordEncoder bCryptPasswordEncoder1() {
-        return new BCryptPasswordEncoder();
-    }
 
 
 }

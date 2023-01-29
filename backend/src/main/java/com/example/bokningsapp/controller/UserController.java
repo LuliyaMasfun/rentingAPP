@@ -3,6 +3,7 @@ package com.example.bokningsapp.controller;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.service.UserService;
+import com.example.bokningsapp.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,31 +16,17 @@ public class UserController {
 
 
     private final UserRepository userRepository;
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @Autowired
-    public UserController(UserRepository userRepository, UserService userService) {
+    public UserController(UserRepository userRepository, UserServiceImpl userServiceImpl) {
         this.userRepository = userRepository;
-        this.userService = userService;
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping(value = "/getAllUsers")
     public ResponseEntity<List<User>> getAllUsers(){
-        try {
-            List<User> userList = userRepository.findAll();
-
-            if (!userList.isEmpty()) {
-                return new ResponseEntity<>(userList, HttpStatus.OK);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-        }catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-            // Kan jag få ut Error meddelandet på något sätt?
-
-        }
+       return userServiceImpl.getAllUsers();
     }
 
     @DeleteMapping(value = "user/{id}")
@@ -58,7 +45,7 @@ public class UserController {
         }
     }
     @PutMapping(value = "user/{id}")
-    public ResponseEntity<User> updateUser2(@PathVariable long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User user) {
         User updatedUser = userRepository.getReferenceById(id);
 
         try {
@@ -78,12 +65,12 @@ public class UserController {
     //ALLA NYA HTTP METODER
     @PostMapping(value = "/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = userService.createUser(user);
+        User newUser = userServiceImpl.createUser(user);
         return new ResponseEntity<>(newUser,HttpStatus.CREATED);
     }
     @PutMapping("/updateUser/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        User user = userService.updateUser(id, updatedUser);
+        User user = userServiceImpl.updateUser(id, updatedUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
