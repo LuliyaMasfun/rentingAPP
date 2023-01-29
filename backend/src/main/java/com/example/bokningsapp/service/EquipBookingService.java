@@ -19,7 +19,6 @@ public interface EquipBookingService {
     public List<EquipmentBooking> findAll();
     public EquipmentBooking updateBooking(int bookingId, UpdatedEquipBookingDto updatedEquipmentBookingDto, User user);
 
-    public EquipmentBooking createBooking(EquipBookingDto equipBookingDTO);
+    public EquipmentBooking createBooking(EquipmentBooking equipmentBooking);
 
-   // public List<EquipmentBooking> findAllByUserIdAndEquipmentType(Long userId,  EquipmentType equipmentType);
 }
