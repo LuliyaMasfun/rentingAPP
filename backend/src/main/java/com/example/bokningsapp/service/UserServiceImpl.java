@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<List<User>> getAllUsers(String userName) {
+    public ResponseEntity<List<User>> getAllUsers() {
         try {
             List<User> userList = userRepository.findAll();
 
