@@ -1,18 +1,16 @@
 package com.example.bokningsapp.service;
 
 import com.example.bokningsapp.exception.EmailAlreadyExistsException;
+import com.example.bokningsapp.exception.ResourceNotFoundException;
 import com.example.bokningsapp.exception.UnauthorizedUserException;
 import com.example.bokningsapp.exception.UserNotFoundException;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import com.example.bokningsapp.security.UserPrincipal;
 
 @Service
@@ -27,50 +25,7 @@ public class UserServiceImpl implements UserService {
         this.bcryptPasswordConfig = bcryptPasswordConfig;
     }
 
-    @Override
-    public ResponseEntity<User> getUser(long id) {
-        User user = userRepository.getReferenceById(id);
 
-            return new ResponseEntity<>(user, HttpStatus.OK);
-
-    }
-
-    @Override
-    public ResponseEntity<List<User>> getAllUsers() {
-        try {
-            List<User> userList = userRepository.findAll();
-
-            if (!userList.isEmpty()) {
-                return new ResponseEntity<>(userList, HttpStatus.OK);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-        }catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-            // Kan jag få ut Error meddelandet på något sätt?
-        }
-    }
-
-    @Override
-    public ResponseEntity<User> saveUser(User user) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<User> updateUser2(User user) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<User> deleteUser(long id) {
-        return null;
-    }
-
-
-
-// NYA METODER
     @Override
     public User createUser(User user) {
         // check for existing user with same email
@@ -83,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.save(user);
     }
+
     @Override
     public String encryptPassword(String password) {
         return bcryptPasswordConfig.bCryptPasswordEncoder1().encode(password);   }
@@ -92,10 +48,10 @@ public class UserServiceImpl implements UserService {
     public User updateUser(Long id, User updatedUser) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
-        if(!user.getId().equals(getCurrentUserId())) {
+        if (!user.getId().equals(getCurrentUserId())) {
             throw new UnauthorizedUserException("Unauthorized user");
         }
-        if(userRepository.existsByEmail(updatedUser.getEmail())) {
+        if (userRepository.existsByEmail(updatedUser.getEmail())) {
             throw new EmailAlreadyExistsException("Email already exists");
         }
         user.setFirstName(updatedUser.getFirstName());
@@ -105,15 +61,36 @@ public class UserServiceImpl implements UserService {
         user.setAddress(updatedUser.getAddress());
         user.setBirthDate(updatedUser.getBirthDate());
         user.setProfileImg(updatedUser.getProfileImg());
-        if(updatedUser.getPassword() != null) {
+        if (updatedUser.getPassword() != null) {
             user.setPassword(encryptPassword(updatedUser.getPassword()));
         }
         return userRepository.save(user);
     }
 
-    public Long getCurrentUserId() {
+    public Long getCurrentUserId () {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return ((UserPrincipal)auth.getPrincipal()).getId();
+        return ((UserPrincipal) auth.getPrincipal()).getId();
     }
-}
+
+    @Override
+    public User updateUserAdmin(Long id, User user) {
+        // Get the user to be updated
+        User currentUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
+
+        // Update the user's Account status
+        currentUser.setAccountStatus(user.getAccountStatus());
+        currentUser.setEmail(user.getEmail());
+        if (user.getPassword() != null) {
+            user.setPassword(encryptPassword(user.getPassword()));
+        }
+        return userRepository.save(currentUser);
+    }
+
+        @Override
+        public void deleteUser(Long id){
+            userRepository.deleteById(id);
+        }
+
+    }
+
 

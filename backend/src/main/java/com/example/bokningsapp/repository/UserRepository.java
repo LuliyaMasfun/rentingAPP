@@ -1,6 +1,7 @@
 package com.example.bokningsapp.repository;
 
 import com.example.bokningsapp.model.User;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,5 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User,Long> {
     User findByEmail(String email);
     boolean existsByEmail(String email);
+    void deleteById(Long id);
 
 }

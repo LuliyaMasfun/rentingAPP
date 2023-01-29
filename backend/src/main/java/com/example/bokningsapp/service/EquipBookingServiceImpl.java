@@ -84,16 +84,16 @@ public class EquipBookingServiceImpl implements EquipBookingService {
 
     @Override
     @Transactional
-    public EquipmentBooking createBooking(EquipBookingDto equipBookingDTO) {
-        User user = userRepository.findById(equipBookingDTO.getUser().getId())
-                .orElseThrow(() -> new UserNotFoundException("User not found with id " + equipBookingDTO.getUser().getId()));
-        Equipment equipment = equipmentRepo.findById(equipBookingDTO.getEquipment().getId())
-                .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found with id " + equipBookingDTO.getEquipment().getId()));
+    public EquipmentBooking createBooking(EquipmentBooking equipmentBooking) {
+        User user = userRepository.findById(equipmentBooking.getUser().getId())
+                .orElseThrow(() -> new UserNotFoundException("User not found with id " + equipmentBooking.getUser().getId()));
+        Equipment equipment = equipmentRepo.findById(equipmentBooking.getEquipment().getId())
+                .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found with id " + equipmentBooking.getEquipment().getId()));
         if (equipment.getEquipmentStatus() != EquipmentStatus.AVAILABLE) {
             throw new EquipmentNotAvailableException("Equipment is not available for booking");
         }
-        LocalDate startDate = equipBookingDTO.getStartDate();
-        LocalDate endDate =  equipBookingDTO.getEndDate();
+        LocalDate startDate = equipmentBooking.getStartDate();
+        LocalDate endDate =  equipmentBooking.getEndDate();
         Duration duration = Duration.between(startDate,endDate);
         long days = duration.toDays();
         if (days > 2) {
@@ -102,20 +102,19 @@ public class EquipBookingServiceImpl implements EquipBookingService {
         if (isNotAvailable(startDate,endDate, equipment.getId())) {
             throw new IllegalArgumentException("Equipment is not available for booking");
         }
-        EquipmentBooking equipmentBooking = new EquipmentBooking();
-        equipmentBooking.setUser(user);
-        equipmentBooking.setEquipment(equipment);
-        equipmentBooking.setStartDate(startDate);
-        equipmentBooking.setEndDate(endDate);
-        equipmentBooking.setBookingStatus(BookingStatus.PENDING);
-        equipmentBooking.setPickUp(equipBookingDTO.getPickUp()); //LocalTime.parse
-        equipmentBooking.setDropOff(equipBookingDTO.getDropOff());
+        EquipmentBooking newEquipmentBooking = new EquipmentBooking();
+        equipmentBooking.setUser(equipmentBooking.getUser());
+        equipmentBooking.setEquipment(equipmentBooking.getEquipment());
+        equipmentBooking.setStartDate(equipmentBooking.getStartDate());
+        equipmentBooking.setEndDate(equipmentBooking.getEndDate());
+        equipmentBooking.setPickUp(equipmentBooking.getPickUp()); //LocalTime.parse
+        equipmentBooking.setDropOff(equipmentBooking.getDropOff());
+
         equipBookingRepo.save(equipmentBooking);
         equipment.setEquipmentStatus(EquipmentStatus.UNAVAILABLE);
         equipmentRepo.save(equipment);
         return equipmentBooking;
     }
-
 
     public boolean isNotAvailable(LocalDate startDate, LocalDate endDate, int equipmentId) {
         // check if equipment is available for the given start and end date
@@ -128,8 +127,4 @@ public class EquipBookingServiceImpl implements EquipBookingService {
         return false;
     }
 
-    /*@Override
-    public List<EquipmentBooking> findAllByUserIdAndEquipmentType(Long userId, EquipmentType equipmentType) {
-        return equipBookingRepo.findAllByUserIdAndEquipmentType(userId, equipmentType);
-    } */
 }

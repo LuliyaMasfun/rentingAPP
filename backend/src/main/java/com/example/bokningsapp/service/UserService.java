@@ -8,16 +8,10 @@ import java.util.List;
 
 @Service
 public interface UserService {
-
-
-    ResponseEntity<User> getUser(long id);
-
-    ResponseEntity<List<User>> getAllUsers(); //dubbelchecka denna med Kristoffer
-    ResponseEntity<User> saveUser (User user);
-    ResponseEntity<User> updateUser2(User user);
-    ResponseEntity<User> deleteUser (long id);
-     User createUser(User user);
-    String encryptPassword(String password);
-    User updateUser(Long id, User updatedUser);
+    public User createUser(User user);
+    public String encryptPassword(String password);
+    public User updateUser(Long id, User updatedUser);
+    public User updateUserAdmin(Long id, User user);
+    public void deleteUser(Long id);
 
 }
