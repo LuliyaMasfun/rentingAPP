@@ -4,6 +4,7 @@ import com.example.bokningsapp.enums.AccountStatus;
 import com.example.bokningsapp.enums.ERole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,16 +37,19 @@ public class User {
 
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    @CreationTimestamp
     private LocalDateTime createdDate;
 
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+    @CreationTimestamp
     private LocalDateTime updatedDate;
 
     @Column
     private String password;
 
     @Column
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
     @Column
     private AccountStatus accountStatus;
@@ -58,16 +62,16 @@ public class User {
     private List<EquipmentBooking> equipmentBookings;
 
 
-    public User(String name, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
-                String phoneNumber,String adress,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate) {
-        this.firstName = name;
+    public User(String firstName, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
+                String phoneNumber,String address,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.equipmentBookings = equipmentBookings;
         this.profileImg =  profileImg;
         this.socialSecurityNumber = socialSecurityNumber;
         this.phoneNumber = phoneNumber;
-        this.address = adress;
+        this.address = address;
         this.createdDate = createdDate;
         this.updatedDate =updatedDate;
         this.password = password;
