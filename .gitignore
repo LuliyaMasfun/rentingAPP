@@ -38,7 +38,7 @@ gradle-app.setting
 # End of https://www.gitignore.io/api/java,gradle
 
 # dependencies
-/node_modules
+/frontend/node_modules
 /.pnp
 .pnp.js
 
@@ -46,7 +46,7 @@ gradle-app.setting
 /coverage
 
 # next.js
-/.next/
+/frontend/.next/
 /out/
 
 # production
