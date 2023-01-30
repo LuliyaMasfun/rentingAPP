@@ -20,9 +20,9 @@ hs_err_pid*
 
 
 ### Gradle ###
-.gradle
-/build/
 /backend/.gradle
+/backend/build
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -50,7 +50,7 @@ gradle-app.setting
 /out/
 
 # production
-/build
+/backend/build
 
 # misc
 .DS_Store
