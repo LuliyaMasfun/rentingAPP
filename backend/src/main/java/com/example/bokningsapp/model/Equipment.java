@@ -4,8 +4,6 @@ import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-
 
 @Entity
     @Table(name="equipments")
@@ -36,10 +34,12 @@ import java.time.LocalDate;
         private EquipmentType equipmentType;
         @Column
         private EquipmentStatus equipmentStatus;
-        @Column
-        private boolean isAvailable;
 
-        public Equipment(String equipmentName, String equipmentLocation, String equipmentImg, int maxDaysToRent, String equipmentDescription, String equipmentBrand,  EquipmentType equipmentType, EquipmentStatus equipmentStatus, boolean isAvailable) {
+    @OneToOne
+    @JoinColumn(name = "equipment_booking_id")
+    private EquipmentBooking equipmentBooking;
+
+        public Equipment(String equipmentName, String equipmentLocation, String equipmentImg, int maxDaysToRent, String equipmentDescription, String equipmentBrand,  EquipmentType equipmentType, EquipmentStatus equipmentStatus) {
             this.equipmentName = equipmentName;
             this.equipmentLocation = equipmentLocation;
             this.equipmentImg = equipmentImg;
@@ -48,7 +48,6 @@ import java.time.LocalDate;
             this.equipmentBrand = equipmentBrand;
             this.equipmentType = equipmentType;
             this.equipmentStatus = EquipmentStatus.AVAILABLE;
-            this.isAvailable = isAvailable;
         }
 
         public Equipment() {
@@ -119,28 +118,28 @@ import java.time.LocalDate;
             this.equipmentStatus = equipmentStatus;
         }
 
-        public boolean isAvailable(LocalDate startDate, LocalDate endDate) {
-            return isAvailable;
-        }
-
-        public void setAvailable(boolean available) {
-            isAvailable = available;
-        }
-
-        @Override
-        public String toString() {
-            return "Equipment{" +
-                    "id=" + id +
-                    ", equipmentName='" + equipmentName + '\'' +
-                    ", equipmentLocation='" + equipmentLocation + '\'' +
-                    ", equipmentImg='" + equipmentImg + '\'' +
-                    ", maxDaysToRent=" + maxDaysToRent +
-                    ", equipmentDescription='" + equipmentDescription + '\'' +
-                    ", equipmentBrand='" + equipmentBrand + '\'' +
-                    ", equipmentType='" + equipmentType + '\'' +
-                    ", equipmentStatus='" + equipmentStatus + '\'' +
-                    '}';
-        }
+    public EquipmentBooking getEquipmentBooking() {
+        return equipmentBooking;
     }
+
+    public void setEquipmentBooking(EquipmentBooking equipmentBooking) {
+        this.equipmentBooking = equipmentBooking;
+    }
+
+    @Override
+    public String toString() {
+        return "Equipment{" +
+                "id=" + id +
+                ", equipmentName='" + equipmentName + '\'' +
+                ", equipmentLocation='" + equipmentLocation + '\'' +
+                ", equipmentImg='" + equipmentImg + '\'' +
+                ", maxDaysToRent=" + maxDaysToRent +
+                ", equipmentDescription='" + equipmentDescription + '\'' +
+                ", equipmentBrand='" + equipmentBrand + '\'' +
+                ", equipmentType=" + equipmentType +
+                ", equipmentStatus=" + equipmentStatus +
+                '}';
+    }
+}
 
 

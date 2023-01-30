@@ -6,16 +6,13 @@ import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.UserPrincipal;
 import com.example.bokningsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 public class UserController {
@@ -30,6 +27,7 @@ public class UserController {
         this.userService = userService;
     }
 
+        @CrossOrigin
     @PostMapping(value = "/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User newUser = userService.createUser(user);
@@ -37,6 +35,7 @@ public class UserController {
     }
 
     //User
+    @CrossOrigin
     @PutMapping("/updateUser/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         User user = userService.updateUser(id, updatedUser);
@@ -44,6 +43,7 @@ public class UserController {
     }
 
     //Admin
+    @CrossOrigin
     @PutMapping("/updateUserAdmin/{id}")
     public ResponseEntity<?> updateUserAdmin(@PathVariable Long id, @RequestBody User user) {
         // Get the current authenticated user
@@ -60,6 +60,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "deleteUser/{id}")
+    @CrossOrigin
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
             userService.deleteUser(id);
@@ -68,8 +69,13 @@ public class UserController {
             return new ResponseEntity<>("Error deleting user: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
-
-
-
+    @GetMapping("/allUsers")
+    public List<User> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users;
+    }
+    @GetMapping("/user/{id}")
+    public Optional<User> getUserById(@PathVariable(value = "id") Long id){
+        return userRepository.findById(id);
+    }
 }

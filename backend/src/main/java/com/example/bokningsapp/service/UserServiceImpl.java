@@ -2,27 +2,26 @@ package com.example.bokningsapp.service;
 
 import com.example.bokningsapp.exception.EmailAlreadyExistsException;
 import com.example.bokningsapp.exception.ResourceNotFoundException;
-import com.example.bokningsapp.exception.UnauthorizedUserException;
 import com.example.bokningsapp.exception.UserNotFoundException;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
+import com.example.bokningsapp.security.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Service;
-import com.example.bokningsapp.security.UserPrincipal;
+
+
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final BcryptPasswordConfig bcryptPasswordConfig;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, BcryptPasswordConfig bcryptPasswordConfig) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.bcryptPasswordConfig = bcryptPasswordConfig;
     }
 
 
@@ -41,17 +40,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String encryptPassword(String password) {
-        return passwordEncoder.encode(password);
-    }
+        return bcryptPasswordConfig.bCryptPasswordEncoder1().encode(password);   }
 
     //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
     @Override
     public User updateUser(Long id, User updatedUser) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
-        if (!user.getId().equals(getCurrentUserId())) {
+        /*if (!user.getId().equals(getCurrentUserId())) {
             throw new UnauthorizedUserException("Unauthorized user");
-        }
+            } */
+
         if (userRepository.existsByEmail(updatedUser.getEmail())) {
             throw new EmailAlreadyExistsException("Email already exists");
         }
@@ -68,10 +67,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public Long getCurrentUserId () {
+   /* public Long getCurrentUserId () {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return ((UserPrincipal) auth.getPrincipal()).getId();
-    }
+    } Cannot invoke "org.springframework.security.core.Authentication.getPrincipal()" because "auth" is null
+
+    */
 
     @Override
     public User updateUserAdmin(Long id, User user) {
@@ -91,7 +92,8 @@ public class UserServiceImpl implements UserService {
         public void deleteUser(Long id){
             userRepository.deleteById(id);
         }
-
     }
+
+
 
 

@@ -55,10 +55,7 @@ public class User {
     private AccountStatus accountStatus;
     @Column
     private ERole role;
-
-
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<EquipmentBooking> equipmentBookings;
 
 
