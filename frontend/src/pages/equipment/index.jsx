@@ -49,26 +49,38 @@ const EquipmentDefault = () => {
 
     }, [])
 
+    const checkType = (obj) => {
+
+        if (obj.equipmentType == "CAMERA") {
+            return camera;
+        } else if (obj.equipmentType == "LIGHT") {
+            return light;
+        } else {
+            return sound;
+        }
+    }
+
 
 
     return (
         <main className='flex flex-col min-h-screen flex-grow'>
             <Navbar />
-            <h1 className='flex justify-center text-center text-2xl mb-6'>All Equipments</h1>
+            <h1 className='flex justify-center text-center text-2xl mb-6 bg bg-blue'>All Equipments</h1>
 
 
 
-            <div className="container flex flex-row bg-grays justify-center">
+            <div className="container flex flex-row bg-grays justify-center w-full">
 
 
                 <div className='flex w-full flex-col justify-center'>
 
                     {data.map(item => (
 
+
                         <div className="container flex flex-col w-full" key={item.id}>
                             <h1>{item.name}</h1>
 
-                            <Image alt={item.name} width={200} height={200} src={item.equipmentType == "CAMERA" ? camera : light} />
+                            <Image alt={item.name} width={200} height={200} src={checkType(item)} />
 
                             <p> Hello {item.equipmentDescription}</p>
                             <p> equipmentLocation: {item.equipmentLocation}</p>
