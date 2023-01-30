@@ -13,8 +13,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @RestController
+
+@CrossOrigin(origins = "http://localhost:3000",maxAge = 3600)
 public class UserController {
 
 
