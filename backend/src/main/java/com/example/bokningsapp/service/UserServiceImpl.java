@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.bokningsapp.security.UserPrincipal;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -49,9 +52,10 @@ public class UserServiceImpl implements UserService {
     public User updateUser(Long id, User updatedUser) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
-        if (!user.getId().equals(getCurrentUserId())) {
+        /*if (!user.getId().equals(getCurrentUserId())) {
             throw new UnauthorizedUserException("Unauthorized user");
-        }
+            } */
+
         if (userRepository.existsByEmail(updatedUser.getEmail())) {
             throw new EmailAlreadyExistsException("Email already exists");
         }
@@ -68,10 +72,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public Long getCurrentUserId () {
+   /* public Long getCurrentUserId () {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return ((UserPrincipal) auth.getPrincipal()).getId();
-    }
+    } Cannot invoke "org.springframework.security.core.Authentication.getPrincipal()" because "auth" is null
+
+    */
 
     @Override
     public User updateUserAdmin(Long id, User user) {
@@ -91,7 +97,8 @@ public class UserServiceImpl implements UserService {
         public void deleteUser(Long id){
             userRepository.deleteById(id);
         }
-
     }
+
+
 
 

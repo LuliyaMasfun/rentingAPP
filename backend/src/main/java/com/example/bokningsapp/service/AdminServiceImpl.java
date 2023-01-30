@@ -13,6 +13,8 @@ import com.example.bokningsapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminServiceImpl implements AdminService{
 
@@ -36,17 +38,20 @@ public class AdminServiceImpl implements AdminService{
         //check if the user is Admin and authorized to update........
 
         //check if the equipment is available for the new dates
-        Equipment equipment = equipmentRepo.findById(equipmentBooking.getEquipment().getId())
-                .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found"));
+        List<Equipment> equipmentList = equipmentBooking.getEquipment();
+        for (Equipment equipment : equipmentList) {
+            Equipment foundEquipment = equipmentRepo.findById(equipment.getId())
+                    .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found"));
 
-        equipmentBooking.setBookingStatus(equipUpdatedBookingDto.getBookingStatus());
+            equipmentBooking.setBookingStatus(equipUpdatedBookingDto.getBookingStatus());
 
-        EquipmentBooking updatedBooking = equipBookingRepo.save(equipmentBooking);
-        //update the equipment status
-        equipment.setEquipmentStatus(updatedEquipmentDto.getEquipmentStatus());
-        equipmentRepo.save(equipment);
+             equipBookingRepo.save(equipmentBooking);
+            //update the equipment status
 
-        return updatedBooking;
+            foundEquipment.setEquipmentStatus(updatedEquipmentDto.getEquipmentStatus());
+            equipmentRepo.save(foundEquipment);
+        }
+        return equipmentBooking;
     }
 
 }

@@ -22,15 +22,15 @@ public class EquipBookingDto {
     private LocalTime dropOff;
     private String equipBookedImg;
 
-    public EquipBookingDto(EquipmentBooking equipmentBooking) {
-        this.user = equipmentBooking.getUser();
-        this.equipment = equipmentBooking.getEquipment();
-        this.startDate = equipmentBooking.getStartDate();
-        this.endDate = equipmentBooking.getEndDate();
-        this.bookingStatus = equipmentBooking.getBookingStatus();
-        this.pickUp = equipmentBooking.getPickUp();
-        this.dropOff = equipmentBooking.getDropOff();
-        this.equipBookedImg = equipmentBooking.getEquipBookedImg();
+    public EquipBookingDto(User user, Equipment equipment, LocalDate startDate, LocalDate endDate, BookingStatus bookingStatus, LocalTime pickUp, LocalTime dropOff, String equipBookedImg) {
+        this.user = user;
+        this.equipment = equipment;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.bookingStatus = bookingStatus;
+        this.pickUp = pickUp;
+        this.dropOff = dropOff;
+        this.equipBookedImg = equipBookedImg;
     }
 
     public EquipBookingDto() {

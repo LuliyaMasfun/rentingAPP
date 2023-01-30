@@ -5,6 +5,7 @@ import com.example.bokningsapp.enums.EquipmentType;
 import com.example.bokningsapp.exception.BookingNotFoundException;
 import com.example.bokningsapp.exception.EquipmentNotFoundException;
 import com.example.bokningsapp.model.Equipment;
+import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.EquipmentRepo;
 import com.example.bokningsapp.service.EquipmentService;
 import com.example.bokningsapp.service.EquipmentServiceImpl;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class EquipmentController {
@@ -33,11 +35,6 @@ public class EquipmentController {
         Equipment newEquipment = equipmentService.saveEquipment(equipment);
         return new ResponseEntity<>(newEquipment, HttpStatus.CREATED);
     }
-    @GetMapping(value = "/allEquipment")
-    public List<Equipment> getAllEquipment() {
-        return equipmentRepo.findAll();
-    }
-
     @DeleteMapping("/equipment/{id}")
     public ResponseEntity<?> deleteEquipment(@PathVariable int id) {
         try {
@@ -65,6 +62,15 @@ public class EquipmentController {
         return new ResponseEntity<>(equipmentList, HttpStatus.OK);
     }
 
+    @GetMapping("/allEquipments")
+    public List<Equipment> getAllEquipment() {
+        List<Equipment> equipments = equipmentRepo.findAll();
+        return equipments;
+    }
+    @GetMapping("/equipment/{id}")
+    public Optional<Equipment> getEquipmentById(@PathVariable(value = "id") int id){
+        return equipmentRepo.findById(id);
+    }
 
     }
 

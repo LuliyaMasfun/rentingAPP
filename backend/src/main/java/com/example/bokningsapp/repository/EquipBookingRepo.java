@@ -16,11 +16,16 @@ public interface EquipBookingRepo extends JpaRepository <EquipmentBooking, Integ
 
     List<EquipmentBooking> findAllByBookingStatus(BookingStatus status);
     List<EquipmentBooking>findAll();
+    List<EquipmentBooking> findByEquipmentIdAndBookingStatus(int equipmentId, BookingStatus bookingStatus);
 
-    @Query
-            ("SELECT b FROM EquipmentBooking b WHERE b.equipment.id = :equipmentId and b.bookingStatus = :bookingStatus")
+
+  /*  @Query
+
+            ("SELECT b FROM EquipmentBooking b \n" +
+                    "JOIN b.equipment e \n" +
+                    "WHERE e.id = :equipmentId")
     List<EquipmentBooking> findAllByEquipmentIdAndBookingStatus(@Param("equipmentId") int equipmentId, @Param("bookingStatus") BookingStatus bookingStatus);
-
+*/
   //  List<EquipmentBooking> findAllByUserIdAndEquipmentType(Long userId, EquipmentType equipmentType);
 
 }
