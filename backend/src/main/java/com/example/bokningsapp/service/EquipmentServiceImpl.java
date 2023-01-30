@@ -13,7 +13,9 @@ import java.util.List;
 
 @Service
 public class EquipmentServiceImpl implements EquipmentService {
+
     private final EquipmentRepo equipmentRepo;
+
     @Autowired
     public EquipmentServiceImpl(EquipmentRepo equipmentRepo) {
         this.equipmentRepo = equipmentRepo;

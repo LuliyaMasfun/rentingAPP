@@ -5,46 +5,45 @@ import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.UserPrincipal;
 import com.example.bokningsapp.service.UserService;
-import com.example.bokningsapp.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:3000",maxAge = 3600)
 @RestController
 public class UserController {
 
 
     private final UserRepository userRepository;
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, UserServiceImpl userServiceImpl) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
-        this.userServiceImpl = userServiceImpl;
+        this.userService = userService;
     }
 
+        @CrossOrigin
     @PostMapping(value = "/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = userServiceImpl.createUser(user);
+        User newUser = userService.createUser(user);
         return new ResponseEntity<>(newUser,HttpStatus.CREATED);
     }
 
     //User
+    @CrossOrigin
     @PutMapping("/updateUser/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        User user = userServiceImpl.updateUser(id, updatedUser);
+        User user = userService.updateUser(id, updatedUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     //Admin
+    @CrossOrigin
     @PutMapping("/updateUserAdmin/{id}")
     public ResponseEntity<?> updateUserAdmin(@PathVariable Long id, @RequestBody User user) {
         // Get the current authenticated user
@@ -61,6 +60,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "deleteUser/{id}")
+    @CrossOrigin
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
             userService.deleteUser(id);
