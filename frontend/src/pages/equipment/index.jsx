@@ -49,7 +49,7 @@ const EquipmentDefault = () => {
 
 
     return (
-        <main className='flex min-h-screen flex-grow bg-blue-300'>
+        <main className='flex flex-col min-h-screen flex-grow'>
             <Navbar />
             <h1 className='flex justify-center text-center'>All Equipments</h1>
 
