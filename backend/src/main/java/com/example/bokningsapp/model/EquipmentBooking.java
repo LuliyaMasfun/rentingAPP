@@ -3,12 +3,9 @@ package com.example.bokningsapp.model;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
-import java.sql.Time;
 import java.util.List;
 
 

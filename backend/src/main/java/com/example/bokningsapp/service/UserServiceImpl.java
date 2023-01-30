@@ -2,19 +2,14 @@ package com.example.bokningsapp.service;
 
 import com.example.bokningsapp.exception.EmailAlreadyExistsException;
 import com.example.bokningsapp.exception.ResourceNotFoundException;
-import com.example.bokningsapp.exception.UnauthorizedUserException;
 import com.example.bokningsapp.exception.UserNotFoundException;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.example.bokningsapp.security.UserPrincipal;
 
-import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class UserServiceImpl implements UserService {

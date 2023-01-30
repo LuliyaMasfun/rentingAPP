@@ -4,9 +4,6 @@ import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-import java.util.List;
-
 
 @Entity
     @Table(name="equipments")

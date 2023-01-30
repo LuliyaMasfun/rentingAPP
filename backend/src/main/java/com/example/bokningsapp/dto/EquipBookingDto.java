@@ -2,10 +2,7 @@ package com.example.bokningsapp.dto;
 
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.Equipment;
-import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.model.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

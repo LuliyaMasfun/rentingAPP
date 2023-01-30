@@ -1,10 +1,9 @@
 package com.example.bokningsapp.service;
 
-import com.example.bokningsapp.dto.EquipBookingDto;
+
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.enums.EquipmentStatus;
-import com.example.bokningsapp.enums.EquipmentType;
 import com.example.bokningsapp.exception.*;
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.EquipmentBooking;
