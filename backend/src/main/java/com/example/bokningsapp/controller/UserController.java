@@ -13,7 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:3000",maxAge = 3600)
+
 @RestController
 public class UserController {
 
@@ -69,8 +69,13 @@ public class UserController {
             return new ResponseEntity<>("Error deleting user: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
-
-
-
+    @GetMapping("/allUsers")
+    public List<User> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users;
+    }
+    @GetMapping("/user/{id}")
+    public Optional<User> getUserById(@PathVariable(value = "id") Long id){
+        return userRepository.findById(id);
+    }
 }

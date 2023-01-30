@@ -2,10 +2,7 @@ package com.example.bokningsapp.dto;
 
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.Equipment;
-import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.model.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,15 +19,15 @@ public class EquipBookingDto {
     private LocalTime dropOff;
     private String equipBookedImg;
 
-    public EquipBookingDto(EquipmentBooking equipmentBooking) {
-        this.user = equipmentBooking.getUser();
-        this.equipment = equipmentBooking.getEquipment();
-        this.startDate = equipmentBooking.getStartDate();
-        this.endDate = equipmentBooking.getEndDate();
-        this.bookingStatus = equipmentBooking.getBookingStatus();
-        this.pickUp = equipmentBooking.getPickUp();
-        this.dropOff = equipmentBooking.getDropOff();
-        this.equipBookedImg = equipmentBooking.getEquipBookedImg();
+    public EquipBookingDto(User user, Equipment equipment, LocalDate startDate, LocalDate endDate, BookingStatus bookingStatus, LocalTime pickUp, LocalTime dropOff, String equipBookedImg) {
+        this.user = user;
+        this.equipment = equipment;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.bookingStatus = bookingStatus;
+        this.pickUp = pickUp;
+        this.dropOff = dropOff;
+        this.equipBookedImg = equipBookedImg;
     }
 
     public EquipBookingDto() {
