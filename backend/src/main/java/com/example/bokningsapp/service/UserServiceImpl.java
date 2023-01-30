@@ -5,8 +5,9 @@ import com.example.bokningsapp.exception.ResourceNotFoundException;
 import com.example.bokningsapp.exception.UserNotFoundException;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
+import com.example.bokningsapp.security.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
 
@@ -15,12 +16,12 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final BcryptPasswordConfig bcryptPasswordConfig;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, BcryptPasswordConfig bcryptPasswordConfig) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.bcryptPasswordConfig = bcryptPasswordConfig;
     }
 
 
@@ -39,8 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String encryptPassword(String password) {
-        return passwordEncoder.encode(password);
-    }
+        return bcryptPasswordConfig.bCryptPasswordEncoder1().encode(password);   }
 
     //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
     @Override

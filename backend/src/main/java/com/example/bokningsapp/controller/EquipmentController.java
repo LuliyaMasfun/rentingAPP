@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000",maxAge = 3600)
 public class EquipmentController {
 
     private final EquipmentRepo equipmentRepo;
@@ -27,12 +28,15 @@ public class EquipmentController {
         this.equipmentService = equipmentService;
     }
     @PostMapping(value = "/createEquipment")
+
     public ResponseEntity<Equipment> createEquipment(@RequestBody Equipment equipment) {
 
         Equipment newEquipment = equipmentService.saveEquipment(equipment);
         return new ResponseEntity<>(newEquipment, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/equipment/{id}")
+
     public ResponseEntity<?> deleteEquipment(@PathVariable int id) {
         try {
             equipmentService.deleteEquipment(id);
