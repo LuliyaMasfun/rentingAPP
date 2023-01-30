@@ -2,6 +2,9 @@ import Navbar from '@/components/Navbar'
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import camera from '../../../public/CAMERA.png'
+import light from '../../../public/LIGHT.png'
+import sound from '../../../public/SOUND.png'
 import '../../app/globals.css'
 
 const API_URL = 'http://localhost:8080/allEquipment'
@@ -51,11 +54,11 @@ const EquipmentDefault = () => {
     return (
         <main className='flex flex-col min-h-screen flex-grow'>
             <Navbar />
-            <h1 className='flex justify-center text-center'>All Equipments</h1>
+            <h1 className='flex justify-center text-center text-2xl mb-6'>All Equipments</h1>
 
 
 
-            <div className="container bg-grays justify-center">
+            <div className="container flex flex-row bg-grays justify-center">
 
 
                 <div className='flex w-full flex-col justify-center'>
@@ -65,7 +68,7 @@ const EquipmentDefault = () => {
                         <div className="container flex flex-col w-full" key={item.id}>
                             <h1>{item.name}</h1>
 
-                            <Image alt={item.name} width={200} height={200} />
+                            <Image alt={item.name} width={200} height={200} src={item.equipmentType == "CAMERA" ? camera : light} />
 
                             <p> Hello {item.equipmentDescription}</p>
                             <p> equipmentLocation: {item.equipmentLocation}</p>
