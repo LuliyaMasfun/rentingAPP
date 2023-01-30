@@ -1,11 +1,8 @@
 package com.example.bokningsapp.service;
 
 import com.example.bokningsapp.model.User;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface UserService {
