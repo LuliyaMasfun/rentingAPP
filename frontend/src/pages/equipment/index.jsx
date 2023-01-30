@@ -2,8 +2,7 @@ import Navbar from '@/components/Navbar'
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
-import axios from 'axios'
+import '../../app/globals.css'
 
 const API_URL = 'http://localhost:8080/allEquipment'
 
@@ -15,10 +14,6 @@ const API_URL = 'http://localhost:8080/allEquipment'
 //     const info = response.data.map((data) => allEquipments((data.name)))
 //     return info
 // }
-
-axios.create({
-    baseURL: 'http://localhost:8080/allEquipment',
-})
 
 
 const EquipmentDefault = () => {
@@ -84,9 +79,6 @@ const EquipmentDefault = () => {
                 </div>
 
             </div>
-
-
-
 
         </main>
 

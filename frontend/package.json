@@ -11,6 +11,7 @@
   "dependencies": {
     "@next/font": "13.1.5",
     "axios": "^1.2.3",
+    "concurrently": "^7.6.0",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.5",
     "next": "13.1.5",
@@ -22,5 +23,7 @@
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"
-  }
+  },
+  "dev": "concurrently \"next dev\" \"tailwindcss --input ./app/globals.css --output ./app/output.css --watch\"",
+  "build": "tailwindcss ./app/globals.css --output ./app/output.css && next build"
 }
