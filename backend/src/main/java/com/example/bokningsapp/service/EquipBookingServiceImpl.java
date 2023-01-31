@@ -89,6 +89,7 @@ public class EquipBookingServiceImpl implements EquipBookingService {
     public EquipmentBooking createBooking(EquipmentBooking equipmentBooking) {
         User user = userRepository.findById(equipmentBooking.getUser().getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found with id " + equipmentBooking.getUser().getId()));
+
         List<Equipment> equipmentList = equipmentBooking.getEquipment();
         for (Equipment equipment : equipmentList) {
             Equipment foundEquipment = equipmentRepo.findById(equipment.getId())
@@ -106,15 +107,13 @@ public class EquipBookingServiceImpl implements EquipBookingService {
         }
         for (Equipment equipment : equipmentList) {
             if (isOverlapping(startDate, endDate, equipment.getId())) {
-                throw new IllegalArgumentException("Equipment is not available for booking");
+                throw new IllegalArgumentException("Invalid choice of Date");
             }
         }
         equipmentBooking.setUser(equipmentBooking.getUser());
         equipmentBooking.setEquipment(equipmentBooking.getEquipment());
         equipmentBooking.setStartDate(equipmentBooking.getStartDate());
         equipmentBooking.setEndDate(equipmentBooking.getEndDate());
-        equipmentBooking.setPickUp(equipmentBooking.getPickUp()); //LocalTime.parse
-        equipmentBooking.setDropOff(equipmentBooking.getDropOff());
 
         equipBookingRepo.save(equipmentBooking);
         for (Equipment equipment : equipmentList) {
@@ -135,5 +134,16 @@ public class EquipBookingServiceImpl implements EquipBookingService {
             }
         }
         return true;   }
+
+    @Override
+    public List<EquipmentBooking> findAllBookings() {
+        return equipBookingRepo.findAll();
+    }
+
+
+    @Override
+    public void deleteBooking(int id){
+        equipBookingRepo.deleteById(id);
+    }
 
 }

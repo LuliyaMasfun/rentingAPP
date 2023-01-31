@@ -55,15 +55,13 @@ public class EquipmentBooking {
     private LocalTime dropOff;
 
 
-    public EquipmentBooking(User user, String equipBookedImg,List <Equipment> equipment, LocalDate startDate, LocalDate endDate, BookingStatus bookingStatus, LocalTime pickUp, LocalTime dropOff) {
+    public EquipmentBooking(User user, String equipBookedImg,List <Equipment> equipment, LocalDate startDate, LocalDate endDate) {
         this.user = user;
         this.equipBookedImg = equipBookedImg;
         this.equipment = equipment;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.bookingStatus = BookingStatus.PENDING;
-        this.pickUp = pickUp;
-        this.dropOff = dropOff;
+
     }
 
     public EquipmentBooking() {
