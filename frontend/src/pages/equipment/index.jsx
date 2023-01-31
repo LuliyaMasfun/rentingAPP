@@ -6,6 +6,7 @@ import camera from '../../../public/CAMERA.png'
 import light from '../../../public/LIGHT.png'
 import sound from '../../../public/SOUND.png'
 import '../../app/globals.css'
+import Link from 'next/link'
 
 const API_URL = 'http://localhost:8080/allEquipment'
 
@@ -65,7 +66,8 @@ const EquipmentDefault = () => {
     return (
         <main className='flex flex-col min-h-screen flex-grow'>
             <Navbar />
-            <h1 className='flex justify-center text-center text-2xl mb-6 bg bg-blue'>All Equipments</h1>
+
+            <h1 className='flex justify-center font-bold text-center text-2xl mb-6'>All Equipments</h1>
 
 
 
@@ -77,13 +79,16 @@ const EquipmentDefault = () => {
                     {data.map(item => (
 
 
-                        <div className="container flex flex-col w-full" key={item.id}>
-                            <h1>{item.name}</h1>
+                        <div className="container flex flex-col w-full border-black-300" key={item.id}>
+                            <h1 className='flex ml-5'>{item.equipmentName}</h1>
 
-                            <Image alt={item.name} width={200} height={200} src={checkType(item)} />
+                            <Link href={`/equipment/${item.id}`}>
+                                <Image alt="Good equipments" width={200} height={200} src={checkType(item)} />
+                            </Link>
+
 
                             <p> Hello {item.equipmentDescription}</p>
-                            <p> equipmentLocation: {item.equipmentLocation}</p>
+                            <p> EquipmentLocation: {item.equipmentLocation}</p>
 
 
                         </div>
