@@ -21,14 +21,7 @@ export default function Home() {
 
       <div className="flex w-full flex-col items-center mt-12 min-h-fit  ">
 
-
-
-
       </div>
-
-
-
-
 
     </main >
   )

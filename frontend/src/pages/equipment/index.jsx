@@ -7,6 +7,7 @@ import light from '../../../public/LIGHT.png'
 import sound from '../../../public/SOUND.png'
 import '../../app/globals.css'
 import Link from 'next/link'
+import FilterProduct from '@/components/FilterProduct'
 
 const API_URL = 'http://localhost:8080/allEquipments'
 
@@ -23,7 +24,18 @@ const API_URL = 'http://localhost:8080/allEquipments'
 const EquipmentDefault = () => {
 
     const [data, setData] = useState([])
+    const [filterValue, setFilterValue] = useState("all")
 
+    const filteredEquipments = data.filter((equipment) => {
+        if (filterValue === "all") {
+            return equipment
+        } else {
+            return equipment.equipmentType === filterValue.toUpperCase()
+        }
+
+
+    }
+    )
 
     useEffect(() => {
         const fetchData = async () => {
@@ -61,25 +73,36 @@ const EquipmentDefault = () => {
         }
     }
 
+    const onFilterValueSelected = (filterValue) => {
+        setFilterValue(filterValue)
+
+    }
+
 
 
     return (
-        <main className='flex flex-col min-h-screen flex-grow'>
+        <main className='flex flex-col min-h-screen flex-grow bg-black'>
             <Navbar />
 
-            <h1 className='flex justify-center font-bold text-center text-2xl mb-6'>All Equipments</h1>
+            <h1 className='flex justify-center font-bold text-2xl mb-6'>All Equipments</h1>
+
+            <div className='flex justify-center bg-blue mb-3'>
+                <FilterProduct filterValueSelected={onFilterValueSelected} />
+
+            </div>
+
 
 
 
             <div className="container flex flex-row bg-grays justify-center w-full">
 
 
-                <div className='flex w-full flex-col justify-center'>
+                <div className='flex flex-grow w-full flex-col justify-center'>
 
-                    {data.map(item => (
+                    {filteredEquipments.map(item => (
 
 
-                        <div className="container flex flex-col w-full border-black-300" key={item.id}>
+                        <div className="container flex flex-col w-full border-black" key={item.id}>
                             <h1 className='flex ml-5'>{item.equipmentName}</h1>
 
                             <Link href={`/equipment/${item.id}`}>
