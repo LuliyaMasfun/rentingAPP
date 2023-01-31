@@ -8,7 +8,7 @@ import sound from '../../../public/SOUND.png'
 import '../../app/globals.css'
 import Link from 'next/link'
 
-const API_URL = 'http://localhost:8080/allEquipment'
+const API_URL = 'http://localhost:8080/allEquipments'
 
 
 
