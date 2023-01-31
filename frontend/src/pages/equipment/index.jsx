@@ -2,8 +2,11 @@ import Navbar from '@/components/Navbar'
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import camera from '../../../public/CAMERA.png'
+import light from '../../../public/LIGHT.png'
+import sound from '../../../public/SOUND.png'
+import '../../app/globals.css'
 import Link from 'next/link'
-import axios from 'axios'
 
 const API_URL = 'http://localhost:8080/allEquipment'
 
@@ -15,10 +18,6 @@ const API_URL = 'http://localhost:8080/allEquipment'
 //     const info = response.data.map((data) => allEquipments((data.name)))
 //     return info
 // }
-
-axios.create({
-    baseURL: 'http://localhost:8080/allEquipment',
-})
 
 
 const EquipmentDefault = () => {
@@ -51,29 +50,45 @@ const EquipmentDefault = () => {
 
     }, [])
 
+    const checkType = (obj) => {
+
+        if (obj.equipmentType == "CAMERA") {
+            return camera;
+        } else if (obj.equipmentType == "LIGHT") {
+            return light;
+        } else {
+            return sound;
+        }
+    }
+
 
 
     return (
-        <main className='flex min-h-screen flex-grow bg-blue-300'>
+        <main className='flex flex-col min-h-screen flex-grow'>
             <Navbar />
-            <h1 className='flex justify-center text-center'>All Equipments</h1>
+
+            <h1 className='flex justify-center font-bold text-center text-2xl mb-6'>All Equipments</h1>
 
 
 
-            <div className="container bg-grays justify-center">
+            <div className="container flex flex-row bg-grays justify-center w-full">
 
 
                 <div className='flex w-full flex-col justify-center'>
 
                     {data.map(item => (
 
-                        <div className="container flex flex-col w-full" key={item.id}>
-                            <h1>{item.name}</h1>
 
-                            <Image alt={item.name} width={200} height={200} />
+                        <div className="container flex flex-col w-full border-black-300" key={item.id}>
+                            <h1 className='flex ml-5'>{item.equipmentName}</h1>
+
+                            <Link href={`/equipment/${item.id}`}>
+                                <Image alt="Good equipments" width={200} height={200} src={checkType(item)} />
+                            </Link>
+
 
                             <p> Hello {item.equipmentDescription}</p>
-                            <p> equipmentLocation: {item.equipmentLocation}</p>
+                            <p> EquipmentLocation: {item.equipmentLocation}</p>
 
 
                         </div>
@@ -84,9 +99,6 @@ const EquipmentDefault = () => {
                 </div>
 
             </div>
-
-
-
 
         </main>
 
