@@ -67,13 +67,11 @@ public class EquipmentController {
     @GetMapping("/allEquipments")
     public List<Equipment> getAllEquipment() {
 
-        try {
-            return equipmentRepo.findAll();
-        } catch (Exception ex) {
-            return ex.getMessage();
-        }
 
+        return equipmentRepo.findAll();
     }
+
+
 
     @GetMapping("/equipment/{id}")
     public Optional<Equipment> getEquipmentById(@PathVariable(value = "id") int id) {
