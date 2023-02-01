@@ -2,10 +2,14 @@ import Navbar from '@/components/Navbar'
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import camera from '../../../public/CAMERA.png'
+import light from '../../../public/LIGHT.png'
+import sound from '../../../public/SOUND.png'
+import '../../app/globals.css'
 import Link from 'next/link'
-import axios from 'axios'
+import FilterProduct from '@/components/FilterProduct'
 
-const API_URL = 'http://localhost:8080/allEquipment'
+const API_URL = 'http://localhost:8080/allEquipments'
 
 
 
@@ -16,15 +20,22 @@ const API_URL = 'http://localhost:8080/allEquipment'
 //     return info
 // }
 
-axios.create({
-    baseURL: 'http://localhost:8080/allEquipment',
-})
-
 
 const EquipmentDefault = () => {
 
     const [data, setData] = useState([])
+    const [filterValue, setFilterValue] = useState("all")
 
+    const filteredEquipments = data.filter((equipment) => {
+        if (filterValue === "all") {
+            return equipment
+        } else {
+            return equipment.equipmentType === filterValue.toUpperCase()
+        }
+
+
+    }
+    )
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,29 +62,60 @@ const EquipmentDefault = () => {
 
     }, [])
 
+    const checkType = (obj) => {
+
+        if (obj.equipmentType == "CAMERA") {
+            return camera;
+        } else if (obj.equipmentType == "LIGHT") {
+            return light;
+        } else {
+            return sound;
+        }
+    }
+
+    const onFilterValueSelected = (filterValue) => {
+        setFilterValue(filterValue)
+
+    }
+
 
 
     return (
-        <main className='flex min-h-screen flex-grow bg-blue-300'>
+        <main className='flex flex-col min-h-screen flex-grow bg-black'>
             <Navbar />
-            <h1 className='flex justify-center text-center'>All Equipments</h1>
+
+            <h1 className='flex justify-center font-bold text-2xl mb-6'>All Equipments</h1>
+
+            <div className='flex justify-center mb-3'>
+                <FilterProduct filterValueSelected={onFilterValueSelected} />
+
+            </div>
 
 
 
-            <div className="container bg-grays justify-center">
+
+            <div className="container flex bg-grays justify-center w-full flex-grow">
 
 
-                <div className='flex w-full flex-col justify-center'>
+                <div className='flex flex-col w-full justify-center flex-grow'>
 
-                    {data.map(item => (
+                    {filteredEquipments.map(item => (
 
-                        <div className="container flex flex-col w-full" key={item.id}>
-                            <h1>{item.name}</h1>
 
-                            <Image alt={item.name} width={200} height={200} />
+                        <div className="container flex flex-col border-black w-1/2" key={item.id}>
+                            <h1 className='flex ml-5'>Name:{item.equipmentName}</h1>
+
+                            <Link href={`/equipment/${item.id}`}>
+                                <Image alt="Good equipments" width={200} height={200} src={checkType(item)} />
+                            </Link>
+
 
                             <p> Hello {item.equipmentDescription}</p>
-                            <p> equipmentLocation: {item.equipmentLocation}</p>
+                            <p> EquipmentLocation: {item.equipmentLocation}</p>
+
+                            <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full' Add product
+                            ></button>
+
 
 
                         </div>
@@ -84,9 +126,6 @@ const EquipmentDefault = () => {
                 </div>
 
             </div>
-
-
-
 
         </main>
 

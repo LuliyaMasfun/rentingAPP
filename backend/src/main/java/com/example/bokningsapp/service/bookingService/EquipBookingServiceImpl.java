@@ -1,4 +1,4 @@
-package com.example.bokningsapp.service;
+package com.example.bokningsapp.service.bookingService;
 
 
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
@@ -37,16 +37,6 @@ public class EquipBookingServiceImpl implements EquipBookingService {
     @Override
     public EquipmentBooking save(EquipmentBooking equipmentBooking) {
         return equipBookingRepo.save(equipmentBooking);
-    }
-
-    @Override
-    public List<EquipmentBooking> findAllByStatus(BookingStatus status){
-        return equipBookingRepo.findAllByBookingStatus(status);
-    }
-
-    @Override
-    public List<EquipmentBooking> findAll() {
-        return equipBookingRepo.findAll();
     }
 
     @Override
@@ -89,6 +79,7 @@ public class EquipBookingServiceImpl implements EquipBookingService {
     public EquipmentBooking createBooking(EquipmentBooking equipmentBooking) {
         User user = userRepository.findById(equipmentBooking.getUser().getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found with id " + equipmentBooking.getUser().getId()));
+
         List<Equipment> equipmentList = equipmentBooking.getEquipment();
         for (Equipment equipment : equipmentList) {
             Equipment foundEquipment = equipmentRepo.findById(equipment.getId())
@@ -106,15 +97,13 @@ public class EquipBookingServiceImpl implements EquipBookingService {
         }
         for (Equipment equipment : equipmentList) {
             if (isOverlapping(startDate, endDate, equipment.getId())) {
-                throw new IllegalArgumentException("Equipment is not available for booking");
+                throw new IllegalArgumentException("Invalid choice of Date");
             }
         }
         equipmentBooking.setUser(equipmentBooking.getUser());
         equipmentBooking.setEquipment(equipmentBooking.getEquipment());
         equipmentBooking.setStartDate(equipmentBooking.getStartDate());
         equipmentBooking.setEndDate(equipmentBooking.getEndDate());
-        equipmentBooking.setPickUp(equipmentBooking.getPickUp()); //LocalTime.parse
-        equipmentBooking.setDropOff(equipmentBooking.getDropOff());
 
         equipBookingRepo.save(equipmentBooking);
         for (Equipment equipment : equipmentList) {
@@ -135,5 +124,24 @@ public class EquipBookingServiceImpl implements EquipBookingService {
             }
         }
         return true;   }
+
+    @Override
+    public List<EquipmentBooking> findAllBookings() {
+        return equipBookingRepo.findAll();
+    }
+
+    @Override
+    public List<EquipmentBooking> findAllByStatus(BookingStatus status){
+        return equipBookingRepo.findAllByBookingStatus(status);
+    }
+
+    @Override
+    public List<EquipmentBooking> findAllByEquipmentId(int equipmentId) {
+        return equipBookingRepo.findAllByEquipmentId(equipmentId);
+    }
+    @Override
+    public void deleteBooking(int id){
+        equipBookingRepo.deleteById(id);
+    }
 
 }

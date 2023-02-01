@@ -4,7 +4,7 @@ import com.example.bokningsapp.enums.ERole;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.UserPrincipal;
-import com.example.bokningsapp.service.UserService;
+import com.example.bokningsapp.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,7 @@ public class UserController {
         this.userService = userService;
     }
 
-        @CrossOrigin
+
     @PostMapping(value = "/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User newUser = userService.createUser(user);
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     //User
-    @CrossOrigin
+
     @PutMapping("/updateUser/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         User user = userService.updateUser(id, updatedUser);
@@ -48,7 +48,7 @@ public class UserController {
     }
 
     //Admin
-    @CrossOrigin
+
     @PutMapping("/updateUserAdmin/{id}")
     public ResponseEntity<?> updateUserAdmin(@PathVariable Long id, @RequestBody User user) {
         // Get the current authenticated user
@@ -65,7 +65,6 @@ public class UserController {
     }
 
     @DeleteMapping(value = "deleteUser/{id}")
-    @CrossOrigin
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
             userService.deleteUser(id);
@@ -83,4 +82,5 @@ public class UserController {
     public Optional<User> getUserById(@PathVariable(value = "id") Long id){
         return userRepository.findById(id);
     }
+
 }

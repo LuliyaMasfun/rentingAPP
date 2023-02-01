@@ -1,4 +1,4 @@
-package com.example.bokningsapp.service;
+package com.example.bokningsapp.service.userService;
 
 import com.example.bokningsapp.exception.EmailAlreadyExistsException;
 import com.example.bokningsapp.exception.ResourceNotFoundException;
@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String encryptPassword(String password) {
         return bcryptPasswordConfig.bCryptPasswordEncoder1().encode(password);   }
+
 
     //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
     @Override
@@ -92,7 +93,16 @@ public class UserServiceImpl implements UserService {
         public void deleteUser(Long id){
             userRepository.deleteById(id);
         }
+
+        @Override
+        public int enableUser(String email) {
+            return userRepository.enableUser(email);
     }
+
+
+}
+
+
 
 
 

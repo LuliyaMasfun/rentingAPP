@@ -1,4 +1,4 @@
-package com.example.bokningsapp.service;
+package com.example.bokningsapp.service.bookingService;
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.EquipmentBooking;
@@ -14,9 +14,12 @@ public interface EquipBookingService {
 
     public List<EquipmentBooking> findAllByStatus(BookingStatus status);
 
-    public List<EquipmentBooking> findAll();
     public EquipmentBooking updateBooking(int bookingId, UpdatedEquipBookingDto updatedEquipmentBookingDto, User user);
 
     public EquipmentBooking createBooking(EquipmentBooking equipmentBooking);
+    public void deleteBooking(int id);
+    public List<EquipmentBooking> findAllBookings();
+
+    public List<EquipmentBooking> findAllByEquipmentId(int equipmentId);
 
 }

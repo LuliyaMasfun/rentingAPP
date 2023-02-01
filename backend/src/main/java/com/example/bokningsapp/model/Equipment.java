@@ -25,14 +25,16 @@ import jakarta.persistence.*;
         @Column
         private int maxDaysToRent;
 
-        @Column
+        @Column(length = 1000)
         private String equipmentDescription;
 
         @Column
         private String equipmentBrand;
         @Column
+        @Enumerated(EnumType.STRING)
         private EquipmentType equipmentType;
         @Column
+        @Enumerated(EnumType.STRING)
         private EquipmentStatus equipmentStatus;
 
     @OneToOne

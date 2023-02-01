@@ -20,9 +20,9 @@ hs_err_pid*
 
 
 ### Gradle ###
-/backend/.gradle
-/backend/build
-
+/backend/.gradle/
+/backend/build/
+/backend/bin/
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -46,7 +46,7 @@ gradle-app.setting
 /coverage
 
 # next.js
-/frontend/.next/
+frontend/.next/
 /out/
 
 # production
