@@ -14,11 +14,12 @@ public interface EquipBookingService {
 
     public List<EquipmentBooking> findAllByStatus(BookingStatus status);
 
-    public List<EquipmentBooking> findAll();
     public EquipmentBooking updateBooking(int bookingId, UpdatedEquipBookingDto updatedEquipmentBookingDto, User user);
 
     public EquipmentBooking createBooking(EquipmentBooking equipmentBooking);
     public void deleteBooking(int id);
     public List<EquipmentBooking> findAllBookings();
+
+    public List<EquipmentBooking> findAllByEquipmentId(int equipmentId);
 
 }

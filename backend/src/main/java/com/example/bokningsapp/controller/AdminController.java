@@ -47,7 +47,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/getBookingsByStatus")
+   /* @GetMapping("/getBookingsByStatus")
     public ResponseEntity<List<EquipmentBooking>> getAllBookings( @RequestParam(required = false) BookingStatus status) {
         List<EquipmentBooking> bookings;
         if(status == null) {
@@ -60,4 +60,6 @@ public class AdminController {
         }
         return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
+
+    */
 }

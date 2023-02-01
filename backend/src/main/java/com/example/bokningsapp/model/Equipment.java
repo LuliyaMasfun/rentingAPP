@@ -25,7 +25,7 @@ import jakarta.persistence.*;
         @Column
         private int maxDaysToRent;
 
-        @Column
+        @Column(length = 1000)
         private String equipmentDescription;
 
         @Column

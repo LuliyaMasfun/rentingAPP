@@ -16,6 +16,8 @@ public interface EquipBookingRepo extends JpaRepository <EquipmentBooking, Integ
 
     List<EquipmentBooking> findByUserId(Long id);
 
+   List<EquipmentBooking> findAllByEquipmentId(int equipmentId);
+
   /*  @Query
 
             ("SELECT b FROM EquipmentBooking b \n" +

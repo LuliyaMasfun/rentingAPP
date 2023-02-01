@@ -2,11 +2,11 @@ package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.AccountStatus;
 import com.example.bokningsapp.enums.ERole;
+import com.example.bokningsapp.token.VerificationToken;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDate;
+import org.hibernate.annotations.NaturalId;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +21,7 @@ public class User {
     private String firstName;
     @Column
     private String lastName;
+    @NaturalId
     @Column
     private String email;
     @Column
@@ -49,18 +50,19 @@ public class User {
     private String password;
 
     @Column
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate birthDate;
+    private String birthDate;
     @Column
     private AccountStatus accountStatus;
     @Column
     private ERole role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<EquipmentBooking> equipmentBookings;
-
+    private boolean emailVerified = false;
+    @OneToOne(targetEntity = VerificationToken.class, fetch = FetchType.EAGER)
+    private VerificationToken verificationToken;
 
     public User(String firstName, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
-                String phoneNumber,String address,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate) {
+                String phoneNumber,String address,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, String birthDate, boolean emailVerified, VerificationToken verificationToken) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -73,10 +75,14 @@ public class User {
         this.updatedDate =updatedDate;
         this.password = password;
         this.birthDate = birthDate;
+        this.emailVerified = emailVerified;
+        this.verificationToken=verificationToken;
 
     }
 
     public User() {
+    }
+    public User(String name, String email, String password) {
     }
 
     public Long getId() {
@@ -171,11 +177,11 @@ public class User {
         this.password = password;
     }
 
-    public LocalDate getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -193,6 +199,22 @@ public class User {
 
     public void setRole(ERole role) {
         this.role = role;
+    }
+
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public VerificationToken getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(VerificationToken verificationToken) {
+        this.verificationToken = verificationToken;
     }
 
     @Override

@@ -9,7 +9,7 @@ import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.EquipBookingRepo;
 import com.example.bokningsapp.service.EquipBookingService;
-import com.example.bokningsapp.util.JwtTokenUtil;
+import com.example.bokningsapp.token.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,7 +88,7 @@ public class EquipBookingController {
         // find the user's bookings
         List<EquipmentBooking> userBookings = equipBookingRepo.findByUserId(userId);
 
-        // sort the bookings by date in ascending order
+        // sort  bookings by date ascending
         userBookings.sort(Comparator.comparing(EquipmentBooking::getStartDate));
 
         // get the most recent booking
@@ -99,8 +99,13 @@ public class EquipBookingController {
                 break;
             }
         }
-
-        // return the most recent booking
         return new ResponseEntity<>(mostRecentBooking, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/getBookingsOnEquipment/{equipId}")
+    public ResponseEntity<List<EquipmentBooking>> getBookingsOnEquipment(@PathVariable int equipId){
+        List<EquipmentBooking> bookings = equipBookingService.findAllByEquipmentId(equipId);
+        return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
 }

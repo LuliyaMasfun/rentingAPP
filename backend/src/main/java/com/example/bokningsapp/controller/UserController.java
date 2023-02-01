@@ -83,4 +83,5 @@ public class UserController {
     public Optional<User> getUserById(@PathVariable(value = "id") Long id){
         return userRepository.findById(id);
     }
+
 }

@@ -1,15 +1,23 @@
 package com.example.bokningsapp.service;
 
+import com.example.bokningsapp.dto.RegistrationRequest;
 import com.example.bokningsapp.exception.EmailAlreadyExistsException;
 import com.example.bokningsapp.exception.ResourceNotFoundException;
 import com.example.bokningsapp.exception.UserNotFoundException;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.BcryptPasswordConfig;
+import com.example.bokningsapp.token.VerificationToken;
+import com.example.bokningsapp.token.VerificationTokenRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -17,11 +25,18 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BcryptPasswordConfig bcryptPasswordConfig;
+    private final EmailService emailService;
+
+    private static final Pattern VALID_PASSWORD_REGEX =
+            Pattern.compile("^(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{8,}$");
+    private final VerificationTokenRepo verificationTokenRepo;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BcryptPasswordConfig bcryptPasswordConfig) {
+    public UserServiceImpl(UserRepository userRepository, BcryptPasswordConfig bcryptPasswordConfig, EmailService emailService, VerificationTokenRepo verificationTokenRepo) {
         this.userRepository = userRepository;
         this.bcryptPasswordConfig = bcryptPasswordConfig;
+        this.emailService = emailService;
+        this.verificationTokenRepo = verificationTokenRepo;
     }
 
 
@@ -41,6 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String encryptPassword(String password) {
         return bcryptPasswordConfig.bCryptPasswordEncoder1().encode(password);   }
+
 
     //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
     @Override
@@ -92,7 +108,17 @@ public class UserServiceImpl implements UserService {
         public void deleteUser(Long id){
             userRepository.deleteById(id);
         }
+
+
+
+    private boolean isPasswordValid(String password) {
+        Matcher matcher = VALID_PASSWORD_REGEX .matcher(password);
+        return matcher.find();
     }
+
+}
+
+
 
 
 

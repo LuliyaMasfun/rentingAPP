@@ -40,16 +40,6 @@ public class EquipBookingServiceImpl implements EquipBookingService {
     }
 
     @Override
-    public List<EquipmentBooking> findAllByStatus(BookingStatus status){
-        return equipBookingRepo.findAllByBookingStatus(status);
-    }
-
-    @Override
-    public List<EquipmentBooking> findAll() {
-        return equipBookingRepo.findAll();
-    }
-
-    @Override
     public EquipmentBooking updateBooking(int bookingId, UpdatedEquipBookingDto updatedEquipmentBookingDto, User user) {
         //check if the booking exists
         EquipmentBooking equipmentBooking = equipBookingRepo.findById(bookingId)
@@ -140,7 +130,15 @@ public class EquipBookingServiceImpl implements EquipBookingService {
         return equipBookingRepo.findAll();
     }
 
+    @Override
+    public List<EquipmentBooking> findAllByStatus(BookingStatus status){
+        return equipBookingRepo.findAllByBookingStatus(status);
+    }
 
+    @Override
+    public List<EquipmentBooking> findAllByEquipmentId(int equipmentId) {
+        return equipBookingRepo.findAllByEquipmentId(equipmentId);
+    }
     @Override
     public void deleteBooking(int id){
         equipBookingRepo.deleteById(id);

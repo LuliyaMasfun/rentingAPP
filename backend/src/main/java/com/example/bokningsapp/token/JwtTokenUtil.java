@@ -1,4 +1,4 @@
-package com.example.bokningsapp.util;
+package com.example.bokningsapp.token;
 
 
 
@@ -6,7 +6,6 @@ import com.example.bokningsapp.security.UserPrincipal;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.*;
