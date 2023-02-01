@@ -32,7 +32,7 @@ public class UserController {
         this.userService = userService;
     }
 
-        @CrossOrigin
+
     @PostMapping(value = "/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User newUser = userService.createUser(user);
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     //User
-    @CrossOrigin
+
     @PutMapping("/updateUser/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         User user = userService.updateUser(id, updatedUser);
@@ -48,7 +48,7 @@ public class UserController {
     }
 
     //Admin
-    @CrossOrigin
+
     @PutMapping("/updateUserAdmin/{id}")
     public ResponseEntity<?> updateUserAdmin(@PathVariable Long id, @RequestBody User user) {
         // Get the current authenticated user
@@ -65,7 +65,6 @@ public class UserController {
     }
 
     @DeleteMapping(value = "deleteUser/{id}")
-    @CrossOrigin
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         try {
             userService.deleteUser(id);

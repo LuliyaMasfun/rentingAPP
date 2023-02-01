@@ -1,6 +1,7 @@
 import React from "react";
-import LoginForm from "./components/LoginForm";
-import Navbar from "./components/Navbar";
+import LoginForm from "../components/LoginForm";
+import Navbar from "../components/Navbar"
+import "../app/globals.css"
 
 const Register = () => {
     return (
