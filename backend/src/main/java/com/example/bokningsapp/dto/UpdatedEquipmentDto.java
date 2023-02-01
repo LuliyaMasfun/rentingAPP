@@ -2,6 +2,7 @@ package com.example.bokningsapp.dto;
 
 import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
+import jakarta.persistence.Column;
 import org.jetbrains.annotations.NotNull;
 
 public class UpdatedEquipmentDto {
