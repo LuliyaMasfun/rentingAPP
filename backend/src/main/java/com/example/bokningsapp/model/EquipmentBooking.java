@@ -44,6 +44,7 @@ public class EquipmentBooking {
     private LocalDate endDate;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private BookingStatus bookingStatus;
 
     @Column

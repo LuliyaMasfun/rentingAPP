@@ -52,17 +52,21 @@ public class User {
     @Column
     private String birthDate;
     @Column
+    @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
     @Column
+    @Enumerated(EnumType.STRING)
     private ERole role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<EquipmentBooking> equipmentBookings;
     private boolean emailVerified = false;
     @OneToOne(targetEntity = VerificationToken.class, fetch = FetchType.EAGER)
     private VerificationToken verificationToken;
+    private Boolean enabled = false;
 
     public User(String firstName, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
-                String phoneNumber,String address,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, String birthDate, boolean emailVerified, VerificationToken verificationToken) {
+                String phoneNumber,String address,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, String birthDate, boolean emailVerified,
+                VerificationToken verificationToken,Boolean enabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -77,6 +81,7 @@ public class User {
         this.birthDate = birthDate;
         this.emailVerified = emailVerified;
         this.verificationToken=verificationToken;
+        this.enabled = enabled;
 
     }
 
@@ -215,6 +220,14 @@ public class User {
 
     public void setVerificationToken(VerificationToken verificationToken) {
         this.verificationToken = verificationToken;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

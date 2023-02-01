@@ -1,4 +1,4 @@
-package com.example.bokningsapp.service;
+package com.example.bokningsapp.service.bookingService;
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.EquipmentBooking;

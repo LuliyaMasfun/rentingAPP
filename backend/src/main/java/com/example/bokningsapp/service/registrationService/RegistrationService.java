@@ -1,7 +1,6 @@
-package com.example.bokningsapp.service;
+package com.example.bokningsapp.service.registrationService;
 
 import com.example.bokningsapp.dto.RegistrationRequest;
-import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.token.VerificationToken;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +8,9 @@ import java.util.Date;
 
 @Service
 public interface RegistrationService {
-    public User registerUser(RegistrationRequest signUpRequest);
+    public VerificationToken registerUser(RegistrationRequest registrationRequest);
     public String encryptPassword(String password);
-    public VerificationToken getVerificationToken(String token);
     public Date calculateExpiryDate(int expiryTimeInMinutes);
+    public String confirmToken(String token);
 
 }

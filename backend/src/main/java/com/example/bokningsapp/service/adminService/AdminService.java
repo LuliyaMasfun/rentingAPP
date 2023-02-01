@@ -1,4 +1,4 @@
-package com.example.bokningsapp.service;
+package com.example.bokningsapp.service.adminService;
 
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.dto.UpdatedEquipmentDto;

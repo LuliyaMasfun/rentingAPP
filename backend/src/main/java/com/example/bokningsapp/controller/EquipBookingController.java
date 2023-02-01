@@ -8,7 +8,7 @@ import com.example.bokningsapp.exception.UnauthorizedUserException;
 import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.EquipBookingRepo;
-import com.example.bokningsapp.service.EquipBookingService;
+import com.example.bokningsapp.service.bookingService.EquipBookingService;
 import com.example.bokningsapp.token.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

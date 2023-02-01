@@ -1,4 +1,4 @@
-package com.example.bokningsapp.service;
+package com.example.bokningsapp.service.adminService;
 
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.dto.UpdatedEquipmentDto;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AdminServiceImpl implements AdminService{
+public class AdminServiceImpl implements AdminService {
 
     private final EquipBookingRepo equipBookingRepo;
     private final EquipmentRepo equipmentRepo;

@@ -12,7 +12,7 @@ public class RegistrationRequest {
     private String address;
 
 
-    public RegistrationRequest(String name, String email, String password, String phoneNumber, String birthDate, String address, String firstName, String lastName) {
+    public RegistrationRequest(String firstName, String lastName, String email, String password, String phoneNumber, String birthDate, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
