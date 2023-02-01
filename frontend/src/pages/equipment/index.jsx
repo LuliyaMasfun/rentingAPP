@@ -86,7 +86,7 @@ const EquipmentDefault = () => {
 
             <h1 className='flex justify-center font-bold text-2xl mb-6'>All Equipments</h1>
 
-            <div className='flex justify-center bg-blue mb-3'>
+            <div className='flex justify-center mb-3'>
                 <FilterProduct filterValueSelected={onFilterValueSelected} />
 
             </div>
@@ -94,16 +94,16 @@ const EquipmentDefault = () => {
 
 
 
-            <div className="container flex flex-row bg-grays justify-center w-full">
+            <div className="container flex bg-grays justify-center w-full flex-grow">
 
 
-                <div className='flex flex-grow w-full flex-col justify-center'>
+                <div className='flex flex-col w-full justify-center flex-grow'>
 
                     {filteredEquipments.map(item => (
 
 
-                        <div className="container flex flex-col w-full border-black" key={item.id}>
-                            <h1 className='flex ml-5'>{item.equipmentName}</h1>
+                        <div className="container flex flex-col border-black w-1/2" key={item.id}>
+                            <h1 className='flex ml-5'>Name:{item.equipmentName}</h1>
 
                             <Link href={`/equipment/${item.id}`}>
                                 <Image alt="Good equipments" width={200} height={200} src={checkType(item)} />
@@ -112,6 +112,10 @@ const EquipmentDefault = () => {
 
                             <p> Hello {item.equipmentDescription}</p>
                             <p> EquipmentLocation: {item.equipmentLocation}</p>
+
+                            <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full' Add product
+                            ></button>
+
 
 
                         </div>

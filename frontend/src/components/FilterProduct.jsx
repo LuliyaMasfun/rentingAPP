@@ -1,17 +1,15 @@
 import React from "react";
 
-const FilterProduct = (props) => {
+const FilterProduct = ({ filterValueSelected }) => {
 
     const filterValueChanged = (e) => {
-
-        props.filterValueSelected(e.target.value)
-
+        filterValueSelected(e.target.value)
     }
 
 
     return (
-        <div className="flex bg-white py-4 px-5 mb-3 rounded-sm border-solid border-black">
-            <select name="equipments" onChange={filterValueChanged}>
+        <div className="flex bg-white py-4 px-5 mb-3 rounded-sm border-solid border-black w-20">
+            <select className="pr-2 mr-4 w-30" name="equipments" onChange={filterValueChanged}>
                 <option value="all">All</option>
                 <option value="CAMERA">Camera</option>
                 <option value="LIGHT">Light</option>
