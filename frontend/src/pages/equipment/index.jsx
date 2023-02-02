@@ -25,6 +25,7 @@ const EquipmentDefault = () => {
 
     const [data, setData] = useState([])
     const [filterValue, setFilterValue] = useState("all")
+    const [isLoading, setIsLoading] = useState(true)
 
     const filteredEquipments = data.filter((equipment) => {
         if (filterValue === "all") {
@@ -46,6 +47,7 @@ const EquipmentDefault = () => {
                 console.log(response.data)
                 const info = response.data
                 setData(info)
+                setIsLoading(false)
             } catch (error) {
                 if (error.response) {
                     console.log(error.response.data)
@@ -61,6 +63,10 @@ const EquipmentDefault = () => {
         fetchData()
 
     }, [])
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
 
     const checkType = (obj) => {
 
