@@ -31,8 +31,12 @@ public class EquipmentBooking {
     @Column
     private String equipBookedImg;
 
-    @OneToMany(mappedBy="equipment_bookings", cascade = CascadeType.ALL)
-    @JoinColumn(name = "equipment_id", referencedColumnName = "id")
+    @ManyToMany
+    @JoinTable(
+            name = "equipment_booking_equipment",
+            joinColumns = @JoinColumn(name = "booking_id"),
+            inverseJoinColumns = @JoinColumn(name = "equipment_id")
+    )
     private List<Equipment> equipment;
     @Column
     @JsonFormat(pattern = "dd/MM/yyyy")
