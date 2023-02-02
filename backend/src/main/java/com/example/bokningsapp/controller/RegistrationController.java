@@ -15,7 +15,7 @@ public class RegistrationController {
 
 
     @PostMapping("/signup")
-    public VerificationToken register(@RequestBody RegistrationRequest request) {
+    public String register(@RequestBody RegistrationRequest request) {
         return registrationService.registerUser(request);
     }
 

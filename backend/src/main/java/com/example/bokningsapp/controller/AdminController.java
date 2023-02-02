@@ -34,7 +34,7 @@ public class AdminController {
         this.equipBookingRepo = equipBookingRepo;
     }
 
-    @PutMapping("/handleBooking/{id}")
+ /*   @PutMapping("/handleBooking/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<EquipmentBooking> handleBookingRequest(@PathVariable int id, @RequestBody UpdatedEquipBookingDto updatedEquipmentBookingDto, UpdatedEquipmentDto updatedEquipmentDto){
         try {
@@ -62,4 +62,5 @@ public class AdminController {
         }
         return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
+    */
 }
