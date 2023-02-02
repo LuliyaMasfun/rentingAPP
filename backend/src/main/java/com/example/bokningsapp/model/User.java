@@ -2,11 +2,10 @@ package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.AccountStatus;
 import com.example.bokningsapp.enums.ERole;
-import com.example.bokningsapp.token.VerificationToken;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.NaturalId;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,7 +20,6 @@ public class User {
     private String firstName;
     @Column
     private String lastName;
-    @NaturalId
     @Column
     private String email;
     @Column
@@ -38,56 +36,46 @@ public class User {
 
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
-    @CreationTimestamp
     private LocalDateTime createdDate;
 
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
-    @CreationTimestamp
     private LocalDateTime updatedDate;
 
     @Column
     private String password;
 
     @Column
-    private String birthDate;
+    private LocalDate birthDate;
     @Column
-    @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
     @Column
-    @Enumerated(EnumType.STRING)
     private ERole role;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<EquipmentBooking> equipmentBookings;
-    private boolean emailVerified = false;
-    @OneToOne(targetEntity = VerificationToken.class, fetch = FetchType.EAGER)
-    private VerificationToken verificationToken;
-    private Boolean enabled = false;
 
-    public User(String firstName, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
-                String phoneNumber,String address,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, String birthDate, boolean emailVerified,
-                VerificationToken verificationToken,Boolean enabled) {
-        this.firstName = firstName;
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<EquipmentBooking> equipmentBookings;
+
+
+    public User(String name, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
+                String phoneNumber,String adress,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate) {
+        this.firstName = name;
         this.lastName = lastName;
         this.email = email;
         this.equipmentBookings = equipmentBookings;
         this.profileImg =  profileImg;
         this.socialSecurityNumber = socialSecurityNumber;
         this.phoneNumber = phoneNumber;
-        this.address = address;
+        this.address = adress;
         this.createdDate = createdDate;
         this.updatedDate =updatedDate;
         this.password = password;
         this.birthDate = birthDate;
-        this.emailVerified = emailVerified;
-        this.verificationToken=verificationToken;
-        this.enabled = enabled;
 
     }
 
     public User() {
-    }
-    public User(String name, String email, String password) {
     }
 
     public Long getId() {
@@ -182,11 +170,11 @@ public class User {
         this.password = password;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -204,30 +192,6 @@ public class User {
 
     public void setRole(ERole role) {
         this.role = role;
-    }
-
-    public boolean isEmailVerified() {
-        return emailVerified;
-    }
-
-    public void setEmailVerified(boolean emailVerified) {
-        this.emailVerified = emailVerified;
-    }
-
-    public VerificationToken getVerificationToken() {
-        return verificationToken;
-    }
-
-    public void setVerificationToken(VerificationToken verificationToken) {
-        this.verificationToken = verificationToken;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
     }
 
     @Override

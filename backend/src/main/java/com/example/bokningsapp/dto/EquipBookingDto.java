@@ -3,35 +3,33 @@ package com.example.bokningsapp.dto;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class EquipBookingDto {
 
-
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @JoinColumn(name = "equipment_id", referencedColumnName = "id")
     private Equipment equipment;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate endDate;
+
     private BookingStatus bookingStatus;
+
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime pickUp;
+
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime dropOff;
-    private String equipBookedImg;
-
-    public EquipBookingDto(User user, Equipment equipment, LocalDate startDate, LocalDate endDate, BookingStatus bookingStatus, LocalTime pickUp, LocalTime dropOff, String equipBookedImg) {
-        this.user = user;
-        this.equipment = equipment;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.bookingStatus = bookingStatus;
-        this.pickUp = pickUp;
-        this.dropOff = dropOff;
-        this.equipBookedImg = equipBookedImg;
-    }
-
-    public EquipBookingDto() {
-    }
 
     public User getUser() {
         return user;
@@ -88,15 +86,6 @@ public class EquipBookingDto {
     public void setDropOff(LocalTime dropOff) {
         this.dropOff = dropOff;
     }
-
-    public String getEquipBookedImg() {
-        return equipBookedImg;
-    }
-
-    public void setEquipBookedImg(String equipBookedImg) {
-        this.equipBookedImg = equipBookedImg;
-    }
 }
-
 
 
