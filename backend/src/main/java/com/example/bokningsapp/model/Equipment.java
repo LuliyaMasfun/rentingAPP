@@ -4,6 +4,8 @@ import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 
 @Entity
     @Table(name="equipments")
@@ -25,23 +27,19 @@ import jakarta.persistence.*;
         @Column
         private int maxDaysToRent;
 
-        @Column(length = 1000)
+        @Column
         private String equipmentDescription;
 
         @Column
         private String equipmentBrand;
         @Column
-        @Enumerated(EnumType.STRING)
         private EquipmentType equipmentType;
         @Column
-        @Enumerated(EnumType.STRING)
         private EquipmentStatus equipmentStatus;
+        @Column
+        private boolean isAvailable;
 
-    @OneToOne
-    @JoinColumn(name = "equipment_booking_id")
-    private EquipmentBooking equipmentBooking;
-
-        public Equipment(String equipmentName, String equipmentLocation, String equipmentImg, int maxDaysToRent, String equipmentDescription, String equipmentBrand,  EquipmentType equipmentType, EquipmentStatus equipmentStatus) {
+        public Equipment(String equipmentName, String equipmentLocation, String equipmentImg, int maxDaysToRent, String equipmentDescription, String equipmentBrand,  EquipmentType equipmentType, EquipmentStatus equipmentStatus, boolean isAvailable) {
             this.equipmentName = equipmentName;
             this.equipmentLocation = equipmentLocation;
             this.equipmentImg = equipmentImg;
@@ -49,7 +47,8 @@ import jakarta.persistence.*;
             this.equipmentDescription = equipmentDescription;
             this.equipmentBrand = equipmentBrand;
             this.equipmentType = equipmentType;
-            this.equipmentStatus = EquipmentStatus.AVAILABLE;
+            this.equipmentStatus = equipmentStatus;
+            this.isAvailable = isAvailable;
         }
 
         public Equipment() {
@@ -120,28 +119,28 @@ import jakarta.persistence.*;
             this.equipmentStatus = equipmentStatus;
         }
 
-    public EquipmentBooking getEquipmentBooking() {
-        return equipmentBooking;
-    }
+        public boolean isAvailable(LocalDate startDate, LocalDate endDate) {
+            return isAvailable;
+        }
 
-    public void setEquipmentBooking(EquipmentBooking equipmentBooking) {
-        this.equipmentBooking = equipmentBooking;
-    }
+        public void setAvailable(boolean available) {
+            isAvailable = available;
+        }
 
-    @Override
-    public String toString() {
-        return "Equipment{" +
-                "id=" + id +
-                ", equipmentName='" + equipmentName + '\'' +
-                ", equipmentLocation='" + equipmentLocation + '\'' +
-                ", equipmentImg='" + equipmentImg + '\'' +
-                ", maxDaysToRent=" + maxDaysToRent +
-                ", equipmentDescription='" + equipmentDescription + '\'' +
-                ", equipmentBrand='" + equipmentBrand + '\'' +
-                ", equipmentType=" + equipmentType +
-                ", equipmentStatus=" + equipmentStatus +
-                '}';
+        @Override
+        public String toString() {
+            return "Equipment{" +
+                    "id=" + id +
+                    ", equipmentName='" + equipmentName + '\'' +
+                    ", equipmentLocation='" + equipmentLocation + '\'' +
+                    ", equipmentImg='" + equipmentImg + '\'' +
+                    ", maxDaysToRent=" + maxDaysToRent +
+                    ", equipmentDescription='" + equipmentDescription + '\'' +
+                    ", equipmentBrand='" + equipmentBrand + '\'' +
+                    ", equipmentType='" + equipmentType + '\'' +
+                    ", equipmentStatus='" + equipmentStatus + '\'' +
+                    '}';
+        }
     }
-}
 
 

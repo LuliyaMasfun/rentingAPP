@@ -2,11 +2,14 @@ package com.example.bokningsapp.controller;
 
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.dto.UpdatedEquipmentDto;
+import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.exception.BookingNotFoundException;
 import com.example.bokningsapp.exception.EquipmentNotAvailableException;
 import com.example.bokningsapp.model.EquipmentBooking;
-import com.example.bokningsapp.service.adminService.AdminService;
-import com.example.bokningsapp.service.bookingService.EquipBookingService;
+import com.example.bokningsapp.repository.EquipBookingRepo;
+import com.example.bokningsapp.service.AdminService;
+import com.example.bokningsapp.service.EquipBookingService;
+import com.example.bokningsapp.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +18,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@CrossOrigin(origins = "http://localhost:3000",maxAge = 3600)
 public class AdminController {
 
     private final AdminService adminService;
@@ -44,7 +48,7 @@ public class AdminController {
         }
     }
 
-   /* @GetMapping("/getBookingsByStatus")
+    @GetMapping("/getBookingsByStatus")
     public ResponseEntity<List<EquipmentBooking>> getAllBookings( @RequestParam(required = false) BookingStatus status) {
         List<EquipmentBooking> bookings;
         if(status == null) {
@@ -57,6 +61,4 @@ public class AdminController {
         }
         return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
-
-    */
 }

@@ -3,10 +3,12 @@ package com.example.bokningsapp.model;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
+import java.util.Date;
+import java.sql.Time;
 
 
 @Entity
@@ -28,13 +30,9 @@ public class EquipmentBooking {
     @Column
     private String equipBookedImg;
 
-    @ManyToMany
-    @JoinTable(
-            name = "equipment_booking_equipment",
-            joinColumns = @JoinColumn(name = "booking_id"),
-            inverseJoinColumns = @JoinColumn(name = "equipment_id")
-    )
-    private List<Equipment> equipment;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "equipment_id", referencedColumnName = "id")
+    private Equipment equipment;
     @Column
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
@@ -44,7 +42,6 @@ public class EquipmentBooking {
     private LocalDate endDate;
 
     @Column
-    @Enumerated(EnumType.STRING)
     private BookingStatus bookingStatus;
 
     @Column
@@ -56,13 +53,15 @@ public class EquipmentBooking {
     private LocalTime dropOff;
 
 
-    public EquipmentBooking(User user, String equipBookedImg,List <Equipment> equipment, LocalDate startDate, LocalDate endDate) {
+    public EquipmentBooking(User user, String equipBookedImg, Equipment equipment, LocalDate startDate, LocalDate endDate, BookingStatus bookingStatus, LocalTime pickUp, LocalTime dropOff) {
         this.user = user;
         this.equipBookedImg = equipBookedImg;
         this.equipment = equipment;
         this.startDate = startDate;
         this.endDate = endDate;
-
+        this.bookingStatus = bookingStatus;
+        this.pickUp = pickUp;
+        this.dropOff = dropOff;
     }
 
     public EquipmentBooking() {
@@ -132,13 +131,14 @@ public class EquipmentBooking {
         this.equipBookedImg = equipBookedImg;
     }
 
-    public List<Equipment> getEquipment() {
+    public Equipment getEquipment() {
         return equipment;
     }
 
-    public void setEquipment(List<Equipment> equipment) {
+    public void setEquipment(Equipment equipment) {
         this.equipment = equipment;
     }
+
 
     public User getUser() {return user;}
 
