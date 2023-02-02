@@ -1,5 +1,6 @@
 package com.example.bokningsapp.repository;
 
+import com.example.bokningsapp.dto.EquipBookingDto;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.enums.EquipmentType;
 import com.example.bokningsapp.model.EquipmentBooking;
@@ -16,6 +17,10 @@ public interface EquipBookingRepo extends JpaRepository <EquipmentBooking, Integ
 
     List<EquipmentBooking> findAllByBookingStatus(BookingStatus status);
     List<EquipmentBooking>findAll();
+    List<EquipmentBooking> findAllByEquipmentId(int equipmentId);
+    List <EquipmentBooking> findAllByStatus(BookingStatus bookingStatus);
+
+    EquipmentBooking save(EquipBookingDto equipBookingDto);
 
     @Query
             ("SELECT b FROM EquipmentBooking b WHERE b.equipment.id = :equipmentId and b.bookingStatus = :bookingStatus")

@@ -2,7 +2,7 @@ package com.example.bokningsapp.controller;
 
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
-import com.example.bokningsapp.service.UserService;
+import com.example.bokningsapp.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

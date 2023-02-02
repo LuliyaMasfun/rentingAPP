@@ -16,19 +16,58 @@ const API_URL = 'http://localhost:8080/users'
 const EquipmentDefault = () => {
 
     const [data, setData] = useState([])
+    const [filterValue, setFilterValue] = useState("all")
+    const [isLoading, setIsLoading] = useState(true)
 
     console.log(Axios.get(API_URL).then(res => {
         console.log(res.data)
     }).then(err => console.log(err)))
 
     useEffect(() => {
-        Axios.get(API_URL).then(res => {
-            console.log(`res.data is => ${res.data}`)
-            setData(res.data)
-        }).catch(
-            err => console.log(err)
-        )
-    }, []);
+        const fetchData = async () => {
+            try {
+                const response = await Axios.get(API_URL, {
+                    headers: "Access-Control-Allow-Origin: *"
+                })
+                console.log(response.data)
+                const info = response.data
+                setData(info)
+                setIsLoading(false)
+            } catch (error) {
+                if (error.response) {
+                    console.log(error.response.data)
+                    console.log(error.response.status)
+                    console.log(error.response.headers)
+                }
+                else {
+                    console.log(`Error: ${error.message}`)
+                }
+
+            }
+        }
+        fetchData()
+
+    }, [])
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
+
+    const checkType = (obj) => {
+
+        if (obj.equipmentType == "CAMERA") {
+            return camera;
+        } else if (obj.equipmentType == "LIGHT") {
+            return light;
+        } else {
+            return sound;
+        }
+    }
+
+    const onFilterValueSelected = (filterValue) => {
+        setFilterValue(filterValue)
+
+    }
 
 
 

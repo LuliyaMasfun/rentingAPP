@@ -1,6 +1,7 @@
 package com.example.bokningsapp.service.bookingService;
 
 
+import com.example.bokningsapp.dto.EquipBookingDto;
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.enums.EquipmentStatus;
@@ -76,11 +77,11 @@ public class EquipBookingServiceImpl implements EquipBookingService {
 
     @Override
     @Transactional
-    public EquipmentBooking createBooking(EquipmentBooking equipmentBooking) {
-        User user = userRepository.findById(equipmentBooking.getUser().getId())
-                .orElseThrow(() -> new UserNotFoundException("User not found with id " + equipmentBooking.getUser().getId()));
+    public EquipmentBooking createBooking(EquipBookingDto equipBookingDto) {
+        User user = userRepository.findById(equipBookingDto.getUser().getId())
+                .orElseThrow(() -> new UserNotFoundException("User not found with id " + equipBookingDto.getUser().getId()));
 
-        List<Equipment> equipmentList = equipmentBooking.getEquipment();
+        List<Equipment> equipmentList = equipBookingDto.getEquipment();
         for (Equipment equipment : equipmentList) {
             Equipment foundEquipment = equipmentRepo.findById(equipment.getId())
                     .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found with id " + equipmentRepo.findById(equipment.getId())));
@@ -88,8 +89,8 @@ public class EquipBookingServiceImpl implements EquipBookingService {
             throw new EquipmentNotAvailableException("Equipment is not available for booking");
         }
         }
-        LocalDate startDate = equipmentBooking.getStartDate();
-        LocalDate endDate =  equipmentBooking.getEndDate();
+        LocalDate startDate = equipBookingDto.getStartDate();
+        LocalDate endDate =  equipBookingDto.getEndDate();
         Duration duration = Duration.between(startDate,endDate);
         long days = duration.toDays();
         if (days > 2) {
@@ -100,24 +101,24 @@ public class EquipBookingServiceImpl implements EquipBookingService {
                 throw new IllegalArgumentException("Invalid choice of Date");
             }
         }
-        equipmentBooking.setUser(equipmentBooking.getUser());
-        equipmentBooking.setEquipment(equipmentBooking.getEquipment());
-        equipmentBooking.setStartDate(equipmentBooking.getStartDate());
-        equipmentBooking.setEndDate(equipmentBooking.getEndDate());
+        equipBookingDto.setUser(equipBookingDto.getUser());
+        equipBookingDto.setEquipment(equipBookingDto.getEquipment());
+        equipBookingDto.setStartDate(equipBookingDto.getStartDate());
+        equipBookingDto.setEndDate(equipBookingDto.getEndDate());
 
-        equipBookingRepo.save(equipmentBooking);
+       EquipmentBooking booking = equipBookingRepo.save(equipBookingDto);
         for (Equipment equipment : equipmentList) {
             equipment.setEquipmentStatus(EquipmentStatus.UNAVAILABLE);
             equipmentRepo.save(equipment);
         }
-        return equipmentBooking;
+        return booking;
     }
 
     private boolean isOverlapping(LocalDate startDate, LocalDate endDate, int equipmentId) {
         Equipment equipment = equipmentRepo.findById(equipmentId)
                 .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found"));
 
-        List<EquipmentBooking> equipmentBookings = equipBookingRepo.findByEquipmentIdAndBookingStatus(equipmentId, BookingStatus.APPROVED);
+        List<EquipmentBooking> equipmentBookings = equipBookingRepo.findAllByEquipmentIdAndBookingStatus(equipmentId, BookingStatus.APPROVED);
         for (EquipmentBooking equipmentBooking : equipmentBookings) {
             if (startDate.isBefore(equipmentBooking.getEndDate()) && endDate.isAfter(equipmentBooking.getStartDate())) {
                 return false;

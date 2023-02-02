@@ -39,6 +39,11 @@ import java.time.LocalDate;
         @Column
         private boolean isAvailable;
 
+    @ManyToOne
+    @JoinColumn(name = "equipment_booking_id", referencedColumnName = "bookingId")
+        private EquipmentBooking equipmentBooking;
+
+
         public Equipment(String equipmentName, String equipmentLocation, String equipmentImg, int maxDaysToRent, String equipmentDescription, String equipmentBrand,  EquipmentType equipmentType, EquipmentStatus equipmentStatus, boolean isAvailable) {
             this.equipmentName = equipmentName;
             this.equipmentLocation = equipmentLocation;
@@ -127,7 +132,15 @@ import java.time.LocalDate;
             isAvailable = available;
         }
 
-        @Override
+    public EquipmentBooking getEquipmentBooking() {
+        return equipmentBooking;
+    }
+
+    public void setEquipmentBooking(EquipmentBooking equipmentBooking) {
+        this.equipmentBooking = equipmentBooking;
+    }
+
+    @Override
         public String toString() {
             return "Equipment{" +
                     "id=" + id +
