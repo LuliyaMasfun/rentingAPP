@@ -19,10 +19,4 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    @Bean
-    @Primary
-    public BCryptPasswordEncoder bCryptPasswordEncoder1() {
-        return new BCryptPasswordEncoder();
-    }
-
 }

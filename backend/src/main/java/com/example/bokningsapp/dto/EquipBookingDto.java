@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class EquipBookingDto {
 
@@ -15,7 +16,7 @@ public class EquipBookingDto {
     private User user;
 
     @JoinColumn(name = "equipment_id", referencedColumnName = "id")
-    private Equipment equipment;
+    private List<Equipment> equipment;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
@@ -39,11 +40,11 @@ public class EquipBookingDto {
         this.user = user;
     }
 
-    public Equipment getEquipment() {
+    public List<Equipment> getEquipment() {
         return equipment;
     }
 
-    public void setEquipment(Equipment equipment) {
+    public void setEquipment(List<Equipment> equipment) {
         this.equipment = equipment;
     }
 

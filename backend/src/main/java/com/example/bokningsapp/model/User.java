@@ -2,6 +2,7 @@ package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.AccountStatus;
 import com.example.bokningsapp.enums.ERole;
+import com.example.bokningsapp.token.VerificationToken;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
@@ -46,20 +47,25 @@ public class User {
     private String password;
 
     @Column
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
     @Column
     private AccountStatus accountStatus;
     @Column
     private ERole role;
-
-
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<EquipmentBooking> equipmentBookings;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "verification_token_id", referencedColumnName = "id")
+    private VerificationToken verificationToken;
+
+    @Column
+    private boolean enabled;
+
 
     public User(String name, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
-                String phoneNumber,String adress,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate) {
+                String phoneNumber,String adress,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate, VerificationToken verificationToken, boolean enabled) {
         this.firstName = name;
         this.lastName = lastName;
         this.email = email;
@@ -72,6 +78,8 @@ public class User {
         this.updatedDate =updatedDate;
         this.password = password;
         this.birthDate = birthDate;
+        this.verificationToken = verificationToken;
+        this.enabled = enabled;
 
     }
 
@@ -192,6 +200,22 @@ public class User {
 
     public void setRole(ERole role) {
         this.role = role;
+    }
+
+    public VerificationToken getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(VerificationToken verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override
