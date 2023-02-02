@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.sql.Time;
+import java.util.List;
 
 
 @Entity
@@ -30,9 +31,9 @@ public class EquipmentBooking {
     @Column
     private String equipBookedImg;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="equipment_bookings", cascade = CascadeType.ALL)
     @JoinColumn(name = "equipment_id", referencedColumnName = "id")
-    private Equipment equipment;
+    private List<Equipment> equipment;
     @Column
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
@@ -53,7 +54,7 @@ public class EquipmentBooking {
     private LocalTime dropOff;
 
 
-    public EquipmentBooking(User user, String equipBookedImg, Equipment equipment, LocalDate startDate, LocalDate endDate, BookingStatus bookingStatus, LocalTime pickUp, LocalTime dropOff) {
+    public EquipmentBooking(User user, String equipBookedImg, LocalDate startDate, LocalDate endDate, BookingStatus bookingStatus, LocalTime pickUp, LocalTime dropOff, List<Equipment> equipment) {
         this.user = user;
         this.equipBookedImg = equipBookedImg;
         this.equipment = equipment;
@@ -131,14 +132,13 @@ public class EquipmentBooking {
         this.equipBookedImg = equipBookedImg;
     }
 
-    public Equipment getEquipment() {
+    public List<Equipment> getEquipment() {
         return equipment;
     }
 
-    public void setEquipment(Equipment equipment) {
+    public void setEquipment(List<Equipment> equipment) {
         this.equipment = equipment;
     }
-
 
     public User getUser() {return user;}
 

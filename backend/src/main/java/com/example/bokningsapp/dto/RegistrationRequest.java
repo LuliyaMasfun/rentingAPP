@@ -8,11 +8,11 @@ public class RegistrationRequest {
     private String email;
     private String password;
     private String phoneNumber;
-    private String birthDate;
+    private LocalDate birthDate;
     private String address;
 
 
-    public RegistrationRequest(String firstName, String lastName, String email, String password, String phoneNumber, String birthDate, String address) {
+    public RegistrationRequest(String firstName, String lastName, String email, String password, String phoneNumber, LocalDate birthDate, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -62,11 +62,11 @@ public class RegistrationRequest {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

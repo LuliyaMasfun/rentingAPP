@@ -1,14 +1,16 @@
-
 import React, { useState } from 'react'
 import styled from "@emotion/styled";
-import { useHistory } from 'react-router-dom';
+import Link  from 'next/link';
+import Image from 'next/image';
+import bankid from "../../public/bankidIcon.png"
 
 const Page = styled.div`
   height: 100vh;
-  background-image: url('/bgImgSignUp.png');
+  background-image: url('/bgLogin.png');
   background-size: cover;
   background-position: center;
   background-color: #1E1E1E;
+  width: auto;
 `;
 
 const Title = styled.h1`
@@ -51,7 +53,6 @@ const InputEmail = styled.input`
   ::placeholder {
     color: #fff;
 `;
-
 const InputPassword = styled.input`
  position: absolute;
  margin-top: 100px;
@@ -64,23 +65,24 @@ const InputPassword = styled.input`
   ::placeholder {
     color: #fff;
 `;
-const ForgotPasswordLink = styled.a`
+const ForgotPasswordLink = styled.p`
 position: absolute;
-margin-top: 20vh;
-margin-left: 20vh;
+margin-top: 36.5vh;
+margin-left: 7vh;
 font-size: 12px;
 text-decoration: underline;
 cursor: pointer;
 color: #FFFFFF;
 &:hover {
-  color: #777;
+color: #777;
 }
 `;
 
 const ButtonLogin = styled.button`
 position: absolute;
  border: none;
- margin-top: 350px;
+ margin-top: 390px;
+margin-left: -135px;
   padding: 10px;
   width: 275px;
   background-color:white;
@@ -90,7 +92,35 @@ position: absolute;
   border-radius: 5px;
   box-shadow: 0px 3px rgba(0, 0, 0, 0.3);
 `;
-
+const Border1 = styled.div`
+display: flex;
+flex-direction: row;
+  height: 0px;
+  width: 100px;
+  border: 1px solid white;
+  margin-left: -20vh;
+  margin-top: 55vh;
+  opacity: 0.5;
+`;
+const Or = styled.p`
+display: flex;
+flex-direction: row;
+color: white;
+margin-left: 0vh;
+margin-top: -1vh;
+font-weight: 300;
+font-size: 14px;
+`;
+const Border2 = styled.div`
+display: flex;
+flex-direction: row;
+height: 0px;
+width: 100px;
+border: 1px solid white;
+margin-left: 20vh;
+margin-top: -2.8vh;
+opacity: 0.5;
+`;
 const ButtonBankid = styled.div`
 position:absolute;
 border: 1px solid white;
@@ -105,53 +135,25 @@ border: 1px solid white;
   text-align: center;
 
 `;
-const Border1 = styled.div`
-display: flex;
-flex-direction: row;
-  height: 0px;
-  width: 100px;
-  border: 1px solid white;
-  margin-left: -20vh;
-  margin-top: 55vh;
-  opacity: 0.5;
-
+const BankIdImg = styled(Image)`
+position:absolute;
+width: 25px;
+height: 19px;
+margin-left: -3.5vh;
+margin-top: 0.3vh;
 `;
-const Or = styled.p`
-display: flex;
-flex-direction: row;
-color: white;
-margin-left: 0vh;
-margin-top: -1vh;
-font-weight: 300;
-font-size: 14px;
-
-`;
-const Border2 = styled.div`
-display: flex;
-flex-direction: row;
-height: 0px;
-width: 100px;
-border: 1px solid white;
-margin-left: 20vh;
-margin-top: -2.8vh;
-opacity: 0.5;
-`;
-
 const UnderlinedText = styled.span`
   text-decoration: underline;
 `;
 
-
 const SignUp = styled.span`
 position:absolute;
-margin-top: 75vh;
+margin-top: 10vh;
 font-weight: 300;
 font-size: 12px;
 color: white;
-
+margin-left: -10vh;
 `;
-
-
 
 
 
@@ -169,15 +171,8 @@ const Login = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     console.log(formData)
-    // Add code to send the form data to the server and authenticate the user
+    // Add code to send the form data to the server and authenticate user
   }
-
-  /*const history = useHistory();
-
-  function handleForgotPassword() {
-    history.push('/reset-password');
-  }
-*/
 
 
   return (
@@ -201,18 +196,30 @@ const Login = () => {
           value={formData.password}
           onChange={handleChange}
         />
-        <ForgotPasswordLink /*onClick={handleForgotPassword}*/>
+        <Link  href={{
+      pathname: "/resetPassword"}}> 
+        <ForgotPasswordLink>
           Forgot password
         </ForgotPasswordLink>
+        </Link>
 
+        <Link  href={{
+      pathname: "/resetPassword"}}>
         <ButtonLogin type="submit">Log in</ButtonLogin>
+        </Link>
         <Border1 />
         <Or>or</Or>
         <Border2 />
-        <ButtonBankid type="submit">Log in with Bank id</ButtonBankid>
-        <SignUp /*onClick={handleSignUp}*/>
+        <ButtonBankid type="submit"> <BankIdImg src={bankid}></BankIdImg>
+          Log in with Bank id
+        </ButtonBankid>
+
+        <Link  href={{
+      pathname: "/index"}}>
+        <SignUp>
           Dont have an account? <UnderlinedText>Sign up</UnderlinedText>
         </SignUp>
+        </Link>
       </Form>
     </Page>
   )
