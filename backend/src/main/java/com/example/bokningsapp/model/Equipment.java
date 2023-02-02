@@ -36,15 +36,13 @@ import java.time.LocalDate;
         private EquipmentType equipmentType;
         @Column
         private EquipmentStatus equipmentStatus;
-        @Column
-        private boolean isAvailable;
 
-    @ManyToOne
-    @JoinColumn(name = "equipment_booking_id", referencedColumnName = "bookingId")
-        private EquipmentBooking equipmentBooking;
+    @OneToOne
+    @JoinColumn(name = "equipment_booking_id")
+    private EquipmentBooking equipmentBooking;
 
 
-        public Equipment(String equipmentName, String equipmentLocation, String equipmentImg, int maxDaysToRent, String equipmentDescription, String equipmentBrand,  EquipmentType equipmentType, EquipmentStatus equipmentStatus, boolean isAvailable) {
+        public Equipment(String equipmentName, String equipmentLocation, String equipmentImg, int maxDaysToRent, String equipmentDescription, String equipmentBrand,  EquipmentType equipmentType, EquipmentStatus equipmentStatus) {
             this.equipmentName = equipmentName;
             this.equipmentLocation = equipmentLocation;
             this.equipmentImg = equipmentImg;
@@ -53,7 +51,6 @@ import java.time.LocalDate;
             this.equipmentBrand = equipmentBrand;
             this.equipmentType = equipmentType;
             this.equipmentStatus = equipmentStatus;
-            this.isAvailable = isAvailable;
         }
 
         public Equipment() {
@@ -122,14 +119,6 @@ import java.time.LocalDate;
 
         public void setEquipmentStatus(EquipmentStatus equipmentStatus) {
             this.equipmentStatus = equipmentStatus;
-        }
-
-        public boolean isAvailable(LocalDate startDate, LocalDate endDate) {
-            return isAvailable;
-        }
-
-        public void setAvailable(boolean available) {
-            isAvailable = available;
         }
 
     public EquipmentBooking getEquipmentBooking() {

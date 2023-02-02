@@ -276,6 +276,7 @@ const SignUp = () => {
           Sign Up
         </ButtonSignUp>
 
+<<<<<<< HEAD
         {/* <Link href={{
           pathname: "/Login"
         }}>
@@ -288,3 +289,47 @@ const SignUp = () => {
   );
 };
 export default SignUp;
+=======
+                <InputPhonenumber
+                    type="email"
+                    name="email"
+                    placeholder="Phonenumber"
+                    value={formData.email}
+                    onChange={handleChange}
+                    css={{ color: 'hotpink' }}
+                />
+                <InputBirthdate
+                    type="email"
+                    name="email"
+                    placeholder="Birthdate"
+                    value={formData.email}
+                    onChange={handleChange}
+                    css={{ color: 'hotpink' }}
+                />
+                <InputPassword
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                />
+
+                <Link href={{
+                    pathname: "/Equipments"
+                }}>
+                    <ButtonSignUp type="submit">Sign Up</ButtonSignUp>
+                </Link>
+                
+                <Link href={{
+                    pathname: "/Login"
+                }}>
+                    <Login>
+                        Already have an account? <UnderlinedText>Log in</UnderlinedText>
+                    </Login>
+                </Link>
+            </Form>
+        </Page>
+    )
+}
+export default SignUp;
+>>>>>>> 346b79da2bc6570016fd8950a4486b5e631fab4d
