@@ -5,7 +5,8 @@ import com.example.bokningsapp.service.registrationService.RegistrationService;
 import com.example.bokningsapp.token.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+@RestController
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class RegistrationController {
     private final RegistrationService registrationService;
     @Autowired
@@ -15,7 +16,7 @@ public class RegistrationController {
 
 
     @PostMapping("/signup")
-    public VerificationToken register(@RequestBody RegistrationRequest request) {
+    public String register(@RequestBody RegistrationRequest request) {
         return registrationService.registerUser(request);
     }
 

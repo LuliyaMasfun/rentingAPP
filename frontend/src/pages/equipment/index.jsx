@@ -1,8 +1,11 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "../../components/Navbar";
 import Axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import FilterProduct from "../../components/FilterProduct";
+import camera from "../../../public/CAMERA.png";
+import light from "../../../public/LIGHT.png";
+import sound from "../../../public/SOUND.png";
 
 const API_URL = "http://localhost:8080/allEquipment";
 
@@ -60,27 +63,28 @@ const EquipmentDefault = () => {
   };
 
   return (
-    <main className="min-h-screen flex-grow">
+    <div>
       <Navbar />
-
-      <FilterProduct filterValueSelected={onFilterValueSelected} />
-      <div className="flex border-8 m-8">
-        {data.map((item) => (
-          <div key={item.id}>
-            <h2>{item.name}</h2>
-            <Image
-              alt="pic"
-              src={checkType(item)}
-              width={100}
-              height={100}
-              quality={100}
-            />
-            <h2> {item.last_name}</h2>
-            <p>{item.email}</p>
-          </div>
-        ))}
-      </div>
-    </main>
+      <main className="min-h-screen flex-grow">
+        <FilterProduct filterValueSelected={onFilterValueSelected} />
+        <div className="flex border-8 m-8">
+          {data.map((item) => (
+            <div key={item.id}>
+              <h2>{item.name}</h2>
+              <Image
+                alt="pic"
+                src={checkType(item)}
+                width={100}
+                height={100}
+                quality={100}
+              />
+              <h2> {item.last_name}</h2>
+              <p>{item.email}</p>
+            </div>
+          ))}
+        </div>
+      </main>
+    </div>
   );
 };
 export default EquipmentDefault;

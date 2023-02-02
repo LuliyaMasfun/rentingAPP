@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class AdminController {
 
     private final AdminService adminService;
@@ -34,7 +35,7 @@ public class AdminController {
         this.equipBookingRepo = equipBookingRepo;
     }
 
-    @PutMapping("/handleBooking/{id}")
+ /*   @PutMapping("/handleBooking/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<EquipmentBooking> handleBookingRequest(@PathVariable int id, @RequestBody UpdatedEquipBookingDto updatedEquipmentBookingDto, UpdatedEquipmentDto updatedEquipmentDto){
         try {
@@ -62,4 +63,5 @@ public class AdminController {
         }
         return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
+    */
 }

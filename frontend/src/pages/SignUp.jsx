@@ -268,23 +268,21 @@ const SignUp = () => {
           required
         />
 
-        {/* <Link href={{
-          pathname: "/resetPassword"
+        <Link href={{
+          pathname: "/Equipments"
         }}>
-        </Link> */}
-        <ButtonSignUp onClick={handleSubmit} type="submit">
-          Sign Up
-        </ButtonSignUp>
+          <ButtonSignUp type="submit">Sign Up</ButtonSignUp>
+        </Link>
 
-        {/* <Link href={{
+        <Link href={{
           pathname: "/Login"
         }}>
           <Login>
             Already have an account? <UnderlinedText>Log in</UnderlinedText>
           </Login>
-        </Link> */}
+        </Link>
       </Form>
     </Page>
-  );
-};
+  )
+}
 export default SignUp;
