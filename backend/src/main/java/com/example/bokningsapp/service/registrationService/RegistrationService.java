@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Service
 public interface RegistrationService {
-    public VerificationToken registerUser(RegistrationRequest registrationRequest);
+    public String registerUser(RegistrationRequest registrationRequest);
     public String encryptPassword(String password);
     public Date calculateExpiryDate(int expiryTimeInMinutes);
     public String confirmToken(String token);

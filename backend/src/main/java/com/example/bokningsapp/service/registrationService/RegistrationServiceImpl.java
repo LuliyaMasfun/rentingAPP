@@ -15,6 +15,7 @@ import com.example.bokningsapp.validator.RegistrationRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -45,12 +46,11 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.userService = userService;
         this.emailSender = emailSender;
     }
-
-
     @Override
-    public VerificationToken registerUser(RegistrationRequest registrationRequest) {
+    public String registerUser(RegistrationRequest registrationRequest) {
 
-     /*   boolean isFirstNameValid = registrationRequestValidator.validateFirstName(registrationRequest.getFirstName());
+        //validate registration request
+        boolean isFirstNameValid = registrationRequestValidator.validateFirstName(registrationRequest.getFirstName());
         boolean isLastNameValid = registrationRequestValidator.validateLastName(registrationRequest.getLastName());
         boolean isEmailValid = registrationRequestValidator.validateEmail(registrationRequest.getEmail());
         boolean isPasswordValid = registrationRequestValidator.validatePassword(registrationRequest.getPassword());
@@ -75,7 +75,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (!isPhoneNumberValid) {
             throw new IllegalStateException("Phone number is not valid");
         }
-*/
+        //create user
         User user = new User();
         user.setFirstName(registrationRequest.getFirstName());
         user.setLastName(registrationRequest.getLastName());
@@ -85,19 +85,31 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setAddress(registrationRequest.getAddress());
         user.setPhoneNumber(registrationRequest.getPhoneNumber());
         user.setRole(ERole.ROLE_USER);
-
         User registeredUser = userRepository.save(user);
-        VerificationToken verificationToken = new VerificationToken();
+
+        //create token
+        String token = UUID.randomUUID().toString();
+        Date expire = calculateExpiryDate(60 * 24);
+        VerificationToken verificationToken = new VerificationToken(
+                token,
+                registeredUser,
+                expire,
+                LocalDateTime.now()
+          // expires in 24 hours
+        );
+
+        verificationToken.setExpiryDate(expire);
+        verificationToken.setToken(token);
         verificationToken.setUser(registeredUser);
-        verificationToken.setToken(UUID.randomUUID().toString());
-        verificationToken.setExpiryDate(calculateExpiryDate(60 * 24)); // expires in 24 hours
         verificationTokenRepo.save(verificationToken);
 
+        //Send email
         String link = "http://localhost:8080/confirmAccount?token=" + registeredUser.getVerificationToken();
         emailSender.sendVerificationEmail(
                 registeredUser.getEmail(),
                 buildEmail(registeredUser.getFirstName(), link));
-        return verificationToken;
+
+        return token;
     }
 
     @Override
@@ -109,7 +121,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (token == null) {
             throw new IllegalStateException("Invalid token");
         }
-
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             throw new IllegalStateException("Token has expired");
@@ -118,7 +129,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         userService.enableUser(
                 verificationToken.getUser().getEmail());
         return "confirmed";
-
     }
 
     @Override

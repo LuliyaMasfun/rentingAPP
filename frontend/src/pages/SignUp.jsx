@@ -242,7 +242,7 @@ const SignUp = () => {
                 />
 
                 <Link href={{
-                    pathname: "/resetPassword"
+                    pathname: "/Equipments"
                 }}>
                     <ButtonSignUp type="submit">Sign Up</ButtonSignUp>
                 </Link>

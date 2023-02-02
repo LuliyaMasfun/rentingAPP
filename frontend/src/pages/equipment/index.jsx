@@ -2,7 +2,7 @@ import Navbar from '@/components/Navbar'
 import Axios from 'axios'
 import { useEffect, useState } from 'react'
 
-const API_URL = 'http://localhost:8080/users'
+ const API_URL = 'http://localhost:8080/users'
 
 // Hur man kan hämta data från en API genom ASYNC & AWAIT och sedan använda den i en funktion
 // const getData = async () => {
@@ -10,9 +10,6 @@ const API_URL = 'http://localhost:8080/users'
 //     const info = response.data.map((data) => allEquipments((data.name)))
 //     return info
 // }
-
-
-
 const EquipmentDefault = () => {
 
     const [data, setData] = useState([])
@@ -52,4 +49,4 @@ const EquipmentDefault = () => {
 
     )
 }
-export default EquipmentDefault
+export default EquipmentDefault 
