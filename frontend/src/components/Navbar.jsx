@@ -10,10 +10,10 @@ const Navbar = () => {
 
             <nav className="navbar-wrapper flex flex-row w-full h-50 mx-auto">
 
-                <div className="flex flex-row w-full px-10 py-10 justify-between mx-auto">
+                <div className="flex-row w-full px-10 py-10 justify-between mx-auto inline-flex">
                     <div className="flex flex-row pl-5 w-1/2 mr-16">
                         <Image alt="drop down logga" src={dropdown} width={100} height={100} className />
-                        <Image alt="Changers logga" src={changers} width={100} height={100} className="mx-10" />
+                        <Image alt="Changers logga" src={changers} width={200} height={200} className="mx-10" />
                     </div>
 
                     <div className="flex flex-row w-1/2 pr-5 justify-end mx-auto">
