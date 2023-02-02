@@ -169,7 +169,7 @@ const Login = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     console.log(formData)
-    // Add code to send the form data to the server and authenticate the user
+    // Add code to send the form data to the server and authenticate user
   }
 
   /*const history = useHistory();
