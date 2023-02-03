@@ -9,6 +9,7 @@ import Link from 'next/link';
 import light from "../../public/aputure.png";
 import sound from "../../public/rode.png";
 import camera from "../../public/canon.png";
+import Footer from "../components/Footer";
 
 
 const Page = styled.div`
@@ -22,8 +23,8 @@ const Page = styled.div`
 const PageTitle = styled.h1`
 position: absolute;
 font-size: 20px;
-font-weight: 600;
-margin-top: 55px;
+font-weight: 800;
+margin-top: 60px;
 margin-left: 35px;
 color: white;
 `;
@@ -100,6 +101,14 @@ margin-left: -30vh;
 color:white;
 `;
 
+const IconButton = styled.button`
+position: absolute;
+z-index:3;
+margin-top: 30px;
+margin-left: -30vh;
+
+`;
+
 const Border = styled.hr`
 position: absolute;
 z-index:2;
@@ -155,17 +164,15 @@ const EquipmentPage = () => {
     setFilter(type);
   };
 
+
   const filteredEquipment = data.filter((item) => {
     if (filter === 'all') {
       return data;
-    } else {
-      return data.equipmentType === filter.toUpperCase()
-    }
+    } return item.type === filter;
+
   });
 
-
   const checkType = (imageType) => {
-
     if (imageType.equipmentType == "CAMERA") {
       return camera;
     } else if (imageType.equipmentType == "LIGHT") {
@@ -174,6 +181,8 @@ const EquipmentPage = () => {
       return sound;
     }
   }
+
+
 
 
   return (
@@ -201,6 +210,7 @@ const EquipmentPage = () => {
           </Card>
         ))}
       </Container>
+      <Footer />
     </Page>
   );
 };
