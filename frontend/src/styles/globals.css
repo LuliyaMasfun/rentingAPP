@@ -20,11 +20,11 @@ a {
 }
 
 #_next {
-   
+
   display: grid;
-  grid-auto-flow: row ;
+  grid-auto-flow: row;
   grid-auto-rows: 10%;
-  grid-template-columns: unset; 
+  grid-template-columns: unset;
   grid-template-rows: unset;
   scroll-behavior: smooth;
 

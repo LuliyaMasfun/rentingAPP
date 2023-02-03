@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
         }
         // encrypt the password
         user.setPassword(encryptPassword(user.getPassword()));
-
         return userRepository.save(user);
     }
 

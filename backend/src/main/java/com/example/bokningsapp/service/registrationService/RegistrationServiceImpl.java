@@ -54,7 +54,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         boolean isLastNameValid = registrationRequestValidator.validateLastName(registrationRequest.getLastName());
         boolean isEmailValid = registrationRequestValidator.validateEmail(registrationRequest.getEmail());
         boolean isPasswordValid = registrationRequestValidator.validatePassword(registrationRequest.getPassword());
-        boolean isAddressValid = registrationRequestValidator.validateAddress(registrationRequest.getAddress());
+       // boolean isAddressValid = registrationRequestValidator.validateAddress(registrationRequest.getAddress());
         boolean isPhoneNumberValid = registrationRequestValidator.validatePhoneNumber(registrationRequest.getPhoneNumber());
 
         if (!isFirstNameValid) {
@@ -69,9 +69,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (!isEmailValid) {
             throw new IllegalStateException("Email is not valid");
         }
-        if (!isAddressValid) {
-            throw new IllegalStateException("Adress is not valid");
-        }
+      //  if (!isAddressValid) {
+      //      throw new IllegalStateException("Adress is not valid");
+      //  }
         if (!isPhoneNumberValid) {
             throw new IllegalStateException("Phone number is not valid");
         }

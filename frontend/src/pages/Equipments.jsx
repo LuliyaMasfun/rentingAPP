@@ -5,106 +5,205 @@ import Router from 'next/router';
 import { FaRegBookmark, FaMapMarkerAlt } from "react-icons/fa";
 import styled from "@emotion/styled";
 import Image from 'next/image';
+import Link from 'next/link';
+import light from "../../public/aputure.png";
+import sound from "../../public/rode.png";
+import camera from "../../public/canon.png";
 
-const Background = styled(Image)`
-position:absolute;
 
+const Page = styled.div`
+  position: absolute;
+  height: 1384px;
+  width: 390px;
+  background-color: #1E1E1E;
+  margin:0;
 `;
 
-const CardTitle = styled.p`
-color:blue;
-font-size: 14px;
+const PageTitle = styled.h1`
 position: absolute;
+font-size: 20px;
+font-weight: 600;
+margin-top: 55px;
+margin-left: 35px;
+color: white;
 `;
 
-const Location = styled.p`
-color: black;
+const ViewAll = styled.button`
+position:absolute;
+margin-top: 110px;
+margin-left: 35px;
+width: 70px;
+color:white;
+font-size: 12px;
+background-color: transparent;
+border: solid  1px white;
+border-radius: 5px;
+
+`;
+const SoundFilter = styled.button`
+position:absolute;
+margin-top: 110px;
+margin-left: 115px;
+width: 70px;
+color:white;
+font-size: 12px;
+background-color: transparent;
+border: solid  1px white;
+border-radius: 5px;
+`;
+const LightFilter = styled.button`
+position:absolute;
+margin-top: 110px;
+margin-left: 195px;
+width: 70px;
+color:white;
+font-size: 12px;
+background-color: transparent;
+border: solid  1px white;
+border-radius: 5px;
+`;
+const CameraFilter = styled.button`
+position:absolute;
+margin-top: 110px;
+margin-left: 275px;
+width: 70px;
+color:white;
+font-size: 12px;
+background-color: transparent;
+border: solid  1px white;
+border-radius: 5px;
+`;
+
+const Container = styled.div`
+margin-top: 170px;
+ display: flex;
+  flex-direction: column;
+`;
+const Card = styled.div`
+position absolute;
+margin-bottom: 275px;
+display: flex;
+flex-direction: row;
+justify-content: center;
+
+`;
+const EquipmentImage = styled(Image)`
+position: absolute;
+z-index: 0;
 `;
 
 const BookmarkIcon = styled(FaRegBookmark)`
-position: absolute
+position: absolute;
+z-index:2;
+margin-top: 30px;
+margin-left: -30vh;
+color:white;
 `;
 
-const LocationIcon = styled(FaMapMarkerAlt)``;
+const Border = styled.hr`
+position: absolute;
+z-index:2;
+border: 1px solid white;
+width: 326px;
+margin-top: 23vh;
+`;
 
-const Card = ({ equipment_name, equipment_img, equipment_location, id }) => (
-  <div>
+const Name = styled.p`
+position: absolute;
+z-index:2;
+margin-top: 20vh;
+margin-left: -15vh;
+font-size: 16px;
+font-weight: 700;
+color: white;
+width: 160px;
+`;
 
-    <Background style={{ backgroundImage: `url(${equipment_img})` }} onClick={() => Router.push(`/item?id=${id}`)} />
-    <BookmarkIcon />
-    <CardTitle>{equipment_name}</CardTitle>
-    <LocationIcon />
-    <Location>{equipment_location}</Location>
-  </div>
-);
+const LocationIcon = styled(FaMapMarkerAlt)`
+position: absolute;
+z-index:2;
+margin-top: 24vh;
+margin-left: -32vh;
+color: white;
+`;
+const LocationTxt = styled.p`
+position: absolute;
+z-index:2;
+margin-top: 23.6vh;
+margin-left: -16vh;
+color:white;
+`;
 
-const EquipmentsPage = ({ items }) => {
-  return (
-    <div>
-      {items.map((item) => (
-        <Card key={item.id}
-          equipment_name={item.equipment_name}
-          equipment_img={item.equipment_img}
-          equipment_location={item.equipment_location}
-          id={item.id}
-
-        />
-      ))}
-    </div>
-  );
-};
-
-EquipmentsPage.getInitialProps = async () => {
-  try {
-    const res = await axios.get('http://localhost:8080/allEquipment');
-    console.log(items);
-    return { items: res.data };
-  } catch (error) {
-    console.error(error);
-  }
-  console.log(res.data);
-  console.log(items);
-};
-
-export default EquipmentsPage;
-
-
-
-/*const API_URL = "http://localhost:8080/allEquipment";
-
-const EquipmentDefault = () => {
-
-  const [data, setData] = useState([])
+const EquipmentPage = () => {
+  const [data, setData] = useState([]);
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(API_URL, { headers: "Access-Control-Allow-Origin: *", });
-        console.log(response.data); const info = response.data; setData(info); setIsLoading(false);
-      } catch (error) { if (error.response) { console.log(error.response.data); console.log(error.response.status); console.log(error.response.headers); } else { console.log(`Error: ${error.message}`); } }
-    }; fetchData();
+        const response = await axios.get('http://localhost:8080/allEquipment');
+        setData(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
   }, []);
 
+  const handleFilter = (type) => {
+    setFilter(type);
+  };
+
+  const filteredEquipment = data.filter((item) => {
+    if (filter === 'all') {
+      return data;
+    } else {
+      return data.equipmentType === filter.toUpperCase()
+    }
+  });
+
+
+  const checkType = (imageType) => {
+
+    if (imageType.equipmentType == "CAMERA") {
+      return camera;
+    } else if (imageType.equipmentType == "LIGHT") {
+      return light;
+    } else {
+      return sound;
+    }
+  }
 
 
   return (
-    <main className='min-h-screen flex-grow'>
+    <Page>
+      <PageTitle>Equipment</PageTitle>
+      <ViewAll onClick={() => handleFilter('all')}>View all</ViewAll>
+      <SoundFilter onClick={() => handleFilter('SOUND')}>Sound</SoundFilter>
+      <LightFilter onClick={() => handleFilter('LIGHT')}>Light</LightFilter>
+      <CameraFilter onClick={() => handleFilter('CAMERA')}>Camera</CameraFilter>
+      <Container>
 
-      <div className='flex border-8 m-8'>
-        {data.map(item => (
-          <div key={item.id}>
-            <h2>{item.name}</h2>
-            <h2> {item.last_name}</h2>
-            <p>{item.email}</p>
-          </div>
-
+        {/* Map through filtered equipment and render the cards */}
+        {filteredEquipment.map((item) => (
+          <Card key={item.id}>
+            <BookmarkIcon />
+            <Border />
+            <Name>
+              {item.equipmentName}
+            </Name>
+            <LocationIcon />
+            <LocationTxt>
+              {item.equipmentLocation}
+            </LocationTxt>
+            <EquipmentImage src={checkType(item)} />
+          </Card>
         ))}
-      </div>
+      </Container>
+    </Page>
+  );
+};
+export default EquipmentPage;
 
 
-
-    </main>
-
-  )
-}
-export default EquipmentDefault */
