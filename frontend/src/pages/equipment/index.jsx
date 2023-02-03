@@ -63,7 +63,7 @@ const EquipmentDefault = () => {
   };
 
   return (
-    <div>
+    <div className="flex min-h-full">
       <Navbar />
       <main className="min-h-screen flex-grow">
         <FilterProduct filterValueSelected={onFilterValueSelected} />

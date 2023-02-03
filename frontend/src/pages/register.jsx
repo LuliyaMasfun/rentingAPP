@@ -68,6 +68,7 @@ const Register = () => {
 
             <label for="lastName">Last Name:</label>
             <input
+              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
               type="text"
               id="lastName"
               name="lastName"
@@ -80,6 +81,7 @@ const Register = () => {
 
             <label for="email">Email:</label>
             <input
+              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
               type="email"
               id="email"
               name="email"
@@ -92,6 +94,7 @@ const Register = () => {
 
             <label for="address">Address:</label>
             <input
+              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
               type="text"
               id="address"
               name="address"
@@ -104,6 +107,7 @@ const Register = () => {
 
             <label for="phoneNumber">Phone Number:</label>
             <input
+              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
               type="tel"
               id="phoneNumber"
               name="phoneNumber"
@@ -116,6 +120,7 @@ const Register = () => {
 
             <label for="birthdate">Birthdate:</label>
             <input
+              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
               type="date"
               id="birthdate"
               name="birthdate"
@@ -128,6 +133,7 @@ const Register = () => {
 
             <label for="password">Password:</label>
             <input
+              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
               type="password"
               id="password"
               name="password"
