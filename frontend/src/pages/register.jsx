@@ -4,8 +4,7 @@ import Navbar from "../components/Navbar";
 import "../styles/globals.css";
 import { useState } from "react";
 import axios from "axios";
-import bg from "../../public/bgLogin.png";
-import Image from "next/image";
+import Link from "next/link";
 
 const API_URL = "http://localhost:8080/createUser";
 
@@ -39,26 +38,25 @@ const Register = () => {
   };
 
   return (
-    <div className="bg black">
-      <Image
-        alt="background"
-        src={bg}
-        quality={100}
-        width="auto"
-        height="auto"
-      />
+    <div
+      className="bg-no-repeat bg-cover bg-fixed mx-auto"
+      style={{ backgroundImage: "url(/bgSignUp.png)", height: "100vh" }}
+    >
       <Navbar />
-      <main className="flex justify-center w-full ">
-        <div className="flex justify-center ">
-          <form action={API_URL} method="post" className="flex flex-col">
-            <label className="" for="firstName">
-              First Name:
-            </label>
+      <main className=" container flex justify-center w-full ">
+        <div className="flex justify-center my-10 w-full py-20 ">
+          <form
+            action={API_URL}
+            method="post"
+            className="flex flex-col w-96 p-10"
+          >
+            <label className="" for="firstName"></label>
             <input
-              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+              className="bg-transparent border-b py-2 px-4 block w-full appearance-none leading-normal placeholder-white text-white mb-3"
               type="text"
               id="firstName"
               name="firstName"
+              placeholder="First Name"
               required
               value={user.firstName}
               onChange={(e) => {
@@ -66,12 +64,13 @@ const Register = () => {
               }}
             />
 
-            <label for="lastName">Last Name:</label>
+            <label for="lastName"></label>
             <input
-              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+              className="bg-transparent focus:outline-none focus:shadow-outline border-b py-2 px-4 block w-full appearance-none placeholder-white text-white leading-normal mb-3"
               type="text"
               id="lastName"
               name="lastName"
+              placeholder="Last Name"
               required
               value={user.lastName}
               onChange={(e) => {
@@ -79,12 +78,13 @@ const Register = () => {
               }}
             />
 
-            <label for="email">Email:</label>
+            <label for="email"></label>
             <input
-              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+              className="bg-transparent focus:outline-none focus:shadow-outline border-b py-2 px-4 block w-full appearance-none placeholder-white text-white leading-normal mb-3"
               type="email"
               id="email"
               name="email"
+              placeholder="Email"
               required
               value={user.email}
               onChange={(e) => {
@@ -92,12 +92,13 @@ const Register = () => {
               }}
             />
 
-            <label for="address">Address:</label>
+            <label for="address"></label>
             <input
-              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+              className="bg-transparent focus:outline-none focus:shadow-outline border-b py-2 px-4 block w-full appearance-none leading-normal placeholder-white text-white mb-3"
               type="text"
               id="address"
               name="address"
+              placeholder="Address"
               required
               value={user.address}
               onChange={(e) => {
@@ -105,12 +106,13 @@ const Register = () => {
               }}
             />
 
-            <label for="phoneNumber">Phone Number:</label>
+            <label for="phoneNumber"></label>
             <input
-              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+              className="bg-transparent focus:outline-none focus:shadow-outline border-b py-2 px-4 block w-full appearance-none leading-normal placeholder-white text-white mb-3"
               type="tel"
               id="phoneNumber"
               name="phoneNumber"
+              placeholder="Phone Number(+46)"
               required
               value={user.phoneNumber}
               onChange={(e) => {
@@ -118,9 +120,9 @@ const Register = () => {
               }}
             />
 
-            <label for="birthdate">Birthdate:</label>
+            <label for="birthdate"></label>
             <input
-              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+              className="bg-transparent focus:outline-none focus:shadow-outline border-b py-2 px-4 block w-full appearance-none leading-normal placeholder-white text-white mb-3"
               type="date"
               id="birthdate"
               name="birthdate"
@@ -131,12 +133,13 @@ const Register = () => {
               }}
             />
 
-            <label for="password">Password:</label>
+            <label for="password"></label>
             <input
-              className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+              className="bg-transparent focus:outline-none focus:shadow-outline border-b py-2 px-4 block w-full appearance-none leading-normal placeholder-white text-white mb-3"
               type="password"
               id="password"
               name="password"
+              placeholder="password"
               required
               value={user.password}
               onChange={(e) => {
@@ -144,9 +147,18 @@ const Register = () => {
               }}
             />
 
-            <button className="bg-blue" onClick={handleSubmit} type="submit">
+            <button
+              className="bg-white mt-10 rounded-md w-65 h-9 font-bold"
+              onClick={handleSubmit}
+              type="submit"
+            >
               Sign up
             </button>
+
+            <div className="flex items-center justify-center">
+              <p> Already have an account? </p>
+              <Link href="/login">Login</Link>
+            </div>
           </form>
         </div>
       </main>
