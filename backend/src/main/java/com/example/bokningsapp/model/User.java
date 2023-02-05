@@ -5,6 +5,7 @@ import com.example.bokningsapp.enums.ERole;
 import com.example.bokningsapp.token.VerificationToken;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-
+@Builder
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -70,9 +71,9 @@ public class User implements UserDetails {
     private boolean enabled;
 
 
-    public User(String name, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
+    public User(String firstName, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
                 String phoneNumber,String adress,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate, VerificationToken verificationToken, boolean enabled) {
-        this.firstName = name;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.equipmentBookings = equipmentBookings;
@@ -254,7 +255,7 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + firstName + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", profileImg='" + profileImg + '\'' +
@@ -269,4 +270,6 @@ public class User implements UserDetails {
                 ", equipmentBookings=" + equipmentBookings +
                 '}';
     }
+
+
 }
