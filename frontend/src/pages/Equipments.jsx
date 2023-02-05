@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import Router from 'next/router';
 import { FaRegBookmark, FaMapMarkerAlt } from "react-icons/fa";
 import styled from "@emotion/styled";
 import Image from 'next/image';
@@ -82,14 +81,13 @@ margin-top: 170px;
 `;
 const Card = styled.div`
 position absolute;
-margin-bottom: 275px;
+margin-bottom: 25px;
 display: flex;
 flex-direction: row;
 justify-content: center;
 
 `;
 const EquipmentImage = styled(Image)`
-position: absolute;
 z-index: 0;
 `;
 
@@ -160,8 +158,8 @@ const EquipmentPage = () => {
     fetchData();
   }, []);
 
-  const handleFilter = (type) => {
-    setFilter(type);
+  const handleFilter = (data) => {
+    setFilter(data);
   };
 
 
@@ -206,7 +204,9 @@ const EquipmentPage = () => {
             <LocationTxt>
               {item.equipmentLocation}
             </LocationTxt>
-            <EquipmentImage src={checkType(item)} />
+            <Link href="/[id]" as={`/${item.id}`}>
+              <EquipmentImage src={checkType(item)} />
+            </Link>
           </Card>
         ))}
       </Container>

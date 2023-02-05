@@ -267,21 +267,21 @@ const SignUp = () => {
           css={{ color: "hotpink" }}
           required
         />
-
-        <Link href={{
-          pathname: "/Equipments"
-        }}>
-          <ButtonSignUp type="submit">Sign Up</ButtonSignUp>
-        </Link>
-
-        <Link href={{
-          pathname: "/Login"
-        }}>
-          <Login>
-            Already have an account? <UnderlinedText>Log in</UnderlinedText>
-          </Login>
-        </Link>
       </Form>
+      <Link href={{
+        pathname: "/LandingPage"
+      }}>
+        <ButtonSignUp type="submit">Sign Up</ButtonSignUp>
+      </Link>
+
+      <Link href={{
+        pathname: "/Login"
+      }}>
+        <Login>
+          Already have an account? <UnderlinedText>Log in</UnderlinedText>
+        </Login>
+      </Link>
+
     </Page>
   )
 }

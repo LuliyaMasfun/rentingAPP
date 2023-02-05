@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from "@emotion/styled";
-import Link  from 'next/link';
+import Link from 'next/link';
 import Image from 'next/image';
 import bankid from "../../public/bankidIcon.png"
 
@@ -81,7 +81,7 @@ color: #777;
 const ButtonLogin = styled.button`
 position: absolute;
  border: none;
- margin-top: 390px;
+ margin-top: 300px;
 margin-left: -135px;
   padding: 10px;
   width: 275px;
@@ -155,9 +155,6 @@ color: white;
 margin-left: -10vh;
 `;
 
-
-
-
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -196,16 +193,18 @@ const Login = () => {
           value={formData.password}
           onChange={handleChange}
         />
-        <Link  href={{
-      pathname: "/resetPassword"}}> 
-        <ForgotPasswordLink>
-          Forgot password
-        </ForgotPasswordLink>
+        <Link href={{
+          pathname: "/resetPassword"
+        }}>
+          <ForgotPasswordLink>
+            Forgot password
+          </ForgotPasswordLink>
         </Link>
 
-        <Link  href={{
-      pathname: "/resetPassword"}}>
-        <ButtonLogin type="submit">Log in</ButtonLogin>
+        <Link href={{
+          pathname: "/resetPassword"
+        }}>
+          <ButtonLogin type="submit">Log in</ButtonLogin>
         </Link>
         <Border1 />
         <Or>or</Or>
@@ -214,11 +213,12 @@ const Login = () => {
           Log in with Bank id
         </ButtonBankid>
 
-        <Link  href={{
-      pathname: "/SignUp"}}>
-        <SignUp>
-          Dont have an account? <UnderlinedText>Sign up</UnderlinedText>
-        </SignUp>
+        <Link href={{
+          pathname: "/SignUp"
+        }}>
+          <SignUp>
+            Dont have an account? <UnderlinedText>Sign up</UnderlinedText>
+          </SignUp>
         </Link>
       </Form>
     </Page>
