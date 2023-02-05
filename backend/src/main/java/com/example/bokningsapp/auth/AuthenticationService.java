@@ -25,7 +25,7 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request){
 
         //todo ändra Var klassen till User klassen
-        User user = User.builder()
+        var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
@@ -49,8 +49,14 @@ public class AuthenticationService {
                 request.getPassword()
         )
         );
-            var user = repository.findByEmail(request.getEmail()).OrElseThrow();
+            var user = repository.findUserByEmail(request.getEmail())
+                    .orElseThrow();
 
+        var jwtToken = jwtService.generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
 
     }
 }

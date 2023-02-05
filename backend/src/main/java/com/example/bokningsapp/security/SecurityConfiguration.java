@@ -4,17 +4,14 @@ import com.example.bokningsapp.token.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.server.SecurityWebFilterChain;
+
 
 @Configuration
 @EnableWebSecurity
@@ -30,10 +27,11 @@ public class SecurityConfiguration {
         // Todo: Add security to the application here here I´m using  my own security config and not amigoscode if application complains about this go to 1:29:00 in the video
 
         http
-                .csrf()
-                .disable()
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests()
-                .requestMatchers("/","/login", "/error", "/rest/**")
+                //todo: check if this is correct
+                .requestMatchers("/","/login", "/error", "/auth/**")
                 .permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest()

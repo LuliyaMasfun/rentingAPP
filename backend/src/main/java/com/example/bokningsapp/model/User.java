@@ -5,7 +5,10 @@ import com.example.bokningsapp.enums.ERole;
 import com.example.bokningsapp.token.VerificationToken;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +18,10 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
+
+@Data
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
