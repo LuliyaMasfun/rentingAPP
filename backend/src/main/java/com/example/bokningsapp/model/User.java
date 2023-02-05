@@ -5,14 +5,19 @@ import com.example.bokningsapp.enums.ERole;
 import com.example.bokningsapp.token.VerificationToken;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
-@Table
-@Entity(name = "users")
-public class User {
+
+@Entity
+@Table(name = "users")
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +38,7 @@ public class User {
     private String phoneNumber;
 
     @Column
-    private String address;
+    private String adress;
 
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
@@ -52,6 +57,7 @@ public class User {
     @Column
     private AccountStatus accountStatus;
     @Column
+    @Enumerated(EnumType.STRING)
     private ERole role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<EquipmentBooking> equipmentBookings;
@@ -73,7 +79,7 @@ public class User {
         this.profileImg =  profileImg;
         this.socialSecurityNumber = socialSecurityNumber;
         this.phoneNumber = phoneNumber;
-        this.address = adress;
+        this.adress = adress;
         this.createdDate = createdDate;
         this.updatedDate =updatedDate;
         this.password = password;
@@ -146,12 +152,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAdress(String address) {
+        this.adress = address;
     }
 
     public LocalDateTime getCreatedDate() {
@@ -170,8 +176,34 @@ public class User {
         this.updatedDate = updatedDate;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -228,7 +260,7 @@ public class User {
                 ", profileImg='" + profileImg + '\'' +
                 ", socialSecurityNumber=" + socialSecurityNumber +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", adress='" + address + '\'' +
+                ", adress='" + adress + '\'' +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 ", password='" + password + '\'' +

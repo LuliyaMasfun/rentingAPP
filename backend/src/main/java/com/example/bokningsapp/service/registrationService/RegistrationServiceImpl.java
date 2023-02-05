@@ -82,7 +82,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setEmail(registrationRequest.getEmail());
         user.setPassword(encryptPassword(registrationRequest.getPassword()));
         user.setBirthDate(registrationRequest.getBirthDate());
-        user.setAddress(registrationRequest.getAddress());
+        user.setAdress(registrationRequest.getAddress());
         user.setPhoneNumber(registrationRequest.getPhoneNumber());
         user.setRole(ERole.ROLE_USER);
         User registeredUser = userRepository.save(user);

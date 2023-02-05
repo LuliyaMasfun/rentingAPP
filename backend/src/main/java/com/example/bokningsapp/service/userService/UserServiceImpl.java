@@ -28,14 +28,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) {
         // check for existing user with same email
-        User existingUser = userRepository.findByEmail(user.getEmail());
-        if (existingUser != null) {
-            throw new IllegalArgumentException("User with email " + user.getEmail() + " already exists");
-        }
-        // encrypt the password
-        user.setPassword(encryptPassword(user.getPassword()));
+        try{
+            User existingUser = userRepository.findByEmail(user.getEmail());
+            if (existingUser !=null) {
+                throw new IllegalArgumentException("User with email " + user.getEmail() + " already exists");
+            }
+            else{
+                // encrypt the password
+                user.setPassword(encryptPassword(user.getPassword()));
+                userRepository.save(user);
+                return user;
+            }
 
-        return userRepository.save(user);
+
+
+        }catch(Exception e) {
+           return user;
+        }
+
     }
 
     @Override
@@ -59,7 +69,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(updatedUser.getLastName());
         user.setEmail(updatedUser.getEmail());
         user.setPhoneNumber(updatedUser.getPhoneNumber());
-        user.setAddress(updatedUser.getAddress());
+        user.setAdress(updatedUser.getAdress());
         user.setBirthDate(updatedUser.getBirthDate());
         user.setProfileImg(updatedUser.getProfileImg());
         if (updatedUser.getPassword() != null) {
@@ -94,13 +104,18 @@ public class UserServiceImpl implements UserService {
             userRepository.deleteById(id);
         }
 
-        @Override
+    @Override
+    public int enableUser(String email) {
+        return 0;
+    }
+
+/*        @Override
         public int enableUser(String email) {
-            return userRepository.enableUser(email);
+            return userRepository.enableUser(email);*/
     }
 
 
-}
+
 
 
 
