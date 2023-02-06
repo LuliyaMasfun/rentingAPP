@@ -30,7 +30,6 @@ position: absolute;
 margin-left: 9vh;
 margin-top: -1.5vh;
 left: 0;
-
 `;
 const NotificationIcon = styled(FaRegBell)`
 position: absolute;

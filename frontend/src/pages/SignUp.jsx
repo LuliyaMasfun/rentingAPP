@@ -134,10 +134,9 @@ const InputPassword = styled.input`
 `;
 
 const ButtonSignUp = styled.button`
-  position: relative;
+  position: absolute;
   border: none;
-  /* margin-top: 340px;
-  margin-left: -140px; */
+  margin: 50px; 
   padding: 10px;
   width: 280px;
   background-color: white;
@@ -154,11 +153,11 @@ const UnderlinedText = styled.span`
 
 const Login = styled.span`
   position: absolute;
-  margin-top: 46vh;
+  margin-top: 12vh;
   font-weight: 300;
   font-size: 12px;
   color: white;
-  margin-left: -10vh;
+  margin-left: 10vh;
 `;
 
 const SignUp = () => {
@@ -181,7 +180,7 @@ const SignUp = () => {
   return (
     <Page>
       <Title>Create an account,</Title>
-      <Subtitle>Lets get started, please enter your details</Subtitle>
+      <Subtitle>Lets get started, enter your details</Subtitle>
 
       <Form
         onSubmit={(e) => {
