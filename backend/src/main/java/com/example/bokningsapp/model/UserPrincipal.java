@@ -1,4 +1,4 @@
-package com.example.bokningsapp.security;
+package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.AccountStatus;
 import com.example.bokningsapp.enums.ERole;

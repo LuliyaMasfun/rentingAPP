@@ -43,6 +43,10 @@ const EquipmentDefault = () => {
     };
     fetchData();
   }, []);
+      }
+    };
+    fetchData();
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
