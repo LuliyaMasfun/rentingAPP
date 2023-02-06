@@ -26,7 +26,7 @@ const Page = styled.div`
 const PageTitle = styled.h1`
 position: absolute;
 font-size: 20px;
-font-weight: 800;
+font-weight: 600;
 margin-top: 60px;
 margin-left: 35px;
 color: white;
@@ -96,11 +96,17 @@ z-index: 0;
 `;
 
 const BookmarkIcon = styled(FaRegBookmark)`
+width:18px;
+height: 18px;
+`;
+
+const BookmarkContainer = styled.div`
 position: absolute;
 z-index:2;
-margin-top: 30px;
-margin-left: -30vh;
+margin-top: 35px;
+margin-left: -32.2vh;
 color:white;
+background-color: ${props => props.isFavored ? 'red' : 'transparent'}
 `;
 
 const Border = styled.hr`
@@ -126,7 +132,7 @@ const LocationIcon = styled(FaMapMarkerAlt)`
 position: absolute;
 z-index:2;
 margin-top: 24vh;
-margin-left: -32vh;
+margin-left: -32.2vh;
 color: white;
 `;
 const LocationTxt = styled.p`
@@ -142,6 +148,7 @@ const EquipmentPage = () => {
   const [filter, setFilter] = useState('all');
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [isShort, setIsShort] = useState(false);
+  const [isFavored, setIsFavored] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -156,6 +163,9 @@ const EquipmentPage = () => {
     fetchData();
   }, []);
 
+  const handleFavored = () => {
+    setIsFavored(true)
+  }
 
   const handleFilter = (data) => {
     setFilter(data);
@@ -198,7 +208,9 @@ const EquipmentPage = () => {
         {/* Map through filtered equipment and render the cards */}
         {filteredEquipment.map((item) => (
           <Card key={item.id}>
-            <BookmarkIcon />
+            <BookmarkContainer isFavored={isFavored} onClick={() => setIsFavored(!isFavored)} >
+              <BookmarkIcon />
+            </BookmarkContainer>
             <Border />
             <Name>
               {item.equipmentName}

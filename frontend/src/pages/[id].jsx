@@ -10,6 +10,7 @@ import camera2 from '../../public/canon2.png'
 import light2 from '../../public/aputure2.png'
 import Calendar from "../components/Calendar"
 import "../styles/globals.css"
+import Link from 'next/link';
 
 const Page = styled.div`
   position: absolute;
@@ -196,9 +197,10 @@ const EquipmentItem = () => {
             </Description>
           </DescBg>
         </div>
-        <Calendar style={{}} />
-        <MakeReservationBtn>Make Reservation</MakeReservationBtn>
-
+        <Calendar />
+        <Link href="/MyBookings">
+          <MakeReservationBtn >Make Reservation</MakeReservationBtn>
+        </Link>
       </Page>
     ) : (
       <p>Loading...</p>
