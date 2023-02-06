@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="bookingApp@localhost" uuid="9f5556b5-05d3-4fc9-a316-1720246b9eef">
+    <data-source source="LOCAL" name="bookingApp@localhost" uuid="b8b0948e-ed4a-4c66-8539-bed90e47030b">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/bookingApp</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="bokningsapp.main/Hibernate" uuid="79238444-a0d1-4720-b05d-89d37a6049ef">
+    <data-source source="LOCAL" name="bokningsapp.main/Hibernate" uuid="14bc7b2e-9839-4b2b-abc3-b23284f48f0c">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>

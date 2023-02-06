@@ -10,6 +10,10 @@ module.exports = {
         blue: "#4a52c4",
         lblue: "#54c0cf",
         grays: "#d3cecf",
+        dgray: "#1e1e1e",
+      },
+      backgroundImage: {
+        "hero-pattern": "url('/public/bgLogin.png')",
       },
     },
   },

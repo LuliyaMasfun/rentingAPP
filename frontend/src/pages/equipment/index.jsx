@@ -1,8 +1,13 @@
-import Navbar from '@/components/Navbar'
-import Axios from 'axios'
-import { useEffect, useState } from 'react'
+import Navbar from "../../components/Navbar";
+import Axios from "axios";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import FilterProduct from "../../components/FilterProduct";
+import camera from "../../../public/CAMERA.png";
+import light from "../../../public/LIGHT.png";
+import sound from "../../../public/SOUND.png";
 
- const API_URL = 'http://localhost:8080/users'
+const API_URL = "http://localhost:8080/allEquipment";
 
 // Hur man kan hämta data från en API genom ASYNC & AWAIT och sedan använda den i en funktion
 // const getData = async () => {
@@ -10,82 +15,80 @@ import { useEffect, useState } from 'react'
 //     const info = response.data.map((data) => allEquipments((data.name)))
 //     return info
 // }
+
 const EquipmentDefault = () => {
+  const [data, setData] = useState([]);
+  const [filterValue, setFilterValue] = useState("all");
+  const [isLoading, setIsLoading] = useState(true);
 
-    const [data, setData] = useState([])
-    const [filterValue, setFilterValue] = useState("all")
-    const [isLoading, setIsLoading] = useState(true)
-
-    console.log(Axios.get(API_URL).then(res => {
-        console.log(res.data)
-    }).then(err => console.log(err)))
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await Axios.get(API_URL, {
-                    headers: "Access-Control-Allow-Origin: *"
-                })
-                console.log(response.data)
-                const info = response.data
-                setData(info)
-                setIsLoading(false)
-            } catch (error) {
-                if (error.response) {
-                    console.log(error.response.data)
-                    console.log(error.response.status)
-                    console.log(error.response.headers)
-                }
-                else {
-                    console.log(`Error: ${error.message}`)
-                }
-
-            }
-        }
-        fetchData()
-
-    }, [])
-
-    if (isLoading) {
-        return <div>Loading...</div>
-    }
-
-    const checkType = (obj) => {
-
-        if (obj.equipmentType == "CAMERA") {
-            return camera;
-        } else if (obj.equipmentType == "LIGHT") {
-            return light;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await Axios.get(API_URL, {
+          headers: "Access-Control-Allow-Origin: *",
+        });
+        console.log(response.data);
+        const info = response.data;
+        setData(info);
+        setIsLoading(false);
+      } catch (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
         } else {
-            return sound;
+          console.log(`Error: ${error.message}`);
         }
+      }
+    };
+    fetchData();
+  }, []);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const checkType = (obj) => {
+    if (obj.equipmentType == "CAMERA") {
+      return camera;
+    } else if (obj.equipmentType == "LIGHT") {
+      return light;
+    } else {
+      return sound;
     }
+  };
 
-    const onFilterValueSelected = (filterValue) => {
-        setFilterValue(filterValue)
+  const onFilterValueSelected = (filterValue) => {
+    setFilterValue(filterValue);
+  };
 
-    }
-
-
-
-    return (
-        <main className='min-h-screen flex-grow'>
-            <Navbar />
-            <div className='flex border-8 m-8'>
-                {data.map(item => (
-                    <div key={item.id}>
-                        <h2>{item.name}</h2>
-                        <h2> {item.last_name}</h2>
-                        <p>{item.email}</p>
-                    </div>
-
-                ))}
+  return (
+    <div className="flex min-h-full">
+      <Navbar />
+      <main className="min-h-screen flex-grow">
+        <FilterProduct filterValueSelected={onFilterValueSelected} />
+        <div className="flex border-8 m-8">
+          {data.map((item) => (
+            <div key={item.id}>
+              <h2>{item.name}</h2>
+              <Image
+                alt="pic"
+                src={checkType(item)}
+                width={100}
+                height={100}
+                quality={100}
+              />
+              <h2> {item.last_name}</h2>
+              <p>{item.email}</p>
             </div>
-
-
-
-        </main>
-
-    )
-}
-export default EquipmentDefault 
+          ))}
+        </div>
+      </main>
+    </div>
+  );
+};
+export default EquipmentDefault;
