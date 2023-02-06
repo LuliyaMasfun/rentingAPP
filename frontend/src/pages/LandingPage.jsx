@@ -8,6 +8,8 @@ import EquipmentLp from "../../public/EquipmentLp.png"
 import CommunityLp from "../../public/CommunityLp.png"
 import EventsLp from "../../public/EventsLp.png"
 import Link from "next/link";
+import Navbar from "../components/Navbar";
+import "../styles/globals.css"
 
 const Page = styled.div`
   position: absolute;
@@ -54,6 +56,7 @@ const LandingPage = () => {
   return (
 
     <Page>
+      <Navbar />
       <MyActiveBooking />
       <DashboardTitle>Dashboard</DashboardTitle>
       <DashboardContainer>

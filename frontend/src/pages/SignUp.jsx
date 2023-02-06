@@ -10,7 +10,6 @@ const Page = styled.div`
   background-size: cover;
   background-position: center;
   background-color: #1e1e1e;
-  width: auto;
 `;
 const Title = styled.h1`
   position: absolute;
