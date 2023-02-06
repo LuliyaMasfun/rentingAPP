@@ -104,11 +104,11 @@ public class RegistrationServiceImpl implements RegistrationService {
         verificationTokenRepo.save(verificationToken);
 
         //Send email
-        String link = "http://localhost:8080/confirmAccount?token=" + registeredUser.getVerificationToken();
+       /* String link = "http://localhost:8080/confirmAccount?token=" + registeredUser.getVerificationToken();
         emailSender.sendVerificationEmail(
                 registeredUser.getEmail(),
                 buildEmail(registeredUser.getFirstName(), link));
-
+*/
         return token;
     }
 

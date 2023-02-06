@@ -2,24 +2,20 @@ package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.AccountStatus;
 import com.example.bokningsapp.enums.ERole;
-import com.example.bokningsapp.token.VerificationToken;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
 
-@Data
+
 @Builder
 @AllArgsConstructor
 @Entity
@@ -69,16 +65,13 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<EquipmentBooking> equipmentBookings;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "verification_token_id", referencedColumnName = "id")
-    private VerificationToken verificationToken;
 
     @Column
     private boolean enabled;
 
 
     public User(String firstName, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
-                String phoneNumber,String adress,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate, VerificationToken verificationToken, boolean enabled) {
+                String phoneNumber,String adress,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate, boolean enabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -91,7 +84,6 @@ public class User implements UserDetails {
         this.updatedDate =updatedDate;
         this.password = password;
         this.birthDate = birthDate;
-        this.verificationToken = verificationToken;
         this.enabled = enabled;
 
     }
@@ -239,14 +231,6 @@ public class User implements UserDetails {
 
     public void setRole(ERole role) {
         this.role = role;
-    }
-
-    public VerificationToken getVerificationToken() {
-        return verificationToken;
-    }
-
-    public void setVerificationToken(VerificationToken verificationToken) {
-        this.verificationToken = verificationToken;
     }
 
     public boolean isEnabled() {
