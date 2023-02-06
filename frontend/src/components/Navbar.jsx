@@ -1,30 +1,62 @@
 import React from "react";
-import changers from "../../public/changershub.png";
-import dropdown from "../../public/dropdown.png";
+import styled from "@emotion/styled";
 import Image from "next/image";
-import notis from "../../public/FaRegBell.png";
-import profile from "../../public/profilePic16.png"
+import profileImg from "../../public/profilePic16.png"
+import { IoFilter } from "react-icons/io5";
+import { FaRegBell } from "react-icons/fa"
+import changersHub from "../../public/changershub.png";
+import Link from "next/link";
+
+const Container = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+margin: 0px;
+background-color: #1E1E1E;
+height: 50px;
+width: 390px;
+`;
+const HamburgerIcon = styled(IoFilter)`
+position: absolute;
+width: 24px;
+height: 24px;
+left: 0;
+margin-left: 4vh;
+color: #FFFFFF;
+`;
+const CompanyLogo = styled(Image)`
+position: absolute;
+margin-left: 9vh;
+margin-top: -1.5vh;
+left: 0;
+
+`;
+const NotificationIcon = styled(FaRegBell)`
+position: absolute;
+margin-left: 24vh;
+width: 24px;
+height: 24px;
+color: #FFFFFF;
+`;
+const ProfileImg = styled(Image)`
+position: absolute;
+margin-left: 35vh;
+`;
+
 const Navbar = () => {
     return (
-        <div>
+        <Container>
 
-            <nav className="navbar-wrapper flex flex-row w-full h-50 mx-auto bg-black">
+            <HamburgerIcon />
+            <Link href="/LandingPage" >
+                <CompanyLogo src={changersHub} />
+            </Link>
 
-                <div className="flex-row w-full px-10 py-10 justify-between mx-auto inline-flex">
-                    <div className="flex flex-row pl-5 w-1/2 mr-16">
-                        <Image alt="drop down logga" src={dropdown} width={100} height={100} className />
-                        <Image alt="Changers logga" src={changers} width={200} height={200} className="mx-10" />
-                    </div>
+            <NotificationIcon />
+            <ProfileImg src={profileImg} />
 
-                    <div className="flex flex-row w-1/2 pr-5 justify-end mx-auto">
-                        <Image alt="notis logga" src={notis} width={100} height={100} className="flex mx-10" />
-                        <Image alt="profil bild" src={profile} width={100} height={100} className="flex mx-10" />
-
-                    </div>
-
-                </div>
-            </nav>
-        </div>
+        </Container>
     )
 };
 
