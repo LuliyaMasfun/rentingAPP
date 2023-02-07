@@ -28,7 +28,7 @@ dependencies {
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 	implementation 'org.jetbrains:annotations:20.1.0'
 	implementation 'com.sun.mail:javax.mail:1.6.2'
-	implementation group: 'org.postgresql', name: 'postgresql'
+	implementation group: 'org.postgresql', name: 'postgresql',version: '42.2.27'
 	implementation "org.springframework.boot:spring-boot-starter-mail"
 	implementation 'jakarta.activation:jakarta.activation-api:2.0.0'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
@@ -36,7 +36,7 @@ dependencies {
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	compileOnly 'org.projectlombok:lombok'
-	compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api'
+	compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api',version: '5.0.0'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
