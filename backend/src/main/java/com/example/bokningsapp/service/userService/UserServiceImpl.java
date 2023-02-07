@@ -103,18 +103,13 @@ public class UserServiceImpl implements UserService {
             userRepository.deleteById(id);
         }
 
-    @Override
-    public int enableUser(String email) {
-        return 0;
-    }
-
-/*        @Override
+        @Override
         public int enableUser(String email) {
-            return userRepository.enableUser(email);*/
+            return userRepository.enableUser(email);
     }
 
 
-
+}
 
 
 

@@ -43,7 +43,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping(value = "/user/{id}")
+    @DeleteMapping(value = "user/{id}")
     public ResponseEntity<Long> deleteUser(@PathVariable long id){
 
         User deletedUser = userRepository.getReferenceById(id);
@@ -58,7 +58,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping(value = "/user/{id}")
+    @PutMapping(value = "user/{id}")
     public ResponseEntity<User> updateUser2(@PathVariable long id, @RequestBody User user) {
         User updatedUser = userRepository.getReferenceById(id);
 
