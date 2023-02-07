@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -142,6 +143,8 @@ margin-top: 23.6vh;
 margin-left: -16vh;
 color:white;
 `;
+
+
 
 const EquipmentPage = () => {
   const [data, setData] = useState([]);
