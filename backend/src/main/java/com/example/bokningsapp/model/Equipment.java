@@ -3,6 +3,7 @@ package com.example.bokningsapp.model;
 import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
 import jakarta.persistence.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDate;
 

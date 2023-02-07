@@ -2,17 +2,25 @@ package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.AccountStatus;
 import com.example.bokningsapp.enums.ERole;
-import com.example.bokningsapp.token.VerificationToken;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
-@Table
-@Entity(name = "users")
-public class User {
+
+
+@Builder
+@AllArgsConstructor
+@Entity
+@Table(name = "users")
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +41,7 @@ public class User {
     private String phoneNumber;
 
     @Column
-    private String address;
+    private String adress;
 
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
@@ -52,33 +60,30 @@ public class User {
     @Column
     private AccountStatus accountStatus;
     @Column
+    @Enumerated(EnumType.STRING)
     private ERole role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<EquipmentBooking> equipmentBookings;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "verification_token_id", referencedColumnName = "id")
-    private VerificationToken verificationToken;
 
     @Column
     private boolean enabled;
 
 
-    public User(String name, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
-                String phoneNumber,String adress,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate, VerificationToken verificationToken, boolean enabled) {
-        this.firstName = name;
+    public User(String firstName, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
+                String phoneNumber,String adress,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate, boolean enabled) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.equipmentBookings = equipmentBookings;
         this.profileImg =  profileImg;
         this.socialSecurityNumber = socialSecurityNumber;
         this.phoneNumber = phoneNumber;
-        this.address = adress;
+        this.adress = adress;
         this.createdDate = createdDate;
         this.updatedDate =updatedDate;
         this.password = password;
         this.birthDate = birthDate;
-        this.verificationToken = verificationToken;
         this.enabled = enabled;
 
     }
@@ -146,12 +151,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAdress(String address) {
+        this.adress = address;
     }
 
     public LocalDateTime getCreatedDate() {
@@ -170,8 +175,34 @@ public class User {
         this.updatedDate = updatedDate;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -202,14 +233,6 @@ public class User {
         this.role = role;
     }
 
-    public VerificationToken getVerificationToken() {
-        return verificationToken;
-    }
-
-    public void setVerificationToken(VerificationToken verificationToken) {
-        this.verificationToken = verificationToken;
-    }
-
     public boolean isEnabled() {
         return enabled;
     }
@@ -222,13 +245,13 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + firstName + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", profileImg='" + profileImg + '\'' +
                 ", socialSecurityNumber=" + socialSecurityNumber +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", adress='" + address + '\'' +
+                ", adress='" + adress + '\'' +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 ", password='" + password + '\'' +
@@ -237,4 +260,6 @@ public class User {
                 ", equipmentBookings=" + equipmentBookings +
                 '}';
     }
+
+
 }

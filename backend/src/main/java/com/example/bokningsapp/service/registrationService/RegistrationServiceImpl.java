@@ -54,7 +54,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         boolean isLastNameValid = registrationRequestValidator.validateLastName(registrationRequest.getLastName());
         boolean isEmailValid = registrationRequestValidator.validateEmail(registrationRequest.getEmail());
         boolean isPasswordValid = registrationRequestValidator.validatePassword(registrationRequest.getPassword());
-        boolean isAddressValid = registrationRequestValidator.validateAddress(registrationRequest.getAddress());
+       // boolean isAddressValid = registrationRequestValidator.validateAddress(registrationRequest.getAddress());
         boolean isPhoneNumberValid = registrationRequestValidator.validatePhoneNumber(registrationRequest.getPhoneNumber());
 
         if (!isFirstNameValid) {
@@ -69,9 +69,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (!isEmailValid) {
             throw new IllegalStateException("Email is not valid");
         }
-        if (!isAddressValid) {
-            throw new IllegalStateException("Adress is not valid");
-        }
+      //  if (!isAddressValid) {
+      //      throw new IllegalStateException("Adress is not valid");
+      //  }
         if (!isPhoneNumberValid) {
             throw new IllegalStateException("Phone number is not valid");
         }
@@ -82,7 +82,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setEmail(registrationRequest.getEmail());
         user.setPassword(encryptPassword(registrationRequest.getPassword()));
         user.setBirthDate(registrationRequest.getBirthDate());
-        user.setAddress(registrationRequest.getAddress());
+        user.setAdress(registrationRequest.getAddress());
         user.setPhoneNumber(registrationRequest.getPhoneNumber());
         user.setRole(ERole.ROLE_USER);
         User registeredUser = userRepository.save(user);
@@ -104,11 +104,11 @@ public class RegistrationServiceImpl implements RegistrationService {
         verificationTokenRepo.save(verificationToken);
 
         //Send email
-        String link = "http://localhost:8080/confirmAccount?token=" + registeredUser.getVerificationToken();
+       /* String link = "http://localhost:8080/confirmAccount?token=" + registeredUser.getVerificationToken();
         emailSender.sendVerificationEmail(
                 registeredUser.getEmail(),
                 buildEmail(registeredUser.getFirstName(), link));
-
+*/
         return token;
     }
 

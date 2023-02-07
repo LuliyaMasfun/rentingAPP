@@ -1,53 +1,219 @@
 import React from 'react';
 import axios from 'axios';
-import Router from 'next/router';
-import {FaRegBookmark, FaMapMarkerAlt} from "react-icons/fa";
+import { useState, useEffect } from 'react';
+import { FaRegBookmark, FaMapMarkerAlt } from "react-icons/fa";
 import styled from "@emotion/styled";
 import Image from 'next/image';
+import Link from 'next/link';
+import light from "../../public/aputure.png";
+import sound from "../../public/rode.png";
+import camera from "../../public/canon.png";
+import Footer from "../components/Footer";
+
 
 const Page = styled.div`
-  background-size: cover;
-  background-position: center;
+  position: absolute;
+  height: 1384px;
+  width: 390px;
   background-color: #1E1E1E;
+  margin:0;
 `;
 
-const Background = styled(Image)`
+const PageTitle = styled.h1`
+position: absolute;
+font-size: 20px;
+font-weight: 800;
+margin-top: 60px;
+margin-left: 35px;
+color: white;
+`;
+
+const ViewAll = styled.button`
+position:absolute;
+margin-top: 110px;
+margin-left: 35px;
+width: 70px;
+color:white;
+font-size: 12px;
+background-color: transparent;
+border: solid  1px white;
+border-radius: 5px;
+
+`;
+const SoundFilter = styled.button`
+position:absolute;
+margin-top: 110px;
+margin-left: 115px;
+width: 70px;
+color:white;
+font-size: 12px;
+background-color: transparent;
+border: solid  1px white;
+border-radius: 5px;
+`;
+const LightFilter = styled.button`
+position:absolute;
+margin-top: 110px;
+margin-left: 195px;
+width: 70px;
+color:white;
+font-size: 12px;
+background-color: transparent;
+border: solid  1px white;
+border-radius: 5px;
+`;
+const CameraFilter = styled.button`
+position:absolute;
+margin-top: 110px;
+margin-left: 275px;
+width: 70px;
+color:white;
+font-size: 12px;
+background-color: transparent;
+border: solid  1px white;
+border-radius: 5px;
+`;
+
+const Container = styled.div`
+margin-top: 170px;
+ display: flex;
+  flex-direction: column;
+`;
+const Card = styled.div`
+position absolute;
+margin-bottom: 25px;
+display: flex;
+flex-direction: row;
+justify-content: center;
+
+`;
+const EquipmentImage = styled(Image)`
+z-index: 0;
+`;
+
+const BookmarkIcon = styled(FaRegBookmark)`
+position: absolute;
+z-index:2;
+margin-top: 30px;
+margin-left: -30vh;
+color:white;
+`;
+
+const IconButton = styled.button`
+position: absolute;
+z-index:3;
+margin-top: 30px;
+margin-left: -30vh;
 
 `;
 
-const CardTitle = styled.p`
+const Border = styled.hr`
+position: absolute;
+z-index:2;
+border: 1px solid white;
+width: 326px;
+margin-top: 23vh;
 `;
 
-const Location = styled.p``;
+const Name = styled.p`
+position: absolute;
+z-index:2;
+margin-top: 20vh;
+margin-left: -15vh;
+font-size: 16px;
+font-weight: 700;
+color: white;
+width: 160px;
+`;
 
-const Card = ({ equipment_name, equipment_img, equipment_location, id }) => (
-    <div>
+const LocationIcon = styled(FaMapMarkerAlt)`
+position: absolute;
+z-index:2;
+margin-top: 24vh;
+margin-left: -32vh;
+color: white;
+`;
+const LocationTxt = styled.p`
+position: absolute;
+z-index:2;
+margin-top: 23.6vh;
+margin-left: -16vh;
+color:white;
+`;
 
-    <Background style={{ backgroundImage: `url(${equipment_img})` }} onClick={() => Router.push(`/item?id=${id}`)} />
-        <FaRegBookmark />
-      <CardTitle>{equipment_name}</CardTitle>
-      <FaMapMarkerAlt />
-      <Location>{equipment_location}</Location>
-      </div>
-  );
-  
-  const EquipmentsPage = ({ items }) => {
-    return (
-      <div>
-        {items.map((item) => (
-          <Card key={item.id}
-           equipment_name={item.equipment_name} 
-           equipment_img={item.equipment_img} 
-           equipment_location={item.equipment_location}
-           id={item.id} />
+const EquipmentPage = () => {
+  const [data, setData] = useState([]);
+  const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/allEquipment');
+        setData(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleFilter = (data) => {
+    setFilter(data);
+  };
+
+
+  const filteredEquipment = data.filter((item) => {
+    if (filter === 'all') {
+      return data;
+    } return item.type === filter;
+
+  });
+
+  const checkType = (imageType) => {
+    if (imageType.equipmentType == "CAMERA") {
+      return camera;
+    } else if (imageType.equipmentType == "LIGHT") {
+      return light;
+    } else {
+      return sound;
+    }
+  }
+
+
+
+
+  return (
+    <Page>
+      <PageTitle>Equipment</PageTitle>
+      <ViewAll onClick={() => handleFilter('all')}>View all</ViewAll>
+      <SoundFilter onClick={() => handleFilter('SOUND')}>Sound</SoundFilter>
+      <LightFilter onClick={() => handleFilter('LIGHT')}>Light</LightFilter>
+      <CameraFilter onClick={() => handleFilter('CAMERA')}>Camera</CameraFilter>
+      <Container>
+
+        {/* Map through filtered equipment and render the cards */}
+        {filteredEquipment.map((item) => (
+          <Card key={item.id}>
+            <BookmarkIcon />
+            <Border />
+            <Name>
+              {item.equipmentName}
+            </Name>
+            <LocationIcon />
+            <LocationTxt>
+              {item.equipmentLocation}
+            </LocationTxt>
+            <Link href="/[id]" as={`/${item.id}`}>
+              <EquipmentImage src={checkType(item)} />
+            </Link>
+          </Card>
         ))}
-      </div>
-    );
-  };
-  
-  EquipmentsPage.getInitialProps = async () => {
-    const res = await axios.get('http://localhost:8080/allEquipment');
-    return { items: res.data };
-  };
-  
-  export default EquipmentsPage;
+      </Container>
+      <Footer />
+    </Page>
+  );
+};
+export default EquipmentPage;
+
+

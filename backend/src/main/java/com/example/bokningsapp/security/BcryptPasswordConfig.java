@@ -13,4 +13,6 @@ public class BcryptPasswordConfig {
     public BCryptPasswordEncoder bCryptPasswordEncoder1() {
         return new BCryptPasswordEncoder(14);
     }
-}
+
+    }
+
