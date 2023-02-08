@@ -23,23 +23,23 @@ const Register = () => {
     alert("test");
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(user);
-    try {
-      axios.post(API_URL, user).then((res) => {
-        console.log(`${res.data} was successfully created`);
-      });
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else {
-        console.log(`Error: ${error.message}`);
-      }
-    }
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log(user);
+  //   try {
+  //     axios.post(API_URL, user).then((res) => {
+  //       console.log(`${res.data} was successfully created`);
+  //     });
+  //   } catch (error) {
+  //     if (error.response) {
+  //       console.log(error.response.data);
+  //       console.log(error.response.status);
+  //       console.log(error.response.headers);
+  //     } else {
+  //       console.log(`Error: ${error.message}`);
+  //     }
+  //   }
+  // };
 
   return (
     <div className="bg-dgray h-full min-h-full">
@@ -166,7 +166,7 @@ const Register = () => {
 
               <button
                 className="bg-white mt-10 rounded-md w-65 h-9 font-bold"
-                onClick={handleSubmit}
+                // onClick={handleSubmit}
                 type="submit"
               >
                 Sign up
