@@ -1,3 +1,4 @@
+"use client";
 import { useRouter } from "next/router";
 import { useState, type ChangeEvent, type FC } from "react";
 import { HiLockClosed } from "react-icons/hi";
