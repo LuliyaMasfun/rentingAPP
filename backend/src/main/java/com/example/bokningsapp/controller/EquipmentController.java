@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
@@ -62,6 +63,11 @@ public class EquipmentController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(equipmentList, HttpStatus.OK);
+    }
+    @GetMapping(value = "/getEquipment/{id}")
+    public Optional<Equipment> getEquipment(@PathVariable int id) {
+
+        return equipmentRepo.findById(id);
     }
 
 
