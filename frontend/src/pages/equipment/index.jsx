@@ -43,14 +43,6 @@ const EquipmentDefault = () => {
     };
     fetchData();
   }, []);
-      }
-    };
-    fetchData();
-  }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   const checkType = (obj) => {
     if (obj.equipmentType == "CAMERA") {
@@ -70,22 +62,26 @@ const EquipmentDefault = () => {
     <div className="flex min-h-full">
       <Navbar />
       <main className="min-h-screen flex-grow">
-        <FilterProduct filterValueSelected={onFilterValueSelected} />
         <div className="flex border-8 m-8">
-          {data.map((item) => (
-            <div key={item.id}>
-              <h2>{item.name}</h2>
-              <Image
-                alt="pic"
-                src={checkType(item)}
-                width={100}
-                height={100}
-                quality={100}
-              />
-              <h2> {item.last_name}</h2>
-              <p>{item.email}</p>
-            </div>
-          ))}
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            data.map((item) => (
+              <div key={item.id}>
+                <h2>{item.name}</h2>
+                <FilterProduct filterValueSelected={onFilterValueSelected} />
+                <Image
+                  alt="pic"
+                  src={checkType(item)}
+                  width={100}
+                  height={100}
+                  quality={100}
+                />
+                <h2> {item.last_name}</h2>
+                <p>{item.email}</p>
+              </div>
+            ))
+          )}
         </div>
       </main>
     </div>

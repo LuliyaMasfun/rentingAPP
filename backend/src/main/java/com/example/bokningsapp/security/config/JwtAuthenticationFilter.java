@@ -1,6 +1,6 @@
-package com.example.bokningsapp.token;
+package com.example.bokningsapp.security.config;
 
-import com.example.bokningsapp.service.jwtService.JwtService;
+import com.example.bokningsapp.security.config.JwtService;
 import jakarta.servlet.ServletException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;

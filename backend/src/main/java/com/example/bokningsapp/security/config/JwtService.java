@@ -1,4 +1,4 @@
-package com.example.bokningsapp.service.jwtService;
+package com.example.bokningsapp.security.config;
 
 
 import io.jsonwebtoken.Claims;
