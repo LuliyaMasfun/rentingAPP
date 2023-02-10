@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class AuthenticationRequest {
 
     private String email;
-    private String password;
+     String password;
+/*    private String token;*/
 
 }

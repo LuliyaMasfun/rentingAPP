@@ -1,6 +1,6 @@
 package com.example.bokningsapp.service.userService;
 
-import com.example.bokningsapp.repository.UserRepository;
+/*ort com.example.bokningsapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +15,4 @@ public class UserDetailsService implements UserDetailsService {
     }
 
 
-}
+}*/

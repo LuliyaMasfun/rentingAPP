@@ -8,7 +8,6 @@ import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.config.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -34,16 +33,19 @@ public class AuthenticationService {
                 .role(ERole.ROLE_USER)
                 .build();
 
-        repository.save(user);
+        userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
-
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+
+        
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
+
+   /* public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
@@ -59,5 +61,11 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
 
+    }
+
+    */
+    public String confirmToken (String token) {
+
+            return "HELLO";
     }
 }

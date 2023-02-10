@@ -58,6 +58,7 @@ public class User implements UserDetails {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
     @Column
+    @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
     @Column
     @Enumerated(EnumType.STRING)
