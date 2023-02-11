@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import profileImg from "../../public/profilePic16.png";
+import profileImg from "../../public/profilePic16.png"
 import { IoFilter } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa";
 import changersHub from "../../public/changershub.png";
@@ -46,15 +46,17 @@ const ProfileImg = styled(Image)`
 const Navbar = () => {
   return (
     <Container>
+
       <HamburgerIcon />
-      <Link href="/LandingPage">
+      <Link href="/LandingPage" >
         <CompanyLogo src={changersHub} />
       </Link>
 
       <NotificationIcon />
       <ProfileImg src={profileImg} />
+
     </Container>
-  );
+  )
 };
 
 export default Navbar;

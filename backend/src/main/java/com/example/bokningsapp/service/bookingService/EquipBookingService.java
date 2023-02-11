@@ -17,7 +17,7 @@ public interface EquipBookingService {
 
     public EquipmentBooking updateBooking(int bookingId, UpdatedEquipBookingDto updatedEquipmentBookingDto, User user);
 
-    public EquipmentBooking createBooking(EquipBookingDto equipBookingDto);
+    public EquipmentBooking createBooking(EquipmentBooking equipmentBooking);
     public void deleteBooking(int id);
     public List<EquipmentBooking> findAllBookings();
 
