@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -9,6 +10,8 @@ import sound2 from '../../public/rode2.png'
 import camera2 from '../../public/canon2.png'
 import light2 from '../../public/aputure2.png'
 import Calendar from "../components/Calendar"
+import "../styles/globals.css"
+import Link from 'next/link';
 
 const Page = styled.div`
   position: absolute;
@@ -99,10 +102,10 @@ color: #8E8E8E;
 const DescBg = styled.div`
 position: absolute;
 margin-top: 12vh;
-margin-left: 2.5vh;
+margin-left: 3vh;
 background-color: #F3F3F3;
 width: 340px;
-height: 165px;
+height: 185px;
 border-radius: 10px;
 `;
 const DescTxt = styled.p`
@@ -115,14 +118,27 @@ font-weight:500;
 `;
 const Description = styled.h2`
 position: absolute;
-margin-left: 2.5vh;
-margin-top:5vh;
+margin-left: 0vh;
+margin-top:2vh;
 font-size:12px;
 color: #AAAAAA;
+padding:20px;
 `;
 const ViewMore = styled.span`
 text-decoration: underline;
 color: #F18F85;
+`;
+
+const MakeReservationBtn = styled.button`
+position: absolute;
+background-color: #E8E337;
+width: 267px;
+height: 38px;
+margin-top: 15vh;
+margin-left: 7vh;
+border-radius: 5px;
+font-size: 14px;
+font-weight: 500;
 `;
 
 const EquipmentItem = () => {
@@ -177,14 +193,15 @@ const EquipmentItem = () => {
           </MaxDaysToRentBg>
           <DescBg>
             <DescTxt>Description</DescTxt>
-            <Description>{data.equipmentDescription} Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            <Description>{data.equipmentDescription} ++++++Lorem ipsum dolor sit amet, consectetur adipiscing elit,
               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam <ViewMore>View more</ViewMore>
             </Description>
           </DescBg>
         </div>
-
         <Calendar />
-
+        <Link href="/MyBookings">
+          <MakeReservationBtn >Make Reservation</MakeReservationBtn>
+        </Link>
       </Page>
     ) : (
       <p>Loading...</p>

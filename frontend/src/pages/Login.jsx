@@ -1,8 +1,11 @@
+"use client";
 import React, { useState } from 'react'
 import styled from "@emotion/styled";
 import Link from 'next/link';
 import Image from 'next/image';
 import bankid from "../../public/bankidIcon.png"
+import "../styles/globals.css";
+import "../styles/Body.css";
 
 const Page = styled.div`
   height: 100vh;

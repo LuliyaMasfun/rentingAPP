@@ -9,7 +9,7 @@ height: 160px;
 background-color: #393939;
 border-radius: 20px;
 
-margin-top: 82px;
+margin-top: 40px;
 margin-left: 2.5vh;
 `;
 
