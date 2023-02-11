@@ -44,19 +44,19 @@ margin-left: 35vh;
 `;
 
 const Navbar = () => {
-    return (
-        <Container>
+  return (
+    <Container>
 
-            <HamburgerIcon />
-            <Link href="/LandingPage" >
-                <CompanyLogo src={changersHub} />
-            </Link>
+      <HamburgerIcon />
+      <Link href="/LandingPage" >
+        <CompanyLogo src={changersHub} />
+      </Link>
 
-            <NotificationIcon />
-            <ProfileImg src={profileImg} />
+      <NotificationIcon />
+      <ProfileImg src={profileImg} />
 
-        </Container>
-    )
+    </Container>
+  )
 };
 
 export default Navbar;

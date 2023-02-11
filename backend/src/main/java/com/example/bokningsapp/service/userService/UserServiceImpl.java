@@ -8,12 +8,15 @@ import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BcryptPasswordConfig bcryptPasswordConfig;
@@ -25,25 +28,27 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
     public User createUser(User user) {
         // check for existing user with same email
-        User existingUser = userRepository.findByEmail(user.getEmail());
-        if (existingUser != null) {
-            throw new IllegalArgumentException("User with email " + user.getEmail() + " already exists");
-        }
-        // encrypt the password
-        user.setPassword(encryptPassword(user.getPassword()));
-        return userRepository.save(user);
+
+            User existingUser = userRepository.findUserByEmail(user.getEmail()).orElseThrow();
+
+                // encrypt the password
+                user.setPassword(encryptPassword(user.getPassword()));
+                userRepository.save(user);
+                return user;
+
+
+
     }
 
-    @Override
+
     public String encryptPassword(String password) {
         return bcryptPasswordConfig.bCryptPasswordEncoder1().encode(password);   }
 
 
     //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
-    @Override
+
     public User updateUser(Long id, User updatedUser) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
@@ -58,7 +63,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(updatedUser.getLastName());
         user.setEmail(updatedUser.getEmail());
         user.setPhoneNumber(updatedUser.getPhoneNumber());
-        user.setAddress(updatedUser.getAddress());
+        user.setAdress(updatedUser.getAdress());
         user.setBirthDate(updatedUser.getBirthDate());
         user.setProfileImg(updatedUser.getProfileImg());
         if (updatedUser.getPassword() != null) {
@@ -74,7 +79,7 @@ public class UserServiceImpl implements UserService {
 
     */
 
-    @Override
+
     public User updateUserAdmin(Long id, User user) {
         // Get the user to be updated
         User currentUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
@@ -88,18 +93,28 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(currentUser);
     }
 
-        @Override
+
         public void deleteUser(Long id){
             userRepository.deleteById(id);
         }
 
-        @Override
+
+    public int enableUser(String email) {
+        return 0;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findUserByEmail(username).orElseThrow( () -> new UsernameNotFoundException("User not found with email: " + username));
+    }
+
+/*        @Override
         public int enableUser(String email) {
-            return userRepository.enableUser(email);
+            return userRepository.enableUser(email);*/
     }
 
 
-}
+
 
 
 
