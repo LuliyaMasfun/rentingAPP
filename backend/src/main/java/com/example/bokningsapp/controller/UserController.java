@@ -1,17 +1,14 @@
 package com.example.bokningsapp.controller;
 
-
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
-import com.example.bokningsapp.service.userService.UserServiceImpl;
-
+import com.example.bokningsapp.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
@@ -19,12 +16,12 @@ public class UserController {
 
 
     private final UserRepository userRepository;
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, UserServiceImpl userServiceimpl) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
-        this.userServiceImpl = userServiceimpl;
+        this.userService = userService;
     }
 
     @GetMapping(value = "/getAllUsers")
@@ -46,7 +43,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping(value = "/user/{id}")
+    @DeleteMapping(value = "user/{id}")
     public ResponseEntity<Long> deleteUser(@PathVariable long id){
 
         User deletedUser = userRepository.getReferenceById(id);
@@ -61,7 +58,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping(value = "/user/{id}")
+    @PutMapping(value = "user/{id}")
     public ResponseEntity<User> updateUser2(@PathVariable long id, @RequestBody User user) {
         User updatedUser = userRepository.getReferenceById(id);
 
@@ -79,26 +76,20 @@ public class UserController {
         }
     }
 
-    //ALLA NYA HTTP METODER
-    @PostMapping(value = "/createUser")
+    //DENNA METOD KROCKAR MED AUTH
+ /*   @PostMapping(value = "/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = userServiceImpl.createUser(user);
+        User newUser = userService.createUser(user);
         return new ResponseEntity<>(newUser,HttpStatus.CREATED);
     }
+     */
 
     @PutMapping("/updateUser/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        User user = userServiceImpl.updateUser(id, updatedUser);
+        User user = userService.updateUser(id, updatedUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/name/{username}")
-    public Optional<User> findUserByUsername(@PathVariable String username) {
-        return userRepository.findUserByEmail(username);
-    }
-
-
-
-
-
 }
+
+

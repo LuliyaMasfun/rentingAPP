@@ -1,7 +1,7 @@
-import React from "react";
-import { Menu, Transition } from "@headlessui/react";
-import "../styles/globals.css";
-import { FaChevronLeft, FaChevronRight, FaEllipsisV } from "react-icons/fa";
+import React from 'react';
+import { Menu, Transition } from '@headlessui/react'
+import '../styles/globals.css'
+import { FaChevronLeft, FaChevronRight, FaEllipsisV } from 'react-icons/fa'
 import {
   add,
   eachDayOfInterval,
@@ -207,25 +207,25 @@ export default function Calendar() {
                       className={classNames(
                         isEqual(day, selectedDay) && "text-white",
                         !isEqual(day, selectedDay) &&
-                          isToday(day) &&
-                          "text-yellow-500",
+                        isToday(day) &&
+                        "text-yellow-500",
                         !isEqual(day, selectedDay) &&
-                          !isToday(day) &&
-                          isSameMonth(day, firstDayCurrentMonth) &&
-                          "text-gray-300",
+                        !isToday(day) &&
+                        isSameMonth(day, firstDayCurrentMonth) &&
+                        "text-gray-300",
                         !isEqual(day, selectedDay) &&
-                          !isToday(day) &&
-                          !isSameMonth(day, firstDayCurrentMonth) &&
-                          "text-gray-300",
+                        !isToday(day) &&
+                        !isSameMonth(day, firstDayCurrentMonth) &&
+                        "text-gray-300",
                         isEqual(day, selectedDay) &&
-                          isToday(day) &&
-                          "bg-red-500",
+                        isToday(day) &&
+                        "bg-red-500",
                         isEqual(day, selectedDay) &&
-                          !isToday(day) &&
-                          "bg-yellow-500",
+                        !isToday(day) &&
+                        "bg-yellow-500",
                         !isEqual(day, selectedDay) && "hover:bg-gray-200",
                         (isEqual(day, selectedDay) || isToday(day)) &&
-                          "font-semibold",
+                        "font-semibold",
                         "absolute mx-auto flex h-8 w-8 items-center justify-center rounded-full"
                       )}
                     >
@@ -280,8 +280,9 @@ function Booking({ booking }) {
 }
 
 let colStartClasses = [
-  "col-start-4",
-  "col-start-5",
-  "col-start-6",
-  "col-start-7",
-];
+  'col-start-4',
+  'col-start-5',
+  'col-start-6',
+  'col-start-7',
+
+]

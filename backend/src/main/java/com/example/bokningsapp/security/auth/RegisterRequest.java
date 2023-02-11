@@ -1,9 +1,11 @@
-package com.example.bokningsapp.auth;
+package com.example.bokningsapp.security.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -15,4 +17,9 @@ public class RegisterRequest {
     private String lastName;
     private String email;
     private String password;
+private String phoneNumber;
+private String address;
+private LocalDate birthDate;
+
+
 }
