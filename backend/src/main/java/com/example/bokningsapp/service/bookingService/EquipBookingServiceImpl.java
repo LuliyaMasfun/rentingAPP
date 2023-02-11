@@ -77,11 +77,11 @@ public class EquipBookingServiceImpl implements EquipBookingService {
 
     @Override
     @Transactional
-    public EquipmentBooking createBooking(EquipBookingDto equipBookingDto) {
-        User user = userRepository.findById(equipBookingDto.getUser().getId())
-                .orElseThrow(() -> new UserNotFoundException("User not found with id " + equipBookingDto.getUser().getId()));
+    public EquipmentBooking createBooking(EquipmentBooking equipmentBooking) {
+        User user = userRepository.findById(equipmentBooking.getUser().getId())
+                .orElseThrow(() -> new UserNotFoundException("User not found with id " + equipmentBooking.getUser().getId()));
 
-        List<Equipment> equipmentList = equipBookingDto.getEquipment();
+        List<Equipment> equipmentList = equipmentBooking.getEquipment();
         for (Equipment equipment : equipmentList) {
             Equipment foundEquipment = equipmentRepo.findById(equipment.getId())
                     .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found with id " + equipmentRepo.findById(equipment.getId())));
@@ -89,8 +89,8 @@ public class EquipBookingServiceImpl implements EquipBookingService {
             throw new EquipmentNotAvailableException("Equipment is not available for booking");
         }
         }
-        LocalDate startDate = equipBookingDto.getStartDate();
-        LocalDate endDate =  equipBookingDto.getEndDate();
+        LocalDate startDate = equipmentBooking.getStartDate();
+        LocalDate endDate =  equipmentBooking.getEndDate();
         Duration duration = Duration.between(startDate,endDate);
         long days = duration.toDays();
         if (days > 2) {
@@ -101,12 +101,12 @@ public class EquipBookingServiceImpl implements EquipBookingService {
                 throw new IllegalArgumentException("Invalid choice of Date");
             }
         }
-        equipBookingDto.setUser(equipBookingDto.getUser());
-        equipBookingDto.setEquipment(equipBookingDto.getEquipment());
-        equipBookingDto.setStartDate(equipBookingDto.getStartDate());
-        equipBookingDto.setEndDate(equipBookingDto.getEndDate());
+        equipmentBooking.setUser(equipmentBooking.getUser());
+        equipmentBooking.setEquipment(equipmentBooking.getEquipment());
+        equipmentBooking.setStartDate(equipmentBooking.getStartDate());
+        equipmentBooking.setEndDate(equipmentBooking.getEndDate());
 
-       EquipmentBooking booking = equipBookingRepo.save(equipBookingDto);
+       EquipmentBooking booking = equipBookingRepo.save(equipmentBooking);
         for (Equipment equipment : equipmentList) {
             equipment.setEquipmentStatus(EquipmentStatus.UNAVAILABLE);
             equipmentRepo.save(equipment);
