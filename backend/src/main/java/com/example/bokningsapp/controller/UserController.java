@@ -26,18 +26,17 @@ public class UserController {
     }
 
     @GetMapping(value = "/getAllUsers")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<User>> getAllUsers() {
         try {
             List<User> userList = userRepository.findAll();
 
             if (!userList.isEmpty()) {
                 return new ResponseEntity<>(userList, HttpStatus.OK);
-            }
-            else {
+            } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             // Kan jag få ut Error meddelandet på något sätt?
 
@@ -45,20 +44,21 @@ public class UserController {
     }
 
     @DeleteMapping(value = "user/{id}")
-    public ResponseEntity<Long> deleteUser(@PathVariable long id){
+    public ResponseEntity<Long> deleteUser(@PathVariable long id) {
 
         User deletedUser = userRepository.getReferenceById(id);
-        try{
+        try {
             if (userRepository.existsById(id)) {
                 userRepository.delete(deletedUser);
-                return new ResponseEntity<>(id,HttpStatus.OK);
+                return new ResponseEntity<>(id, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(id,HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(id, HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @PutMapping(value = "user/{id}")
     public ResponseEntity<User> updateUser2(@PathVariable long id, @RequestBody User user) {
         User updatedUser = userRepository.getReferenceById(id);
@@ -70,12 +70,13 @@ public class UserController {
 
             userRepository.save(updatedUser);
 
-            return new ResponseEntity<>(updatedUser,HttpStatus.OK);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
-    }*/
+    }
+}
 
     //DENNA METOD KROCKAR MED AUTH
  /*   @PostMapping(value = "/createUser")
