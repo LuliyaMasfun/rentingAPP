@@ -1,6 +1,5 @@
 package com.example.bokningsapp.controller;
 
-import com.example.bokningsapp.auth.AuthenticationService;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.service.userService.UserService;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
@@ -78,12 +76,13 @@ public class UserController {
         }
     }
 
-    //ALLA NYA HTTP METODER
-    @PostMapping(value = "/createUser")
+    //DENNA METOD KROCKAR MED AUTH
+ /*   @PostMapping(value = "/createUser")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User newUser = userService.createUser(user);
         return new ResponseEntity<>(newUser,HttpStatus.CREATED);
     }
+     */
 
     @PutMapping("/updateUser/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
@@ -91,13 +90,6 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/name/{username}")
-    public Optional<User> findUserByUsername(@PathVariable String username) {
-        return userRepository.findUserByEmail(username);
-    }
-
-
-
-
-
 }
+
+

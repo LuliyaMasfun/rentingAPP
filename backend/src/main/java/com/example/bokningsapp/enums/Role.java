@@ -1,7 +1,7 @@
 package com.example.bokningsapp.enums;
 
 public enum
-ERole {
+Role {
     ROLE_USER,
     ROLE_MODERATOR,
     ROLE_ADMIN

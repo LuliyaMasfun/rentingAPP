@@ -1,4 +1,4 @@
-package com.example.bokningsapp.security;
+package com.example.bokningsapp.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

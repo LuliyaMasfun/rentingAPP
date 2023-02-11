@@ -1,14 +1,15 @@
-package com.example.bokningsapp.auth;
+package com.example.bokningsapp.security.auth;
 
 
 
-import com.example.bokningsapp.enums.ERole;
+import com.example.bokningsapp.enums.Role;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
-import com.example.bokningsapp.security.config.JwtService;
+import com.example.bokningsapp.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -31,10 +32,12 @@ public class AuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(ERole.ROLE_USER)
+                .phoneNumber(request.getPhoneNumber())
+                .address(request.getAddress())
+                .birthDate(request.getBirthDate())
+                .role(Role.ROLE_USER)
                 .build();
-
-        repository.save(user);
+        userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
 
@@ -43,21 +46,28 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
-                request.getPassword()
+                        authenticationRequest.getEmail(),
+                        authenticationRequest.getPassword()
         )
         );
-            var user = repository.findUserByEmail(request.getEmail())
+            var user = userRepository.findByEmail(authenticationRequest.getEmail())
                     .orElseThrow();
 
-        var jwtToken = jwtService.generateToken(user);
+        UserDetails userDetails = User.builder()
+                .email(user.getEmail())
+                .id(user.getId())
+                .build();
+        var jwtToken = jwtService.generateToken(userDetails);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
-
     }
+
+
+
+
 }

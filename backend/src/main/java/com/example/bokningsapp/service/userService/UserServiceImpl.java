@@ -5,11 +5,12 @@ import com.example.bokningsapp.exception.ResourceNotFoundException;
 import com.example.bokningsapp.exception.UserNotFoundException;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
-import com.example.bokningsapp.security.BcryptPasswordConfig;
+import com.example.bokningsapp.security.config.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 
 
 @Service
@@ -29,8 +30,8 @@ public class UserServiceImpl implements UserService {
     public User createUser(User user) {
         // check for existing user with same email
         try{
-            User existingUser = userRepository.findByEmail(user.getEmail());
-            if (existingUser !=null) {
+          Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+            if (existingUser.isEmpty()) {
                 throw new IllegalArgumentException("User with email " + user.getEmail() + " already exists");
             }
             else{
@@ -39,8 +40,6 @@ public class UserServiceImpl implements UserService {
                 userRepository.save(user);
                 return user;
             }
-
-
 
         }catch(Exception e) {
            return user;
@@ -69,7 +68,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(updatedUser.getLastName());
         user.setEmail(updatedUser.getEmail());
         user.setPhoneNumber(updatedUser.getPhoneNumber());
-        user.setAdress(updatedUser.getAdress());
+        user.setAddress(updatedUser.getAddress());
         user.setBirthDate(updatedUser.getBirthDate());
         user.setProfileImg(updatedUser.getProfileImg());
         if (updatedUser.getPassword() != null) {

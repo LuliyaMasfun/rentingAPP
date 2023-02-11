@@ -1,6 +1,7 @@
 package com.example.bokningsapp.security.config;
 
 
+import com.example.bokningsapp.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -31,8 +32,8 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .cors().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/login", "/error", "/auth/**").permitAll()
-                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/", "/login", "/error", "/auth/**", "auth/authenticate").permitAll()
+                .requestMatchers("/admin").hasRole("ROLE_ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
