@@ -8,6 +8,7 @@ import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.config.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,14 +46,14 @@ public class AuthenticationService {
 
 
 
-   /* public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword()
         )
         );
-            var user = repository.findUserByEmail(request.getEmail())
+            var user = userRepository.findUserByEmail(request.getEmail())
                     .orElseThrow();
 
         var jwtToken = jwtService.generateToken(user);
@@ -63,9 +64,5 @@ public class AuthenticationService {
 
     }
 
-    */
-    public String confirmToken (String token) {
 
-            return "HELLO";
-    }
 }

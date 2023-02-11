@@ -7,7 +7,7 @@ import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.BcryptPasswordConfig;
 import com.example.bokningsapp.service.emailService.EmailSender;
 import com.example.bokningsapp.service.emailService.EmailService;
-import com.example.bokningsapp.service.userService.UserServiceImpl;
+import com.example.bokningsapp.service.userService.UserService;
 import com.example.bokningsapp.token.VerificationToken;
 import com.example.bokningsapp.token.VerificationTokenRepo;
 import com.example.bokningsapp.token.VerificationTokenService;
@@ -29,13 +29,13 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final VerificationTokenRepo verificationTokenRepo;
     private final RegistrationRequestValidator registrationRequestValidator;
     private final VerificationTokenService verificationTokenService;
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final EmailSender emailSender;
 
 
     @Autowired
     public RegistrationServiceImpl(UserRepository userRepository, BcryptPasswordConfig bcryptPasswordConfig, EmailService emailService, VerificationTokenRepo
-            verificationTokenRepo, RegistrationRequestValidator registrationRequestValidator,VerificationTokenService verificationTokenService, UserServiceImpl userServiceImpl,
+            verificationTokenRepo, RegistrationRequestValidator registrationRequestValidator,VerificationTokenService verificationTokenService, UserService userService,
             EmailSender emailSender) {
         this.userRepository = userRepository;
         this.bcryptPasswordConfig = bcryptPasswordConfig;
@@ -43,7 +43,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.verificationTokenRepo = verificationTokenRepo;
         this.registrationRequestValidator = registrationRequestValidator;
         this.verificationTokenService = verificationTokenService;
-        this.userService = userServiceImpl;
+        this.userService = userService;
         this.emailSender = emailSender;
     }
     @Override

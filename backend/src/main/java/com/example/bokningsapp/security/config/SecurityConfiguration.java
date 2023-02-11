@@ -30,6 +30,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .cors().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
@@ -42,14 +43,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-  /*      http.cors().configurationSource(request -> {    CorsConfiguration corsConfiguration = new CorsConfiguration()
-                .applyPermitDefaultValues() ;
-                corsConfiguration.addAllowedMethod("DELETE");
-        corsConfiguration.addAllowedMethod("POST");
-        corsConfiguration.addAllowedMethod("GET");
-        corsConfiguration.addAllowedMethod("PATCH");
-        return corsConfiguration;
-        });*/
+
 
         return http.build();
     }
