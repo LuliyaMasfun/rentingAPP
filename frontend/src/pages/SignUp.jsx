@@ -182,7 +182,6 @@ const SignUp = () => {
     <Page>
       <Title>Create an account,</Title>
       <Subtitle>Lets get started, enter your details</Subtitle>
-
       <Form
         onSubmit={(e) => {
           e.preventDefault();
@@ -196,7 +195,6 @@ const SignUp = () => {
           onChange={(e) => {
             setFormData({ ...formData, firstName: e.target.value });
           }}
-          css={{ color: "hotpink" }}
           required
         />
         <InputLastname
@@ -207,8 +205,6 @@ const SignUp = () => {
           onChange={(e) => {
             setFormData({ ...formData, lastName: e.target.value });
           }}
-          css={{ color: "hotpink" }}
-          required
         />
         <InputEmail
           type="email"
@@ -218,8 +214,6 @@ const SignUp = () => {
           onChange={(e) => {
             setFormData({ ...formData, email: e.target.value });
           }}
-          css={{ color: "hotpink" }}
-          required
         />
         <InputAddress
           type="email"
@@ -229,8 +223,6 @@ const SignUp = () => {
           onChange={(e) => {
             setFormData({ ...formData, address: e.target.value });
           }}
-          css={{ color: "hotpink" }}
-          required
         />
 
         <InputPhonenumber
@@ -241,8 +233,6 @@ const SignUp = () => {
           onChange={(e) => {
             setFormData({ ...formData, phoneNumber: e.target.value });
           }}
-          css={{ color: "hotpink" }}
-          required
         />
         <InputBirthdate
           type="date"
@@ -252,8 +242,6 @@ const SignUp = () => {
           onChange={(e) => {
             setFormData({ ...formData, birthdate: e.target.value });
           }}
-          css={{ color: "hotpink" }}
-          required
         />
         <InputPassword
           type="password"
@@ -263,8 +251,6 @@ const SignUp = () => {
           onChange={(e) => {
             setFormData({ ...formData, password: e.target.value });
           }}
-          css={{ color: "hotpink" }}
-          required
         />
       </Form>
       <Link href={{
@@ -280,8 +266,8 @@ const SignUp = () => {
           Already have an account? <UnderlinedText>Log in</UnderlinedText>
         </Login>
       </Link>
-
     </Page>
-  )
-}
+  );
+};
 export default SignUp;
+

@@ -5,7 +5,6 @@ import styled from "@emotion/styled";
 import "../styles/globals.css";
 import bookingImg from "../../public/bookingImg.png"
 import Image from "next/image";
-import Footer from "../components/Footer";
 
 const bookings = [
   {

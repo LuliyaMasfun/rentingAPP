@@ -11,14 +11,13 @@ import sound from "../../public/rode.png";
 import camera from "../../public/canon.png";
 import Footer from "../components/Footer";
 import Navbar from '../components/Navbar';
-import LandingPage from './LandingPage';
 import "../styles/globals.css"
 
 
 
 const Page = styled.div`
   position: absolute;
-  height: 1386px ${props => props.short ? '600px' : ''};
+  height: auto ${props => props.short ? '600px' : ''};
   width: 390px;
   background-color: #1E1E1E;
   margin:0;

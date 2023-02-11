@@ -5,42 +5,22 @@ import com.example.bokningsapp.exception.ResourceNotFoundException;
 import com.example.bokningsapp.exception.UserNotFoundException;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
-import com.example.bokningsapp.security.BcryptPasswordConfig;
+import com.example.bokningsapp.security.config.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
-
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final BcryptPasswordConfig bcryptPasswordConfig;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BcryptPasswordConfig bcryptPasswordConfig) {
+    public UserService(UserRepository userRepository, BcryptPasswordConfig bcryptPasswordConfig) {
         this.userRepository = userRepository;
         this.bcryptPasswordConfig = bcryptPasswordConfig;
     }
 
-
-    public User createUser(User user) {
-        // check for existing user with same email
-
-            User existingUser = userRepository.findUserByEmail(user.getEmail()).orElseThrow();
-
-                // encrypt the password
-                user.setPassword(encryptPassword(user.getPassword()));
-                userRepository.save(user);
-                return user;
-
-
-
-    }
 
 
     public String encryptPassword(String password) {
@@ -63,7 +43,7 @@ public class UserServiceImpl implements UserDetailsService {
         user.setLastName(updatedUser.getLastName());
         user.setEmail(updatedUser.getEmail());
         user.setPhoneNumber(updatedUser.getPhoneNumber());
-        user.setAdress(updatedUser.getAdress());
+        user.setAddress(updatedUser.getAddress());
         user.setBirthDate(updatedUser.getBirthDate());
         user.setProfileImg(updatedUser.getProfileImg());
         if (updatedUser.getPassword() != null) {
@@ -79,7 +59,6 @@ public class UserServiceImpl implements UserDetailsService {
 
     */
 
-
     public User updateUserAdmin(Long id, User user) {
         // Get the user to be updated
         User currentUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
@@ -92,32 +71,5 @@ public class UserServiceImpl implements UserDetailsService {
         }
         return userRepository.save(currentUser);
     }
-
-
-        public void deleteUser(Long id){
-            userRepository.deleteById(id);
-        }
-
-
-    public int enableUser(String email) {
-        return 0;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findUserByEmail(username).orElseThrow( () -> new UsernameNotFoundException("User not found with email: " + username));
-    }
-
-/*        @Override
-        public int enableUser(String email) {
-            return userRepository.enableUser(email);*/
-    }
-
-
-
-
-
-
-
-
+}
 

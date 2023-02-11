@@ -1,11 +1,12 @@
 package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.AccountStatus;
-import com.example.bokningsapp.enums.ERole;
+import com.example.bokningsapp.enums.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,13 +16,12 @@ import java.util.Collection;
 import java.util.List;
 
 
-
+@Data
 @Builder
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,27 +33,20 @@ public class User implements UserDetails {
     private String email;
     @Column
     private String profileImg;
-
     @Column
     private Long socialSecurityNumber;
-
     @Column
     private String phoneNumber;
-
     @Column
-    private String adress;
-
+    private String address;
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime createdDate;
-
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime updatedDate;
-
     @Column
     private String password;
-
     @Column
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
@@ -61,18 +54,14 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
     @Column
-    @Enumerated(EnumType.STRING)
-    private ERole role;
+    private Role role;
+    @Column
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<EquipmentBooking> equipmentBookings;
-
-
-    @Column
     private boolean enabled;
 
-
     public User(String firstName, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
-                String phoneNumber,String adress,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate, boolean enabled) {
+                String phoneNumber,String address,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate, boolean enabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -80,7 +69,7 @@ public class User implements UserDetails {
         this.profileImg =  profileImg;
         this.socialSecurityNumber = socialSecurityNumber;
         this.phoneNumber = phoneNumber;
-        this.adress = adress;
+        this.address = address;
         this.createdDate = createdDate;
         this.updatedDate =updatedDate;
         this.password = password;
@@ -152,12 +141,12 @@ public class User implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String address) {
-        this.adress = address;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public LocalDateTime getCreatedDate() {
@@ -176,11 +165,42 @@ public class User implements UserDetails {
         this.updatedDate = updatedDate;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
-
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
     @Override
     public String getPassword() {
         return password;
@@ -206,42 +226,6 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public AccountStatus getAccountStatus() {
-        return accountStatus;
-    }
-
-    public void setAccountStatus(AccountStatus accountStatus) {
-        this.accountStatus = accountStatus;
-    }
-
-    public ERole getRole() {
-        return role;
-    }
-
-    public void setRole(ERole role) {
-        this.role = role;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -252,7 +236,7 @@ public class User implements UserDetails {
                 ", profileImg='" + profileImg + '\'' +
                 ", socialSecurityNumber=" + socialSecurityNumber +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", adress='" + adress + '\'' +
+                ", address='" + address + '\'' +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 ", password='" + password + '\'' +
