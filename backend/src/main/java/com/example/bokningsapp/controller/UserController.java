@@ -1,5 +1,7 @@
 package com.example.bokningsapp.controller;
 
+import com.example.bokningsapp.exception.EquipmentNotFoundException;
+import com.example.bokningsapp.exception.UserNotFoundException;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 
@@ -7,11 +9,14 @@ import com.example.bokningsapp.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class UserController {
 
@@ -25,41 +30,20 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/getAllUsers")
-    public ResponseEntity<List<User>> getAllUsers() {
-        try {
-            List<User> userList = userRepository.findAll();
-
-            if (!userList.isEmpty()) {
-                return new ResponseEntity<>(userList, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-            // Kan jag få ut Error meddelandet på något sätt?
-
-        }
+    @GetMapping("/allUsers")
+    // @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN')")
+        public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "user/{id}")
-    public ResponseEntity<Long> deleteUser(@PathVariable long id) {
-
-        User deletedUser = userRepository.getReferenceById(id);
-        try {
-            if (userRepository.existsById(id)) {
-                userRepository.delete(deletedUser);
-                return new ResponseEntity<>(id, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(id, HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @DeleteMapping("/deleteUser/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public void deleteUser(@PathVariable Long id) {
+             userService.deleteUser(id);
     }
 
-    @PutMapping(value = "user/{id}")
+    @PutMapping(value = "/updateUser/{id}")
     public ResponseEntity<User> updateUser2(@PathVariable long id, @RequestBody User user) {
         User updatedUser = userRepository.getReferenceById(id);
 
@@ -76,7 +60,16 @@ public class UserController {
 
         }
     }
+
+
+    @PatchMapping(value = "/updateUser/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+
+        return userService.updateUser(id, updatedUser);
+    }
 }
+
+
 
     //DENNA METOD KROCKAR MED AUTH
  /*   @PostMapping(value = "/createUser")
@@ -98,5 +91,6 @@ public class UserController {
         return userRepository.findUserByEmail(username);
     }
 */
+
 
 

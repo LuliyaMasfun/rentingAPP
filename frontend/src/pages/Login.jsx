@@ -62,7 +62,7 @@ const InputEmail = styled(Input)`
     color: #fff;
   }
   margin-left: -16.5vh;
-  margin-top: 80px;
+  margin-top: 110px;
 `;
 const InputPassword = styled(Input)`
  position: absolute;
@@ -104,33 +104,30 @@ position: absolute;
   border-radius: 5px;
   box-shadow: 0px 3px rgba(0, 0, 0, 0.3);
 `;
-const Border1 = styled.div`
+
+const Borders = styled.div`
 display: flex;
 flex-direction: row;
+margin-left: 0vh;
+margin-top: 53vh;
+`;
+const Border1 = styled.div`
+margin: 10px;
   height: 0px;
   width: 100px;
   border: 1px solid white;
-  margin-left: -20vh;
-  margin-top: 55vh;
   opacity: 0.5;
 `;
 const Or = styled.p`
-display: flex;
-flex-direction: row;
 color: white;
-margin-left: 0vh;
-margin-top: -1vh;
 font-weight: 300;
 font-size: 14px;
 `;
 const Border2 = styled.div`
-display: flex;
-flex-direction: row;
+margin: 10px;
 height: 0px;
 width: 100px;
 border: 1px solid white;
-margin-left: 20vh;
-margin-top: -2.8vh;
 opacity: 0.5;
 `;
 const ButtonBankid = styled.div`
@@ -260,10 +257,11 @@ const Login = () => {
 
         <ButtonLogin onClick={handleLogin}>Log in</ButtonLogin>
         <CheckButton ref={checkBtn} />
-
-        <Border1 />
-        <Or>or</Or>
-        <Border2 />
+        <Borders>
+          <Border1 />
+          <Or>or</Or>
+          <Border2 />
+        </Borders>
         <ButtonBankid type="submit"> <BankIdImg src={bankid}></BankIdImg>
           Log in with Bank id
         </ButtonBankid>
