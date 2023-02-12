@@ -1,7 +1,6 @@
 package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.AccountStatus;
-import com.example.bokningsapp.enums.ERole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -52,14 +51,6 @@ public class User implements UserDetails {
     @Column
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_roles",
@@ -194,6 +185,14 @@ public class User implements UserDetails {
 
     public void setAccountStatus(AccountStatus accountStatus) {
         this.accountStatus = accountStatus;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@RequestMapping("/user")
 public class UserController {
 
 
@@ -43,7 +44,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping(value = "user/{id}")
+    @DeleteMapping(value = "/user/{id}")
     public ResponseEntity<Long> deleteUser(@PathVariable long id) {
 
         User deletedUser = userRepository.getReferenceById(id);
@@ -59,7 +60,12 @@ public class UserController {
         }
     }
 
-    @PutMapping(value = "user/{id}")
+        @DeleteMapping(value = "/deleteUser")
+        public ResponseEntity<String> deleteUser(String email){
+        return new ResponseEntity<>(userService.deleteUserByEmail(email),HttpStatus.OK);
+        }
+
+    @PutMapping(value = "/user/{id}")
     public ResponseEntity<User> updateUser2(@PathVariable long id, @RequestBody User user) {
         User updatedUser = userRepository.getReferenceById(id);
 
@@ -76,6 +82,11 @@ public class UserController {
 
         }
     }
+    @PatchMapping(value = "/updateUser")
+    public ResponseEntity<User> updateUser(String email, @RequestBody User user){
+       return userService.updateUser(email,user);
+    }
+
 }
 
     //DENNA METOD KROCKAR MED AUTH
