@@ -1,5 +1,4 @@
 import React from "react";
-import { Menu, Transition } from "@headlessui/react";
 import "../styles/globals.css";
 import { FaChevronLeft, FaChevronRight, FaEllipsisV } from "react-icons/fa";
 import {
@@ -16,24 +15,8 @@ import {
   parseISO,
   startOfToday,
 } from "date-fns";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import styled from "@emotion/styled";
-
-/*const [booking, setBooking] = useState(null);
-
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/getBookings/${id}`);
-      setBooking(response.booking);
-      console.log(response.booking)
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  fetchData();
-}, []);
-*/
 
 //TEMPORARY DATA:
 const bookings = [
@@ -60,6 +43,23 @@ function classNames(...classes) {
 }
 
 export default function Calendar() {
+  const [booking, setBooking] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://localhost:8080/getBookings/${id}`
+  //       );
+  //       setBooking(response.booking);
+  //       console.log(response.booking);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
