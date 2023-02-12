@@ -1,23 +1,10 @@
 package com.example.bokningsapp.controller;
 
-import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
-import com.example.bokningsapp.dto.UpdatedEquipmentDto;
-import com.example.bokningsapp.enums.BookingStatus;
-import com.example.bokningsapp.exception.BookingNotFoundException;
-import com.example.bokningsapp.exception.EquipmentNotAvailableException;
-import com.example.bokningsapp.model.EquipmentBooking;
-import com.example.bokningsapp.repository.EquipBookingRepo;
+import com.example.bokningsapp.repository.EquipBookingRepository;
 import com.example.bokningsapp.service.adminService.AdminService;
 import com.example.bokningsapp.service.bookingService.EquipBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
@@ -25,11 +12,11 @@ public class AdminController {
 
     private final AdminService adminService;
     private final EquipBookingService equipBookingService;
-    private final EquipBookingRepo equipBookingRepo;
+    private final EquipBookingRepository equipBookingRepo;
 
 
     @Autowired
-    public AdminController(EquipBookingService equipBookingService, AdminService adminService,  EquipBookingRepo equipBookingRepo) {
+    public AdminController(EquipBookingService equipBookingService, AdminService adminService,  EquipBookingRepository equipBookingRepo) {
         this.equipBookingService = equipBookingService;
         this.adminService = adminService;
         this.equipBookingRepo = equipBookingRepo;

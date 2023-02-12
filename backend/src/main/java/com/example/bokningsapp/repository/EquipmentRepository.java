@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EquipmentRepo extends JpaRepository <Equipment, Integer> {
+public interface EquipmentRepository extends JpaRepository <Equipment, Integer> {
 
     List<Equipment> findByEquipmentType(EquipmentType equipmentType);
     List<Equipment> findAllByEquipmentStatus(EquipmentStatus equipmentStatus);

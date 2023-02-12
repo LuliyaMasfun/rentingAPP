@@ -6,8 +6,8 @@ import com.example.bokningsapp.exception.BookingNotFoundException;
 import com.example.bokningsapp.exception.EquipmentNotFoundException;
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.EquipmentBooking;
-import com.example.bokningsapp.repository.EquipBookingRepo;
-import com.example.bokningsapp.repository.EquipmentRepo;
+import com.example.bokningsapp.repository.EquipBookingRepository;
+import com.example.bokningsapp.repository.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,12 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-    private final EquipBookingRepo equipBookingRepo;
-    private final EquipmentRepo equipmentRepo;
+    private final EquipBookingRepository equipBookingRepo;
+    private final EquipmentRepository equipmentRepo;
    
 
     @Autowired
-    public AdminServiceImpl(EquipBookingRepo equipBookingRepo, EquipmentRepo equipmentRepo) {
+    public AdminServiceImpl(EquipBookingRepository equipBookingRepo, EquipmentRepository equipmentRepo) {
         this.equipBookingRepo = equipBookingRepo;
         this.equipmentRepo = equipmentRepo;
     }

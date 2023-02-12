@@ -1,6 +1,7 @@
-package com.example.bokningsapp.security;
+package com.example.bokningsapp.security.jwt;
 
 
+import com.example.bokningsapp.enums.ERole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,6 +19,33 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final String SECRET_KEY="2A46294A404E635266556A586E3272357538782F413F4428472B4B6150645367";
+
+    public static Long getUserIdFromToken(String token) {
+        Claims claims;
+        try {
+            Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+            claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to parse token", e);
+        }
+        try {
+            Long userId = (Long) claims.get("user_id");
+            return Long.valueOf(userId.toString());
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Unable to parse user id from token", e);
+        }
+    }
+
+    public static ERole getUserRoleFromToken(String token) {
+        Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return  (ERole)claims.get("role");
+    }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
