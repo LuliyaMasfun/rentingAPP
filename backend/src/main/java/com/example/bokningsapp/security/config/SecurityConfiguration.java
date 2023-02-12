@@ -1,7 +1,7 @@
 package com.example.bokningsapp.security.config;
 
 
-import com.example.bokningsapp.security.JwtAuthenticationFilter;
+import com.example.bokningsapp.security.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,15 +24,15 @@ public class SecurityConfiguration {
         this.authenticationProvider = authenticationProvider;
     }
 
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .cors().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/login", "/error", "/auth/**", "auth/authenticate").permitAll()
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/api/test/**").permitAll()
+                .requestMatchers("/equipment/**").permitAll()
                 .requestMatchers("/admin").hasRole("ROLE_ADMIN")
                 .anyRequest()
                 .authenticated()

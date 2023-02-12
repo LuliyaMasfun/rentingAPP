@@ -4,7 +4,7 @@ import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
 import com.example.bokningsapp.exception.EquipmentNotFoundException;
 import com.example.bokningsapp.model.Equipment;
-import com.example.bokningsapp.repository.EquipmentRepo;
+import com.example.bokningsapp.repository.EquipmentRepository;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +14,10 @@ import java.util.List;
 @Service
 public class EquipmentServiceImpl implements EquipmentService {
 
-    private final EquipmentRepo equipmentRepo;
+    private final EquipmentRepository equipmentRepo;
 
     @Autowired
-    public EquipmentServiceImpl(EquipmentRepo equipmentRepo) {
+    public EquipmentServiceImpl(EquipmentRepository equipmentRepo) {
         this.equipmentRepo = equipmentRepo;
     }
     @Override

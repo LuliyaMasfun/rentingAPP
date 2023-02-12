@@ -34,10 +34,10 @@ import java.time.LocalDate;
         @Column
         private String equipmentBrand;
         @Column
-        @Enumerated(EnumType.STRING)
+        @Enumerated
         private EquipmentType equipmentType;
         @Column
-        @Enumerated(EnumType.STRING)
+        @Enumerated
         private EquipmentStatus equipmentStatus;
 
     @OneToOne
