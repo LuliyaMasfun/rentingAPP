@@ -149,7 +149,7 @@ const EquipmentItem = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/getEquipment/${id}`);
+        const response = await axios.get(`http://localhost:8080/equipment/getEquipment/${id}`);
         setData(response.data);
         console.log(response.data)
       } catch (error) {

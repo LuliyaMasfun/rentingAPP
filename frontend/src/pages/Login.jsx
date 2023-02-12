@@ -1,11 +1,17 @@
 "use client";
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import styled from "@emotion/styled";
 import Link from 'next/link';
 import Image from 'next/image';
 import bankid from "../../public/bankidIcon.png"
 import "../styles/globals.css";
 import "../styles/Body.css";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
+import { useRouter } from 'next/router';
+
+import AuthService from "../services/auth.service";
 
 const Page = styled.div`
   height: 100vh;
@@ -36,17 +42,16 @@ const Subtitle = styled.p`
 `;
 
 
-const Form = styled.form`
+const FormLogin = styled(Form)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 80vh;
+  height: 100vh;
 `;
 
-const InputEmail = styled.input`
+const InputEmail = styled(Input)`
   position: absolute;
-  margin-top: -30px;
   border: none;
   padding: 10px;
   width: 260px;
@@ -55,10 +60,13 @@ const InputEmail = styled.input`
   color: white;
   ::placeholder {
     color: #fff;
+  }
+  margin-left: -16.5vh;
+  margin-top: 80px;
 `;
-const InputPassword = styled.input`
+const InputPassword = styled(Input)`
  position: absolute;
- margin-top: 100px;
+ margin-top: 180px;
   border: none;
   padding: 10px;
   width: 260px;
@@ -67,11 +75,13 @@ const InputPassword = styled.input`
   color: white;
   ::placeholder {
     color: #fff;
+  }
+  margin-left: -16.5vh;
 `;
 const ForgotPasswordLink = styled.p`
 position: absolute;
-margin-top: 36.5vh;
-margin-left: 7vh;
+margin-top: 28vh;
+margin-left: 2.5vh;
 font-size: 12px;
 text-decoration: underline;
 cursor: pointer;
@@ -84,8 +94,7 @@ color: #777;
 const ButtonLogin = styled.button`
 position: absolute;
  border: none;
- margin-top: 300px;
-margin-left: -135px;
+ margin-top: 350px;
   padding: 10px;
   width: 275px;
   background-color:white;
@@ -129,7 +138,7 @@ position:absolute;
 border: 1px solid white;
  margin-top: 550px;
   padding: 10px;
-  width: 255px;
+ width: 275px;
   font-weight: 400;
   font-size: 16px;
   border-radius: 5px;
@@ -142,7 +151,6 @@ const BankIdImg = styled(Image)`
 position:absolute;
 width: 25px;
 height: 19px;
-margin-left: -3.5vh;
 margin-top: 0.3vh;
 `;
 const UnderlinedText = styled.span`
@@ -158,21 +166,66 @@ color: white;
 margin-left: -10vh;
 `;
 
+const required = (value) => {
+  if (!value) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        This field is required!
+      </div>
+    );
+  }
+};
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  })
+  // let navigate = useNavigate();
 
-  const handleChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+  const form = useRef();
+  const checkBtn = useRef();
 
-  const handleSubmit = async e => {
-    e.preventDefault()
-    console.log(formData)
-    // Add code to send the form data to the server and authenticate user
-  }
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const onChangeEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+  };
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
+
+  const router = useRouter();
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    setMessage("");
+    setLoading(true);
+
+    form.current.validateAll();
+    if (checkBtn.current.context._errors.length === 0) {
+      AuthService.login(email, password).then(
+        () => {
+
+          router.push('/landingPage');
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          setLoading(false);
+          setMessage(resMessage);
+        }
+      );
+    } else {
+      setLoading(false);
+    }
+  };
 
 
   return (
@@ -180,21 +233,22 @@ const Login = () => {
     <Page>
       <Title>Welcome Back,</Title>
       <Subtitle>please enter your credentials</Subtitle>
-      <Form onSubmit={handleSubmit}>
+      <FormLogin onSubmit={handleLogin} ref={form}>
         <InputEmail
-          type="email"
+          type="text"
           name="email"
           placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          css={{ color: 'hotpink' }}
+          value={email}
+          onChange={onChangeEmail}
+          validations={[required]}
         />
         <InputPassword
-          type="password"
+          type="text"
           name="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
+          value={password}
+          onChange={onChangePassword}
+          validations={[required]}
         />
         <Link href={{
           pathname: "/resetPassword"
@@ -204,11 +258,9 @@ const Login = () => {
           </ForgotPasswordLink>
         </Link>
 
-        <Link href={{
-          pathname: "/resetPassword"
-        }}>
-          <ButtonLogin type="submit">Log in</ButtonLogin>
-        </Link>
+        <ButtonLogin onClick={handleLogin}>Log in</ButtonLogin>
+        <CheckButton ref={checkBtn} />
+
         <Border1 />
         <Or>or</Or>
         <Border2 />
@@ -217,13 +269,13 @@ const Login = () => {
         </ButtonBankid>
 
         <Link href={{
-          pathname: "/signUp"
+          pathname: "/signup"
         }}>
           <SignUp>
             Dont have an account? <UnderlinedText>Sign up</UnderlinedText>
           </SignUp>
         </Link>
-      </Form>
+      </FormLogin>
     </Page>
   )
 }
