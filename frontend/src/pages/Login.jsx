@@ -217,7 +217,7 @@ const Login = () => {
         </ButtonBankid>
 
         <Link href={{
-          pathname: "/SignUp"
+          pathname: "/signUp"
         }}>
           <SignUp>
             Dont have an account? <UnderlinedText>Sign up</UnderlinedText>
