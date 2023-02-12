@@ -298,7 +298,7 @@ const SignUp = () => {
           onChange={onChangePassword}
           validations={[required, vpassword]}
         />
-      </Form>
+      </SignUpForm>
       {/* <Link
         href={{
           pathname: "/LandingPage",
