@@ -2,6 +2,7 @@ package com.example.bokningsapp.controller;
 
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
+
 import com.example.bokningsapp.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,18 +26,17 @@ public class UserController {
     }
 
     @GetMapping(value = "/getAllUsers")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<User>> getAllUsers() {
         try {
             List<User> userList = userRepository.findAll();
 
             if (!userList.isEmpty()) {
                 return new ResponseEntity<>(userList, HttpStatus.OK);
-            }
-            else {
+            } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             // Kan jag få ut Error meddelandet på något sätt?
 
@@ -44,20 +44,21 @@ public class UserController {
     }
 
     @DeleteMapping(value = "user/{id}")
-    public ResponseEntity<Long> deleteUser(@PathVariable long id){
+    public ResponseEntity<Long> deleteUser(@PathVariable long id) {
 
         User deletedUser = userRepository.getReferenceById(id);
-        try{
+        try {
             if (userRepository.existsById(id)) {
                 userRepository.delete(deletedUser);
-                return new ResponseEntity<>(id,HttpStatus.OK);
+                return new ResponseEntity<>(id, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(id,HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(id, HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @PutMapping(value = "user/{id}")
     public ResponseEntity<User> updateUser2(@PathVariable long id, @RequestBody User user) {
         User updatedUser = userRepository.getReferenceById(id);
@@ -69,12 +70,13 @@ public class UserController {
 
             userRepository.save(updatedUser);
 
-            return new ResponseEntity<>(updatedUser,HttpStatus.OK);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }
+}
 
     //DENNA METOD KROCKAR MED AUTH
  /*   @PostMapping(value = "/createUser")
@@ -84,12 +86,17 @@ public class UserController {
     }
      */
 
+/*
     @PutMapping("/updateUser/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         User user = userService.updateUser(id, updatedUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-}
+    @GetMapping("/name/{username}")
+    public Optional<User> findUserByUsername(@PathVariable String username) {
+        return userRepository.findUserByEmail(username);
+    }
+*/
 
 

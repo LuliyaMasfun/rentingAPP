@@ -1,7 +1,7 @@
 package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.AccountStatus;
-import com.example.bokningsapp.enums.Role;
+import com.example.bokningsapp.enums.ERole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,8 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 
 
@@ -53,9 +52,13 @@ public class User implements UserDetails {
     @Column
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
-    @Column
-    @Enumerated(EnumType.STRING)
-    private Role role;
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
     @Column
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<EquipmentBooking> equipmentBookings;
@@ -186,17 +189,13 @@ public class User implements UserDetails {
         this.accountStatus = accountStatus;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.toString()));
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName().toString()));
+        }
+        return authorities;
     }
     @Override
     public boolean isEnabled() {

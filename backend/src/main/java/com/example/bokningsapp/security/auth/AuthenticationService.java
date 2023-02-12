@@ -2,10 +2,15 @@ package com.example.bokningsapp.security.auth;
 
 
 
-import com.example.bokningsapp.enums.Role;
+import com.example.bokningsapp.enums.ERole;
+import com.example.bokningsapp.model.Role;
 import com.example.bokningsapp.model.User;
+import com.example.bokningsapp.security.payload.request.LoginRequest;
+import com.example.bokningsapp.security.payload.request.SignupRequest;
+import com.example.bokningsapp.security.payload.response.AuthenticationResponse;
+import com.example.bokningsapp.repository.RoleRepository;
 import com.example.bokningsapp.repository.UserRepository;
-import com.example.bokningsapp.security.JwtService;
+import com.example.bokningsapp.security.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,8 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static com.example.bokningsapp.enums.Role.ROLE_USER;
-
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Service
@@ -25,31 +30,62 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final RoleRepository roleRepository;
 
 
-    public AuthenticationResponse register(RegisterRequest request){
+    public AuthenticationResponse register(SignupRequest signupRequest){
 
-        //todo ändra Var klassen till User klassen
-        var user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .phoneNumber(request.getPhoneNumber())
-                .address(request.getAddress())
-                .birthDate(request.getBirthDate())
-                .role(ROLE_USER)
+        User user = User.builder()
+                .firstName(signupRequest.getFirstName())
+                .lastName(signupRequest.getLastName())
+                .email(signupRequest.getEmail())
+                .password(passwordEncoder.encode(signupRequest.getPassword()))
+                .phoneNumber(signupRequest.getPhoneNumber())
+                .address(signupRequest.getAddress())
+                .birthDate(signupRequest.getBirthDate())
                 .build();
-        userRepository.save(user);
 
-        var jwtToken = jwtService.generateToken(user);
+        Set<String> strRoles = signupRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
+                        break;
+                        case "mod":
+                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(modRole);
 
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
-    }
+                        break;
+                         default:
+                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(userRole);
+                }
+            });
+        }
+                        user.setRoles(roles);
+                        userRepository.save(user);
 
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
+                         var jwtToken = jwtService.generateToken(user);
+
+                        return AuthenticationResponse.builder()
+                                .roles(roles)
+                                .token(jwtToken)
+                                .email(signupRequest.getEmail())
+                                .build();
+                }
+
+
+    public AuthenticationResponse authenticate(LoginRequest authenticationRequest) {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getEmail(),
@@ -62,11 +98,18 @@ public class AuthenticationService {
         UserDetails userDetails = User.builder()
                 .email(user.getEmail())
                 .id(user.getId())
+                .roles(user.getRoles())
+                .birthDate(user.getBirthDate())
+                .address(user.getAddress())
+                .phoneNumber(user.getPhoneNumber())
                 .build();
         var jwtToken = jwtService.generateToken(userDetails);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .email(user.getEmail())
+                .id(user.getId())
+                .roles(user.getRoles())
                 .build();
     }
 

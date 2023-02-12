@@ -1,7 +1,6 @@
 package com.example.bokningsapp.service.bookingService;
 
 
-import com.example.bokningsapp.dto.EquipBookingDto;
 import com.example.bokningsapp.dto.UpdatedEquipBookingDto;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.enums.EquipmentStatus;
@@ -9,8 +8,8 @@ import com.example.bokningsapp.exception.*;
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.model.User;
-import com.example.bokningsapp.repository.EquipBookingRepo;
-import com.example.bokningsapp.repository.EquipmentRepo;
+import com.example.bokningsapp.repository.EquipBookingRepository;
+import com.example.bokningsapp.repository.EquipmentRepository;
 import com.example.bokningsapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +23,12 @@ import java.util.List;
 @Service
 public class EquipBookingServiceImpl implements EquipBookingService {
 
-  private final EquipBookingRepo equipBookingRepo;
-  private final EquipmentRepo equipmentRepo;
+  private final EquipBookingRepository equipBookingRepo;
+  private final EquipmentRepository equipmentRepo;
   private final UserRepository userRepository;
 
   @Autowired
-    public EquipBookingServiceImpl(EquipBookingRepo equipBookingRepo, EquipmentRepo equipmentRepo, UserRepository userRepository) {
+    public EquipBookingServiceImpl(EquipBookingRepository equipBookingRepo, EquipmentRepository equipmentRepo, UserRepository userRepository) {
         this.equipBookingRepo = equipBookingRepo;
         this.equipmentRepo = equipmentRepo;
         this.userRepository = userRepository;
