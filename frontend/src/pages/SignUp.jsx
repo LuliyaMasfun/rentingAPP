@@ -9,6 +9,7 @@ import AuthService from "../services/auth.service";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 
+
 const Page = styled.div`
   height: 844px;
   background-image: url("/bg.png");
@@ -165,6 +166,7 @@ const Login = styled.span`
   margin-left: 10vh;
 `;
 
+
 const required = (value) => {
   if (!value) {
     return (
@@ -230,14 +232,20 @@ const SignUp = () => {
     } catch (error) {
       console.log(error.message);
     }
+    try {
+      axios.post(API_URL, formData);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
     <Page>
       <Title>Create an account,</Title>
       <Subtitle>Lets get started, enter your details</Subtitle>
-
-      <SignUpForm onSubmit={handleRegister}>
+      <SignUpForm
+        onSubmit={handleRegister}
+      >
         <InputFirstname
           type="text"
           name="firstname"
@@ -318,5 +326,5 @@ const SignUp = () => {
     </Page>
   );
 };
-
+}
 export default SignUp;

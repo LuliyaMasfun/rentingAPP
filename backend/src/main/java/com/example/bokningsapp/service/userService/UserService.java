@@ -7,6 +7,7 @@ import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.config.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,47 +30,24 @@ public class UserService {
 
     //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
 
-    public User updateUser(Long id, User updatedUser) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
-        /*if (!user.getId().equals(getCurrentUserId())) {
-            throw new UnauthorizedUserException("Unauthorized user");
-            } */
+    public ResponseEntity<User> updateUser(String email, User user) {
+        var _user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email " + email));
 
-        if (userRepository.existsByEmail(updatedUser.getEmail())) {
-            throw new EmailAlreadyExistsException("Email already exists");
-        }
-        user.setFirstName(updatedUser.getFirstName());
-        user.setLastName(updatedUser.getLastName());
-        user.setEmail(updatedUser.getEmail());
-        user.setPhoneNumber(updatedUser.getPhoneNumber());
-        user.setAddress(updatedUser.getAddress());
-        user.setBirthDate(updatedUser.getBirthDate());
-        user.setProfileImg(updatedUser.getProfileImg());
-        if (updatedUser.getPassword() != null) {
-            user.setPassword(encryptPassword(updatedUser.getPassword()));
-        }
-        return userRepository.save(user);
+            _user.setPassword(user.getPassword());
+            User updatedUser = userRepository.save(_user);
+
+        return ResponseEntity.ok(updatedUser);
     }
 
-   /* public Long getCurrentUserId () {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return ((UserPrincipal) auth.getPrincipal()).getId();
-    } Cannot invoke "org.springframework.security.core.Authentication.getPrincipal()" because "auth" is null
 
-    */
+    public String deleteUserByEmail(String email){
 
-    public User updateUserAdmin(Long id, User user) {
-        // Get the user to be updated
-        User currentUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
+       var user = userRepository.findByEmail(email).orElseThrow();
+           userRepository.delete(user);
+           return "User was successfully deleted";
 
-        // Update the user's Account status
-        currentUser.setAccountStatus(user.getAccountStatus());
-        currentUser.setEmail(user.getEmail());
-        if (user.getPassword() != null) {
-            user.setPassword(encryptPassword(user.getPassword()));
-        }
-        return userRepository.save(currentUser);
+
     }
 }
 

@@ -1,12 +1,11 @@
 package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.AccountStatus;
-import com.example.bokningsapp.enums.ERole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 
-@Data
+
 @Builder
 @AllArgsConstructor
 @Entity
@@ -52,7 +51,6 @@ public class User implements UserDetails {
     @Column
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
-
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_roles",
@@ -187,6 +185,14 @@ public class User implements UserDetails {
 
     public void setAccountStatus(AccountStatus accountStatus) {
         this.accountStatus = accountStatus;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
