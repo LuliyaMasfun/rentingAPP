@@ -62,7 +62,7 @@ const LandingPage = () => {
       <DashboardTitle>Dashboard</DashboardTitle>
       <DashboardContainer>
         <EventsImg src={EventsLp} />
-        <Link href="/Equipments" >
+        <Link href="/equipments" >
           <EquipmentImg src={EquipmentLp} />
         </Link>
         <CommunityImg src={CommunityLp} />

@@ -79,7 +79,6 @@ public class User implements UserDetails {
         this.password = password;
         this.birthDate = birthDate;
         this.enabled = enabled;
-
     }
 
     public User() {
