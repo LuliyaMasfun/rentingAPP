@@ -5,6 +5,7 @@ import com.example.bokningsapp.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,7 +33,8 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .cors().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/login", "/error", "/auth/**", "auth/authenticate").permitAll()
+                .requestMatchers("/", "/login", "/error", "/auth/**").permitAll()
+                .requestMatchers("/landingpage").hasRole("ROLE_USER")
                 .requestMatchers("/admin").hasRole("ROLE_ADMIN")
                 .anyRequest()
                 .authenticated()
@@ -41,7 +43,8 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .cors(Customizer.withDefaults());
 
         return http.build();
     }

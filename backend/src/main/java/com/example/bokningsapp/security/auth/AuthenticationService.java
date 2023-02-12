@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.example.bokningsapp.enums.Role.ROLE_USER;
+
+
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +38,7 @@ public class AuthenticationService {
                 .phoneNumber(request.getPhoneNumber())
                 .address(request.getAddress())
                 .birthDate(request.getBirthDate())
-                .role(Role.ROLE_USER)
+                .role(ROLE_USER)
                 .build();
         userRepository.save(user);
 
