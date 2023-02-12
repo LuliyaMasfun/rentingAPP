@@ -4,7 +4,11 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import Link from "next/link";
 import "../styles/globals.css";
-import axios from "axios";
+import { isEmail } from "validator";
+import AuthService from "../services/auth.service";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+
 
 const Page = styled.div`
   height: 844px;
@@ -31,14 +35,14 @@ const Subtitle = styled.p`
   margin-bottom: 40px;
   color: white;
 `;
-const Form = styled.form`
+const SignUpForm = styled(Form)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 80vh;
 `;
-const InputFirstname = styled.input`
+const InputFirstname = styled(Input)`
   position: absolute;
   margin-top: -130px;
   border: none;
@@ -51,7 +55,7 @@ const InputFirstname = styled.input`
     color: #fff;
   }
 `;
-const InputLastname = styled.input`
+const InputLastname = styled(Input)`
   position: absolute;
   margin-top: -10px;
   border: none;
@@ -64,7 +68,7 @@ const InputLastname = styled.input`
     color: #fff;
   }
 `;
-const InputEmail = styled.input`
+const InputEmail = styled(Input)`
   position: absolute;
   margin-top: 100px;
   border: none;
@@ -78,7 +82,7 @@ const InputEmail = styled.input`
     opacity: 0.7;
   }
 `;
-const InputAddress = styled.input`
+const InputAddress = styled(Input)`
   position: absolute;
   margin-top: 210px;
   border: none;
@@ -92,7 +96,7 @@ const InputAddress = styled.input`
     opacity: 0.7;
   }
 `;
-const InputPhonenumber = styled.input`
+const InputPhonenumber = styled(Input)`
   position: absolute;
   margin-top: 320px;
   border: none;
@@ -106,7 +110,7 @@ const InputPhonenumber = styled.input`
     opacity: 0.7;
   }
 `;
-const InputBirthdate = styled.input`
+const InputBirthdate = styled(Input)`
   position: absolute;
   margin-top: 430px;
   border: none;
@@ -120,7 +124,7 @@ const InputBirthdate = styled.input`
     opacity: 0.7;
   }
 `;
-const InputPassword = styled.input`
+const InputPassword = styled(Input)`
   position: absolute;
   margin-top: 540px;
   border: none;
@@ -162,6 +166,47 @@ const Login = styled.span`
   margin-left: 10vh;
 `;
 
+
+const required = (value) => {
+  if (!value) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        This field is required!
+      </div>
+    );
+  }
+};
+
+const validEmail = (value) => {
+  if (!isEmail(value)) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        This is not a valid email.
+      </div>
+    );
+  }
+};
+
+const vusername = (value) => {
+  if (value.length < 3 || value.length > 20) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        The username must be between 3 and 20 characters.
+      </div>
+    );
+  }
+};
+
+const vpassword = (value) => {
+  if (value.length < 6 || value.length > 40) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        The password must be between 6 and 40 characters.
+      </div>
+    );
+  }
+};
+
 const SignUp = () => {
   const API_URL = "http://localhost:8080/auth/signup";
   const [formData, setFormData] = useState({
@@ -174,7 +219,12 @@ const SignUp = () => {
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const onChangePassword = e => {
+    setPassword({
+      password: e.target.value
+    });
+  };
+  const handleRegister = (e) => {
     e.preventDefault();
     console.log(formData);
     try {
@@ -188,75 +238,65 @@ const SignUp = () => {
     <Page>
       <Title>Create an account,</Title>
       <Subtitle>Lets get started, enter your details</Subtitle>
-      <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
+      <SignUpForm
+        onSubmit={handleRegister}
       >
         <InputFirstname
-          type="email"
-          name="email"
+          type="text"
+          name="firstname"
           placeholder="Firstname"
-          value={formData.firstName}
-          onChange={(e) => {
-            setFormData({ ...formData, firstName: e.target.value });
-          }}
-          required
+          value={firstName}
+          onChange={onChangeFirstName}
+          validations={[required]}
         />
         <InputLastname
-          type="email"
-          name="email"
+          type="text"
+          name="lastname"
           placeholder="Lastname"
-          value={formData.lastName}
-          onChange={(e) => {
-            setFormData({ ...formData, lastName: e.target.value });
-          }}
+          value={lastName}
+          onChange={onChangeLastname}
+          validations={[required]}
         />
         <InputEmail
-          type="email"
+          type="text"
           name="email"
           placeholder="Email"
-          value={formData.email}
-          onChange={(e) => {
-            setFormData({ ...formData, email: e.target.value });
-          }}
+          value={email}
+          onChange={onChangeEmail}
+          validations={[required, vemail]}
         />
         <InputAddress
-          type="email"
-          name="email"
+          type="text"
+          name="address"
           placeholder="Address"
-          value={formData.address}
-          onChange={(e) => {
-            setFormData({ ...formData, address: e.target.value });
-          }}
+          value={address}
+          onChange={onChangeAddress}
+          validations={[required]}
         />
 
         <InputPhonenumber
-          type="email"
-          name="email"
+          type="number"
+          name="phonenumber"
           placeholder="Phonenumber"
-          value={formData.phoneNumber}
-          onChange={(e) => {
-            setFormData({ ...formData, phoneNumber: e.target.value });
-          }}
+          value={phoneNumber}
+          onChange={onChangePhoneNumber}
+          validations={[required]}
         />
         <InputBirthdate
           type="date"
-          name="email"
+          name="birthdate"
           placeholder="Birthdate"
-          value={formData.birthdate}
-          onChange={(e) => {
-            setFormData({ ...formData, birthdate: e.target.value });
-          }}
+          value={birthdate}
+          onChange={onChangeBirthdate}
+          validations={[required]}
         />
         <InputPassword
           type="password"
           name="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={(e) => {
-            setFormData({ ...formData, password: e.target.value });
-          }}
+          value={password}
+          onChange={onChangePassword}
+          validations={[required, vpassword]}
         />
       </Form>
       {/* <Link
@@ -281,4 +321,5 @@ const SignUp = () => {
     </Page>
   );
 };
+}
 export default SignUp;
