@@ -148,7 +148,7 @@ const EquipmentItem = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/getEquipment/${id}`
+          `http://localhost:8080/equipment/getEquipment/${id}`
         );
         setData(response.data);
         console.log(response.data);
