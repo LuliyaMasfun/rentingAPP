@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import Link from "next/link";
 import "../styles/globals.css";
+import axios from "axios";
 
 const Page = styled.div`
   height: 844px;
@@ -137,7 +138,7 @@ const InputPassword = styled.input`
 const ButtonSignUp = styled.button`
   position: absolute;
   border: none;
-  margin: 50px; 
+  margin: 50px;
   padding: 10px;
   width: 280px;
   background-color: white;
@@ -162,6 +163,7 @@ const Login = styled.span`
 `;
 
 const SignUp = () => {
+  const API_URL = "http://localhost:8080/auth/signup";
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -175,7 +177,11 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    // Add code to send the form data to the server and authenticate register request
+    try {
+      axios.post(API_URL, formData);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -253,15 +259,21 @@ const SignUp = () => {
           }}
         />
       </Form>
-      <Link href={{
-        pathname: "/LandingPage"
-      }}>
-        <ButtonSignUp type="submit">Sign Up</ButtonSignUp>
-      </Link>
+      {/* <Link
+        href={{
+          pathname: "/LandingPage",
+        }}
+      >
+      </Link> */}
+      <ButtonSignUp onClick={handleSubmit} type="submit">
+        Sign Up
+      </ButtonSignUp>
 
-      <Link href={{
-        pathname: "/Login"
-      }}>
+      <Link
+        href={{
+          pathname: "/Login",
+        }}
+      >
         <Login>
           Already have an account? <UnderlinedText>Log in</UnderlinedText>
         </Login>
@@ -270,4 +282,3 @@ const SignUp = () => {
   );
 };
 export default SignUp;
-

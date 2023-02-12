@@ -1,14 +1,14 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:8080/auth/";
+const API_URL = "http://localhost:8080/auth/authenticate";
 
 class AuthService {
   async login(email, password) {
-    const response = await axios
-      .post(API_URL + "signin", {
-        email,
-        password
-      });
+    const response = await axios.post(API_URL + "signin", {
+      email,
+      password,
+    });
     if (response.data.jwtToken) {
       localStorage.setItem("user", JSON.stringify(response.data));
     }
@@ -19,7 +19,15 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(firstname, lastname, email, password, address, phoneNumber, birthdate) {
+  register(
+    firstname,
+    lastname,
+    email,
+    password,
+    address,
+    phoneNumber,
+    birthdate
+  ) {
     return axios.post(API_URL + "signup", {
       firstname,
       lastname,
@@ -27,13 +35,13 @@ class AuthService {
       password,
       address,
       phoneNumber,
-      birthdate
+      birthdate,
     });
   }
 
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));;
+    return JSON.parse(localStorage.getItem("user"));
   }
 }
 
-export default new AuthService();
+export default AuthService();

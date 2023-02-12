@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import axios from "axios";
 import styled from "@emotion/styled";
 import Link from "next/link";
 import Image from "next/image";
@@ -36,6 +37,7 @@ const Subtitle = styled.p`
 `;
 
 const Form = styled.form`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,7 +87,7 @@ const ForgotPasswordLink = styled.p`
 const ButtonLogin = styled.button`
   position: absolute;
   border: none;
-  margin-top: 300px;
+  margin-top: 500px;
   margin-left: -135px;
   padding: 10px;
   width: 275px;
@@ -159,21 +161,36 @@ const SignUp = styled.span`
 `;
 
 const Login = () => {
+  const [jwt, setJWT] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  const API_URL = "http://localhost:8080/auth/signin";
+
   const handleChange = (e) => {
+    e.preventDefault();
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.post(API_URL, formData);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Add code to send the form data to the server and authenticate user
+
+    fetchData();
+    return response;
   };
 
+  // Add code to send the form data to the server and authenticate user
   return (
     <Page>
       <Title>Welcome Back,</Title>
@@ -193,6 +210,7 @@ const Login = () => {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
+          minLength={10}
         />
         <Link
           href={{
@@ -202,13 +220,15 @@ const Login = () => {
           <ForgotPasswordLink>Forgot password</ForgotPasswordLink>
         </Link>
 
-        <Link
+        <ButtonLogin onClick={handleSubmit} type="submit">
+          Log in
+        </ButtonLogin>
+        {/* <Link
           href={{
             pathname: "/resetPassword",
           }}
-        >
-          <ButtonLogin type="submit">Log in</ButtonLogin>
-        </Link>
+        > 
+        </Link>*/}
         <Border1 />
         <Or>or</Or>
         <Border2 />
@@ -220,7 +240,7 @@ const Login = () => {
 
         <Link
           href={{
-            pathname: "/SignUp",
+            pathname: "/signup",
           }}
         >
           <SignUp>

@@ -53,6 +53,13 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_roles",
