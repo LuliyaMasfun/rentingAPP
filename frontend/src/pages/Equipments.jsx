@@ -93,6 +93,7 @@ justify-content: center;
 `;
 const EquipmentImage = styled(Image)`
 z-index: 0;
+width: 335px;
 `;
 
 const BookmarkIcon = styled(FaRegBookmark)`

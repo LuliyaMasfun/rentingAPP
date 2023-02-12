@@ -199,7 +199,7 @@ const EquipmentItem = () => {
           </DescBg>
         </div>
         <Calendar />
-        <Link href="/MyBookings">
+        <Link href="/myBookings">
           <MakeReservationBtn >Make Reservation</MakeReservationBtn>
         </Link>
       </Page>

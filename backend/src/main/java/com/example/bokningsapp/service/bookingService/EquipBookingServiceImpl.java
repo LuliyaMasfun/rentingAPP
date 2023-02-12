@@ -77,7 +77,8 @@ public class EquipBookingServiceImpl implements EquipBookingService {
     @Override
     @Transactional
     public EquipmentBooking createBooking(EquipmentBooking equipmentBooking) {
-        User user = userRepository.findById(equipmentBooking.getUser().getId())
+
+      User user = userRepository.findById(equipmentBooking.getUser().getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found with id " + equipmentBooking.getUser().getId()));
 
         List<Equipment> equipmentList = equipmentBooking.getEquipment();
@@ -100,10 +101,12 @@ public class EquipBookingServiceImpl implements EquipBookingService {
                 throw new IllegalArgumentException("Invalid choice of Date");
             }
         }
-        equipmentBooking.setUser(equipmentBooking.getUser());
+        equipmentBooking.setUser(user);
         equipmentBooking.setEquipment(equipmentBooking.getEquipment());
         equipmentBooking.setStartDate(equipmentBooking.getStartDate());
         equipmentBooking.setEndDate(equipmentBooking.getEndDate());
+        equipmentBooking.setBookingStatus(BookingStatus.PENDING);
+
 
        EquipmentBooking booking = equipBookingRepo.save(equipmentBooking);
         for (Equipment equipment : equipmentList) {

@@ -7,6 +7,8 @@ import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.config.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,32 +27,6 @@ public class UserService {
 
     public String encryptPassword(String password) {
         return bcryptPasswordConfig.bCryptPasswordEncoder1().encode(password);   }
-
-
-    //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
-
-    public User updateUser(Long id, User updatedUser) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
-        /*if (!user.getId().equals(getCurrentUserId())) {
-            throw new UnauthorizedUserException("Unauthorized user");
-            } */
-
-        if (userRepository.existsByEmail(updatedUser.getEmail())) {
-            throw new EmailAlreadyExistsException("Email already exists");
-        }
-        user.setFirstName(updatedUser.getFirstName());
-        user.setLastName(updatedUser.getLastName());
-        user.setEmail(updatedUser.getEmail());
-        user.setPhoneNumber(updatedUser.getPhoneNumber());
-        user.setAddress(updatedUser.getAddress());
-        user.setBirthDate(updatedUser.getBirthDate());
-        user.setProfileImg(updatedUser.getProfileImg());
-        if (updatedUser.getPassword() != null) {
-            user.setPassword(encryptPassword(updatedUser.getPassword()));
-        }
-        return userRepository.save(user);
-    }
 
    /* public Long getCurrentUserId () {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -71,5 +47,17 @@ public class UserService {
         }
         return userRepository.save(currentUser);
     }
+    public ResponseEntity<String> deleteUser(Long id) {
+        User user = userRepository.findUserById(id);
+        userRepository.delete(user);
+        return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+    }
+
+    public ResponseEntity<User> updateUser(Long id, User user) {
+        User updatedUser = userRepository.findUserById(id);
+        updatedUser.setPassword(user.getPassword());
+        userRepository.save(updatedUser);
+
+        return ResponseEntity.ok(updatedUser);}
 }
 
