@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -35,7 +36,7 @@ public class AdminServiceImpl implements AdminService {
         //check if the user is Admin and authorized to update........
 
         //check if the equipment is available for the new dates
-        List<Equipment> equipmentList = equipmentBooking.getEquipment();
+        Set<Equipment> equipmentList = equipmentBooking.getEquipment();
         for (Equipment equipment : equipmentList) {
             Equipment foundEquipment = equipmentRepo.findById(equipment.getId())
                     .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found"));

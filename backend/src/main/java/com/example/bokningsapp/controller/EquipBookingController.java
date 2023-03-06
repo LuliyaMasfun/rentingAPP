@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/booking")
+@RequestMapping("/test")
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class EquipBookingController {
     private final EquipBookingService equipBookingService;

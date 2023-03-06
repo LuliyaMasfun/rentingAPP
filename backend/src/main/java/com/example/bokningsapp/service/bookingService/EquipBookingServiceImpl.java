@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -49,7 +50,7 @@ public class EquipBookingServiceImpl implements EquipBookingService {
             throw new UnauthorizedUserException("You are not authorized to update this booking");
         }
         //check if the equipment is available for the new dates
-        List<Equipment> equipmentList = equipmentBooking.getEquipment();
+        Set<Equipment> equipmentList = equipmentBooking.getEquipment();
         for (Equipment equipment : equipmentList) {
             Equipment foundEquipment = equipmentRepo.findById(equipment.getId())
                     .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found"));
@@ -78,42 +79,11 @@ public class EquipBookingServiceImpl implements EquipBookingService {
     @Transactional
     public EquipmentBooking createBooking(EquipmentBooking equipmentBooking) {
 
-      User user = userRepository.findById(equipmentBooking.getUser().getId())
-                .orElseThrow(() -> new UserNotFoundException("User not found with id " + equipmentBooking.getUser().getId()));
-
-        List<Equipment> equipmentList = equipmentBooking.getEquipment();
-        for (Equipment equipment : equipmentList) {
-            Equipment foundEquipment = equipmentRepo.findById(equipment.getId())
-                    .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found with id " + equipmentRepo.findById(equipment.getId())));
-        if (equipment.getEquipmentStatus() != EquipmentStatus.AVAILABLE) {
-            throw new EquipmentNotAvailableException("Equipment is not available for booking");
-        }
-        }
-        LocalDate startDate = equipmentBooking.getStartDate();
-        LocalDate endDate =  equipmentBooking.getEndDate();
-        Duration duration = Duration.between(startDate,endDate);
-        long days = duration.toDays();
-        if (days > 2) {
-            throw new IllegalArgumentException("Booking can't be more than 2 days");
-        }
-        for (Equipment equipment : equipmentList) {
-            if (isOverlapping(startDate, endDate, equipment.getId())) {
-                throw new IllegalArgumentException("Invalid choice of Date");
-            }
-        }
-        equipmentBooking.setUser(user);
-        equipmentBooking.setEquipment(equipmentBooking.getEquipment());
         equipmentBooking.setStartDate(equipmentBooking.getStartDate());
         equipmentBooking.setEndDate(equipmentBooking.getEndDate());
         equipmentBooking.setBookingStatus(BookingStatus.PENDING);
 
-
-       EquipmentBooking booking = equipBookingRepo.save(equipmentBooking);
-        for (Equipment equipment : equipmentList) {
-            equipment.setEquipmentStatus(EquipmentStatus.UNAVAILABLE);
-            equipmentRepo.save(equipment);
-        }
-        return booking;
+        return equipBookingRepo.save(equipmentBooking);
     }
 
     private boolean isOverlapping(LocalDate startDate, LocalDate endDate, int equipmentId) {

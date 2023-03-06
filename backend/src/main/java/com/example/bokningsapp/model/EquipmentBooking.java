@@ -10,6 +10,7 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.sql.Time;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -33,11 +34,11 @@ public class EquipmentBooking {
 
     @ManyToMany
     @JoinTable(
-            name = "equipment_booking_equipment",
+            name = "equipment_id",
             joinColumns = @JoinColumn(name = "booking_id"),
             inverseJoinColumns = @JoinColumn(name = "equipment_id")
     )
-    private List<Equipment> equipment;
+    private Set<Equipment> equipment;
     @Column
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
@@ -59,15 +60,10 @@ public class EquipmentBooking {
     private LocalTime dropOff;
 
 
-    public EquipmentBooking(User user, String equipBookedImg, LocalDate startDate, LocalDate endDate, BookingStatus bookingStatus, LocalTime pickUp, LocalTime dropOff, List<Equipment> equipment) {
-        this.user = user;
-        this.equipBookedImg = equipBookedImg;
-        this.equipment = equipment;
+    public EquipmentBooking(LocalDate startDate, LocalDate endDate, BookingStatus bookingStatus) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.bookingStatus = bookingStatus;
-        this.pickUp = pickUp;
-        this.dropOff = dropOff;
     }
 
     public EquipmentBooking() {
@@ -137,11 +133,11 @@ public class EquipmentBooking {
         this.equipBookedImg = equipBookedImg;
     }
 
-    public List<Equipment> getEquipment() {
+    public Set<Equipment> getEquipment() {
         return equipment;
     }
 
-    public void setEquipment(List<Equipment> equipment) {
+    public void setEquipment(Set<Equipment> equipment) {
         this.equipment = equipment;
     }
 

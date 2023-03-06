@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 
 @Entity
@@ -40,9 +41,9 @@ import java.time.LocalDate;
         @Enumerated
         private EquipmentStatus equipmentStatus;
 
-    @OneToOne
+    @OneToMany
     @JoinColumn(name = "equipment_booking_id")
-    private EquipmentBooking equipmentBooking;
+    private Set<EquipmentBooking> equipmentBooking;
 
 
         public Equipment(String equipmentName, String equipmentLocation, String equipmentImg, int maxDaysToRent, String equipmentDescription, String equipmentBrand,  EquipmentType equipmentType, EquipmentStatus equipmentStatus) {
@@ -124,11 +125,11 @@ import java.time.LocalDate;
             this.equipmentStatus = equipmentStatus;
         }
 
-    public EquipmentBooking getEquipmentBooking() {
+    public Set<EquipmentBooking> getEquipmentBooking() {
         return equipmentBooking;
     }
 
-    public void setEquipmentBooking(EquipmentBooking equipmentBooking) {
+    public void setEquipmentBooking(Set<EquipmentBooking> equipmentBooking) {
         this.equipmentBooking = equipmentBooking;
     }
 
