@@ -2,7 +2,6 @@ package com.example.bokningsapp.controller;
 
 import com.example.bokningsapp.repository.EquipBookingRepository;
 import com.example.bokningsapp.service.adminService.AdminService;
-import com.example.bokningsapp.service.bookingService.EquipBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,13 +10,11 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AdminService adminService;
-    private final EquipBookingService equipBookingService;
     private final EquipBookingRepository equipBookingRepo;
 
 
     @Autowired
-    public AdminController(EquipBookingService equipBookingService, AdminService adminService,  EquipBookingRepository equipBookingRepo) {
-        this.equipBookingService = equipBookingService;
+    public AdminController( AdminService adminService,  EquipBookingRepository equipBookingRepo) {
         this.adminService = adminService;
         this.equipBookingRepo = equipBookingRepo;
     }

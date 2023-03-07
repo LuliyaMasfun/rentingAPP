@@ -3,6 +3,9 @@ package com.example.bokningsapp.model;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
@@ -10,9 +13,12 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.sql.Time;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "equipment_bookings")
 public class EquipmentBooking {
 
@@ -21,23 +27,15 @@ public class EquipmentBooking {
     private int bookingId;
 
     @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String reservationNumber;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @Column
-    private String equipBookedImg;
-
-    @ManyToMany
-    @JoinTable(
-            name = "equipment_booking_equipment",
-            joinColumns = @JoinColumn(name = "booking_id"),
-            inverseJoinColumns = @JoinColumn(name = "equipment_id")
-    )
-    private List<Equipment> equipment;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "equipment_id", referencedColumnName = "id")
+    private Equipment equipment;
     @Column
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
@@ -58,20 +56,6 @@ public class EquipmentBooking {
     @JsonFormat(pattern = "HH:mm")
     private LocalTime dropOff;
 
-
-    public EquipmentBooking(User user, String equipBookedImg, LocalDate startDate, LocalDate endDate, BookingStatus bookingStatus, LocalTime pickUp, LocalTime dropOff, List<Equipment> equipment) {
-        this.user = user;
-        this.equipBookedImg = equipBookedImg;
-        this.equipment = equipment;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.bookingStatus = bookingStatus;
-        this.pickUp = pickUp;
-        this.dropOff = dropOff;
-    }
-
-    public EquipmentBooking() {
-    }
 
     public EquipmentBooking(String reservationNumber) {
         this.reservationNumber = reservationNumber;
@@ -129,19 +113,11 @@ public class EquipmentBooking {
         this.dropOff = dropOff;
     }
 
-    public String getEquipBookedImg() {
-        return equipBookedImg;
-    }
-
-    public void setEquipBookedImg(String equipBookedImg) {
-        this.equipBookedImg = equipBookedImg;
-    }
-
-    public List<Equipment> getEquipment() {
+    public Equipment getEquipment() {
         return equipment;
     }
 
-    public void setEquipment(List<Equipment> equipment) {
+    public void setEquipment( Equipment equipment) {
         this.equipment = equipment;
     }
 
@@ -155,7 +131,6 @@ public class EquipmentBooking {
                 "bookingId=" + bookingId +
                 ", reservationNumber='" + reservationNumber + '\'' +
                 ", user=" + user +
-                ", EquipBookedImg='" + equipBookedImg + '\'' +
                 ", equipment=" + equipment +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
