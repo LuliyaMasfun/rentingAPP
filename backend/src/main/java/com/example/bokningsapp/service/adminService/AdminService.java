@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface AdminService {
-    public EquipmentBooking handleBookingRequest(int bookingId, UpdatedEquipBookingDto equipUpdatedBookingDto, UpdatedEquipmentDto updatedEquipmentDto);
+
 }

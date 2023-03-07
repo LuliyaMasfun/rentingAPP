@@ -1,5 +1,6 @@
 package com.example.bokningsapp.controller;
 
+import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.dto.BookingRequest;
@@ -24,8 +25,9 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    @PostMapping("/createBooking")
-    public ResponseEntity<BookingResponse> createBooking(@RequestBody BookingRequest bookingRequest) {
-        return ResponseEntity.ok(bookingService.placeBooking(bookingRequest));
+    @PostMapping("/bookEquipment")
+    public ResponseEntity <BookingResponse> createEquipmentBooking(@RequestBody BookingRequest bookingRequest) {
+        return ResponseEntity.ok(bookingService.placeEquipmentBooking(bookingRequest));
+              
     }
 }

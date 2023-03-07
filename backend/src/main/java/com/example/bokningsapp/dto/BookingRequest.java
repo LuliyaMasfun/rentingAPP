@@ -18,7 +18,7 @@ import java.util.Set;
 public class BookingRequest {
     private User user;
 
-    private Set<Equipment> equipment;
+    private Equipment equipment;
 
     private LocalDate startDate;
 
@@ -33,11 +33,11 @@ public class BookingRequest {
         this.user = user;
     }
 
-    public Set<Equipment> getEquipment() {
+    public Equipment getEquipment() {
         return equipment;
     }
 
-    public void setEquipment(Set<Equipment> equipment) {
+    public void setEquipment(Equipment equipment) {
         this.equipment = equipment;
     }
 

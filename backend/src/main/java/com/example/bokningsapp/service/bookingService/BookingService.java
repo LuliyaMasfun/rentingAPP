@@ -10,6 +10,8 @@ import com.example.bokningsapp.repository.EquipmentRepository;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.payload.response.BookingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -32,18 +34,22 @@ public class BookingService {
         this.equipmentRepo = equipmentRepo;
     }
 
-    public BookingResponse placeBooking (BookingRequest bookingRequest) {
+    public BookingResponse placeEquipmentBooking(BookingRequest bookingRequest) {
         // Create a new booking request
         EquipmentBooking newBooking = new EquipmentBooking();
         User user = userRepository.findById(bookingRequest.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found"));
+        Equipment equipment = equipmentRepo.findById(bookingRequest.getEquipment().getId()).orElseThrow(() -> new RuntimeException("Equipment not found"));
+        String reservationNumber = UUID.randomUUID().toString();
         newBooking.setUser(user);
-        newBooking.setEquipment(bookingRequest.getEquipment());
+        newBooking.setEquipment(equipment);
         newBooking.setStartDate(bookingRequest.getStartDate());
         newBooking.setEndDate(bookingRequest.getEndDate());
+        newBooking.setBookingStatus(BookingStatus.PENDING);
+        newBooking.setReservationNumber(reservationNumber);
+        newBooking.setPickUp(LocalTime.of(12, 0));
+        newBooking.setDropOff(LocalTime.of(12, 0));
 
         equipBookingRepo.save(newBooking);
-        String reservationNumber = UUID.randomUUID().toString();
-
         // Save the booking to the database
         return BookingResponse.builder()
                 .reservationNumber(reservationNumber)
@@ -51,6 +57,7 @@ public class BookingService {
                 .pickUp(LocalTime.of(12, 0))
                 .dropOff(LocalTime.of(12, 0))
                 .build();
+
     }
 
     public boolean isEquipmentAvailable(int equipmentId, LocalDate startDate, LocalDate endDate) {
