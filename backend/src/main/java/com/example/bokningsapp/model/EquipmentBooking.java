@@ -57,10 +57,6 @@ public class EquipmentBooking {
     private LocalTime dropOff;
 
 
-    public EquipmentBooking(String reservationNumber) {
-        this.reservationNumber = reservationNumber;
-    }
-
     public int getBookingId() {
         return bookingId;
     }
@@ -71,6 +67,22 @@ public class EquipmentBooking {
 
     public void setReservationNumber(String reservationNumber) {
         this.reservationNumber = reservationNumber;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
     }
 
     public LocalDate getStartDate() {
@@ -112,18 +124,6 @@ public class EquipmentBooking {
     public void setDropOff(LocalTime dropOff) {
         this.dropOff = dropOff;
     }
-
-    public Equipment getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment( Equipment equipment) {
-        this.equipment = equipment;
-    }
-
-    public User getUser() {return user;}
-
-    public void setUser(User user) {this.user = user;}
 
     @Override
     public String toString() {
