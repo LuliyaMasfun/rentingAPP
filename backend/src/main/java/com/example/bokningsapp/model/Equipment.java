@@ -3,13 +3,11 @@ package com.example.bokningsapp.model;
 import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
 import jakarta.persistence.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 
-@Entity
+    @Entity
     @Table(name="equipments")
     public class Equipment {
 
@@ -40,11 +38,9 @@ import java.util.Set;
         @Column
         @Enumerated
         private EquipmentStatus equipmentStatus;
-
-    @OneToMany
-    @JoinColumn(name = "equipment_booking_id")
-    private Set<EquipmentBooking> equipmentBooking;
-
+        @ManyToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "booking_id", referencedColumnName = "bookingId")
+        private EquipmentBooking equipmentBooking;
 
         public Equipment(String equipmentName, String equipmentLocation, String equipmentImg, int maxDaysToRent, String equipmentDescription, String equipmentBrand,  EquipmentType equipmentType, EquipmentStatus equipmentStatus) {
             this.equipmentName = equipmentName;
@@ -125,15 +121,15 @@ import java.util.Set;
             this.equipmentStatus = equipmentStatus;
         }
 
-    public Set<EquipmentBooking> getEquipmentBooking() {
-        return equipmentBooking;
-    }
+        public EquipmentBooking getEquipmentBooking() {
+            return equipmentBooking;
+        }
 
-    public void setEquipmentBooking(Set<EquipmentBooking> equipmentBooking) {
-        this.equipmentBooking = equipmentBooking;
-    }
+        public void setEquipmentBooking(EquipmentBooking equipmentBooking) {
+            this.equipmentBooking = equipmentBooking;
+        }
 
-    @Override
+        @Override
         public String toString() {
             return "Equipment{" +
                     "id=" + id +

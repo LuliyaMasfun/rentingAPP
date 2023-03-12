@@ -134,7 +134,7 @@ position: absolute;
 background-color: #E8E337;
 width: 267px;
 height: 38px;
-margin-top: 15vh;
+margin-top: 10vh;
 margin-left: 7vh;
 border-radius: 5px;
 font-size: 14px;
@@ -145,6 +145,7 @@ const EquipmentItem = () => {
   const [data, setData] = useState([])
   const router = useRouter()
   const { id } = router.query
+  const [booking, setBooking] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -170,6 +171,18 @@ const EquipmentItem = () => {
   }
   // equipmentBrand input to upperCase
   const equipmentBrand = data.equipmentBrand ? data.equipmentBrand.toUpperCase() : '';
+
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(`http://localhost:8080/bookings/bookEquipment`);
+      setBooking(response.booking);
+      console.log(response.booking)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
 
   return (<div>
@@ -200,7 +213,7 @@ const EquipmentItem = () => {
         </div>
         <Calendar />
         <Link href="/myBookings">
-          <MakeReservationBtn >Make Reservation</MakeReservationBtn>
+          <MakeReservationBtn onClick={handleSubmit}>Make Reservation</MakeReservationBtn>
         </Link>
       </Page>
     ) : (

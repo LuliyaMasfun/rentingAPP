@@ -3,6 +3,7 @@ package com.example.bokningsapp.dto;
 
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,11 +18,10 @@ import java.util.Set;
 @NoArgsConstructor
 public class BookingRequest {
     private User user;
-
     private Equipment equipment;
-
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
-
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate endDate;
 
 
@@ -56,4 +56,5 @@ public class BookingRequest {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
 }

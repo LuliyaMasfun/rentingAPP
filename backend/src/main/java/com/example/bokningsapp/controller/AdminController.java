@@ -1,8 +1,11 @@
 package com.example.bokningsapp.controller;
 
+import com.example.bokningsapp.enums.BookingStatus;
+import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.repository.EquipBookingRepository;
 import com.example.bokningsapp.service.adminService.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,34 +21,6 @@ public class AdminController {
         this.adminService = adminService;
         this.equipBookingRepo = equipBookingRepo;
     }
-
- /*   @PutMapping("/handleBooking/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<EquipmentBooking> handleBookingRequest(@PathVariable int id, @RequestBody UpdatedEquipBookingDto updatedEquipmentBookingDto, UpdatedEquipmentDto updatedEquipmentDto){
-        try {
-            adminService.handleBookingRequest(id, updatedEquipmentBookingDto, updatedEquipmentDto);
-            return new ResponseEntity<>(HttpStatus.OK);
-
-        } catch (BookingNotFoundException e) {
-            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
-        }
-        catch (EquipmentNotAvailableException ex) {
-            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
-        }
-    }
-
-    @GetMapping("/getBookingsByStatus")
-    public ResponseEntity<List<EquipmentBooking>> getAllBookings( @RequestParam(required = false) BookingStatus status) {
-        List<EquipmentBooking> bookings;
-        if(status == null) {
-            bookings = equipBookingRepo.findAll();
-        } else {
-            bookings = equipBookingRepo.findAllByStatus(status);
-        }
-        if (bookings.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(bookings, HttpStatus.OK);
-    }
-    */
+  //METHOD HANDLE BOOKING, STATUS OF BOOKING
+    // METHOD GET ALL BOOKINGS BY STATUS
 }

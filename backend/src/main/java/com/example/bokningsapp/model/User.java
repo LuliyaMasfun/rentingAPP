@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import java.util.*;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -53,32 +55,16 @@ public class User implements UserDetails {
     @Enumerated
     private AccountStatus accountStatus;
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(  name = "user_roles",
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-    @Column
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "booking_id",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "booking_id"))
     private List<EquipmentBooking> equipmentBookings;
-
-    public User(String firstName, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
-                String phoneNumber,String address,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.equipmentBookings = equipmentBookings;
-        this.profileImg =  profileImg;
-        this.socialSecurityNumber = socialSecurityNumber;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.createdDate = createdDate;
-        this.updatedDate =updatedDate;
-        this.password = password;
-        this.birthDate = birthDate;
-    }
-
-    public User() {
-    }
 
     public Long getId() {
         return id;
@@ -106,6 +92,14 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public List<EquipmentBooking> getEquipmentBookings() {
@@ -237,9 +231,8 @@ public class User implements UserDetails {
                 ", password='" + password + '\'' +
                 ", birthDate=" + birthDate +
                 ", accountStatus=" + accountStatus +
+                ", roles=" + roles +
                 ", equipmentBookings=" + equipmentBookings +
                 '}';
     }
-
-
 }

@@ -37,22 +37,7 @@ useEffect(() => {
 
 //TEMPORARY DATA:
 const bookings = [
-  {
-    id: 1,
-    name: "Leslie Alexander",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    startDatetime: "2023-02-11T13:00",
-    endDatetime: "2023-02-13T14:30",
-  },
-  {
-    id: 3,
-    name: "heyy",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    startDatetime: "2023-02-15T10:00",
-    endDatetime: "2023-02-19T18:30",
-  },
+
 ];
 
 function classNames(...classes) {
@@ -61,10 +46,10 @@ function classNames(...classes) {
 
 export default function Calendar() {
   let today = startOfToday();
-  let [selectedDay, setSelectedDay] = useState(today);
+  let [startDate, setStartDate] = useState(today);
+  let [endDate, setEndDate] = useState(null);
   let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
-
   let days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
@@ -81,8 +66,23 @@ export default function Calendar() {
   }
 
   let selectedDayBookings = bookings.filter((booking) =>
-    isSameDay(parseISO(booking.startDatetime), selectedDay)
+    isSameDay(parseISO(booking.startDatetime), startDate)
   );
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Send a request to the server with the booking details
+  };
+
+
 
   const CalenderContainer = styled.div`
     display: flex;
@@ -148,7 +148,7 @@ export default function Calendar() {
   const DateDays = styled.div`
     display: grid;
     flex-direction: grid;
-    grid-template-columns: 7;
+    grid-template-columns: repeat(7, 1fr);
     color: #efefef;
   `;
 
@@ -202,36 +202,47 @@ export default function Calendar() {
                     )}
                   >
                     <button
+                      id="startDate"
                       type="button"
-                      onClick={() => setSelectedDay(day)}
+                      onClick={() => setStartDate(day)}
+                      onChange={handleStartDateChange}
                       className={classNames(
-                        isEqual(day, selectedDay) && "text-white",
-                        !isEqual(day, selectedDay) &&
+                        isEqual(day, startDate) && "text-white",
+                        !isEqual(day, startDate) &&
                         isToday(day) &&
                         "text-yellow-500",
-                        !isEqual(day, selectedDay) &&
+                        !isEqual(day, startDate) &&
                         !isToday(day) &&
                         isSameMonth(day, firstDayCurrentMonth) &&
                         "text-gray-300",
-                        !isEqual(day, selectedDay) &&
+                        !isEqual(day, startDate) &&
                         !isToday(day) &&
                         !isSameMonth(day, firstDayCurrentMonth) &&
                         "text-gray-300",
-                        isEqual(day, selectedDay) &&
+                        isEqual(day, startDate) &&
                         isToday(day) &&
                         "bg-red-500",
-                        isEqual(day, selectedDay) &&
+                        isEqual(day, startDate) &&
                         !isToday(day) &&
                         "bg-yellow-500",
-                        !isEqual(day, selectedDay) && "hover:bg-gray-200",
-                        (isEqual(day, selectedDay) || isToday(day)) &&
+                        !isEqual(day, startDate) && "hover:bg-gray-200",
+                        (isEqual(day, startDate) || isToday(day)) &&
                         "font-semibold",
                         "absolute mx-auto flex h-8 w-8 items-center justify-center rounded-full"
                       )}
                     >
-                      <time dateTime={format(day, "yyyy-MM-dd")}>
+                      <time date={format(day, "yyyy-MM-dd")}>
                         {format(day, "d")}
                       </time>
+                    </button>
+
+                    <button
+                      id="endDate"
+                      type="button"
+                      onClick={() => setEndDate(day)}
+                      onChange={handleEndDateChange}
+
+                    >
                     </button>
 
                     <div className="w-5 mx-auto mt-10">
