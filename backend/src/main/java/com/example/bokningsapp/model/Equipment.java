@@ -38,9 +38,6 @@ import java.util.Set;
         @Column
         @Enumerated
         private EquipmentStatus equipmentStatus;
-        @ManyToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "booking_id", referencedColumnName = "bookingId")
-        private EquipmentBooking equipmentBooking;
 
         public Equipment(String equipmentName, String equipmentLocation, String equipmentImg, int maxDaysToRent, String equipmentDescription, String equipmentBrand,  EquipmentType equipmentType, EquipmentStatus equipmentStatus) {
             this.equipmentName = equipmentName;
@@ -119,14 +116,6 @@ import java.util.Set;
 
         public void setEquipmentStatus(EquipmentStatus equipmentStatus) {
             this.equipmentStatus = equipmentStatus;
-        }
-
-        public EquipmentBooking getEquipmentBooking() {
-            return equipmentBooking;
-        }
-
-        public void setEquipmentBooking(EquipmentBooking equipmentBooking) {
-            this.equipmentBooking = equipmentBooking;
         }
 
         @Override

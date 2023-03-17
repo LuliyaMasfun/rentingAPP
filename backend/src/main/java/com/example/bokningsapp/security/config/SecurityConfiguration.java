@@ -28,7 +28,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors().disable()
+                .cors(); /*.and()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**", "/equipment/**", "/user/**", "/bookings/**").permitAll()
                 .requestMatchers("/user/**").hasRole("ROLE_ADMIN")
@@ -40,6 +40,9 @@ public class SecurityConfiguration {
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                */
+
+
 
 
 

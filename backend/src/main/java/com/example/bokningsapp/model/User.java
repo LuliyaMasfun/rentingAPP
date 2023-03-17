@@ -60,12 +60,6 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "booking_id",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "booking_id"))
-    private List<EquipmentBooking> equipmentBookings;
-
     public Long getId() {
         return id;
     }
@@ -100,14 +94,6 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public List<EquipmentBooking> getEquipmentBookings() {
-        return equipmentBookings;
-    }
-
-    public void setEquipmentBookings(List<EquipmentBooking> equipmentBookings) {
-        this.equipmentBookings = equipmentBookings;
     }
 
     public String getProfileImg() {
@@ -232,7 +218,6 @@ public class User implements UserDetails {
                 ", birthDate=" + birthDate +
                 ", accountStatus=" + accountStatus +
                 ", roles=" + roles +
-                ", equipmentBookings=" + equipmentBookings +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-package com.example.bokningsapp.controller;
+package com.example.bokningsapp.controller.rentals;
 
 import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;

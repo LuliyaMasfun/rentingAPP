@@ -25,18 +25,16 @@ public class BookingController {
     private static final Logger LOGGER = Logger.getLogger(BookingController.class.getName());
     private final BookingService bookingService;
     private final EquipBookingRepository equipBookingRepository;
-    private final EquipmentRepository equipmentRepository;
 
     @Autowired
-    public BookingController(BookingService bookingService, EquipBookingRepository equipBookingRepository, EquipmentRepository equipmentRepository) {
+    public BookingController(BookingService bookingService, EquipBookingRepository equipBookingRepository) {
         this.bookingService = bookingService;
         this.equipBookingRepository = equipBookingRepository;
-        this.equipmentRepository = equipmentRepository;
     }
 
     @PostMapping("/bookEquipment")
-    public ResponseEntity <BookingResponse> createEquipmentBooking(@RequestBody BookingRequest bookingRequest) {
-        return ResponseEntity.ok(bookingService.placeEquipmentBooking(bookingRequest));
+    public BookingResponse createEquipmentBooking(@RequestBody BookingRequest bookingRequest) {
+        return bookingService.placeEquipmentBooking(bookingRequest);
 
         //NEXT STEP: GET CURRENTLY LOGGED IN USER AND ASSOCIATE BOOKING WITH THAT USER
         //VALIDATE BOOKING REQUEST, CHECK FOR AVAILABILITY
