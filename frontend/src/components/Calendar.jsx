@@ -94,26 +94,31 @@ export default function Calendar() {
   `;
   const YearMonth = styled.div`
     display: auto;
-    margin-top: 2vh;
+    margin-top: 10vh;
     margin-left: 2vh;
     font-weight: 400;
     color: #efefef;
   `;
 
   const LeftIcon = styled(FaChevronLeft)`
-    position: absolute;
-    left: 0;
-    margin-left: 4vh;
-    margin-top: 0vh;
     color: #efefef;
   `;
 
   const RightIcon = styled(FaChevronRight)`
-    position: absolute;
-    margin-left: 1vh;
-    margin-top: 0vh;
     color: #efefef;
   `;
+  const PreviousMonth = styled.button`
+  position: absolute;
+  margin-top: -2.3vh;
+  margin-left: -1vh;
+  
+  `;
+  const NextMonth = styled.button`
+  position: absolute;
+  margin-top: -2.3vh;
+  margin-left: 14vh;
+  `;
+
   const Weekday = styled.div`
     display: flex;
     flex-direction: row;
@@ -167,105 +172,77 @@ export default function Calendar() {
 
   return (
     <CalenderContainer>
-      <div className="pt-16">
-        <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
-          <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
-            <div className="md:pr-14">
-              <div className="flex items-center">
-                <YearMonth>
-                  {format(firstDayCurrentMonth, "MMMM yyyy")}
-                </YearMonth>
-                <button type="button" onClick={previousMonth}>
-                  <LeftIcon />
-                </button>
-                <button onClick={nextMonth} type="button">
-                  <RightIcon />
-                </button>
-              </div>
-              <Weekday>
-                <Mon>MON</Mon>
-                <Tue>TUE</Tue>
-                <Wed>WED</Wed>
-                <Thu>THU</Thu>
-                <Fri>FRI</Fri>
-                <Sat>SAT</Sat>
-                <Sun>SUN</Sun>
-              </Weekday>
+      <div className="md:pr-14">
+        <YearMonth>
+          {format(firstDayCurrentMonth, "MMMM yyyy")}
+        </YearMonth>
+        <PreviousMonth type="button" onClick={previousMonth}>
+          <LeftIcon />
+        </PreviousMonth>
+        <NextMonth onClick={nextMonth} type="button">
+          <RightIcon />
+        </NextMonth>
+        <Weekday>
+          <Mon>MON</Mon>
+          <Tue>TUE</Tue>
+          <Wed>WED</Wed>
+          <Thu>THU</Thu>
+          <Fri>FRI</Fri>
+          <Sat>SAT</Sat>
+          <Sun>SUN</Sun>
+        </Weekday>
 
-              <DateDays>
-                {days.map((day, dayIdx) => (
-                  <div
-                    key={day.toString()}
-                    className={classNames(
-                      dayIdx === 0 && colStartClasses[getDay(day)],
-                      "py-1.5"
-                    )}
-                  >
-                    <button
-                      id="startDate"
-                      type="button"
-                      onClick={() => setStartDate(day)}
-                      onChange={handleStartDateChange}
-                      className={classNames(
-                        isEqual(day, startDate) && "text-white",
-                        !isEqual(day, startDate) &&
-                        isToday(day) &&
-                        "text-yellow-500",
-                        !isEqual(day, startDate) &&
-                        !isToday(day) &&
-                        isSameMonth(day, firstDayCurrentMonth) &&
-                        "text-gray-300",
-                        !isEqual(day, startDate) &&
-                        !isToday(day) &&
-                        !isSameMonth(day, firstDayCurrentMonth) &&
-                        "text-gray-300",
-                        isEqual(day, startDate) &&
-                        isToday(day) &&
-                        "bg-red-500",
-                        isEqual(day, startDate) &&
-                        !isToday(day) &&
-                        "bg-yellow-500",
-                        !isEqual(day, startDate) && "hover:bg-gray-200",
-                        (isEqual(day, startDate) || isToday(day)) &&
-                        "font-semibold",
-                        "absolute mx-auto flex h-8 w-8 items-center justify-center rounded-full"
-                      )}
-                    >
-                      <time date={format(day, "yyyy-MM-dd")}>
-                        {format(day, "d")}
-                      </time>
-                    </button>
-
-                    <button
-                      id="endDate"
-                      type="button"
-                      onClick={() => setEndDate(day)}
-                      onChange={handleEndDateChange}
-
-                    >
-                    </button>
-
-                    <div className="w-5 mx-auto mt-10">
-                      {bookings.some((booking) =>
-                        isSameDay(parseISO(booking.startDatetime), day)
-                      ) && <BusyDateIndicator></BusyDateIndicator>}
-                    </div>
-                  </div>
-                ))}
-              </DateDays>
-            </div>
-            <PlacedBookings>
-              {selectedDayBookings.length > 0 ? (
-                selectedDayBookings.map((booking) => (
-                  <Booking booking={booking} key={booking.id} />
-                ))
-              ) : (
-                <p>No bookings for today.</p>
+        <DateDays>
+          {days.map((day, dayIdx) => (
+            <div
+              key={day.toString()}
+              className={classNames(
+                dayIdx === 0 && colStartClasses[getDay(day)],
+                "py-1.5"
               )}
-            </PlacedBookings>
-          </div>
-        </div>
+            >
+              <button
+                id="startDate"
+                type="button"
+                onClick={() => setStartDate(day)}
+                onChange={handleStartDateChange}
+                className={`absolute mx-auto flex h-8 w-8 items-center justify-center rounded-full
+                ${isEqual(day, startDate)
+                    ? isToday(day)
+                      ? "bg-red-500 text-white font-semibold"
+                      : "bg-yellow-500 text-white font-semibold"
+                    : isToday(day)
+                      ? "text-yellow-500 font-semibold"
+                      : isSameMonth(day, firstDayCurrentMonth)
+                        ? "text-gray-300"
+                        : "text-gray-300"
+                  }
+                    ${!isEqual(day, startDate) && "hover:bg-gray-200"} `}
+              >
+                <time date={format(day, "yyyy-MM-dd")}>
+                  {format(day, "d")}
+                </time>
+              </button>
+
+
+              <div className="w-5 mx-auto mt-10">
+                {bookings.some((booking) =>
+                  isSameDay(parseISO(booking.startDatetime), day)
+                ) && <BusyDateIndicator></BusyDateIndicator>}
+              </div>
+            </div>
+          ))}
+        </DateDays>
       </div>
+      <PlacedBookings>
+        {selectedDayBookings.length > 0 ? (
+          selectedDayBookings.map((booking) => (
+            <Booking booking={booking} key={booking.id} />
+          ))
+        ) : (
+          <p>No bookings for today.</p>
+        )}
+      </PlacedBookings>
     </CalenderContainer>
   );
 }

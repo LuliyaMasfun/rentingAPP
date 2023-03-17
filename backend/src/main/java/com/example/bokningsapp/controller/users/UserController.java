@@ -1,4 +1,4 @@
-package com.example.bokningsapp.controller;
+package com.example.bokningsapp.controller.users;
 
 import com.example.bokningsapp.exception.EquipmentNotFoundException;
 import com.example.bokningsapp.exception.UserNotFoundException;

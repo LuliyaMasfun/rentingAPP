@@ -35,13 +35,19 @@ public class BookingService {
 
     public BookingResponse placeEquipmentBooking (BookingRequest bookingRequest) {
         // Create a new booking request
-        EquipmentBooking newBooking = bookingRequestMapper.toEntity(bookingRequest);
+        EquipmentBooking newBooking = new EquipmentBooking();
+        User user = userRepository.findById(bookingRequest.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found"));
+        Equipment equipment = equipmentRepo.findById(bookingRequest.getEquipment().getId()).orElseThrow(() -> new RuntimeException("Equipment not found"));
+        newBooking.setUser(user);
+        newBooking.setEquipment(equipment);
+        newBooking.setStartDate(bookingRequest.getStartDate());
+        newBooking.setEndDate(bookingRequest.getEndDate());
+
         String reservationNumber = UUID.randomUUID().toString();
         newBooking.setBookingStatus(BookingStatus.PENDING);
         newBooking.setReservationNumber(reservationNumber);
         newBooking.setPickUp(LocalTime.of(12, 0));
         newBooking.setDropOff(LocalTime.of(12, 0));
-
         equipBookingRepo.save(newBooking);
         // Save the booking to the database
         return BookingResponse.builder()
@@ -50,6 +56,8 @@ public class BookingService {
                 .pickUp(LocalTime.of(12, 0))
                 .dropOff(LocalTime.of(12, 0))
                 .build();
+
+
 
     }
 

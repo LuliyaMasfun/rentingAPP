@@ -24,8 +24,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.2'
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '3.0.1'
-	implementation 'io.springfox:springfox-swagger2:3.0.0'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '3.0.2'
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
+
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 	implementation 'org.jetbrains:annotations:20.1.0'
 	implementation 'com.sun.mail:javax.mail:1.6.2'
@@ -38,7 +40,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	compileOnly 'org.projectlombok:lombok'
 	compileOnly group: 'jakarta.servlet', name: 'jakarta.servlet-api',version: '5.0.0'
-	runtimeOnly 'mysql:mysql-connector-java'
+
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
