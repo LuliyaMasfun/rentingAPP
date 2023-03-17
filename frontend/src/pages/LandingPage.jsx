@@ -66,7 +66,9 @@ const LandingPage = () => {
           <EquipmentImg src={EquipmentLp} />
         </Link>
         <CommunityImg src={CommunityLp} />
-        <HubsImg src={HubsLp} />
+        <Link href="/Hubs">
+          <HubsImg src={HubsLp} />
+        </Link>
       </DashboardContainer>
       <div style={{ marginTop: "1050px" }} >
         <Footer />
