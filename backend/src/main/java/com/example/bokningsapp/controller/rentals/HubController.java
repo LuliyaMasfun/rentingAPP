@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -32,6 +33,12 @@ public class HubController {
     public ResponseEntity<Hub> createHub(@RequestBody Hub hub) {
         Hub newHub = hubService.saveHub(hub);
         return new ResponseEntity<>(hub, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getAllHubs")
+    public ResponseEntity<List<Hub>> getAllHubs() {
+        List<Hub> hubs = hubRepository.findAll();
+        return new ResponseEntity<>(hubs, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/deleteHub/{id}")

@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react';
 import { FaRegClock, FaMapMarkerAlt } from "react-icons/fa";
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import sound2 from '../../public/rode2.png'
-import camera2 from '../../public/canon2.png'
-import light2 from '../../public/aputure2.png'
-import Calendar from "../components/Calendar"
-import "../styles/globals.css"
+import sound2 from '../../../public/rode2.png'
+import camera2 from '../../../public/canon2.png'
+import light2 from '../../../public/aputure2.png'
+import Calendar from "../../components/Calendar"
+import "../../styles/globals.css"
 import Link from 'next/link';
 
 const Page = styled.div`
