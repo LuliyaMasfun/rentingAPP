@@ -6,12 +6,12 @@ import { FaRegBookmark, FaMapMarkerAlt } from "react-icons/fa";
 import styled from "@emotion/styled";
 import Image from 'next/image';
 import Link from 'next/link';
-import light from "../../public/aputure.png";
-import sound from "../../public/rode.png";
-import camera from "../../public/canon.png";
-import Footer from "../components/Footer";
-import Navbar from '../components/Navbar';
-import "../styles/globals.css"
+import light from "../../../public/aputure.png";
+import sound from "../../../public/rode.png";
+import camera from "../../../public/canon.png";
+import Footer from "../../components/Footer";
+import Navbar from '../../components/Navbar';
+import "../../styles/globals.css"
 
 
 
@@ -222,7 +222,7 @@ const EquipmentPage = () => {
             <LocationTxt>
               {item.equipmentLocation}
             </LocationTxt>
-            <Link href="equipment/[id]" as={`/equipment/${item.id}`}>
+            <Link href="equipment/[id]" as={`/user/equipment/${item.id}`}>
               <EquipmentImage src={checkType(item)} />
             </Link>
           </Card>

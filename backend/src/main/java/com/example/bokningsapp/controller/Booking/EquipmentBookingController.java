@@ -1,39 +1,34 @@
-package com.example.bokningsapp.controller;
+package com.example.bokningsapp.controller.Booking;
 
 
-import com.example.bokningsapp.dto.BookingRequest;
-import com.example.bokningsapp.model.Equipment;
-import com.example.bokningsapp.model.EquipmentBooking;
+import com.example.bokningsapp.dto.EquipmentBookingRequest;
+import com.example.bokningsapp.model.bookings.EquipmentBooking;
 import com.example.bokningsapp.repository.EquipBookingRepository;
-import com.example.bokningsapp.repository.EquipmentRepository;
 import com.example.bokningsapp.security.payload.response.BookingResponse;
-import com.example.bokningsapp.service.bookingService.BookingService;
+import com.example.bokningsapp.service.bookingService.EquipmentBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.util.logging.*;
-import java.time.LocalTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/bookings")
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
-public class BookingController {
+public class EquipmentBookingController {
 
-    private static final Logger LOGGER = Logger.getLogger(BookingController.class.getName());
-    private final BookingService bookingService;
+    private static final Logger LOGGER = Logger.getLogger(EquipmentBookingController.class.getName());
+    private final EquipmentBookingService bookingService;
     private final EquipBookingRepository equipBookingRepository;
 
     @Autowired
-    public BookingController(BookingService bookingService, EquipBookingRepository equipBookingRepository) {
+    public EquipmentBookingController(EquipmentBookingService bookingService, EquipBookingRepository equipBookingRepository) {
         this.bookingService = bookingService;
         this.equipBookingRepository = equipBookingRepository;
     }
 
     @PostMapping("/bookEquipment")
-    public BookingResponse createEquipmentBooking(@RequestBody BookingRequest bookingRequest) {
+    public BookingResponse createEquipmentBooking(@RequestBody EquipmentBookingRequest bookingRequest) {
         return bookingService.placeEquipmentBooking(bookingRequest);
 
         //NEXT STEP: GET CURRENTLY LOGGED IN USER AND ASSOCIATE BOOKING WITH THAT USER

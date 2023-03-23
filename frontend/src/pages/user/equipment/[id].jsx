@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -5,11 +6,11 @@ import { useEffect, useState } from 'react';
 import { FaRegClock, FaMapMarkerAlt } from "react-icons/fa";
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import podcast from '../../../public/podcast2.png'
-import coWorking from '../../../public/coWorking2.png'
-import film from '../../../public/film2.png'
-import Calendar from "../../components/Calendar"
-import "../../styles/globals.css"
+import sound2 from '../../../../public/rode2.png'
+import camera2 from '../../../../public/canon2.png'
+import light2 from '../../../../public/aputure2.png'
+import Calendar from "../../../components/Calendar"
+import "../../../styles/globals.css"
 import Link from 'next/link';
 
 const Page = styled.div`
@@ -149,7 +150,7 @@ const EquipmentItem = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/hub/getThisHub/${id}`);
+        const response = await axios.get(`http://localhost:8080/equipment/getEquipment/${id}`);
         setData(response.data);
         console.log(response.data)
       } catch (error) {
@@ -160,12 +161,12 @@ const EquipmentItem = () => {
   }, [id]);
 
   const checkType = (imageType) => {
-    if (imageType.hubName == "The Podcast Studio") {
-      return podcast;
-    } else if (imageType.hubName == "The Film Studio") {
-      return film;
+    if (imageType.equipmentType == "CAMERA") {
+      return camera2;
+    } else if (imageType.equipmentType == "LIGHT") {
+      return light2;
     } else {
-      return coWorking;
+      return sound2;
     }
   }
   // equipmentBrand input to upperCase
@@ -190,22 +191,22 @@ const EquipmentItem = () => {
       <Page>
 
         <EquipmentImage src={checkType(data)} />
-        <Brand>{data.rentalType}</Brand>
-        <Name>{data.hubName}</Name>
+        <Brand>{equipmentBrand}</Brand>
+        <Name>{data.equipmentName}</Name>
         <div>
           <LocationBg>
             <LocationIcon />
             <LocationTxt> Location</LocationTxt>
-            <Location>{data.hubLocation}</Location>
+            <Location>{data.equipmentLocation}</Location>
           </LocationBg>
           <MaxDaysToRentBg>
             <ClockIcon />
-            <MaxDaysToRentTxt>Max Time to rent</MaxDaysToRentTxt>
-            <MaxDaysToRent>{data.maxTimeToRent} Hours</MaxDaysToRent>
+            <MaxDaysToRentTxt>Max days to rent</MaxDaysToRentTxt>
+            <MaxDaysToRent>{data.maxDaysToRent} Days</MaxDaysToRent>
           </MaxDaysToRentBg>
           <DescBg>
             <DescTxt>Description</DescTxt>
-            <Description>{data.hubDescription} + Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            <Description>{data.equipmentDescription} ++++++Lorem ipsum dolor sit amet, consectetur adipiscing elit,
               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam <ViewMore>View more</ViewMore>
             </Description>
           </DescBg>

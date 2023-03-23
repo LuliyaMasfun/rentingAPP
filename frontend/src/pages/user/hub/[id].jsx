@@ -1,4 +1,3 @@
-"use client";
 import React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -6,11 +5,11 @@ import { useEffect, useState } from 'react';
 import { FaRegClock, FaMapMarkerAlt } from "react-icons/fa";
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import sound2 from '../../../public/rode2.png'
-import camera2 from '../../../public/canon2.png'
-import light2 from '../../../public/aputure2.png'
-import Calendar from "../../components/Calendar"
-import "../../styles/globals.css"
+import podcast from '../../../../public/podcast2.png'
+import coWorking from '../../../../public/coWorking2.png'
+import film from '../../../../public/film2.png'
+import Calendar from "../../../components/Calendar"
+import "../../../styles/globals.css"
 import Link from 'next/link';
 
 const Page = styled.div`
@@ -71,7 +70,7 @@ color: #8E8E8E;
 
 const MaxDaysToRentBg = styled.div`
 position: absolute;
-margin-left: 24vh;
+margin-left: 20vh;
 margin-top: 2.5vh;
 background-color: #323232;
 width:160px;
@@ -150,7 +149,7 @@ const EquipmentItem = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/equipment/getEquipment/${id}`);
+        const response = await axios.get(`http://localhost:8080/hub/getThisHub/${id}`);
         setData(response.data);
         console.log(response.data)
       } catch (error) {
@@ -161,12 +160,12 @@ const EquipmentItem = () => {
   }, [id]);
 
   const checkType = (imageType) => {
-    if (imageType.equipmentType == "CAMERA") {
-      return camera2;
-    } else if (imageType.equipmentType == "LIGHT") {
-      return light2;
+    if (imageType.hubName == "The Podcast Studio") {
+      return podcast;
+    } else if (imageType.hubName == "The Film Studio") {
+      return film;
     } else {
-      return sound2;
+      return coWorking;
     }
   }
   // equipmentBrand input to upperCase
@@ -175,7 +174,7 @@ const EquipmentItem = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(`http://localhost:8080/bookings/bookEquipment`);
+      const response = await axios.post(`http://localhost:8080/bookings/placeHubBooking`);
       setBooking(response.booking);
       console.log(response.booking)
     } catch (error) {
@@ -191,22 +190,22 @@ const EquipmentItem = () => {
       <Page>
 
         <EquipmentImage src={checkType(data)} />
-        <Brand>{equipmentBrand}</Brand>
-        <Name>{data.equipmentName}</Name>
+        <Brand>{data.rentalType}</Brand>
+        <Name>{data.hubName}</Name>
         <div>
           <LocationBg>
             <LocationIcon />
             <LocationTxt> Location</LocationTxt>
-            <Location>{data.equipmentLocation}</Location>
+            <Location>{data.hubLocation}</Location>
           </LocationBg>
           <MaxDaysToRentBg>
             <ClockIcon />
-            <MaxDaysToRentTxt>Max days to rent</MaxDaysToRentTxt>
-            <MaxDaysToRent>{data.maxDaysToRent} Days</MaxDaysToRent>
+            <MaxDaysToRentTxt>Max Time to rent</MaxDaysToRentTxt>
+            <MaxDaysToRent>{data.maxTimeToRent} Hours</MaxDaysToRent>
           </MaxDaysToRentBg>
           <DescBg>
             <DescTxt>Description</DescTxt>
-            <Description>{data.equipmentDescription} ++++++Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            <Description>{data.hubDescription} + Lorem ipsum dolor sit amet, consectetur adipiscing elit,
               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam <ViewMore>View more</ViewMore>
             </Description>
           </DescBg>

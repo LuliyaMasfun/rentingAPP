@@ -1,7 +1,6 @@
 package com.example.bokningsapp.repository;
 
-import com.example.bokningsapp.model.Equipment;
-import com.example.bokningsapp.model.EquipmentBooking;
+import com.example.bokningsapp.model.bookings.EquipmentBooking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

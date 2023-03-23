@@ -1,10 +1,10 @@
 package com.example.bokningsapp.service.bookingService;
 
-import com.example.bokningsapp.dto.BookingRequest;
+import com.example.bokningsapp.dto.EquipmentBookingRequest;
 import com.example.bokningsapp.dto.BookingRequestMapper;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.Equipment;
-import com.example.bokningsapp.model.EquipmentBooking;
+import com.example.bokningsapp.model.bookings.EquipmentBooking;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.EquipBookingRepository;
 import com.example.bokningsapp.repository.EquipmentRepository;
@@ -17,23 +17,21 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 @Service
-public class BookingService {
+public class EquipmentBookingService {
     private final UserRepository userRepository;
     private final EquipBookingRepository equipBookingRepo;
     private final EquipmentRepository equipmentRepo;
 
-    private final BookingRequestMapper bookingRequestMapper;
 
 
     @Autowired
-    public BookingService(UserRepository userRepository, EquipBookingRepository equipBookingRepo, EquipmentRepository equipmentRepo, BookingRequestMapper bookingRequestMapper) {
+    public EquipmentBookingService(UserRepository userRepository, EquipBookingRepository equipBookingRepo, EquipmentRepository equipmentRepo) {
         this.userRepository = userRepository;
         this.equipBookingRepo = equipBookingRepo;
         this.equipmentRepo = equipmentRepo;
-        this.bookingRequestMapper= bookingRequestMapper;
     }
 
-    public BookingResponse placeEquipmentBooking (BookingRequest bookingRequest) {
+    public BookingResponse placeEquipmentBooking (EquipmentBookingRequest bookingRequest) {
         // Create a new booking request
         EquipmentBooking newBooking = new EquipmentBooking();
         User user = userRepository.findById(bookingRequest.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found"));
@@ -53,12 +51,10 @@ public class BookingService {
         return BookingResponse.builder()
                 .reservationNumber(reservationNumber)
                 .bookingStatus(BookingStatus.PENDING)
-                .pickUp(LocalTime.of(12, 0))
-                .dropOff(LocalTime.of(12, 0))
                 .build();
 
-
-
     }
+
+
 
 }

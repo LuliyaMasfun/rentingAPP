@@ -26,6 +26,7 @@
     "next-auth": "^4.19.2",
     "react": "18.2.0",
     "react-big-calendar": "^1.6.3",
+    "react-calendar": "^4.0.0",
     "react-dom": "18.2.0",
     "react-form-input-validation": "^2.1.0",
     "react-icons": "^4.7.1",
@@ -35,6 +36,7 @@
     "validator": "^13.9.0"
   },
   "devDependencies": {
+    "@emotion/babel-plugin": "^11.10.6",
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "autoprefixer": "^10.4.13",

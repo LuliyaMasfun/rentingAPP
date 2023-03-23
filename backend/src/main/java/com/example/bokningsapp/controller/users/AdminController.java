@@ -1,11 +1,8 @@
 package com.example.bokningsapp.controller.users;
 
-import com.example.bokningsapp.enums.BookingStatus;
-import com.example.bokningsapp.model.EquipmentBooking;
 import com.example.bokningsapp.repository.EquipBookingRepository;
 import com.example.bokningsapp.service.adminService.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
