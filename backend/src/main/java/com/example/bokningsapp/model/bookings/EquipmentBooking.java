@@ -1,6 +1,8 @@
-package com.example.bokningsapp.model;
+package com.example.bokningsapp.model.bookings;
 
 import com.example.bokningsapp.enums.BookingStatus;
+import com.example.bokningsapp.model.Equipment;
+import com.example.bokningsapp.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

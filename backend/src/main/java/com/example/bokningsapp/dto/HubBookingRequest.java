@@ -1,28 +1,29 @@
 package com.example.bokningsapp.dto;
 
-
-import com.example.bokningsapp.model.Equipment;
+import com.example.bokningsapp.model.Hub;
 import com.example.bokningsapp.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class BookingRequest {
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class HubBookingRequest {
+
     private User user;
-    private Equipment equipment;
+
+    private Hub hub;
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate endDate;
+
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime pickUp;
+
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime dropOff;
 
 
     public User getUser() {
@@ -33,12 +34,12 @@ public class BookingRequest {
         this.user = user;
     }
 
-    public Equipment getEquipment() {
-        return equipment;
+    public Hub getHub() {
+        return hub;
     }
 
-    public void setEquipment(Equipment equipment) {
-        this.equipment = equipment;
+    public void setHub(Hub hub) {
+        this.hub = hub;
     }
 
     public LocalDate getStartDate() {
@@ -57,4 +58,19 @@ public class BookingRequest {
         this.endDate = endDate;
     }
 
+    public LocalTime getPickUp() {
+        return pickUp;
+    }
+
+    public void setPickUp(LocalTime pickUp) {
+        this.pickUp = pickUp;
+    }
+
+    public LocalTime getDropOff() {
+        return dropOff;
+    }
+
+    public void setDropOff(LocalTime dropOff) {
+        this.dropOff = dropOff;
+    }
 }

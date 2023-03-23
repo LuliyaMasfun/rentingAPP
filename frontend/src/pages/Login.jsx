@@ -205,7 +205,7 @@ const Login = () => {
       AuthService.login(email, password).then(
         () => {
 
-          router.push('/LandingPage');
+          router.push('/user/LandingPage');
         },
         (error) => {
           const resMessage =

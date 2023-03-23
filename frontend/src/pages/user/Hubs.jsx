@@ -5,12 +5,12 @@ import { FaRegBookmark, FaMapMarkerAlt } from "react-icons/fa";
 import styled from "@emotion/styled";
 import Image from 'next/image';
 import Link from 'next/link';
-import podcastImg from "../../public/Podcast.png";
-import coWorkingImg from "../../public/coWorking.png";
-import filmImg from "../../public/Film.png";
-import Footer from "../components/Footer";
-import Navbar from '../components/Navbar';
-import "../styles/globals.css"
+import podcastImg from "../../../public/Podcast.png";
+import coWorkingImg from "../../../public/coWorking.png";
+import filmImg from "../../../public/Film.png";
+import Footer from "../../components/Footer";
+import Navbar from '../../components/Navbar';
+import "../../styles/globals.css"
 
 
 const Page = styled.div`
@@ -220,7 +220,7 @@ const HubsPage = () => {
             <LocationTxt>
               {item.hubLocation}
             </LocationTxt>
-            <Link href="hub/[id]" as={`/hub/${item.id}`}>
+            <Link href="hub/[id]" as={`/user/hub/${item.id}`}>
               <HubsImg src={checkType(item)} />
             </Link>
           </Card>
