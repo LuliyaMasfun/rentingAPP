@@ -1,11 +1,12 @@
 import React from 'react';
 
-import Login from './login';
+import Login from './Login';
+import LandingPage from './admin/LandingPage';
 
 function App() {
   return (
     <>
-      <Login />
+      <LandingPage />
     </>
   )
 }

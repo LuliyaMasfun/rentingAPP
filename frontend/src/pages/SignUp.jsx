@@ -1,4 +1,4 @@
-"use client";
+
 import React from "react";
 import styled from "@emotion/styled";
 import { useState, useRef } from "react";
@@ -316,47 +316,61 @@ const SignUp = () => {
                 validations={[required]}
               />
 
-        <InputPhonenumber
-          type="number"
-          name="phonenumber"
-          placeholder="Phonenumber"
-          value={phoneNumber}
-          onChange={onChangePhoneNumber}
-          validations={[required]}
-        />
-        <InputBirthdate
-          type="date"
-          name="birthdate"
-          placeholder="Birthdate"
-          value={birthdate}
-          onChange={onChangeBirthdate}
-          validations={[required]}
-        />
-        <InputPassword
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={onChangePassword}
-          validations={[required, vpassword]}
-        />
+              <InputPhonenumber
+                type="number"
+                name="phonenumber"
+                placeholder="Phonenumber"
+                value={phoneNumber}
+                onChange={onChangePhoneNumber}
+                validations={[required]}
+              />
+              <InputBirthdate
+                type="date"
+                name="birthdate"
+                placeholder="Birthdate"
+                value={birthdate}
+                onChange={onChangeBirthdate}
+                validations={[required]}
+              />
+              <InputPassword
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={password}
+                onChange={onChangePassword}
+                validations={[required, vpassword]}
+              />
+
+              <ButtonSignUp type="submit" onClick={handleRegister}>Sign Up</ButtonSignUp>
+
+            </>
+          )}
+          {message && (
+            <div className="form-group">
+              <div
+                className={
+                  successful ? "alert alert-success" : "alert alert-danger"
+                }
+                role="alert"
+              >
+                {message}
+              </div>
+            </div>
+          )}
+          <CheckButton ref={checkBtn} />
+        </div>
+        <Link href={{
+          pathname: "/Login"
+        }}>
+          <Login>
+            Already have an account? <UnderlinedText>Log in</UnderlinedText>
+          </Login>
+        </Link>
 
       </SignUpForm>
-      <Link href={{
-        pathname: "/LandingPage"
-      }}>
-        <ButtonSignUp type="submit">Sign Up</ButtonSignUp>
-      </Link>
 
-      <Link href={{
-        pathname: "/Login"
-      }}>
-        <Login>
-          Already have an account? <UnderlinedText>Log in</UnderlinedText>
-        </Login>
-      </Link>
-          </Page>
-        )
-    }
+    </Page>
+  );
 };
 export default SignUp;
+

@@ -5,7 +5,6 @@ import com.example.bokningsapp.security.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,10 +27,11 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+              .csrf().disable()
+                .cors().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**","/equipment/**","/api/test/**").permitAll()
-                .requestMatchers("/admin").hasRole("ROLE_ADMIN")
+                .requestMatchers("/auth/**", "/equipment/**", "/user/**", "/bookings/**", "/hub/**").permitAll()
+                .requestMatchers("/user/**").hasRole("ROLE_ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -39,8 +39,12 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .cors(Customizer.withDefaults());
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+
+
+
+
 
         return http.build();
     }

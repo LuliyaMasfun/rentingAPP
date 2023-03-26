@@ -1,16 +1,16 @@
 "use client";
 import React from "react";
 import styled from "@emotion/styled";
-import MyActiveBooking from "../components/ActiveBooking";
-import Footer from "../components/Footer"
+import MyActiveBooking from "../../components/ActiveBooking";
+import Footer from "../../components/Footer"
 import Image from "next/image";
-import HubsLp from "../../public/HubsLp.png"
-import EquipmentLp from "../../public/EquipmentLp.png"
-import CommunityLp from "../../public/CommunityLp.png"
-import EventsLp from "../../public/EventsLp.png"
+import HubsLp from "../../../public/HubsLp.png"
+import EquipmentLp from "../../../public/EquipmentLp.png"
+import CommunityLp from "../../../public/CommunityLp.png"
+import EventsLp from "../../../public/EventsLp.png"
 import Link from "next/link";
-import Navbar from "../components/Navbar";
-import "../styles/globals.css"
+import Navbar from "../../components/Navbar";
+import "../../styles/globals.css"
 
 const Page = styled.div`
   position: absolute;
@@ -62,11 +62,13 @@ const LandingPage = () => {
       <DashboardTitle>Dashboard</DashboardTitle>
       <DashboardContainer>
         <EventsImg src={EventsLp} />
-        <Link href="/equipments" >
+        <Link href="/user/Equipments" >
           <EquipmentImg src={EquipmentLp} />
         </Link>
         <CommunityImg src={CommunityLp} />
-        <HubsImg src={HubsLp} />
+        <Link href="/user/Hubs">
+          <HubsImg src={HubsLp} />
+        </Link>
       </DashboardContainer>
       <div style={{ marginTop: "1050px" }} >
         <Footer />

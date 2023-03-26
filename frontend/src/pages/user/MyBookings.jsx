@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import styled from "@emotion/styled";
 import "../styles/globals.css";
 import bookingImg from "../../public/bookingImg.png"

@@ -1,4 +1,4 @@
-package com.example.bokningsapp.controller;
+package com.example.bokningsapp.controller.rentals;
 
 import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
@@ -44,7 +44,7 @@ public class EquipmentController {
         return new ResponseEntity<>(newEquipment, HttpStatus.CREATED);
     }
     @GetMapping("/allEquipment")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_MODERATOR') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Equipment>> getAllEquipments() {
         List<Equipment> equipments = equipmentRepo.findAll();
         return new ResponseEntity<>(equipments, HttpStatus.OK);
@@ -53,7 +53,7 @@ public class EquipmentController {
 
 
     @DeleteMapping("/equipment/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+  //  @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteEquipment(@PathVariable int id) {
         try {
             equipmentService.deleteEquipment(id);

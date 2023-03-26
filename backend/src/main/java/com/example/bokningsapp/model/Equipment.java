@@ -3,12 +3,11 @@ package com.example.bokningsapp.model;
 import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
 import jakarta.persistence.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.time.LocalDate;
+import java.util.Set;
 
 
-@Entity
+    @Entity
     @Table(name="equipments")
     public class Equipment {
 
@@ -39,11 +38,6 @@ import java.time.LocalDate;
         @Column
         @Enumerated
         private EquipmentStatus equipmentStatus;
-
-    @OneToOne
-    @JoinColumn(name = "equipment_booking_id")
-    private EquipmentBooking equipmentBooking;
-
 
         public Equipment(String equipmentName, String equipmentLocation, String equipmentImg, int maxDaysToRent, String equipmentDescription, String equipmentBrand,  EquipmentType equipmentType, EquipmentStatus equipmentStatus) {
             this.equipmentName = equipmentName;
@@ -124,15 +118,7 @@ import java.time.LocalDate;
             this.equipmentStatus = equipmentStatus;
         }
 
-    public EquipmentBooking getEquipmentBooking() {
-        return equipmentBooking;
-    }
-
-    public void setEquipmentBooking(EquipmentBooking equipmentBooking) {
-        this.equipmentBooking = equipmentBooking;
-    }
-
-    @Override
+        @Override
         public String toString() {
             return "Equipment{" +
                     "id=" + id +

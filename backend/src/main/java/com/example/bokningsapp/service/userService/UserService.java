@@ -7,6 +7,7 @@ import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.config.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -27,27 +28,36 @@ public class UserService {
     public String encryptPassword(String password) {
         return bcryptPasswordConfig.bCryptPasswordEncoder1().encode(password);   }
 
+   /* public Long getCurrentUserId () {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return ((UserPrincipal) auth.getPrincipal()).getId();
+    } Cannot invoke "org.springframework.security.core.Authentication.getPrincipal()" because "auth" is null
 
-    //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
+    */
 
-    public ResponseEntity<User> updateUser(String email, User user) {
-        var _user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found with email " + email));
+    public User updateUserAdmin(Long id, User user) {
+        // Get the user to be updated
+        User currentUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
 
-            _user.setPassword(user.getPassword());
-            User updatedUser = userRepository.save(_user);
-
-        return ResponseEntity.ok(updatedUser);
+        // Update the user's Account status
+        currentUser.setAccountStatus(user.getAccountStatus());
+        currentUser.setEmail(user.getEmail());
+        if (user.getPassword() != null) {
+            user.setPassword(encryptPassword(user.getPassword()));
+        }
+        return userRepository.save(currentUser);
+    }
+    public ResponseEntity<String> deleteUser(Long id) {
+        User user = userRepository.findUserById(id);
+        userRepository.delete(user);
+        return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
     }
 
+    public ResponseEntity<User> updateUser(Long id, User user) {
+        User updatedUser = userRepository.findUserById(id);
+        updatedUser.setPassword(user.getPassword());
+        userRepository.save(updatedUser);
 
-    public String deleteUserByEmail(String email){
-
-       var user = userRepository.findByEmail(email).orElseThrow();
-           userRepository.delete(user);
-           return "User was successfully deleted";
-
-
-    }
+        return ResponseEntity.ok(updatedUser);}
 }
 

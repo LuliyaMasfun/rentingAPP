@@ -1,22 +1,17 @@
 package com.example.bokningsapp.dto;
 
-import com.example.bokningsapp.enums.BookingStatus;
-import com.example.bokningsapp.model.Equipment;
+import com.example.bokningsapp.model.Hub;
 import com.example.bokningsapp.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
-public class EquipBookingDto {
+public class HubBookingRequest {
 
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @JoinColumn(name = "equipment_id", referencedColumnName = "id")
-    private List<Equipment> equipment;
+    private Hub hub;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate;
@@ -24,13 +19,12 @@ public class EquipBookingDto {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate endDate;
 
-    private BookingStatus bookingStatus;
-
     @JsonFormat(pattern = "HH:mm")
     private LocalTime pickUp;
 
     @JsonFormat(pattern = "HH:mm")
     private LocalTime dropOff;
+
 
     public User getUser() {
         return user;
@@ -40,12 +34,12 @@ public class EquipBookingDto {
         this.user = user;
     }
 
-    public List<Equipment> getEquipment() {
-        return equipment;
+    public Hub getHub() {
+        return hub;
     }
 
-    public void setEquipment(List<Equipment> equipment) {
-        this.equipment = equipment;
+    public void setHub(Hub hub) {
+        this.hub = hub;
     }
 
     public LocalDate getStartDate() {
@@ -64,14 +58,6 @@ public class EquipBookingDto {
         this.endDate = endDate;
     }
 
-    public BookingStatus getBookingStatus() {
-        return bookingStatus;
-    }
-
-    public void setBookingStatus(BookingStatus bookingStatus) {
-        this.bookingStatus = bookingStatus;
-    }
-
     public LocalTime getPickUp() {
         return pickUp;
     }
@@ -88,5 +74,3 @@ public class EquipBookingDto {
         this.dropOff = dropOff;
     }
 }
-
-
