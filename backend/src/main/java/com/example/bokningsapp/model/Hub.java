@@ -15,7 +15,7 @@ public class Hub {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column
     private String hubName;
     @Column
@@ -33,7 +33,7 @@ public class Hub {
     @Enumerated
     private RentalStatus rentalStatus;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

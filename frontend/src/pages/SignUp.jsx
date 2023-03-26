@@ -1,4 +1,4 @@
-"use client";
+
 import React from "react";
 import styled from "@emotion/styled";
 import { useState, useRef } from "react";
@@ -360,7 +360,7 @@ const SignUp = () => {
           <CheckButton ref={checkBtn} />
         </div>
         <Link href={{
-          pathname: "/login"
+          pathname: "/Login"
         }}>
           <Login>
             Already have an account? <UnderlinedText>Log in</UnderlinedText>

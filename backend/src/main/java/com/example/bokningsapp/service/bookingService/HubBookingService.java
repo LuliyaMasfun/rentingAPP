@@ -3,6 +3,7 @@ package com.example.bokningsapp.service.bookingService;
 import com.example.bokningsapp.dto.HubBookingRequest;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.Hub;
+import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.model.bookings.HubBooking;
 import com.example.bokningsapp.repository.HubBookingRepository;
 import com.example.bokningsapp.repository.HubRepository;
@@ -31,12 +32,10 @@ public class HubBookingService {
     public void placeHubBooking (HubBookingRequest bookingRequest) {
 
         HubBooking newBooking = new HubBooking();
-        String bookingNumber = UUID.randomUUID().toString();
-      //  User user = userRepository.findById(bookingRequest.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found"));
+        String bookingNumber = UUID.randomUUID().toString().substring(0, 8);
+        User user = userRepository.findById(bookingRequest.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found"));
         Hub hub = hubRepository.findById(bookingRequest.getHub().getId()).orElseThrow(() -> new RuntimeException("Hub not found"));
-
-     //   newBooking.setUser(user);
-
+        newBooking.setUser(user);
         newBooking.setHub(hub);
         newBooking.setStartDate(bookingRequest.getStartDate());
         newBooking.setEndDate(bookingRequest.getEndDate());

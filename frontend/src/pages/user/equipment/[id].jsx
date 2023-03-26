@@ -185,41 +185,41 @@ const EquipmentItem = () => {
 
 
 
-  return (<div>
-    {data ? (
+  return (
+    <div>
+      {data ? (
+        <Page>
 
-      <Page>
-
-        <EquipmentImage src={checkType(data)} />
-        <Brand>{equipmentBrand}</Brand>
-        <Name>{data.equipmentName}</Name>
-        <div>
-          <LocationBg>
-            <LocationIcon />
-            <LocationTxt> Location</LocationTxt>
-            <Location>{data.equipmentLocation}</Location>
-          </LocationBg>
-          <MaxDaysToRentBg>
-            <ClockIcon />
-            <MaxDaysToRentTxt>Max days to rent</MaxDaysToRentTxt>
-            <MaxDaysToRent>{data.maxDaysToRent} Days</MaxDaysToRent>
-          </MaxDaysToRentBg>
-          <DescBg>
-            <DescTxt>Description</DescTxt>
-            <Description>{data.equipmentDescription} ++++++Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam <ViewMore>View more</ViewMore>
-            </Description>
-          </DescBg>
-        </div>
-        <Calendar />
-        <Link href="/myBookings">
-          <MakeReservationBtn onClick={handleSubmit}>Make Reservation</MakeReservationBtn>
-        </Link>
-      </Page>
-    ) : (
-      <p>Loading...</p>
-    )}
-  </div>
+          <EquipmentImage src={checkType(data)} />
+          <Brand>{equipmentBrand}</Brand>
+          <Name>{data.equipmentName}</Name>
+          <div>
+            <LocationBg>
+              <LocationIcon />
+              <LocationTxt> Location</LocationTxt>
+              <Location>{data.equipmentLocation}</Location>
+            </LocationBg>
+            <MaxDaysToRentBg>
+              <ClockIcon />
+              <MaxDaysToRentTxt>Max days to rent</MaxDaysToRentTxt>
+              <MaxDaysToRent>{data.maxDaysToRent} Days</MaxDaysToRent>
+            </MaxDaysToRentBg>
+            <DescBg>
+              <DescTxt>Description</DescTxt>
+              <Description>{data.equipmentDescription} ++++++Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam <ViewMore>View more</ViewMore>
+              </Description>
+            </DescBg>
+          </div>
+          <Calendar />
+          <Link href="/myBookings">
+            <MakeReservationBtn onClick={handleSubmit}>Make Reservation</MakeReservationBtn>
+          </Link>
+        </Page>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
   )
 }
 

@@ -24,7 +24,7 @@ public class HubService {
     }
 
     @Transactional
-    public void deleteHub(int id) {
+    public void deleteHub(Long id) {
         Hub deletedHub = hubRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hub not found with id " + id));
         hubRepository.delete(deletedHub);
