@@ -247,7 +247,7 @@ const RequestedRental = styled.p`
   `;
 const BorderRow4 = styled.hr`
   position: absolute;
-  margin-top: 50px;
+  margin-top: 55px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
@@ -374,6 +374,90 @@ const BorderRow9 = styled.hr`
   opacity: 0.7;
 `;
 
+/* USER USER USER USER USER USER USER USER USER USER USER */
+const UserRowName = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 40vh;
+`;
+const RowNumber = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  `;
+const NumberLbl = styled.p`
+  position: absolute;
+  margin-left: 35px;
+  font-weight: 500;
+  color: #EFEFEF;
+  `;
+const Number = styled.p`
+   margin-left: 240px;
+  color: #EFEFEF;
+  `;
+
+const RowEmail = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  color: #EFEFEF;
+  `;
+const EmailLbl = styled.p`
+  position: absolute;
+  margin-left: 35px;
+  font-weight: 500;
+  color: #EFEFEF;
+  `;
+const Email = styled.p`
+   margin-left: 240px;
+  color: #EFEFEF;
+  `;
+const UserBorderRow2 = styled.hr`
+  position: absolute;
+  margin-top: 63px;
+  height: 1px;
+  width: 390px;
+  background-color: #3A3B3C;
+  opacity: 0.7;
+`;
+const Row1 = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 40vh;
+`;
+const RowLbl = styled.p`
+ position: absolute;
+  margin-left: 35px;
+  font-weight: 500;
+  color: #EFEFEF;
+`;
+const DataLbl = styled.p`
+ margin-left: 240px;
+color: #EFEFEF;
+`;
+const Row2 = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const Row3 = styled.div`
+  display: flex;
+    margin-top: 30px;
+  flex-direction: row;
+`;
+const Row4 = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+`;
+const Row5 = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+`;
+
+
+
+
 function BookingDetails() {
   let [data, setData] = useState([])
   const [selectedMenu, setSelectedMenu] = useState('GeneralInfo');
@@ -381,6 +465,10 @@ function BookingDetails() {
   const [userInfo, setUserInfo] = useState({});
   const router = useRouter()
   const { id } = router.query
+
+  function handleMenuClick(menuOption) {
+    setSelectedMenu(menuOption);
+  }
 
 
   useEffect(() => {
@@ -558,7 +646,7 @@ function BookingDetails() {
             <RowStatus>
               <StatusLbl>Status</StatusLbl>
               <Status>{data.bookingStatus}</Status>
-              <BorderRow9 />
+              <UserBorderRow2 />
             </RowStatus>
 
           </div>
@@ -569,11 +657,75 @@ function BookingDetails() {
     )
   }
 
+  function UserTab() {
+    return (
+      <div>
+        <UserRowName>
+          <NameLbl>Name</NameLbl>
+          <Name>{data?.user?.firstName} {data?.user?.lastName}</Name>
+          <BorderRow1 />
+        </UserRowName>
+        <RowEmail>
+          <EmailLbl>Email</EmailLbl>
+          <Email>{data?.user?.email.length > 10
+            ? `${data?.user?.email.substr(0, 9)}\n${data?.user?.email.substr(9)}`
+            : data?.user?.email}</Email>
+          <UserBorderRow2 />
+        </RowEmail>
+        <RowNumber>
+          <NumberLbl>Number</NumberLbl>
+          <Number>{data?.user?.phoneNumber}</Number>
+          <BorderRow3 />
+        </RowNumber>
+      </div>
+    )
+  }
+  function RentalTab() {
+    return (
+      <div>
+        <Row1>
+          <RowLbl>Rental</RowLbl>
+          <DataLbl>{data?.hub?.hubName}</DataLbl>
+          <BorderRow3 />
+        </Row1>
+        <Row2>
+          <RowLbl>Rental Status</RowLbl>
+          <DataLbl>{data?.hub?.rentalStatus}</DataLbl>
+          <BorderRow3 />
+        </Row2>
+        <Row3>
+          <RowLbl>Rental Type</RowLbl>
+          <DataLbl>{data?.hub?.rentalType}</DataLbl>
+          <BorderRow3 />
+        </Row3>
+        <Row4>
+          <RowLbl>Maximum Time to Rent</RowLbl>
+          <DataLbl>{data?.hub?.maxTimeToRent} h</DataLbl>
+          <BorderRow3 />
+        </Row4>
+        <Row5>
+          <RowLbl>Location</RowLbl>
+          <DataLbl>{data?.hub?.hubLocation}</DataLbl>
+          <BorderRow3 />
+        </Row5>
+      </div>
+    )
+  }
+
   return (
 
     <Page>
       <HeaderBookingDetails />
-      <GeneralInfoTab />
+      {selectedMenu === 'GeneralInfo' && (
+        <GeneralInfoTab />
+      )}
+      {selectedMenu === 'User' && (
+        <UserTab />
+      )}
+      {selectedMenu === 'Rental' && (
+        <RentalTab />
+      )}
+
     </Page>
   )
 }

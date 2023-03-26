@@ -47,11 +47,14 @@ margin-left: 35px;
 color: #ffffff;
 font-size:14px;
 `;
-
+const SubHeaderContainer = styled.div`
+display: flex;
+flex-direction: row;
+`;
 const DropdownContainer = styled.div`
   position: absolute;
   margin-top: 21px;
-  margin-left:14vh;
+  margin-left:16vh;
 `;
 
 const DropdownButton = styled.button`
@@ -81,21 +84,21 @@ const DownIcon = styled(IoChevronForward)`
 position: absolute;
 width: 20px;
 height: 20px;
-margin-left: 6vh;
-margin-top: -2vh;
+margin-left: 7vh;
+margin-top: -2.5vh;
 color: #EFEFEF;
 transform: rotate(90deg);
 `;
 const CreateBtn = styled.button`
 position: absolute;
-margin-left: 26vh;
+margin-left: 31vh;
 margin-top: 21px;
 font-size: 14px;
 color: #F8F360;
 `;
 const DeleteBtn = styled.button`
 position: absolute;
-margin-left: 31vh;
+margin-left: 38vh;
 margin-top: 21px;
 font-size: 14px;
 color: #F8F360;
@@ -107,7 +110,6 @@ margin-top: 2vh;
 width: 8px;
 height: 20px;
 box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.3);
-
 `;
 
 const Bookings = styled.div``;
@@ -140,25 +142,27 @@ function ManageBookings() {
         <SearchTxt>Search: </SearchTxt>
       </Header>
       <SeperationBorder />
-      <DropdownContainer>
-        <DropdownButton onClick={() => setIsOpen(!isOpen)}>
-          {selectedOption}
-          <DownIcon />
-        </DropdownButton>
-        {isOpen && (
-          <DropdownMenu>
-            {options.map((option) => (
-              <DropdownMenuItem
-                key={option}
-                onClick={() => handleOptionClick(option)}
-              >
-                {option}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenu>
-        )}
+      <SubHeaderContainer>
+        <DropdownContainer>
+          <DropdownButton onClick={() => setIsOpen(!isOpen)}>
+            {selectedOption}
+            <DownIcon />
+          </DropdownButton>
+          {isOpen && (
+            <DropdownMenu>
+              {options.map((option) => (
+                <DropdownMenuItem
+                  key={option}
+                  onClick={() => handleOptionClick(option)}
+                >
+                  {option}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenu>
+          )}
 
-      </DropdownContainer>
+        </DropdownContainer>
+      </SubHeaderContainer>
       <CreateBtn>Create</CreateBtn>
       <DeleteBtn>Delete</DeleteBtn>
 
