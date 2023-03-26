@@ -149,11 +149,7 @@ const EquipmentPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-<<<<<<< HEAD
-        const response = await axios.get("http://localhost:8080/allEquipment");
-=======
         const response = await axios.get('http://localhost:8080/equipment/allEquipment');
->>>>>>> a652dfdf003f121ca1c9366e8abe140217a7aa0b
         setData(response.data);
         console.log(response.data);
       } catch (error) {

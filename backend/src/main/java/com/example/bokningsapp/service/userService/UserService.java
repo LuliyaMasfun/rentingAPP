@@ -9,6 +9,7 @@ import com.example.bokningsapp.security.config.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class UserService {
@@ -30,9 +31,9 @@ public class UserService {
 
     //UPDATE METHOD FOR CURRENTLY LOGGED IN USER
 
-    public ResponseEntity<User> updateUser(String email, User user) {
-        var _user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found with email " + email));
+    public ResponseEntity<User> updateUser(@PathVariable Long id, User user) {
+        var _user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
 
             _user.setPassword(user.getPassword());
             User updatedUser = userRepository.save(_user);

@@ -82,9 +82,9 @@ public class UserController {
 
         }
     }
-    @PatchMapping(value = "/updateUser")
-    public ResponseEntity<User> updateUser(String email, @RequestBody User user){
-       return userService.updateUser(email,user);
+    @PatchMapping(value = "/updateUser/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user){
+       return userService.updateUser(id,user);
     }
 
 }

@@ -60,10 +60,9 @@ public class User implements UserDetails {
     @Column
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<EquipmentBooking> equipmentBookings;
-    private boolean enabled;
 
     public User(String firstName, String lastName, String email, List<EquipmentBooking> equipmentBookings, String profileImg, Long socialSecurityNumber,
-                String phoneNumber,String address,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate, boolean enabled) {
+                String phoneNumber,String address,  LocalDateTime createdDate, LocalDateTime updatedDate, String password, LocalDate birthDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -76,7 +75,6 @@ public class User implements UserDetails {
         this.updatedDate =updatedDate;
         this.password = password;
         this.birthDate = birthDate;
-        this.enabled = enabled;
     }
 
     public User() {
