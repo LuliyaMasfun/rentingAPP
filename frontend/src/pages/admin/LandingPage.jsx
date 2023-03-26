@@ -152,7 +152,7 @@ const LandingPage = () => {
         </MyTasksCard>
 
         <Link href={{
-          pathname: "/admin/ManageBookings"
+          pathname: "/admin/BookingRequests"
         }}>
           <ManageBookingsCard>
             <ManageBookingsTitle>

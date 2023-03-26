@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface HubBookingRepository extends JpaRepository <Hub, Integer> {
+public interface HubBookingRepository extends JpaRepository <HubBooking, Integer> {
 
-    HubBooking save(HubBooking hubBooking);
+    HubBooking findById(int id);
 
 }

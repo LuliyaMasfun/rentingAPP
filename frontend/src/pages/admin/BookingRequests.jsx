@@ -1,12 +1,14 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
 import styled from "@emotion/styled"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoChevronForward } from 'react-icons/io5';
+import Booking from "../../components/Booking";
+
 
 const Page = styled.div`
   position: absolute;
-  height: 2705px;
+  height: 1080px;
   width: 390px;
   background-color: #1E1E1E;
   margin:0;
@@ -25,11 +27,12 @@ box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.3);
 `;
 const SearchBar = styled.input`
 position:absolute;
+margin-left: 95px;
+margin-top: 117px;
+padding-bottom:2px;
 background-color: transparent;
 border: 1px solid #FFFFFF;
 border-radius: 5px;  
-margin-left: 95px;
-margin-top: 120px;
  ::placeholder {
     color: #fff;
     opacity: 0.4;
@@ -46,67 +49,77 @@ font-size:14px;
 `;
 
 const DropdownContainer = styled.div`
-  position: relative;
-  margin-top: 16px;
-  margin-left:135px;
+  position: absolute;
+  margin-top: 21px;
+  margin-left:14vh;
 `;
 
 const DropdownButton = styled.button`
   background-color: transparent;
-  color: #ffffff;
+  color: #EFEFEF;
   border: none;
-  font-size: 12px;
+  font-size: 16px;
   cursor: pointer;
 `;
 
 const DropdownMenu = styled.div`
   position: absolute;
-  background-color: transparent;
-  border: none;
-  color: #EFEFEF;
+  margin-top: 1px;
+  background-color: #EFEFEF;
+  border-radius: 5px;
+  color: #3A3B3C;
   z-index: 1;
+  
 `;
 
 const DropdownMenuItem = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   cursor: pointer;
   
 `;
 const DownIcon = styled(IoChevronForward)`
 position: absolute;
+width: 20px;
+height: 20px;
 margin-left: 6vh;
 margin-top: -2vh;
 color: #EFEFEF;
 transform: rotate(90deg);
 `;
-
-const TotalBookings = styled.div`
-position: absolute;
-margin-top: 20px;
-margin-left:33px;
-font-size: 12px;
-color: #EFEFEF;
-`;
 const CreateBtn = styled.button`
 position: absolute;
-margin-left: 31vh;
-margin-top: -2vh;
-font-size: 12px;
+margin-left: 26vh;
+margin-top: 21px;
+font-size: 14px;
 color: #F8F360;
 `;
 const DeleteBtn = styled.button`
 position: absolute;
-margin-left: 37vh;
-margin-top: -2vh;
-font-size: 12px;
+margin-left: 31vh;
+margin-top: 21px;
+font-size: 14px;
 color: #F8F360;
 `;
+const SeperationBorder = styled.div`
+position: absolute;
+margin-left: 13vh;
+margin-top: 2vh;
+width: 8px;
+height: 20px;
+box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.3);
+
+`;
+
+const Bookings = styled.div``;
 
 function ManageBookings() {
+
   const options = [
     "View All",
-    "Option 2",
-    "Option 3"
+    "Pending",
+    "Rejected",
+    "Approved",
+
   ];
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(options[0]);
@@ -121,19 +134,16 @@ function ManageBookings() {
       <Header>
         <PageTitle>Booking Requests</PageTitle>
         <SearchBar
-          type="password"
-          name="password"
           placeholder="Booking number"
         //onChange={ }
         ></SearchBar>
         <SearchTxt>Search: </SearchTxt>
       </Header>
-      <TotalBookings>
-        Boookings (30)
-      </TotalBookings>
+      <SeperationBorder />
       <DropdownContainer>
         <DropdownButton onClick={() => setIsOpen(!isOpen)}>
           {selectedOption}
+          <DownIcon />
         </DropdownButton>
         {isOpen && (
           <DropdownMenu>
@@ -147,10 +157,14 @@ function ManageBookings() {
             ))}
           </DropdownMenu>
         )}
-        <DownIcon />
+
       </DropdownContainer>
       <CreateBtn>Create</CreateBtn>
       <DeleteBtn>Delete</DeleteBtn>
+
+      <Bookings>
+        <Booking />
+      </Bookings>
     </Page>
   )
 }

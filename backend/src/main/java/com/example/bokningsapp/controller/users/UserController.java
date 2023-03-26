@@ -2,6 +2,7 @@ package com.example.bokningsapp.controller.users;
 
 import com.example.bokningsapp.exception.EquipmentNotFoundException;
 import com.example.bokningsapp.exception.UserNotFoundException;
+import com.example.bokningsapp.model.Hub;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 
@@ -12,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -38,7 +41,6 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public void deleteUser(@PathVariable Long id) {
              userService.deleteUser(id);
     }
@@ -61,36 +63,29 @@ public class UserController {
         }
     }
 
+    @GetMapping("/userInfo")
+    public Map<Long, Map<String, String>> getUserInfoForIds(@RequestParam List<Long> ids) {
+        // fetch all users with the given IDs
+        List<User> users = userRepository.findAllById(ids);
+        // create a map of IDs to user info
+        Map<Long, Map<String, String>> userInfoById = new HashMap<>();
+        for (User user : users) {
+            Map<String, String> userMap = new HashMap<>();
+            userMap.put("firstName", user.getFirstName());
+            userMap.put("lastName", user.getLastName());
+            userMap.put("phoneNumber", user.getPhoneNumber());
+            userMap.put("email", user.getEmail());
+            userInfoById.put(user.getId(), userMap);
+        }
+        return userInfoById;
+    }
 
-    @PatchMapping(value = "/updateUser/{id}")
+    @PatchMapping(value = "/updateUsersPassword/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-
         return userService.updateUser(id, updatedUser);
     }
 }
 
-
-
-    //DENNA METOD KROCKAR MED AUTH
- /*   @PostMapping(value = "/createUser")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = userService.createUser(user);
-        return new ResponseEntity<>(newUser,HttpStatus.CREATED);
-    }
-     */
-
-/*
-    @PutMapping("/updateUser/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        User user = userService.updateUser(id, updatedUser);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
-    @GetMapping("/name/{username}")
-    public Optional<User> findUserByUsername(@PathVariable String username) {
-        return userRepository.findUserByEmail(username);
-    }
-*/
 
 
 
