@@ -247,7 +247,7 @@ const RequestedRental = styled.p`
   `;
 const BorderRow4 = styled.hr`
   position: absolute;
-  margin-top: 55px;
+  margin-top: ${(data) => (data?.hub?.hubName.length > 10 ? '45px' : '35px')};
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
@@ -414,7 +414,7 @@ const Email = styled.p`
   `;
 const UserBorderRow2 = styled.hr`
   position: absolute;
-  margin-top: 63px;
+  margin-top: 35px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
@@ -438,6 +438,7 @@ color: #EFEFEF;
 const Row2 = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: 30px;
 `;
 const Row3 = styled.div`
   display: flex;
@@ -646,7 +647,7 @@ function BookingDetails() {
             <RowStatus>
               <StatusLbl>Status</StatusLbl>
               <Status>{data.bookingStatus}</Status>
-              <UserBorderRow2 />
+
             </RowStatus>
 
           </div>
@@ -667,9 +668,7 @@ function BookingDetails() {
         </UserRowName>
         <RowEmail>
           <EmailLbl>Email</EmailLbl>
-          <Email>{data?.user?.email.length > 10
-            ? `${data?.user?.email.substr(0, 9)}\n${data?.user?.email.substr(9)}`
-            : data?.user?.email}</Email>
+          <Email>{data?.user?.email}</Email>
           <UserBorderRow2 />
         </RowEmail>
         <RowNumber>
@@ -713,7 +712,6 @@ function BookingDetails() {
   }
 
   return (
-
     <Page>
       <HeaderBookingDetails />
       {selectedMenu === 'GeneralInfo' && (
@@ -725,7 +723,6 @@ function BookingDetails() {
       {selectedMenu === 'Rental' && (
         <RentalTab />
       )}
-
     </Page>
   )
 }

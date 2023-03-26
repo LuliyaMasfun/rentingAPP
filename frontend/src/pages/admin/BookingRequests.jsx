@@ -51,6 +51,14 @@ const SubHeaderContainer = styled.div`
 display: flex;
 flex-direction: row;
 `;
+const SeperationBorder = styled.div`
+position: absolute;
+margin-left: 13vh;
+margin-top: 2vh;
+width: 8px;
+height: 20px;
+box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.3);
+`;
 const DropdownContainer = styled.div`
   position: absolute;
   margin-top: 21px;
@@ -102,14 +110,6 @@ margin-left: 38vh;
 margin-top: 21px;
 font-size: 14px;
 color: #F8F360;
-`;
-const SeperationBorder = styled.div`
-position: absolute;
-margin-left: 13vh;
-margin-top: 2vh;
-width: 8px;
-height: 20px;
-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.3);
 `;
 
 const Bookings = styled.div``;
