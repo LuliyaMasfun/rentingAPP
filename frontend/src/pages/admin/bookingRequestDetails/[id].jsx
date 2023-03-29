@@ -459,9 +459,6 @@ const Row5 = styled.div`
     width: 320px;
 `;
 
-
-
-
 function BookingDetails() {
   let [data, setData] = useState([])
   const [selectedMenu, setSelectedMenu] = useState('GeneralInfo');
