@@ -160,9 +160,9 @@ const Container = styled.div`
   margin-top: 340px;
   `;
 const RowBookingNumber = styled.div`
-  display: flex;
   flex-direction: row;
   color: #EFEFEF;
+  width: 320px;
   `;
 const BookingNumberLbl = styled.p`
   margin-left: 35px;
@@ -170,46 +170,48 @@ const BookingNumberLbl = styled.p`
   color: #EFEFEF;
   `;
 const BookingNumber = styled.p`
-   margin-left: 80px;
   color: #EFEFEF;
+   text-align: right;
+   margin-top: -20px;
   `;
 const BorderRow1 = styled.hr`
+  margin-top: 10px;
   position: absolute;
-  margin-top: 35px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowName = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const NameLbl = styled.p`
   position: absolute;
   margin-left: 35px;
   font-weight: 500;
   color: #EFEFEF;
+  
   `;
 const Name = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow2 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowBookingType = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width:320px;
   `;
 const BookingTypeLbl = styled.p`
   position: absolute;
@@ -220,20 +222,21 @@ const BookingTypeLbl = styled.p`
 const BookingType = styled.p`
    margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow3 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowRequestedRental = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const RequestedRentalLbl = styled.p`
   position: absolute;
@@ -242,22 +245,22 @@ const RequestedRentalLbl = styled.p`
   color: #EFEFEF;
   `;
 const RequestedRental = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow4 = styled.hr`
   position: absolute;
-  margin-top: ${(data) => (data?.hub?.hubName.length > 10 ? '45px' : '35px')};
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowStartDate = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const StartDateLbl = styled.p`
   position: absolute;
@@ -266,22 +269,22 @@ const StartDateLbl = styled.p`
   color: #EFEFEF;
   `;
 const StartDate = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow5 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowEndDate = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const EndDateLbl = styled.p`
   position: absolute;
@@ -290,22 +293,22 @@ const EndDateLbl = styled.p`
   color: #EFEFEF;
   `;
 const EndDate = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow6 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowTotalTime = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const TotalTimeLbl = styled.p`
   position: absolute;
@@ -314,22 +317,22 @@ const TotalTimeLbl = styled.p`
   color: #EFEFEF;
   `;
 const TotalTime = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow7 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowCreatedOn = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const CreatedOnLbl = styled.p`
   position: absolute;
@@ -338,22 +341,22 @@ const CreatedOnLbl = styled.p`
   color: #EFEFEF;
   `;
 const CreatedOn = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow8 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowStatus = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const StatusLbl = styled.p`
   position: absolute;
@@ -362,12 +365,12 @@ const StatusLbl = styled.p`
   color: #EFEFEF;
   `;
 const Status = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow9 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
@@ -376,14 +379,14 @@ const BorderRow9 = styled.hr`
 
 /* USER USER USER USER USER USER USER USER USER USER USER */
 const UserRowName = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 40vh;
+  width: 320px;
 `;
 const RowNumber = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
+  width: 320px;
   `;
 const NumberLbl = styled.p`
   position: absolute;
@@ -392,15 +395,15 @@ const NumberLbl = styled.p`
   color: #EFEFEF;
   `;
 const Number = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 
 const RowEmail = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const EmailLbl = styled.p`
   position: absolute;
@@ -409,21 +412,21 @@ const EmailLbl = styled.p`
   color: #EFEFEF;
   `;
 const Email = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const UserBorderRow2 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const Row1 = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 40vh;
+  width: 320px;
 `;
 const RowLbl = styled.p`
  position: absolute;
@@ -432,28 +435,28 @@ const RowLbl = styled.p`
   color: #EFEFEF;
 `;
 const DataLbl = styled.p`
- margin-left: 240px;
+text-align: right;
 color: #EFEFEF;
 `;
 const Row2 = styled.div`
-  display: flex;
+  width: 320px;
   flex-direction: row;
   margin-top: 30px;
 `;
 const Row3 = styled.div`
-  display: flex;
     margin-top: 30px;
   flex-direction: row;
+    width: 320px;
 `;
 const Row4 = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
+    width: 320px;
 `;
 const Row5 = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
+    width: 320px;
 `;
 
 
