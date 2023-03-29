@@ -13,7 +13,7 @@ import java.util.Set;
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
+        private Long id;
 
         @Column
         private String equipmentName;
@@ -53,7 +53,7 @@ import java.util.Set;
         public Equipment() {
         }
 
-        public int getId() {return id;}
+        public Long getId() {return id;}
         public String getEquipmentName() {
             return equipmentName;
         }

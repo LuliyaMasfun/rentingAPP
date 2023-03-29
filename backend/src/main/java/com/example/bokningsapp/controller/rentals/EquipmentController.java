@@ -54,7 +54,7 @@ public class EquipmentController {
 
     @DeleteMapping("/equipment/{id}")
   //  @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteEquipment(@PathVariable int id) {
+    public ResponseEntity<?> deleteEquipment(@PathVariable Long id) {
         try {
             equipmentService.deleteEquipment(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -83,7 +83,7 @@ public class EquipmentController {
     }
     @GetMapping(value = "/getEquipment/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public Optional<Equipment> getEquipment(@PathVariable int id) {
+    public Optional<Equipment> getEquipment(@PathVariable Long id) {
 
         return equipmentRepo.findById(id);
     }

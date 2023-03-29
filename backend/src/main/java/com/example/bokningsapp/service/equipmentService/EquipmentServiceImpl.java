@@ -25,8 +25,10 @@ public class EquipmentServiceImpl implements EquipmentService {
         return equipmentRepo.save(equipment);
     }
 
+
+
     @Override
-    public void updateEquipmentStatus(int equipmentId, boolean isBooked) {
+    public void updateEquipmentStatus(Long equipmentId, boolean isBooked) {
         Equipment updateEquipment = equipmentRepo.findById(equipmentId).orElse(null);
 
         if (updateEquipment != null) {
@@ -48,9 +50,10 @@ public class EquipmentServiceImpl implements EquipmentService {
         return equipmentRepo.findAllByEquipmentStatus(equipmentStatus);
     }
 
+
     @Transactional
     @Override
-    public void deleteEquipment(int id) {
+    public void deleteEquipment(Long id) {
         Equipment equipment = equipmentRepo.findById(id)
                 .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found with id " + id));
         equipmentRepo.delete(equipment);
