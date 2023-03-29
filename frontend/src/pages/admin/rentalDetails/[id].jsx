@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import axios from "axios";
+import HeaderRentalDetails from "../../../components/HeaderRentalDetails";
 
 const Page = styled.div`
   position: absolute;
@@ -54,7 +55,7 @@ function ThisRental() {
     fetchData();
   }, [id]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/equipment/getEquipment/${id}`);
@@ -66,31 +67,83 @@ function ThisRental() {
     };
     fetchData();
   }, [id]);
+*/
 
-  const getRentalComponent = () => {
-    if (data && data.rentalType === "HUB") {
-      return HubRental;
-    } else if (data && data.rentalType === "EQUIPMENT") {
-      return EquipmentRental;
-    } else if (data && data.rentalType === "EVENT") {
-      return EventRental;
-    } else {
-      return null;
-    }
-  };
 
   /* HUB RENTAL DETAILS */
   function HubRental() {
+    const [selectedMenu, setSelectedMenu] = useState('GeneralInfo');
+    function handleMenuClick(menuOption) {
+      setSelectedMenu(menuOption);
+    }
     return (
       <div>
         {data ? (
-          <Page>
-            <RentalHubNameRow>
-              <HubNameLbl>Rental Name</HubNameLbl>
-              <HubName>{data.hubName}</HubName>
-              <HubNameBorder />
-            </RentalHubNameRow>
-          </Page>
+          <div>
+            <Page>
+              <RentalHubNameRow>
+                <HubNameLbl>Rental Name</HubNameLbl>
+                <HubName>{data.hubName}</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+              <RentalHubNameRow>
+                <HubNameLbl>Rental Type</HubNameLbl>
+                <HubName>{data.rentalType}</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+              <RentalHubNameRow>
+                <HubNameLbl>EAN13 Nr</HubNameLbl>
+                <HubName>NaN</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+              <RentalHubNameRow>
+                <HubNameLbl>Available to Rent</HubNameLbl>
+                <HubName>True / False</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+              <RentalHubNameRow>
+                <HubNameLbl>Maximum Time to Rent</HubNameLbl>
+                <HubName>{data.maxTimeToRent} h</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+              <RentalHubNameRow>
+                <HubNameLbl>Location</HubNameLbl>
+                <HubName>{data.hubLocation}</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+              <RentalHubNameRow>
+                <HubNameLbl>Maximum Time to Rent</HubNameLbl>
+                <HubName>{data.hubDescription}</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+              <RentalHubNameRow>
+                <HubNameLbl>Rental Image</HubNameLbl>
+                <HubName>{data.hubImg}</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+              <RentalHubNameRow>
+                <HubNameLbl>Created By</HubNameLbl>
+                <HubName>NaN</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+              <RentalHubNameRow>
+                <HubNameLbl>Created On</HubNameLbl>
+                <HubName>NaN</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+              <RentalHubNameRow>
+                <HubNameLbl>Updated By</HubNameLbl>
+                <HubName>NaN</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+              <RentalHubNameRow>
+                <HubNameLbl>Updated On</HubNameLbl>
+                <HubName>NaN</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+            </Page>
+
+          </div>
         ) : (
           <p>Loading...</p>
         )}
@@ -103,7 +156,6 @@ function ThisRental() {
       <div>
         {data ? (
           <Page>
-            <h1>{data.equipmentName}</h1>
             <h1>HELLOO FROM EQUIPMENT PAGE</h1>
           </Page>
         ) : (
@@ -112,6 +164,7 @@ function ThisRental() {
       </div>
     )
   }
+
   function Event() {
     return (
       <div>
@@ -128,6 +181,7 @@ function ThisRental() {
 
   return (
     <div>
+      <HeaderRentalDetails />
       {data ? (
         <>
           {data.rentalType === "HUB" && (

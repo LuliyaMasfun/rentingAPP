@@ -5,33 +5,44 @@ import styled from "@emotion/styled";
 import { IoChevronForward } from 'react-icons/io5';
 import Link from "next/link";
 
+const Page = styled.div`
+  position: absolute;
+  height: 1300px;
+  width: 390px;
+  background-color: #1E1E1E;
+`;
+const Container = styled.div`
+display: flex;
+flex-direction: column;
+
+`;
 const CardContainer = styled.div`
-position: absolute;
-margin-top: 304px;
 margin-left:32px;
 border-radius: 10px;
 width: 323px;
 height: 162px;
 background-color: #393939;
+margin-top: 30px;
+
 `;
 const RentalNameRow = styled.div`
   flex-direction: row;
-  margin-top: 30px;
   width: 270px;
+  margin-top: 30px;
   `;
 
 const RentalNameLbl = styled.p`
 position: absolute;
-margin-left: 25px;
 font-weight: 500;
 color: #EFEFEF;
 font-size: 14px;
+margin-left: 25px;
+
   `;
 
 const RentalName = styled.p`
   color: #EFEFEF;
   font-size: 14px;
-    width: 127px;
 float: right;
 
   `;
@@ -44,9 +55,21 @@ position: absolute;
   width: 270px;
   background-color: #EFEFEF;
   opacity: 0.7;
+  border-radius: 10px;
 `;
 
 const BorderRow2 = styled.div`
+position: absolute;
+  margin-top: 65px;
+  margin-left: 17px;
+  height: 1px;
+  width: 270px;
+  background-color: #EFEFEF;
+  opacity: 0.7;
+    border-radius: 10px;
+`;
+
+const BorderRow3 = styled.div`
 position: absolute;
   margin-top: 5px;
   margin-left: 17px;
@@ -54,19 +77,12 @@ position: absolute;
   width: 270px;
   background-color: #EFEFEF;
   opacity: 0.7;
-`;
-
-const BorderRow3 = styled.div`
-  margin-top: 5px;
-  margin-left: 17px;
-  height: 1px;
-  width: 270px;
-  background-color: #EFEFEF;
-  opacity: 0.7;
+    border-radius: 10px;
 `;
 const RentalTypeRow = styled.div`
+position: absolute;
   flex-direction: row;
-  margin-top: 10px;
+  margin-top: 30px;
 width: 270px;
 `;
 const RentalTypeLbl = styled.p`
@@ -74,19 +90,19 @@ margin-left: 25px;
 font-weight: 500;
 font-size: 14px;
 color: #EFEFEF;
-
-
+margin-top: 10px;
 `;
 const RentalType = styled.p`
- margin-left: 165px;
+float: right;
   color: #EFEFEF;
   font-size: 14px;
   text-align: right;
-  
+  margin-top: -20px;
   `;
 const EanNrRow = styled.div`
+position: absolute;
   flex-direction: row;
-  margin-top: 15px;
+  margin-top: 75px;
 width: 270px;
 `;
 const EanNrLbl = styled.p`
@@ -104,11 +120,12 @@ const EanNr = styled.p`
   `;
 
 const NavigateSideIcon = styled(IoChevronForward)`
-float: right;
-margin-top: 20px;
+position: absolute;
+margin-top: 40px;
 width: 24px;
 height: 24px;
 color: #EFEFEF;
+margin-left: 295px;
 
 `;
 
@@ -133,33 +150,34 @@ function RentalCard() {
 
   return (
     <div>
-      {data.map((data) => (
-        <div key={data.id}>
-          <CardContainer>
-            <RentalNameRow>
-              <RentalNameLbl>Name</RentalNameLbl>
-              <RentalName>{data.hubName}</RentalName>
+      <Page>
+        {data.map((rental) => (
+          <Container key={rental.id}>
+            <CardContainer>
+              <RentalNameRow>
+                <RentalNameLbl>Name</RentalNameLbl>
+                <RentalName>{rental.hubName}</RentalName>
+              </RentalNameRow>
               <BorderRow1 />
-            </RentalNameRow>
-            <Link href="rentalDetails/[id]" as={`/admin/rentalDetails/${data.id}`}>
-              <NavigateSideIcon />
-            </Link>
-            <RentalTypeRow>
-              <RentalTypeLbl>Rental Type</RentalTypeLbl>
-              <RentalType>{data.rentalType}</RentalType>
+              <RentalTypeRow>
+                <RentalTypeLbl>Rental Type</RentalTypeLbl>
+                <RentalType>{rental.rentalType}</RentalType>
+              </RentalTypeRow>
               <BorderRow2 />
-            </RentalTypeRow>
-            <EanNrRow>
-              <EanNrLbl>Ean Nr</EanNrLbl>
-              <EanNr>NaN</EanNr>
-              <BorderRow3 />
-            </EanNrRow>
-          </CardContainer>
-        </div>
+              <EanNrRow>
+                <EanNrLbl>Ean Nr</EanNrLbl>
+                <EanNr>NaN</EanNr>
+                <BorderRow3 />
+              </EanNrRow>
+              <Link href="rentalDetails/[id]" as={`/admin/rentalDetails/${rental.id}`}>
+                <NavigateSideIcon />
+              </Link>
+            </CardContainer>
+          </Container>
 
-      ))
-      }
-
+        ))
+        }
+      </Page>
     </div>
   )
 }

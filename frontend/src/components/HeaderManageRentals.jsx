@@ -7,13 +7,6 @@ import axios from "axios";
 import { FaBarcode } from "react-icons/fa";
 
 
-const Page = styled.div`
-  position: absolute;
-  height: 1080px;
-  width: 390px;
-  background-color: #1E1E1E;
-  margin:0;
-`;
 const PageTitle = styled.h1`
 position: absolute;
 font-size: 20px;
@@ -22,11 +15,16 @@ margin-top: 60px;
 margin-left: 35px;
 color: white;
 `;
+const Container = styled.div`
+position absolute;
+height: 230px;
+background-color: #1E1E1E;
+`;
 const HeaderContainer = styled.div`
 height: 180px;
+background-color: #1E1E1E;
 box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.3);
 `;
-
 const SearchOptionsContainer = styled.div`
 flex-direction: row;
 width: 20px;
@@ -66,20 +64,19 @@ const ScanIcon = styled(FaBarcode)`
 position: absolute;
 width: 20px;
 height: 20px;
-margin-top: 120px;
-margin-left: 300px;
+margin-top: 121px;
+margin-left: 285px;
 color: #EFEFEF;
 `;
 
 const ScanActionTxt = styled.p`
 position: absolute;
 margin-top: 120px;
-margin-left: 255px;
+margin-left: 241px;
 color: #EFEFEF;
 font-size:14px;
 `;
 const SubHeaderContainer = styled.div`
-display: flex;
 flex-direction: row;
 `;
 const SeperationBorder = styled.div`
@@ -149,7 +146,8 @@ font-size: 16px;
 color: #EFEFEF;
 `;
 
-const Header = () => {
+
+const HeaderManageRentals = () => {
 
   const [data, setData] = useState([]);
 
@@ -179,51 +177,53 @@ const Header = () => {
 
   const totalNumbersOfRentals = data.length;
   return (
-    <Page>
+    <div>
       <Navbar />
       <PageTitle>Manage Rentals</PageTitle>
-      <HeaderContainer>
-        <SearchOptionsContainer>
-          <SearchContainer>
-            <SearchBar
-              placeholder="Rental number"
-            //onChange={ }
-            ></SearchBar>
-            <SearchTxt>Search: </SearchTxt>
-          </SearchContainer>
-          <ScanContainer>
-            <ScanActionTxt>Scan: </ScanActionTxt>
-            <ScanIcon />
-          </ScanContainer>
-        </SearchOptionsContainer>
-      </HeaderContainer>
-      <SeperationBorder />
-      <SubHeaderContainer>
-        <TotalBookings>
-          Rentals ({totalNumbersOfRentals})
-        </TotalBookings>
-        <DropdownContainer>
-          <DropdownButton onClick={() => setIsOpen(!isOpen)}>
-            {selectedOption}
-            <DownIcon />
-          </DropdownButton>
-          {isOpen && (
-            <DropdownMenu>
-              {options.map((option) => (
-                <DropdownMenuItem
-                  key={option}
-                  onClick={() => handleOptionClick(option)}
-                >
-                  {option}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenu>
-          )}
-        </DropdownContainer>
-        <CreateBtn>Create</CreateBtn>
-        <DeleteBtn>Delete</DeleteBtn>
-      </SubHeaderContainer>
-    </Page>
+      <Container>
+        <HeaderContainer>
+          <SearchOptionsContainer>
+            <SearchContainer>
+              <SearchBar
+                placeholder="Rental number"
+              //onChange={ }
+              ></SearchBar>
+              <SearchTxt>Search: </SearchTxt>
+            </SearchContainer>
+            <ScanContainer>
+              <ScanActionTxt>Scan: </ScanActionTxt>
+              <ScanIcon />
+            </ScanContainer>
+          </SearchOptionsContainer>
+        </HeaderContainer>
+        <SeperationBorder />
+        <SubHeaderContainer>
+          <TotalBookings>
+            Rentals ({totalNumbersOfRentals})
+          </TotalBookings>
+          <DropdownContainer>
+            <DropdownButton onClick={() => setIsOpen(!isOpen)}>
+              {selectedOption}
+              <DownIcon />
+            </DropdownButton>
+            {isOpen && (
+              <DropdownMenu>
+                {options.map((option) => (
+                  <DropdownMenuItem
+                    key={option}
+                    onClick={() => handleOptionClick(option)}
+                  >
+                    {option}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenu>
+            )}
+          </DropdownContainer>
+          <CreateBtn>Create</CreateBtn>
+          <DeleteBtn>Delete</DeleteBtn>
+        </SubHeaderContainer>
+      </Container>
+    </div>
   )
 }
-export default Header;
+export default HeaderManageRentals;
