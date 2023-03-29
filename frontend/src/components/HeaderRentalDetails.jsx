@@ -7,13 +7,6 @@ import Image from "next/image";
 import axios from "axios";
 
 
-const Page = styled.div`
-  position: absolute;
-  height: 1080px;
-  width: 390px;
-  background-color: #1E1E1E;
-  margin:0;
-`;
 const HeaderContainer = styled.div`
 height: 200px;
 background-color: #F8F360;
@@ -129,6 +122,7 @@ const HeaderRentalDetails = () => {
         )}
       </Meny>
     </HeaderContainer>
+
   )
 }
 export default HeaderRentalDetails;
