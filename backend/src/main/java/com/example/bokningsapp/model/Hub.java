@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 public class Hub {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
