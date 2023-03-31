@@ -48,7 +48,7 @@ const Navbar = () => {
     <Container>
 
       <HamburgerIcon />
-      <Link href="/user/LandingPage" >
+      <Link href="/admin/LandingPage" >
         <CompanyLogo src={changersHub} />
       </Link>
 

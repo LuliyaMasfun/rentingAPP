@@ -2,9 +2,11 @@ import React from "react";
 import styled from "@emotion/styled";
 import { IoChevronForward } from 'react-icons/io5';
 import { useState, useEffect } from "react";
-import Navbar from "./Navbar";
+import NavbarAdmin from "./NavbarAdmin";
 import axios from "axios";
 import { FaBarcode } from "react-icons/fa";
+import Link from "next/link";
+import RentalCard from "./RentalsCard";
 
 
 const PageTitle = styled.h1`
@@ -124,7 +126,7 @@ color: #EFEFEF;
 transform: rotate(90deg);
 `;
 
-const CreateBtn = styled.button`
+const CreateBtn = styled.p`
 position: absolute;
 margin-left: 31vh;
 margin-top: 21px;
@@ -150,6 +152,8 @@ color: #EFEFEF;
 const HeaderManageRentals = () => {
 
   const [data, setData] = useState([]);
+  const [selectedId, setSelectedId] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -165,6 +169,16 @@ const HeaderManageRentals = () => {
     fetchData();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8080/hub/deleteHub/${id}`);
+      setData(data.filter(rental => rental.id !== id));
+      setSelectedId(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const options = [
     "View All",
     "Pending",
@@ -172,13 +186,16 @@ const HeaderManageRentals = () => {
     "Approved",
 
   ];
+
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
 
   const totalNumbersOfRentals = data.length;
   return (
+
     <div>
-      <Navbar />
+
+      <NavbarAdmin />
       <PageTitle>Manage Rentals</PageTitle>
       <Container>
         <HeaderContainer>
@@ -219,11 +236,14 @@ const HeaderManageRentals = () => {
               </DropdownMenu>
             )}
           </DropdownContainer>
-          <CreateBtn>Create</CreateBtn>
-          <DeleteBtn>Delete</DeleteBtn>
+          <Link href={{ pathname: "/admin/CreateRental" }}>
+            <CreateBtn>Create</CreateBtn>
+          </Link>
+          <DeleteBtn onClick={handleDelete}>Delete</DeleteBtn>
         </SubHeaderContainer>
       </Container>
     </div>
   )
+
 }
 export default HeaderManageRentals;

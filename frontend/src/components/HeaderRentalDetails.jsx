@@ -32,7 +32,6 @@ flex-direction: column;
 height: 80px;
 width: 200px;
 margin-left: 35px;
-
 `;
 const TitleName = styled.p`
 position: absolute;

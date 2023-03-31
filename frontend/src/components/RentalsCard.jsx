@@ -7,7 +7,8 @@ import Link from "next/link";
 
 const Page = styled.div`
   position: absolute;
-  height: 1300px;
+  height: auto;
+  padding-bottom: 50px;
   width: 390px;
   background-color: #1E1E1E;
 `;
@@ -28,7 +29,7 @@ margin-top: 30px;
 const RentalNameRow = styled.div`
   flex-direction: row;
   width: 270px;
-  margin-top: 30px;
+  margin-top: 40px;
   `;
 
 const RentalNameLbl = styled.p`
@@ -43,7 +44,7 @@ margin-left: 25px;
 const RentalName = styled.p`
   color: #EFEFEF;
   font-size: 14px;
-float: right;
+  float: right;
 
   `;
 
@@ -126,12 +127,35 @@ width: 24px;
 height: 24px;
 color: #EFEFEF;
 margin-left: 295px;
+`;
 
+const Circle = styled.div`
+  position: absolute;
+  margin-top: 15px;
+  margin-left: 15px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid white;
+  &:hover,
+  &:active {
+    background-color: white;
+  }
+`;
+const DeleteBtn = styled.button`
+position: absolute;
+margin-left: 37vh;
+margin-top: 21px;
+font-size: 14px;
+color: #F8F360;
 `;
 
 function RentalCard() {
 
   const [data, setData] = useState([]);
+  const [selected, setSelected] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -148,12 +172,21 @@ function RentalCard() {
     fetchData();
   }, []);
 
+  const handleSelect = (id) => {
+    setSelected(id);
+  };
+
   return (
     <div>
       <Page>
+
         {data.map((rental) => (
           <Container key={rental.id}>
             <CardContainer>
+              <Circle onClick={() => {
+                setSelected(!selected);
+                setSelectedId(rental.id);
+              }} selected={selected} />
               <RentalNameRow>
                 <RentalNameLbl>Name</RentalNameLbl>
                 <RentalName>{rental.hubName}</RentalName>
