@@ -2,7 +2,7 @@ import React from "react";
 import LineChart from "../../components/charts/LineChart";
 import PieChartImport from "../../components/charts/PieChart";
 import ColumnChartImport from "../../components/charts/ColumnChart";
-import Navbar from "../../components/Navbar";
+import NavbarAdmin from "../../components/NavbarAdmin";
 import styled from "@emotion/styled";
 
 const Page = styled.div`
@@ -32,7 +32,7 @@ function TrackBooking() {
   return (
     <div>
       <Page>
-        <Navbar />
+        <NavbarAdmin />
         <PageTitle>Track Bookings</PageTitle>
         <PieChart />
         <ColumnChart />

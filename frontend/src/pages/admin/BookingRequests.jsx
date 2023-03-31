@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../../components/Navbar";
+import NavbarAdmin from "../../components/NavbarAdmin";
 import styled from "@emotion/styled"
 import { useState, useEffect } from "react";
 import { IoChevronForward } from 'react-icons/io5';
@@ -132,7 +132,7 @@ function ManageBookings() {
   };
   return (
     <Page>
-      <Navbar />
+      <NavbarAdmin />
       <Header>
         <PageTitle>Booking Requests</PageTitle>
         <SearchBar
