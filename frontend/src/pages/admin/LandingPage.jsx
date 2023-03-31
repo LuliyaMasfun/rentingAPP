@@ -169,12 +169,14 @@ const LandingPage = () => {
             <ManageRentalsIcon />
           </ManageRentalsCard>
         </Link>
-        <TrackBookingsCard>
-          <TrackBookingsTitle>
-            Track Bookings
-          </TrackBookingsTitle>
-          <TrackBookingsIcon />
-        </TrackBookingsCard>
+        <Link href={{ pathname: "/admin/TrackBookings" }}>
+          <TrackBookingsCard>
+            <TrackBookingsTitle>
+              Track Bookings
+            </TrackBookingsTitle>
+            <TrackBookingsIcon />
+          </TrackBookingsCard>
+        </Link>
         <UnkownCard>
         </UnkownCard>
       </DashboardContainer>

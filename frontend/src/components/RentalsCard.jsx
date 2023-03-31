@@ -7,7 +7,8 @@ import Link from "next/link";
 
 const Page = styled.div`
   position: absolute;
-  height: 1300px;
+  height: auto;
+  padding-bottom: 50px;
   width: 390px;
   background-color: #1E1E1E;
 `;

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
 import { FaBarcode } from "react-icons/fa";
+import Link from "next/link";
 
 
 const PageTitle = styled.h1`
@@ -124,7 +125,7 @@ color: #EFEFEF;
 transform: rotate(90deg);
 `;
 
-const CreateBtn = styled.button`
+const CreateBtn = styled.p`
 position: absolute;
 margin-left: 31vh;
 margin-top: 21px;
@@ -219,7 +220,9 @@ const HeaderManageRentals = () => {
               </DropdownMenu>
             )}
           </DropdownContainer>
-          <CreateBtn>Create</CreateBtn>
+          <Link href={{ pathname: "/admin/CreateRental" }}>
+            <CreateBtn>Create</CreateBtn>
+          </Link>
           <DeleteBtn>Delete</DeleteBtn>
         </SubHeaderContainer>
       </Container>
