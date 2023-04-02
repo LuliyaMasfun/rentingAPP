@@ -26,17 +26,17 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class AuthenticationController {
 
-    private final AuthenticationService service;
+    private final AuthenticationService authenticationService;
 private final UserRepository userRepository;
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody SignupRequest request){
-       return ResponseEntity.ok(service.register(request));
+    public ResponseEntity<?> register(@RequestBody SignupRequest request){
+       return authenticationService.register(request);
     }
 
     @PostMapping("/signin")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody LoginRequest request){
-        return ResponseEntity.ok(service.authenticate(request));
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
 }

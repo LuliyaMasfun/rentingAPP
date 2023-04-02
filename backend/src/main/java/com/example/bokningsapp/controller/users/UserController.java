@@ -1,8 +1,6 @@
 package com.example.bokningsapp.controller.users;
 
-import com.example.bokningsapp.exception.EquipmentNotFoundException;
-import com.example.bokningsapp.exception.UserNotFoundException;
-import com.example.bokningsapp.model.Hub;
+import com.example.bokningsapp.dto.CreateUserDto;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UserRepository;
 
@@ -10,16 +8,14 @@ import com.example.bokningsapp.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class UserController {
 
@@ -39,6 +35,12 @@ public class UserController {
         List<User> users = userRepository.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    @PostMapping("/create-user")
+    public ResponseEntity<String> createUser(@RequestBody CreateUserDto user) {
+
+       return userService.saveUser(user);
+    };
 
     @DeleteMapping("/deleteUser/{id}")
     public void deleteUser(@PathVariable Long id) {

@@ -16,42 +16,40 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "users")
-public class User implements UserDetails {
+@Table(name = "users",
+uniqueConstraints =
+        @UniqueConstraint(columnNames = "email")
+)
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
     private String firstName;
-    @Column
+
     private String lastName;
-    @Column
+
     private String email;
-    @Column
+
     private String profileImg;
-    @Column
+
     private Long socialSecurityNumber;
-    @Column
+
     private String phoneNumber;
-    @Column
     private String address;
-    @Column
+
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime createdDate;
-    @Column
+
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime updatedDate;
-    @Column
+
     private String password;
-    @Column
+
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
-    @Column
+
     @Enumerated
     private AccountStatus accountStatus;
     @ManyToMany(fetch = FetchType.LAZY)
@@ -59,6 +57,18 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @ManyToMany(fetch =FetchType.LAZY )
+    @JoinTable(name = "user_hubs",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "hubs_id"))
+    private Set<Hub> hubs = new HashSet<>();
+
+    public User() {
+    }
+
+    public User(String firstName, String lastName, String email, String encode, String address) {
+    }
 
     public Long getId() {
         return id;
@@ -132,6 +142,14 @@ public class User implements UserDetails {
         return createdDate;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
@@ -164,7 +182,15 @@ public class User implements UserDetails {
         this.accountStatus = accountStatus;
     }
 
-    @Override
+    public Set<Hub> getHubs() {
+        return hubs;
+    }
+
+    public void setHubs(Set<Hub> hubs) {
+        this.hubs = hubs;
+    }
+
+   /* @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role role : roles) {
@@ -199,7 +225,7 @@ public class User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-    }
+    }*/
 
     @Override
     public String toString() {
