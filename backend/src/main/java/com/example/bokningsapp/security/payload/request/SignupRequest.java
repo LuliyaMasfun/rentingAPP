@@ -29,15 +29,15 @@ public class SignupRequest {
     @NotBlank
     @Size(min = 8, max = 40)
     private String password;
-    @NotBlank
+  /*  @NotBlank
     @Size(min = 10, max = 12)
-    private String phoneNumber;
+    private String phoneNumber;*/
     @NotBlank
     @Size(max = 50)
     private String address;
-    @NotBlank
+   /* @NotBlank
     @Size(max = 15)
-    private LocalDate birthDate;
+    private LocalDate birthDate;*/
 
     private Set<String> role;
 
@@ -74,13 +74,13 @@ public class SignupRequest {
         this.password = password;
     }
 
-    public String getPhoneNumber() {
+/*    public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
+    }*/
 
     public String getAddress() {
         return address;
@@ -90,13 +90,13 @@ public class SignupRequest {
         this.address = address;
     }
 
-    public LocalDate getBirthDate() {
+/*    public LocalDate getBirthDate() {
         return birthDate;
     }
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
-    }
+    }*/
 
     public Set<String> getRole() {
         return role;

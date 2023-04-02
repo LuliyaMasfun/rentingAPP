@@ -1,12 +1,13 @@
 package com.example.bokningsapp.service.activationTokenService;
 
+import com.example.bokningsapp.model.ActivationToken;
+import com.example.bokningsapp.model.User;
+import com.example.bokningsapp.repository.ActivationTokenRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.sustainit.ovningbanken.models.ActivationToken;
-import se.sustainit.ovningbanken.models.User;
-import se.sustainit.ovningbanken.repository.ActivationTokenRepository;
+
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -20,7 +21,7 @@ public class ActivationTokenService {
 
    private ActivationTokenRepository activationTokenRepository;
 
-    @Autowired
+   @Autowired
     public ActivationTokenService(ActivationTokenRepository activationTokenRepository) {
         this.activationTokenRepository = activationTokenRepository;
     }

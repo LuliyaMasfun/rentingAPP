@@ -1,7 +1,6 @@
 package com.example.bokningsapp.service.bookingService;
 
 import com.example.bokningsapp.dto.EquipmentBookingRequest;
-import com.example.bokningsapp.dto.BookingRequestMapper;
 import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.bookings.EquipmentBooking;
