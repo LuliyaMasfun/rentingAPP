@@ -72,24 +72,31 @@ public class UserService {
     }
 
 
-    public ResponseEntity<String> saveUser(CreateUserDto user){
+    public ResponseEntity<String> saveUser(CreateUserDto createUserDto){
 
 
-        if (userRepository.existsByEmail(user.getEmail())){
-            System.out.println(userRepository.existsByEmail(user.getEmail()));
+        if (userRepository.existsByEmail(createUserDto.getEmail())){
+            System.out.println(userRepository.existsByEmail(createUserDto.getEmail()));
             return new ResponseEntity<>("User with that email exists",HttpStatus.BAD_REQUEST);
         } else{
 
-          CreateUserDto user1 = new CreateUserDto(user.getFirstName(),
-                  user.getLastName(),user.getEmail(),user.getPassword(),user.getRoles());
+          CreateUserDto user1 = new CreateUserDto();
+
+          user1.setFirstName(createUserDto.getFirstName());
+          user1.setLastName(createUserDto.getLastName());
+          user1.setEmail(createUserDto.getEmail());
+          user1.setPassword(createUserDto.getPassword());
+          user1.setRoles(user1.getRoles());
           User _user = new User();
+
+            System.out.println("Vi testar denna"+user1.getFirstName());
 
           _user.setFirstName(user1.getFirstName());
           _user.setLastName(user1.getLastName());
           _user.setEmail(user1.getEmail());
           _user.setPassword(user1.getPassword());
 
-            Set<Role> strRoles = user.getRoles();
+            Set<Role> strRoles = createUserDto.getRoles();
             Set<Role> roles = new HashSet<>();
 
             if (strRoles == null) {
@@ -113,8 +120,8 @@ public class UserService {
                     }
                 });
             }
-          _user.setRoles(user1.getRoles());
-
+            System.out.println(_user);
+          _user.setRoles(roles);
           userRepository.save(_user);
             return new ResponseEntity<>("User was successfully saved",HttpStatus.OK);
 

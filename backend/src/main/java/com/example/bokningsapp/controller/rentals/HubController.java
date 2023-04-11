@@ -33,6 +33,13 @@ public class HubController {
         return new ResponseEntity<>(hub, HttpStatus.CREATED);
     }
 
+    @PostMapping(value = "/create-hub/{userId}")
+    public ResponseEntity<Hub>createHub(@PathVariable Long userId, Hub hub){
+
+        return new ResponseEntity<>(hubService.saveHubToUser(userId, hub),HttpStatus.OK);
+    }
+
+
     @GetMapping("/getAllHubs")
     public ResponseEntity<List<Hub>> getAllHubs() {
         List<Hub> hubs = hubRepository.findAll();

@@ -30,7 +30,7 @@ public class AuthenticationController {
 private final UserRepository userRepository;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> register(@RequestBody SignupRequest request){
+    public AuthenticationResponse register(@RequestBody SignupRequest request){
        return authenticationService.register(request);
     }
 

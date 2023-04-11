@@ -32,8 +32,9 @@ public class Hub {
     @Enumerated
     private RentalStatus rentalStatus;
 
-    @ManyToMany(mappedBy = "hubs")
-    private Set<User> users = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",nullable = false)
+    private User user;
 
     public Hub() {
     }
@@ -98,12 +99,12 @@ public class Hub {
         this.rentalStatus = rentalStatus;
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
+    public void setUserSet(User user) {
+        this.user = user;
     }
 
     @Override

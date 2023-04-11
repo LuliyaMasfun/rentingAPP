@@ -30,6 +30,8 @@ public class User {
 
     private String lastName;
 
+    private String userName;
+
     private String email;
 
     private String profileImg;
@@ -58,16 +60,16 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch =FetchType.LAZY )
-    @JoinTable(name = "user_hubs",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "hubs_id"))
+   @OneToMany(mappedBy = "user")
     private Set<Hub> hubs = new HashSet<>();
 
     public User() {
     }
 
     public User(String firstName, String lastName, String email, String encode, String address) {
+    }
+
+    public User(String firstName, String lastName, String email, String encode, String phoneNumber, String address, LocalDate birthDate) {
     }
 
     public Long getId() {
@@ -106,6 +108,7 @@ public class User {
         this.roles = roles;
     }
 
+
     public String getProfileImg() {
         return profileImg;
     }
@@ -124,6 +127,14 @@ public class User {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setPhoneNumber(String phoneNumber) {

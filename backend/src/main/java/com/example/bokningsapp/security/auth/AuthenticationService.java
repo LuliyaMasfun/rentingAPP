@@ -35,15 +35,13 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(SignupRequest signupRequest){
 
-        User user = User.builder()
-                .firstName(signupRequest.getFirstName())
-                .lastName(signupRequest.getLastName())
-                .email(signupRequest.getEmail())
-                .password(passwordEncoder.encode(signupRequest.getPassword()))
-                .phoneNumber(signupRequest.getPhoneNumber())
-                .address(signupRequest.getAddress())
-                .birthDate(signupRequest.getBirthDate())
-                .build();
+        User user = new User(signupRequest.getFirstName(),
+                signupRequest.getLastName(),
+                signupRequest.getEmail(),
+                passwordEncoder.encode(signupRequest.getPassword()),
+                signupRequest.getPhoneNumber(),
+                signupRequest.getAddress(),signupRequest.getBirthDate());
+
 
         Set<String> strRoles = signupRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -93,8 +91,13 @@ public class AuthenticationService {
         )
         );
             var user = userRepository.findByEmail(authenticationRequest.getEmail())
-                    .orElseThrow();
+                    .orElseThrow( () -> new RuntimeException("User doesn´t exist"));
 
+        System.out.println(user);
+
+
+
+/*
         UserDetails userDetails = User.builder()
                 .email(user.getEmail())
                 .id(user.getId())
@@ -102,8 +105,8 @@ public class AuthenticationService {
                 .birthDate(user.getBirthDate())
                 .address(user.getAddress())
                 .phoneNumber(user.getPhoneNumber())
-                .build();
-        var jwtToken = jwtService.generateToken(userDetails);
+                .build();*/
+        var jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
