@@ -12,6 +12,72 @@ const Page = styled.div`
   width: 390px;
   background-color: #1E1E1E;
 `;
+
+const SubHeaderContainer = styled.div`
+flex-direction: row;
+margin-bottom: 20px;
+`;
+const SeperationBorder = styled.div`
+position: absolute;
+margin-left: 14vh;
+width: 8px;
+height: 20px;
+box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.3);
+`;
+const DropdownContainer = styled.div`
+  position: absolute;
+  margin-left:16vh;
+`;
+
+const DropdownButton = styled.button`
+  background-color: transparent;
+  color: #EFEFEF;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  background-color: #EFEFEF;
+  border-radius: 5px;
+  color: #3A3B3C;
+  z-index: 1;
+`;
+const DropdownMenuItem = styled.div`
+  font-size: 14px;
+  cursor: pointer;
+  
+`;
+const DownIcon = styled(IoChevronForward)`
+position: absolute;
+width: 20px;
+height: 20px;
+margin-left: 7vh;
+margin-top: -2.5vh;
+color: #EFEFEF;
+transform: rotate(90deg);
+`;
+
+const CreateBtn = styled.p`
+position: absolute;
+margin-left: 31vh;
+font-size: 14px;
+color: #F8F360;
+`;
+const DeleteBtn = styled.button`
+position: absolute;
+margin-left: 37vh;
+font-size: 14px;
+color: #F8F360;
+`;
+const TotalBookings = styled.div`
+position: absolute;
+margin-left:33px;
+font-size: 16px;
+color: #EFEFEF;
+`;
+
 const Container = styled.div`
 display: flex;
 flex-direction: column;
@@ -143,19 +209,25 @@ const Circle = styled.div`
     background-color: white;
   }
 `;
-const DeleteBtn = styled.button`
-position: absolute;
-margin-left: 37vh;
-margin-top: 21px;
-font-size: 14px;
-color: #F8F360;
+const DeleteMessageContainer = styled.div`
+width: 280px;
+margin-left: 55px;
+margin-top: 520px;
+position: fixed;
+transition: visibility 0.5s ease-in-out;
+`;
+const DeleteMessage = styled.p`
+text-align: center;
+font-weight: 600;
+background-color: #F8F360;
+border-radius: 2px;
 `;
 
 function RentalCard() {
-
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);;
+  const [deletedMessage, setDeletedMessage] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -172,21 +244,94 @@ function RentalCard() {
     fetchData();
   }, []);
 
+  const handleDelete = async (id) => {
+    if (isNaN(id)) {
+      console.error('Invalid id:', id);
+      return;
+    }
+    if (id == null) {
+      console.error('No rental selected');
+      return;
+    }
+    try {
+      await axios.delete(`http://localhost:8080/hub/deleteHub/${id}`);
+      setData(data.filter((rental) => rental.id !== id));
+      setSelectedId(null);
+      setDeletedMessage(`${data.find((rental) => rental.id === id).hubName} was deleted`);
+      setTimeout(() => {
+        setDeletedMessage(null);
+      }, 3000);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   const handleSelect = (id) => {
     setSelected(id);
   };
+  useEffect(() => {
+    if (deletedMessage) {
+      setTimeout(() => {
+        setDeletedMessage(null);
+      }, 3000);
+    }
+  }, [deletedMessage]);
+
+  const options = [
+    "View All",
+    "Hub",
+    "Equipment",
+    "Events",
+
+  ];
+
+  const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const totalNumbersOfRentals = data.length;
 
   return (
     <div>
       <Page>
+        <DeleteMessageContainer>
+          {deletedMessage && <DeleteMessage>{deletedMessage}</DeleteMessage>}
+        </DeleteMessageContainer>
+        <SubHeaderContainer>
+          <SeperationBorder />
+          <TotalBookings>
+            Rentals ({totalNumbersOfRentals})
+          </TotalBookings>
+          <DropdownContainer>
+            <DropdownButton onClick={() => setIsOpen(!isOpen)}>
+              {selectedOption}
+              <DownIcon />
+            </DropdownButton>
+            {isOpen && (
+              <DropdownMenu>
+                {options.map((option) => (
+                  <DropdownMenuItem
+                    key={option}
+                    onClick={() => handleOptionClick(option)}
+                  >
+                    {option}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenu>
+            )}
+          </DropdownContainer>
+          <Link href={{ pathname: "/admin/CreateRental" }}>
+            <CreateBtn>Create</CreateBtn>
+          </Link>
+          <DeleteBtn onClick={() => handleDelete(selected)}>Delete</DeleteBtn>
+        </SubHeaderContainer>
 
         {data.map((rental) => (
           <Container key={rental.id}>
             <CardContainer>
-              <Circle onClick={() => {
-                setSelected(!selected);
-                setSelectedId(rental.id);
-              }} selected={selected} />
+              <Circle onClick={() =>
+                handleSelect(rental.id)}
+                selected={selectedId === rental.id} />
               <RentalNameRow>
                 <RentalNameLbl>Name</RentalNameLbl>
                 <RentalName>{rental.hubName}</RentalName>

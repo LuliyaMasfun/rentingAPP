@@ -2,7 +2,7 @@ package com.example.bokningsapp.controller.rentals;
 
 import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
-import com.example.bokningsapp.exception.EquipmentNotFoundException;
+import com.example.bokningsapp.exception.RentalNotFoundException;
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.repository.EquipmentRepository;
 import com.example.bokningsapp.repository.UserRepository;
@@ -58,7 +58,7 @@ public class EquipmentController {
         try {
             equipmentService.deleteEquipment(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (EquipmentNotFoundException ex) {
+        } catch (RentalNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

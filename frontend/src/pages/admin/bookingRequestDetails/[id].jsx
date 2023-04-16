@@ -467,11 +467,6 @@ function BookingDetails() {
   const router = useRouter()
   const { id } = router.query
 
-  function handleMenuClick(menuOption) {
-    setSelectedMenu(menuOption);
-  }
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -509,7 +504,7 @@ function BookingDetails() {
         const response = await axios.get(`http://localhost:8080/user/userInfo?ids=${id}`);
         if (Array.isArray(response.data)) {
           const userInfoMap = response.data.reduce((map, userInfo) => {
-            map[data.user.id] = data.user.firstName;
+            map[data.user.id] = userInfo;
             return map;
           }, {});
           setUserInfo(userInfoMap);

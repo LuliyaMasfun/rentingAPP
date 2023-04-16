@@ -4,9 +4,10 @@ import axios from "axios";
 import DiagonalImg from "../../../public/greyDiagonal.png"
 import Image from "next/image";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoCreateOutline } from "react-icons/io5";
 import DropDown from "../../components/DropDown";
+import { useRouter } from 'next/router';
 
 
 const Page = styled.div`
@@ -39,8 +40,8 @@ const CreateIcon = styled(IoCreateOutline)`
 position: absolute;
 margin-left: 315px;
 margin-top: 20px;
-width: 34px;
-height: 34px;
+width: 44px;
+height: 44px;
 color: #EFEFEF;
 `;
 const CreateBtn = styled.button`
@@ -79,6 +80,7 @@ background-color: transparent;
 border: 1px solid #FFFFFF;
 border-radius: 5px;
 color: #EFEFEF;
+opacity: 0.7;
 `;
 const RentalTypeContainer = styled.div`
 margin-bottom: 23px;
@@ -99,6 +101,7 @@ color: #EFEFEF;
     padding:10px;
     font-weight: 400;
   }
+  opacity: 0.7;
 `;
 const LocationContainer = styled.div`
 margin-bottom: 23px;
@@ -114,6 +117,7 @@ background-color: transparent;
 border: 1px solid #FFFFFF;
 border-radius: 5px;
 color: #EFEFEF;
+opacity: 0.7;
 `;
 const DescriptionContainer = styled.div`
 margin-bottom: 23px;
@@ -124,11 +128,12 @@ margin-bottom: 11px;
 `;
 const DescriptionInput = styled.input`
 width: 279px;
-height: 34px;
+height: 44px;
 background-color: transparent;
 border: 1px solid #FFFFFF;
 border-radius: 5px;
 color: #EFEFEF;
+opacity: 0.7;
 `;
 const BrandContainer = styled.div`
 margin-bottom: 23px;
@@ -144,6 +149,7 @@ background-color: transparent;
 border: 1px solid #FFFFFF;
 border-radius: 5px;
 color: #EFEFEF;
+opacity: 0.7;
 `;
 const MaxPplContainer = styled.div`
 margin-bottom: 23px;
@@ -159,6 +165,7 @@ background-color: transparent;
 border: 1px solid #FFFFFF;
 border-radius: 5px;
 color: #EFEFEF;
+opacity: 0.7;
 `;
 const MaxTimeContainer = styled.div`
 margin-bottom: 23px;
@@ -174,6 +181,7 @@ background-color: transparent;
 border: 1px solid #FFFFFF;
 border-radius: 5px;
 color: #EFEFEF;
+opacity: 0.7;
 `;
 const AvailableContainer = styled.div`
 margin-bottom: 23px;
@@ -194,6 +202,7 @@ color: #EFEFEF;
     padding:10px;
     font-weight: 400;
   }
+  opacity: 0.7;
 `;
 const ImgContainer = styled.div`
 margin-bottom: 23px;
@@ -209,6 +218,7 @@ background-color: transparent;
 border: 1px solid #FFFFFF;
 border-radius: 5px;
 color: #EFEFEF;
+opacity: 0.7;
 `;
 const ImgInput = styled.input`
 background-color: transparent;
@@ -235,7 +245,7 @@ margin-top: -70px;
 `;
 
 function CreateRental() {
-
+  const router = useRouter();
   /* DROPDOWN */
   const Equipment = "Equipment";
   const Hub = "Hub";
@@ -259,8 +269,6 @@ function CreateRental() {
   const [rentalImage, setRentalImage] = useState('');
   const [rentalStatus, setRentalStatus] = useState('');
 
-
-
   const handleCreate = () => {
     axios.post('http://localhost:8080/hub/createHub', {
       hubName: name,
@@ -279,12 +287,17 @@ function CreateRental() {
       .then(response => {
         // handle success
         console.log(response);
+        router.push('/admin/ManageRentals');
       })
       .catch(error => {
         // handle error
         console.log(error);
       });
   }
+  useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }, []);
+
 
   /* UPLOAD IMAGE */
   const [selectedFile, setSelectedFile] = useState(null);
