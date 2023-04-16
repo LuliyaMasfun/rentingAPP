@@ -1,8 +1,6 @@
 package com.example.bokningsapp.service.hubService;
 
 
-import com.example.bokningsapp.exception.EquipmentNotFoundException;
-import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.Hub;
 import com.example.bokningsapp.repository.HubRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,7 @@ package com.example.bokningsapp.service.equipmentService;
 
 import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
-import com.example.bokningsapp.exception.EquipmentNotFoundException;
+import com.example.bokningsapp.exception.RentalNotFoundException;
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.repository.EquipmentRepository;
 import org.springframework.beans.factory.annotation.*;
@@ -52,7 +52,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public void deleteEquipment(int id) {
         Equipment equipment = equipmentRepo.findById(id)
-                .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found with id " + id));
+                .orElseThrow(() -> new RentalNotFoundException("Equipment not found with id " + id));
         equipmentRepo.delete(equipment);
     }
 

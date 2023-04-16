@@ -1,6 +1,9 @@
 package com.example.bokningsapp.controller.rentals;
 
 import com.example.bokningsapp.model.Hub;
+import com.example.bokningsapp.model.User;
+import com.example.bokningsapp.model.bookings.HubBooking;
+import com.example.bokningsapp.repository.HubBookingRepository;
 import com.example.bokningsapp.repository.HubRepository;
 import com.example.bokningsapp.service.hubService.HubService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +23,13 @@ public class HubController {
 
     private HubService hubService;
     private HubRepository hubRepository;
+    private HubBookingRepository hubBookingRepository;
 
     @Autowired
-    public HubController(HubService hubService, HubRepository hubRepository) {
+    public HubController(HubService hubService, HubRepository hubRepository, HubBookingRepository hubBookingRepository) {
         this.hubService = hubService;
         this.hubRepository = hubRepository;
+        this.hubBookingRepository = hubBookingRepository;
     }
 
     @PostMapping(value = "/createHub")
@@ -58,5 +63,27 @@ public class HubController {
             hubNamesById.put(hub.getId(), hub.getHubName());
         }
         return hubNamesById;
+    }
+
+    @GetMapping("/bookingsInfo")
+    public Map<Integer, Map<String, String>> getBookingInfoForRental(@RequestParam Long id) {
+
+        List<HubBooking> bookings = hubBookingRepository.findAllByHubId(id);
+
+        Map<Integer, Map<String, String>> bookingInfoById = new HashMap<>();
+
+        for (HubBooking booking : bookings) {
+            Map<String, String> hubMap = new HashMap<>();
+            hubMap.put("bookingNumber", booking.getBookingNumber());
+            hubMap.put("bookingStatus", booking.getBookingStatus().toString());
+            hubMap.put("startDate", booking.getStartDate().toString());
+            hubMap.put("endDate", booking.getEndDate().toString());
+            hubMap.put("createdOn", booking.getCreatedOn().toString());
+            hubMap.put("userFirstName", booking.getUser().getFirstName());
+            hubMap.put("userLastName", booking.getUser().getLastName());
+            bookingInfoById.put(booking.getId(), hubMap);
+        }
+        return bookingInfoById;
+
     }
 }
