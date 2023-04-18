@@ -270,6 +270,7 @@ function RentalCard() {
   const handleSelect = (id) => {
     setSelected(id);
   };
+
   useEffect(() => {
     if (deletedMessage) {
       setTimeout(() => {
@@ -290,6 +291,11 @@ function RentalCard() {
   const [isOpen, setIsOpen] = useState(false);
 
   const totalNumbersOfRentals = data.length;
+
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+    setIsOpen(false);
+  };
 
   return (
     <div>

@@ -4,6 +4,9 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import diagonalYellow from "../../../../public/squareDigonal.png"
 import Image from "next/image";
+import podcast from '../../../../public/podcast2.png'
+import coWorking from '../../../../public/coWorking2.png'
+import film from '../../../../public/film2.png'
 
 const Page = styled.div`
   position: absolute;
@@ -15,10 +18,16 @@ const Page = styled.div`
 
 /* HEADER */
 const HeaderContainer = styled.div`
-height: 200px;
+height: 235px;
 background-color: #F8F360;
 box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.3);
 width: 390px;
+`;
+const EquipmentImage = styled(Image)`
+position: absolute;
+margin-top: 90px;
+margin-left: 35px;
+width: 35%;
 `;
 const YellowDiagonal = styled(Image)`
 float: right;
@@ -56,7 +65,7 @@ margin-top: 60px;
 const Meny = styled.div`
 position: absolute;
   margin-left: 35px;
-  margin-top: 85px;
+  margin-top: 120px;
   width: 220px;
   heigth: 30px;
 `;
@@ -184,11 +193,26 @@ function ThisRental() {
 
 
   function Header() {
+    const checkType = (imageType) => {
+      if (imageType.hubName == "The Podcast Studio") {
+        return podcast;
+      } else if (imageType.hubName == "The Film Studio") {
+        return film;
+      } else {
+        return coWorking;
+      }
+    }
+    function handleEdit() {
+      console.log(id);
+      router.push(`/admin/editRental/${id}`);
+    }
+
     return (
       <div>
         <HeaderContainer>
+          <EquipmentImage src={checkType(data)} />
           <YellowDiagonal src={diagonalYellow} />
-          <EditBtn>Edit</EditBtn>
+          <EditBtn onClick={handleEdit}>Edit</EditBtn>
           <TitleContainer>
             <TitleName>{data.hubName}</TitleName>
             <RentalNumber>1234567891234</RentalNumber>

@@ -45,6 +45,7 @@ const RentalNumber = styled.p`
 position: absolute;
 float: right;
 margin-top: 60px;
+color: #3A3B3C;
 `;
 const Meny = styled.div`
 position: absolute;
@@ -74,6 +75,7 @@ background-color: #3A3B3C;
 border-radius: 1px;
 `;
 
+/* ANVÄNDS INTE */
 const HeaderRentalDetails = () => {
 
   let [data, setData] = useState([])
@@ -86,6 +88,7 @@ const HeaderRentalDetails = () => {
         const response = await axios.get(`http://localhost:8080/hub/getThisHub/${id}`);
         setData(response.data);
         console.log(response.data)
+        console.log("id" + id);
       } catch (error) {
         console.error(error);
       }
@@ -97,12 +100,16 @@ const HeaderRentalDetails = () => {
   function handleMenuClick(menuOption) {
     setSelectedMenu(menuOption);
   }
+  function handleEdit() {
+    console.log(id);
+    router.push(`/admin/editRental/${id}`);
+  }
 
 
   return (
     <HeaderContainer>
       <YellowDiagonal src={diagonalYellow} />
-      <EditBtn>Edit</EditBtn>
+      <EditBtn onClick={handleEdit}>Edit</EditBtn>
       <TitleContainer>
         <TitleName>{data.hubName}</TitleName>
         <RentalNumber>1234567891234</RentalNumber>

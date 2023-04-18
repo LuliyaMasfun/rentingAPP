@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "@emotion/styled";
 import axios from "axios";
-import DiagonalImg from "../../../public/greyDiagonal.png"
+import DiagonalImg from "../../../../public/orangeDiagonal.png"
 import Image from "next/image";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import { IoCreateOutline } from "react-icons/io5";
-import DropDown from "../../components/DropDown";
+import DropDown from "../../../components/DropDown";
 import { useRouter } from 'next/router';
 
 
@@ -44,7 +44,7 @@ width: 44px;
 height: 44px;
 color: #EFEFEF;
 `;
-const CreateBtn = styled.button`
+const SaveBtn = styled.button`
 position:absolute;
 margin-left: 95px;
 margin-top: 325px;
@@ -243,13 +243,30 @@ font-weight: 300;
 font-size: 14px;
 margin-top: -70px;
 `;
+const SavedMessageContainer = styled.div`
+width: 280px;
+margin-left: 55px;
+margin-top: 700px;
+position: fixed;
+transition: visibility 0.5s ease-in-out;
+`;
+const SaveMessage = styled.p`
+text-align: center;
+font-weight: 600;
+background-color: #F8F360;
+border-radius: 2px;
+`;
 
-function CreateRental() {
+//man ska kunna redigera utan att behöva skicka in alla fält i modellen, fixa när du löst rental modell ist för hub
+function EditRental() {
+  let [data, setData] = useState([])
   const router = useRouter();
+  const { id } = router.query
   /* DROPDOWN */
   const Equipment = "Equipment";
   const Hub = "Hub";
   const Event = "Event";
+
 
   const optionsRentalType = [
     { label: 'Equipment', value: 'Equipment' },
@@ -257,7 +274,20 @@ function CreateRental() {
     { label: 'Event', value: 'Event' },
   ];
 
-  /* HANDLE CREATE POST REQUEST */
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/hub/getThisHub/${id}`);
+        setData(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  /* HANDLE EDIT PUT REQUEST */
   const [name, setName] = useState('');
   const [rentalType, setRentalType] = useState('');
   const [location, setLocation] = useState('');
@@ -268,26 +298,39 @@ function CreateRental() {
   const [available, setAvailable] = useState('');
   const [rentalImage, setRentalImage] = useState('');
   const [rentalStatus, setRentalStatus] = useState('');
+  const [savedMessage, setSavedMessage] = useState(null);
 
-  const handleCreate = () => {
-    axios.post('http://localhost:8080/hub/createHub', {
+
+  useEffect(() => {
+    if (savedMessage) {
+      setTimeout(() => {
+        setSavedMessage(null);
+      }, 3000);
+    }
+  }, [savedMessage]);
+
+  const handleEdit = () => {
+    axios.put(`http://localhost:8080/hub/editHub/${id}`, {
       hubName: name,
       hubLocation: location,
       hubImg: rentalImage,
       maxTimeToRent: maxTime,
       hubDescription: description,
-      rentalType: rentalType,
+      rentalType: rentalType
       //rentalAvailability: available
       //brand: brand,
       //maxPpl: maxPpl,
-
       //available: available,
+
 
     })
       .then(response => {
         // handle success
         console.log(response);
-        router.push('/admin/ManageRentals');
+        setSavedMessage(`${data.hubName}. was saved`);
+        setTimeout(() => {
+          setSavedMessage(null);
+        }, 3000);
       })
       .catch(error => {
         // handle error
@@ -313,58 +356,68 @@ function CreateRental() {
 
   return (
     <Page>
-      <Header>
-        <GreyDiagonal src={DiagonalImg} />
-        <PageTitle>Create Rental</PageTitle>
-        <CreateIcon />
-      </Header>
-      <InputContainer>
-        <NameContainer>
-          <NameLbl>Name</NameLbl>
-          <NameInput value={name} onChange={(e) => setName(e.target.value)} />
-        </NameContainer>
-        <RentalTypeContainer>
-          <RentalTypeLbl>Rental Type</RentalTypeLbl>
-          <RentalTypeInput placeholder="Select" value={rentalType} options={optionsRentalType} onChange={(e) => setRentalType(e.target.value)} />
-        </RentalTypeContainer>
-        <LocationContainer>
-          <LocationLbl>Location</LocationLbl>
-          <LocationInput value={location} onChange={(e) => setLocation(e.target.value)} />
-        </LocationContainer>
-        <DescriptionContainer>
-          <DescriptionLbl value={description} onChange={(e) => setDescription(e.target.value)}>Description</DescriptionLbl>
-          <DescriptionInput />
-        </DescriptionContainer>
-        <BrandContainer>
-          <BrandLbl>Brand</BrandLbl>
-          <BrandInput value={brand} onChange={(e) => setBrand(e.target.value)} />
-        </BrandContainer>
-        <MaxPplContainer>
-          <MaxPplLbl value={maxPpl} onChange={(e) => setMaxPpl(e.target.value)}>Maximum Amount of People</MaxPplLbl>
-          <MaxPplInput />
-        </MaxPplContainer>
-        <MaxTimeContainer>
-          <MaxTimeLbl>Maximum Time to Rent (h)</MaxTimeLbl>
-          <MaxTimeInput value={maxTime} onChange={(e) => setMaxTime(e.target.value)} />
-        </MaxTimeContainer>
-        <AvailableContainer>
-          <AvailableLbl>Available to Rent</AvailableLbl>
-          <AvailableInput placeholder="Select" value={rentalStatus} onChange={(e) => setRentalStatus(e.target.value)} />
-        </AvailableContainer>
-        <ImgContainer>
-          <ImgLbl>Image</ImgLbl>
+      {data ? (
+        <div>
+          <SavedMessageContainer>
+            {savedMessage && <SaveMessage>{savedMessage}</SaveMessage>}
+          </SavedMessageContainer>
+          <Header>
+            <GreyDiagonal src={DiagonalImg} />
+            <PageTitle>Create Rental</PageTitle>
+            <CreateIcon />
+          </Header>
+          <InputContainer>
+            <NameContainer>
+              <NameLbl>Name</NameLbl>
+              <NameInput value={name || data.hubName} onChange={(e) => setName(e.target.value)} />
+            </NameContainer>
+            <RentalTypeContainer>
+              <RentalTypeLbl>Rental Type</RentalTypeLbl>
+              <RentalTypeInput placeholder="Select" value={rentalType || data.rentalType} options={optionsRentalType} onChange={(e) => setRentalType(e.target.value)} />
+            </RentalTypeContainer>
+            <LocationContainer>
+              <LocationLbl>Location</LocationLbl>
+              <LocationInput value={location || data.hubLocation} onChange={(e) => setLocation(e.target.value)} />
+            </LocationContainer>
+            <DescriptionContainer>
+              <DescriptionLbl>Description</DescriptionLbl>
+              <DescriptionInput value={description || data.hubDescription} onChange={(e) => setDescription(e.target.value)} />
+            </DescriptionContainer>
+            <BrandContainer>
+              <BrandLbl>Brand</BrandLbl>
+              <BrandInput value={brand || "NaN"} onChange={(e) => setBrand(e.target.value)} />
+            </BrandContainer>
+            <MaxPplContainer>
+              <MaxPplLbl>Maximum Amount of People</MaxPplLbl>
+              <MaxPplInput value={maxPpl || "NaN"} onChange={(e) => setMaxPpl(e.target.value)} />
+            </MaxPplContainer>
+            <MaxTimeContainer>
+              <MaxTimeLbl>Maximum Time to Rent (h)</MaxTimeLbl>
+              <MaxTimeInput value={maxTime || data.maxTimeToRent} onChange={(e) => setMaxTime(e.target.value)} />
+            </MaxTimeContainer>
+            <AvailableContainer>
+              <AvailableLbl>Available to Rent</AvailableLbl>
+              <AvailableInput placeholder="Select" value={rentalStatus || data.rentalStatus} onChange={(e) => setRentalStatus(e.target.value)} />
+            </AvailableContainer>
+            <ImgContainer>
+              <ImgLbl>Image</ImgLbl>
 
-          <ImgInputContainer value={rentalImage} onChange={(e) => setRentalImage(e.target.value)}>
-            <UploadIcon />
-            <ImgInput type="file" onChange={handleFileChange} />
-            <UploadTxt>
-              Choose image to upload
-            </UploadTxt>
-          </ImgInputContainer>
-        </ImgContainer>
-      </InputContainer>
-      <CreateBtn onClick={handleCreate}>Create</CreateBtn>
+              <ImgInputContainer value={rentalImage || data.testImg} onChange={(e) => setRentalImage(e.target.value)}>
+                <UploadIcon />
+                <ImgInput type="file" onChange={handleFileChange} />
+                <UploadTxt>
+                  Choose image to upload
+                </UploadTxt>
+              </ImgInputContainer>
+            </ImgContainer>
+          </InputContainer>
+          <SaveBtn onClick={handleEdit}>Save</SaveBtn>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
+
     </Page>
   )
 }
-export default CreateRental;
+export default EditRental;

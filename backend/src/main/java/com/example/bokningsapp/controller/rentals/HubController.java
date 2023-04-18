@@ -84,6 +84,11 @@ public class HubController {
             bookingInfoById.put(booking.getId(), hubMap);
         }
         return bookingInfoById;
+    }
 
+    @PutMapping("/editHub/{id}")
+    public ResponseEntity<Hub> updateRental(@PathVariable Long id, @RequestBody Hub hub) {
+        Hub updatedRental = hubService.updateHub(id, hub);
+        return ResponseEntity.ok(updatedRental);
     }
 }
