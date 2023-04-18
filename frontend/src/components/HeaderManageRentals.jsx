@@ -85,7 +85,6 @@ const HeaderManageRentals = () => {
   return (
 
     <div>
-
       <NavbarAdmin />
       <PageTitle>Manage Rentals</PageTitle>
       <Container>

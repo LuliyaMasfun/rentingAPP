@@ -118,6 +118,8 @@ function Booking() {
   const [data, setData] = useState([]);
   const [hubNames, setHubNames] = useState({});
   const [userInfo, setUserInfo] = useState({});
+  const [selected, setSelected] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -178,7 +180,6 @@ function Booking() {
   const checkBookingStatus = (status) => {
     if (status.bookingStatus == "PENDING") {
       return pending;
-
     } else if (status.bookingStatus == "REJECTED") {
       return rejected;
     } else {
@@ -195,6 +196,10 @@ function Booking() {
       return <EventIcon />;
     }
   }
+
+  const handleSelect = (id) => {
+    setSelected(id);
+  };
 
   const totalNumbersOfBookings = data.length;
 
