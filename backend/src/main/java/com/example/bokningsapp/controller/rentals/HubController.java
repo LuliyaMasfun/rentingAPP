@@ -1,10 +1,9 @@
 package com.example.bokningsapp.controller.rentals;
 
 import com.example.bokningsapp.model.Hub;
-import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.model.bookings.HubBooking;
-import com.example.bokningsapp.repository.HubBookingRepository;
-import com.example.bokningsapp.repository.HubRepository;
+import com.example.bokningsapp.repository.BookingsRepo.HubBookingRepository;
+import com.example.bokningsapp.repository.RentalsRepo.HubRepository;
 import com.example.bokningsapp.service.hubService.HubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

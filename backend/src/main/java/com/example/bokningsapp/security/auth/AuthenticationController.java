@@ -1,24 +1,13 @@
 package com.example.bokningsapp.security.auth;
 
-import com.example.bokningsapp.model.Equipment;
-import com.example.bokningsapp.model.User;
-import com.example.bokningsapp.repository.EquipmentRepository;
 import com.example.bokningsapp.security.payload.request.LoginRequest;
 import com.example.bokningsapp.security.payload.request.SignupRequest;
 import com.example.bokningsapp.security.payload.response.AuthenticationResponse;
-import com.example.bokningsapp.repository.RoleRepository;
-import com.example.bokningsapp.repository.UserRepository;
-import com.example.bokningsapp.security.jwt.JwtService;
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/auth")

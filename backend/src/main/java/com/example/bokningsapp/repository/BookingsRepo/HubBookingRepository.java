@@ -1,7 +1,5 @@
-package com.example.bokningsapp.repository;
+package com.example.bokningsapp.repository.BookingsRepo;
 
-import com.example.bokningsapp.dto.HubBookingRequest;
-import com.example.bokningsapp.model.Hub;
 import com.example.bokningsapp.model.bookings.HubBooking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

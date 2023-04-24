@@ -5,9 +5,9 @@ import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.Hub;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.model.bookings.HubBooking;
-import com.example.bokningsapp.repository.HubBookingRepository;
-import com.example.bokningsapp.repository.HubRepository;
-import com.example.bokningsapp.repository.UserRepository;
+import com.example.bokningsapp.repository.BookingsRepo.HubBookingRepository;
+import com.example.bokningsapp.repository.RentalsRepo.HubRepository;
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

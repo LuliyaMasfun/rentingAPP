@@ -1,7 +1,7 @@
 package com.example.bokningsapp.controller.users;
 
 import com.example.bokningsapp.model.User;
-import com.example.bokningsapp.repository.UserRepository;
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 
 import com.example.bokningsapp.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

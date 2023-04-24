@@ -4,7 +4,7 @@ import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;
 import com.example.bokningsapp.exception.RentalNotFoundException;
 import com.example.bokningsapp.model.Equipment;
-import com.example.bokningsapp.repository.EquipmentRepository;
+import com.example.bokningsapp.repository.RentalsRepo.EquipmentRepository;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
