@@ -13,12 +13,13 @@ import {
   isToday,
   parse,
   parseISO,
+  differenceInDays,
   startOfToday,
 } from "date-fns";
 import Image from "next/image";
 import { Fragment, useState } from "react";
 
-const meetings = [
+const bookings = [
   {
     id: 1,
     name: "Leslie Alexander",
@@ -66,15 +67,27 @@ function classNames(...classes) {
 }
 
 export default function Example() {
-  let today = startOfToday();
-  let [selectedDay, setSelectedDay] = useState(today);
-  let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
-  let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
+  const today = startOfToday();
+  const [selectedDay, setSelectedDay] = useState(today);
+  const [endDay, setEndDay] = useState();
+  const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
+  const firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
 
-  let days = eachDayOfInterval({
+  const days = eachDayOfInterval({
     start: firstDayCurrentMonth,
     end: endOfMonth(firstDayCurrentMonth),
   });
+
+  function handleDateClick(date) {
+    if (!selectedDay) {
+      setSelectedDay(date);
+    } else if (!endDay) {
+      setEndDay(date);
+    } else {
+      setSelectedDay(date);
+      setEndDay(null);
+    }
+  }
 
   function previousMonth() {
     let firstDayNextMonth = add(firstDayCurrentMonth, { months: -1 });
@@ -86,17 +99,17 @@ export default function Example() {
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
   }
 
-  let selectedDayMeetings = meetings.filter((meeting) =>
-    isSameDay(parseISO(meeting.startDatetime), selectedDay)
+  let selectedDaybookings = bookings.filter((booking) =>
+    isSameDay(parseISO(booking.startDatetime), selectedDay)
   );
 
   return (
-    <div className="pt-16">
+    <div className="pt-16 bg-dgray">
       <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6 ">
         <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
           <div className="md:pr-14">
             <div className="flex items-center">
-              <h2 className="flex-auto font-semibold text-gray-900">
+              <h2 className="flex-auto font-semibold text-white">
                 {format(firstDayCurrentMonth, "MMMM yyyy")}
               </h2>
               <button
@@ -116,7 +129,7 @@ export default function Example() {
                 <ChevronRightIcon className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
-            <div className="grid grid-cols-7 mt-10 text-xs leading-6 text-center text-gray-500">
+            <div className="grid grid-cols-7 mt-10 text-xs leading-6 text-center text-white">
               <div>S</div>
               <div>M</div>
               <div>T</div>
@@ -145,15 +158,18 @@ export default function Example() {
                       !isEqual(day, selectedDay) &&
                         !isToday(day) &&
                         isSameMonth(day, firstDayCurrentMonth) &&
-                        "text-gray-900",
+                        "text-white",
                       !isEqual(day, selectedDay) &&
                         !isToday(day) &&
                         !isSameMonth(day, firstDayCurrentMonth) &&
                         "text-gray-400",
+                      differenceInDays(selectedDay, endDay) <= 3 &&
+                        "bg-yellows",
                       isEqual(day, selectedDay) && isToday(day) && "bg-red-500",
                       isEqual(day, selectedDay) &&
                         !isToday(day) &&
                         "bg-yellow-500",
+
                       !isEqual(day, selectedDay) && "hover:bg-indigo-500",
                       (isEqual(day, selectedDay) || isToday(day)) &&
                         "font-semibold",
@@ -166,8 +182,8 @@ export default function Example() {
                   </button>
 
                   <div className="w-1 h-1 mx-auto mt-1">
-                    {meetings.some((meeting) =>
-                      isSameDay(parseISO(meeting.startDatetime), day)
+                    {bookings.some((booking) =>
+                      isSameDay(parseISO(booking.startDatetime), day)
                     ) && (
                       <div className="w-1 h-1 rounded-full bg-sky-500"></div>
                     )}
@@ -177,24 +193,24 @@ export default function Example() {
             </div>
           </div>
           <section className="mt-12 md:mt-0 md:pl-14">
-            <h2 className="font-semibold text-gray-900">
+            <h2 className="font-semibold text-gray-300">
               Schedule for{" "}
               <time dateTime={format(selectedDay, "yyyy-MM-dd")}>
                 {format(selectedDay, "MMM dd, yyy")}
               </time>
             </h2>
             <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
-              {selectedDayMeetings.length > 0 ? (
-                selectedDayMeetings.map((meeting) => (
-                  <Meeting meeting={meeting} key={meeting.id} />
+              {selectedDaybookings.length > 0 ? (
+                selectedDaybookings.map((booking) => (
+                  <Booking booking={booking} key={booking.id} />
                 ))
               ) : (
-                <p>No meetings for today.</p>
+                <p>No booking for today.</p>
               )}
             </ol>
           </section>
         </div>
-        <button className="flex items-center justify-center bg-yellow-500 px-10">
+        <button className="flex items-center justify-center bg-yellows px-10 rounded-md h-10 mb-10">
           Make Reservations
         </button>
       </div>
@@ -202,25 +218,25 @@ export default function Example() {
   );
 }
 
-function Meeting({ meeting }) {
-  let startDateTime = parseISO(meeting.startDatetime);
-  let endDateTime = parseISO(meeting.endDatetime);
+function Booking({ booking }) {
+  const startDateTime = parseISO(booking.startDatetime);
+  const endDateTime = parseISO(booking.endDatetime);
 
   return (
     <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
       <Image
-        src={meeting.imageUrl}
+        src={booking.imageUrl}
         alt=""
         className="flex-none w-10 h-10 rounded-full"
       />
       <div className="flex-auto">
-        <p className="text-gray-900">{meeting.name}</p>
+        <p className="text-gray-900">{booking.name}</p>
         <p className="mt-0.5">
-          <time dateTime={meeting.startDatetime}>
+          <time dateTime={booking.startDatetime}>
             {format(startDateTime, "h:mm a")}
           </time>{" "}
           -{" "}
-          <time dateTime={meeting.endDatetime}>
+          <time dateTime={booking.endDatetime}>
             {format(endDateTime, "h:mm a")}
           </time>
         </p>

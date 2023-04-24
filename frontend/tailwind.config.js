@@ -11,7 +11,8 @@ module.exports = {
         lblue: "#54c0cf",
         grays: "#d3cecf",
         yellows: "#E8E337",
-        dgray: "#1e1e1e",
+        dgray: "#1E1E1E",
+        white: "#EFEFEF",
       },
       backgroundImage: {
         "hero-pattern": "url('/public/bgLogin.png')",
