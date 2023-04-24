@@ -4,6 +4,7 @@ package com.example.bokningsapp.service.hubService;
 import com.example.bokningsapp.exception.EquipmentNotFoundException;
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.Hub;
+import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.HubRepository;
 import com.example.bokningsapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,22 @@ public class HubService {
         hubRepository.delete(deletedHub);
     }
 
-    public Hub saveHubToUser(Long userId, Hub hub){
+    public String saveHubToUser(Long userId, Hub hub){
 
-        userRepository.findById(userId)
+       User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Hub not found with id" + userId));
+
+  /*     try{
+           user.getHubs().stream().filter(hub1 -> hub1.)
+
+       }catch(Error error)*/
+
+       user.getHubs().add(hub);
+
+       userRepository.save(user);
+
+       return "User was successfully updated";
+
 
     }
 
