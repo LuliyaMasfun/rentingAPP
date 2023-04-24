@@ -1,17 +1,14 @@
 package com.example.bokningsapp.service;
 
-import com.example.bokningsapp.enums.EquipmentType;
 import com.example.bokningsapp.enums.RentalType;
-import com.example.bokningsapp.exception.RentalNotFoundException;
 import com.example.bokningsapp.model.Rental;
-import com.example.bokningsapp.repository.RentalRepository;
+import com.example.bokningsapp.repository.RentalsRepo.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RentalService {
@@ -43,9 +40,7 @@ public class RentalService {
 
     // UPDATE RENTAL
     public Rental updateRental(Long rentalId, Rental rental) {
-        Optional<Rental> optionalRental = rentalRepository.findById(rentalId);
-        if (optionalRental.isPresent()) {
-            Rental existingRental = optionalRental.get();
+        Rental existingRental = rentalRepository.findRentalById(rentalId);
             if (rental.getName() != null) {
                 existingRental.setName(rental.getName());
             }
@@ -55,7 +50,7 @@ public class RentalService {
             if (rental.getImage() != null) {
                 existingRental.setImage(rental.getImage());
             }
-            if (rental.getMaxTimeToRent() != 0) {
+            if (rental.getMaxTimeToRent() != null) {
                 existingRental.setMaxTimeToRent(rental.getMaxTimeToRent());
             }
             if (rental.getDescription() != null) {
@@ -85,19 +80,34 @@ public class RentalService {
             if (rental.getEventType() != null) {
                 existingRental.setEventType(rental.getEventType());
             }
-            if (rental.getCreatedBy() != null) {
-                existingRental.setCreatedBy(rental.getCreatedBy());
-            }
-            if (rental.getCreatedOn() != null) {
-                existingRental.setCreatedOn(rental.getCreatedOn());
-            }
             existingRental.setUpdatedBy(rental.getUpdatedBy());
             existingRental.setUpdatedOn(LocalDate.now());
 
             return rentalRepository.save(existingRental);
-        } else {
-            throw new RentalNotFoundException("Rental not found with id: " + rentalId);
+
         }
+
+    public static String generateEAN13() {
+        Random random = new Random();
+        int[] digits = new int[12];
+        for (int i = 0; i < 12; i++) {
+            digits[i] = random.nextInt(10);
+        }
+        int sum = 0;
+        for (int i = 0; i < 12; i++) {
+            if (i % 2 == 0) {
+                sum += digits[i] * 1;
+            } else {
+                sum += digits[i] * 3;
+            }
+        }
+        int checksum = (10 - (sum % 10)) % 10;
+        return Arrays.toString(digits).replaceAll("[^\\d]", "") + checksum;
+    }
+
+    public static String generateRentalNumber() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString().substring(0, 8);
     }
 
 }

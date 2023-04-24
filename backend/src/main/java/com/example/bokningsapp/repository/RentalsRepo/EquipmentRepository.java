@@ -1,4 +1,4 @@
-package com.example.bokningsapp.repository;
+package com.example.bokningsapp.repository.RentalsRepo;
 
 import com.example.bokningsapp.enums.EquipmentStatus;
 import com.example.bokningsapp.enums.EquipmentType;

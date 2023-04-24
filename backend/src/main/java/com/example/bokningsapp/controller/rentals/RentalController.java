@@ -1,9 +1,8 @@
 package com.example.bokningsapp.controller.rentals;
 
 import com.example.bokningsapp.enums.RentalType;
-import com.example.bokningsapp.model.Hub;
 import com.example.bokningsapp.model.Rental;
-import com.example.bokningsapp.repository.RentalRepository;
+import com.example.bokningsapp.repository.RentalsRepo.RentalRepository;
 import com.example.bokningsapp.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +30,8 @@ public class RentalController {
 
     @PostMapping(value = "/createRental")
     public ResponseEntity<Rental> createRental(@RequestBody Rental rental) {
+        rental.setEan13(RentalService.generateEAN13());
+        rental.setRentalNumber(RentalService.generateRentalNumber());
         Rental newRental = rentalService.saveRental(rental);
         return new ResponseEntity<>(newRental, HttpStatus.CREATED);
     }
@@ -69,4 +70,11 @@ public class RentalController {
         }
         return rentalNamesById;
     }
+
+    @PutMapping("/editThisRental/{id}")
+    public ResponseEntity<Rental> updateRental(@PathVariable Long id, @RequestBody Rental rental) {
+        Rental updatedRental = rentalService.updateRental(id, rental);
+        return ResponseEntity.ok(updatedRental);
+    }
+
 }

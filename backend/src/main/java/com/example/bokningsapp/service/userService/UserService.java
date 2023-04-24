@@ -1,10 +1,8 @@
 package com.example.bokningsapp.service.userService;
 
-import com.example.bokningsapp.exception.EmailAlreadyExistsException;
 import com.example.bokningsapp.exception.ResourceNotFoundException;
-import com.example.bokningsapp.exception.UserNotFoundException;
 import com.example.bokningsapp.model.User;
-import com.example.bokningsapp.repository.UserRepository;
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import com.example.bokningsapp.security.config.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

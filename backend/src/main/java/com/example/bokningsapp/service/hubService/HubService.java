@@ -3,7 +3,7 @@ package com.example.bokningsapp.service.hubService;
 
 import com.example.bokningsapp.exception.ResourceNotFoundException;
 import com.example.bokningsapp.model.Hub;
-import com.example.bokningsapp.repository.HubRepository;
+import com.example.bokningsapp.repository.RentalsRepo.HubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

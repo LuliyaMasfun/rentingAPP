@@ -1,11 +1,14 @@
 package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.*;
+import com.fasterxml.jackson.databind.node.LongNode;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "rentals")
@@ -18,7 +21,7 @@ public class Rental {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column
-    private Long ean13;
+    private String ean13;
    @Column
     private String rentalNumber;
     @Column
@@ -28,37 +31,47 @@ public class Rental {
     @Column
     private String image;
     @Column
-    private int maxTimeToRent;
+    private Long maxTimeToRent;
     @Column(columnDefinition = "VARCHAR(1000)")
     private String description;
     @Column
     @Enumerated
     private RentalType rentalType;
     @Column
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated
     private RentalStatus rentalStatus;
     @Column
     private boolean availableToRent;
     @Column
+    @Nullable
     private int maxAmountOfPeople;
     @Column
+    @Nullable
     private String brand;
     @Column
     @Enumerated
+    @Nullable
     private EquipmentType equipmentType;
     @Column
     @Enumerated
+    @Nullable
     private HubType hubType;
     @Column
     @Enumerated
+    @Nullable
     private EventType eventType;
-    @Column
-    private String createdBy;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User createdBy;
     @Column
     private LocalDate createdOn = LocalDate.now();
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable=false, updatable=false)
+    @Nullable
+    private User updatedBy;
     @Column
-    private String updatedBy;
-    @Column
+    @Nullable
     private LocalDate updatedOn;
 
     private String generateRentalNumber() {
@@ -67,9 +80,7 @@ public class Rental {
         return rentalNumber;
     }
 
-    public Rental(Long ean13, Long rentalNumber, String name, String location, String image, int maxTimeToRent, String description, RentalType rentalType, RentalStatus rentalStatus, boolean availableToRent, int maxAmountOfPeople, String brand, EquipmentType equipmentType, HubType hubType, EventType eventType, String createdBy, LocalDate createdOn, String updatedBy, LocalDate updatedOn) {
-        this.ean13 = ean13;
-        this.rentalNumber = generateRentalNumber();
+    public Rental(String name, String location, String image, Long maxTimeToRent, String description, RentalType rentalType, RentalStatus rentalStatus, boolean availableToRent, int maxAmountOfPeople, String brand, EquipmentType equipmentType, HubType hubType, EventType eventType, User createdBy, LocalDate createdOn, User updatedBy, LocalDate updatedOn) {
         this.name = name;
         this.location = location;
         this.image = image;
@@ -84,7 +95,7 @@ public class Rental {
         this.hubType = hubType;
         this.eventType = eventType;
         this.createdBy = createdBy;
-        this.createdOn =  LocalDate.now();
+        this.createdOn = createdOn;
         this.updatedBy = updatedBy;
         this.updatedOn = updatedOn;
     }
@@ -96,11 +107,11 @@ public class Rental {
         return id;
     }
 
-    public Long getEan13() {
+    public String getEan13() {
         return ean13;
     }
 
-    public void setEan13(Long ean13) {
+    public void setEan13(String ean13) {
         this.ean13 = ean13;
     }
 
@@ -136,11 +147,11 @@ public class Rental {
         this.image = image;
     }
 
-    public int getMaxTimeToRent() {
+    public Long getMaxTimeToRent() {
         return maxTimeToRent;
     }
 
-    public void setMaxTimeToRent(int maxTimeToRent) {
+    public void setMaxTimeToRent(Long maxTimeToRent) {
         this.maxTimeToRent = maxTimeToRent;
     }
 
@@ -216,11 +227,11 @@ public class Rental {
         this.eventType = eventType;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -232,11 +243,11 @@ public class Rental {
         this.createdOn = createdOn;
     }
 
-    public String getUpdatedBy() {
+    public User getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(String updatedBy) {
+    public void setUpdatedBy(User updatedBy) {
         this.updatedBy = updatedBy;
     }
 

@@ -3,7 +3,7 @@ package com.example.bokningsapp.controller.Booking;
 
 import com.example.bokningsapp.dto.EquipmentBookingRequest;
 import com.example.bokningsapp.model.bookings.EquipmentBooking;
-import com.example.bokningsapp.repository.EquipBookingRepository;
+import com.example.bokningsapp.repository.BookingsRepo.EquipBookingRepository;
 import com.example.bokningsapp.security.payload.response.BookingResponse;
 import com.example.bokningsapp.service.bookingService.EquipmentBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
