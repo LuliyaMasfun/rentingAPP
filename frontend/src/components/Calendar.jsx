@@ -1,8 +1,10 @@
 import { Menu, Transition } from "@headlessui/react";
 import { DotsVerticalIcon } from "@heroicons/react/outline";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
+
 import {
   add,
+  addDays,
   eachDayOfInterval,
   endOfMonth,
   format,
@@ -15,6 +17,8 @@ import {
   parseISO,
   differenceInDays,
   startOfToday,
+  isWithinInterval,
+  isBefore,
 } from "date-fns";
 import Image from "next/image";
 import { Fragment, useState } from "react";
@@ -68,8 +72,9 @@ function classNames(...classes) {
 
 export default function Example() {
   const today = startOfToday();
-  const [selectedDay, setSelectedDay] = useState(today);
+  const [startDay, setStartDay] = useState();
   const [endDay, setEndDay] = useState();
+  const [isRentable, setIsRentable] = useState(true);
   const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   const firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
 
@@ -79,15 +84,25 @@ export default function Example() {
   });
 
   function handleDateClick(date) {
-    if (!selectedDay) {
-      setSelectedDay(date);
+    if (!startDay) {
+      setStartDay(date);
     } else if (!endDay) {
       setEndDay(date);
     } else {
-      setSelectedDay(date);
+      setStartDay(date);
       setEndDay(null);
     }
   }
+
+  function swapDates(startDay, endDay) {
+    setStartDay(endDay);
+    setEndDay(startDay);
+  }
+
+  // const daysBetween = eachDayOfInterval({
+  //   start: new Date(startDay),
+  //   end: new Date(endDay),
+  // });
 
   function previousMonth() {
     let firstDayNextMonth = add(firstDayCurrentMonth, { months: -1 });
@@ -100,18 +115,15 @@ export default function Example() {
   }
 
   let selectedDaybookings = bookings.filter((booking) =>
-    isSameDay(parseISO(booking.startDatetime), selectedDay)
+    isSameDay(parseISO(booking.startDatetime), startDay)
   );
 
   return (
     <div className="pt-16 bg-dgray">
       <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6 ">
-        <div className="md:grid md:grid-cols-2 md:divide-x md:divide-gray-200">
+        <div className="md:grid md:grid-cols-1 md:divide-x md:divide-gray-200">
           <div className="md:pr-14">
             <div className="flex items-center">
-              <h2 className="flex-auto font-semibold text-white">
-                {format(firstDayCurrentMonth, "MMMM yyyy")}
-              </h2>
               <button
                 type="button"
                 onClick={previousMonth}
@@ -120,6 +132,9 @@ export default function Example() {
                 <span className="sr-only">Previous month</span>
                 <ChevronLeftIcon className="w-5 h-5" aria-hidden="true" />
               </button>
+              <h2 className="text-white text-xs">
+                {format(firstDayCurrentMonth, "MMMM yyyy")}
+              </h2>
               <button
                 onClick={nextMonth}
                 type="button"
@@ -129,7 +144,7 @@ export default function Example() {
                 <ChevronRightIcon className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
-            <div className="grid grid-cols-7 mt-10 text-xs leading-6 text-center text-white">
+            <div className="grid grid-cols-7 mt-2 text-xs leading-6 text-center text-white">
               <div>S</div>
               <div>M</div>
               <div>T</div>
@@ -143,37 +158,57 @@ export default function Example() {
                 <div
                   key={day.toString()}
                   className={classNames(
-                    dayIdx === 0 && colStartClasses[getDay(day)],
-                    "py-1.5"
+                    dayIdx === 0 && colStartClasses[getDay(day)]
+                    // "py-1.5"
                   )}
                 >
                   <button
                     type="button"
-                    onClick={() => setSelectedDay(day)}
+                    onClick={() => handleDateClick(day)}
                     className={classNames(
-                      isEqual(day, selectedDay) && "text-white",
-                      !isEqual(day, selectedDay) &&
-                        isToday(day) &&
-                        "text-red-500",
-                      !isEqual(day, selectedDay) &&
+                      isEqual(day, startDay) && "text-white",
+                      !isEqual(day, startDay) && isToday(day) && "text-red-500",
+                      !isEqual(day, startDay) &&
                         !isToday(day) &&
                         isSameMonth(day, firstDayCurrentMonth) &&
                         "text-white",
-                      !isEqual(day, selectedDay) &&
+                      !isEqual(day, startDay) &&
                         !isToday(day) &&
                         !isSameMonth(day, firstDayCurrentMonth) &&
                         "text-gray-400",
-                      differenceInDays(selectedDay, endDay) <= 3 &&
-                        "bg-yellows",
-                      isEqual(day, selectedDay) && isToday(day) && "bg-red-500",
-                      isEqual(day, selectedDay) &&
+
+                      isEqual(day, startDay) && isToday(day) && "bg-red-500",
+                      isEqual(day, startDay) &&
                         !isToday(day) &&
                         "bg-yellow-500",
 
-                      !isEqual(day, selectedDay) && "hover:bg-indigo-500",
-                      (isEqual(day, selectedDay) || isToday(day)) &&
-                        "font-semibold",
-                      "mx-auto flex h-8 w-8 items-center justify-center rounded-full"
+                      isEqual(day, endDay) && "bg-yellow-500",
+
+                      // console.log(
+                      //   isWithinInterval(format(day, "yyyy-MM-dd"), {
+                      //     start: format(startDay, "yyyy-MM-dd"),
+                      //     end: format(endDay, "yyyy-MM-dd"),
+                      //   })
+                      // ),
+
+                      isEqual(day, startDay) &&
+                        isEqual(day, endDay) &&
+                        isWithinInterval(format(day, "yyyy-MM-dd"), {
+                          start: format(startDay, "yyyy-MM-dd"),
+                          end: format(endDay, "yyyy-MM-dd"),
+                        }) &&
+                        // differenceInDays(endDay, startDay) == 2 &&
+                        "bg-white"
+
+                      //   // isBefore(endDay, startDay) && swapDates(startDay, endDay),
+                      //   // differenceInDays(endDay, startDay) > 2 &&
+                      //   //   setIsRentable(false),
+                      //   !isEqual(day, startDay) &&
+                      //     !isEqual(day, endDay) &&
+                      //     "hover:bg-indigo-500",
+                      //   (isEqual(day, startDay) || isToday(day)) &&
+                      //     "font-semibold",
+                      //   "mx-auto flex h-8 w-8 items-center justify-center rounded-full"
                     )}
                   >
                     <time dateTime={format(day, "yyyy-MM-dd")}>
@@ -192,11 +227,11 @@ export default function Example() {
               ))}
             </div>
           </div>
-          <section className="mt-12 md:mt-0 md:pl-14">
+          {/* <section className="mt-12 md:mt-0 md:pl-14">
             <h2 className="font-semibold text-gray-300">
               Schedule for{" "}
-              <time dateTime={format(selectedDay, "yyyy-MM-dd")}>
-                {format(selectedDay, "MMM dd, yyy")}
+              <time dateTime={format(today, "yyyy-MM-dd")}>
+                {format(today, "MMM dd, yyy")}
               </time>
             </h2>
             <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
@@ -208,11 +243,13 @@ export default function Example() {
                 <p>No booking for today.</p>
               )}
             </ol>
-          </section>
+          </section> */}
+          <div className="flex justify-center items-center border-none pt-20">
+            <button className=" text-lg font-semibold bg-yellows px-10 sm:px-2 sm:w-1/3 rounded-md h-10 mb-10 whitespace-nowrap">
+              Make Reservation
+            </button>
+          </div>
         </div>
-        <button className="flex items-center justify-center bg-yellows px-10 rounded-md h-10 mb-10">
-          Make Reservations
-        </button>
       </div>
     </div>
   );
