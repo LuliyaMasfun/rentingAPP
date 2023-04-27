@@ -198,4 +198,5 @@ public class RentalBookingService {
         return rentalBookingRepository.findAllByRentalId(rentalId);
     }
 
+
 }

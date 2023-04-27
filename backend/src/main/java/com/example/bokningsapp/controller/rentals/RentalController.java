@@ -59,8 +59,15 @@ public class RentalController {
         return rentalRepository.findById(id);
     }
 
+
+    @PutMapping("/editThisRental/{id}")
+    public ResponseEntity<Rental> updateRental(@PathVariable Long id, @RequestBody Rental rental) {
+        Rental updatedRental = rentalService.updateRental(id, rental);
+        return ResponseEntity.ok(updatedRental);
+    }
+
     @GetMapping("/rentalNames")
-    public Map<Long, String> getRentalNamesForIds(@RequestParam List<Long> ids) {
+    public Map<Long, String> getHubNamesForIds(@RequestParam List<Long> ids) {
         // fetch all hubs with the given IDs
         List<Rental> rentals = rentalRepository.findAllById(ids);
         // create a map of IDs to hub names
@@ -69,12 +76,6 @@ public class RentalController {
             rentalNamesById.put(rental.getId(), rental.getName());
         }
         return rentalNamesById;
-    }
-
-    @PutMapping("/editThisRental/{id}")
-    public ResponseEntity<Rental> updateRental(@PathVariable Long id, @RequestBody Rental rental) {
-        Rental updatedRental = rentalService.updateRental(id, rental);
-        return ResponseEntity.ok(updatedRental);
     }
 
 }

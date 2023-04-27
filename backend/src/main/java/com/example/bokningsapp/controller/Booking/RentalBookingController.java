@@ -1,21 +1,26 @@
 package com.example.bokningsapp.controller.Booking;
 
-import com.example.bokningsapp.dto.HubBookingRequest;
 import com.example.bokningsapp.dto.RentalBookingRequest;
-import com.example.bokningsapp.enums.BookingStatus;
 import com.example.bokningsapp.model.Hub;
-import com.example.bokningsapp.model.bookings.HubBooking;
+import com.example.bokningsapp.model.Rental;
+import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.model.bookings.RentalBooking;
 import com.example.bokningsapp.repository.BookingsRepo.RentalBookingRepository;
+import com.example.bokningsapp.repository.RentalsRepo.RentalRepository;
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import com.example.bokningsapp.service.RentalService;
 import com.example.bokningsapp.service.bookingService.RentalBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/bookingsV2")
@@ -25,12 +30,16 @@ public class RentalBookingController {
     private final RentalService rentalService;
     private final RentalBookingRepository rentalBookingRepository;
     private final RentalBookingService rentalBookingService;
+    private final RentalRepository rentalRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public RentalBookingController(RentalService rentalService, RentalBookingRepository rentalBookingRepository, RentalBookingService rentalBookingService) {
+    public RentalBookingController(RentalService rentalService, RentalBookingRepository rentalBookingRepository, RentalBookingService rentalBookingService, RentalRepository rentalRepository,  UserRepository userRepository) {
         this.rentalService = rentalService;
         this.rentalBookingRepository = rentalBookingRepository;
         this.rentalBookingService = rentalBookingService;
+        this.rentalRepository = rentalRepository;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/placeBooking")
@@ -57,6 +66,24 @@ public class RentalBookingController {
     public ResponseEntity<RentalBooking> updateBookingStatus (@PathVariable int id, @RequestBody RentalBooking rentalBooking) {
      RentalBooking updatedBooking = rentalBookingService.updateBookingStatus(id, rentalBooking);
      return ResponseEntity.ok(updatedBooking);
+    }
+
+    //TRYING TO RETRIVE RUNTIMEEXCEPTIONS THROWN IN SERVERSIDE TO FRONTEND
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
+        ErrorResponse errorResponse = new ErrorResponse() {
+            @Override
+            public HttpStatusCode getStatusCode() {
+                return null;
+            }
+
+            @Override
+            public ProblemDetail getBody() {
+                return null;
+            }
+        };
+        //errorResponse.setMessage(ex.getMessage()); // Set the message to the exception's message
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
