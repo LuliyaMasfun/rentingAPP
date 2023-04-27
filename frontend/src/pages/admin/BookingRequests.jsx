@@ -4,6 +4,7 @@ import styled from "@emotion/styled"
 import { useState, useEffect } from "react";
 import { IoChevronForward } from 'react-icons/io5';
 import Booking from "../../components/BookingsCard";
+import Link from "next/link";
 
 
 const Page = styled.div`
@@ -163,7 +164,11 @@ function ManageBookings() {
 
         </DropdownContainer>
       </SubHeaderContainer>
-      <CreateBtn>Create</CreateBtn>
+      <Link href={{
+        pathname: "/admin/CreateBooking"
+      }}>
+        <CreateBtn>Create</CreateBtn>
+      </Link>
       <DeleteBtn>Delete</DeleteBtn>
 
       <Bookings>

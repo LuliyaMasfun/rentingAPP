@@ -13,6 +13,7 @@ public class RentalBookingRequest {
     private User user;
 
     private Rental rental;
+    
 
     @JsonFormat(pattern = "yyyy-MM-dd:HH:mm", timezone = "Europe/Stockholm")
     private LocalDateTime startDateTime;
