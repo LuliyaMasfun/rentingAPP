@@ -27,14 +27,14 @@ import java.util.List;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
-private final UserRepository userRepository;
 
-    @PostMapping("/signup")
-    public AuthenticationResponse register(@RequestBody SignupRequest request){
-       return authenticationService.register(request);
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<?> register(@RequestBody SignupRequest request){
+       return register(request);
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/sign-in")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody LoginRequest request){
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }

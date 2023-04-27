@@ -41,6 +41,9 @@ public class SignupRequest {
 
     private Set<String> role;
 
+    public SignupRequest(String firstName, String lastName, String email, String encode, String phoneNumber, String address, LocalDate birthDate) {
+    }
+
 
     public String getFirstName() {
         return firstName;
@@ -98,7 +101,7 @@ public class SignupRequest {
         this.birthDate = birthDate;
     }*/
 
-    public Set<String> getRole() {
+    public Set<String> getRoles() {
         return role;
     }
 

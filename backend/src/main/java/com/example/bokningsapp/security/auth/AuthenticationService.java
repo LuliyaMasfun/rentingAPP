@@ -11,15 +11,22 @@ import com.example.bokningsapp.security.payload.response.AuthenticationResponse;
 import com.example.bokningsapp.repository.RoleRepository;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.jwt.JwtService;
+import com.example.bokningsapp.security.payload.response.MessageResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -33,17 +40,35 @@ public class AuthenticationService {
     private final RoleRepository roleRepository;
 
 
-    public AuthenticationResponse register(SignupRequest signupRequest){
+    public ResponseEntity<?> register(SignupRequest signUpRequest){
 
-        User user = new User(signupRequest.getFirstName(),
-                signupRequest.getLastName(),
-                signupRequest.getEmail(),
-                passwordEncoder.encode(signupRequest.getPassword()),
-                signupRequest.getPhoneNumber(),
-                signupRequest.getAddress(),signupRequest.getBirthDate());
+  /*      if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }*/
+
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
 
 
-        Set<String> strRoles = signupRequest.getRole();
+        User user = new User();
+
+        user.setFirstName(signUpRequest.getFirstName());
+        user.setLastName(signUpRequest.getLastName());
+        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setEmail(signUpRequest.getEmail());
+        user.setPhoneNumber(signUpRequest.getPhoneNumber());
+        user.setAddress(signUpRequest.getAddress());
+        user.setBirthDate(signUpRequest.getBirthDate());
+
+        System.out.println(user.getFirstName());
+
+
+        Set<String> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -52,12 +77,12 @@ public class AuthenticationService {
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "admin":
+                    case "ADMIN":
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
                         break;
-                        case "mod":
+                        case "MODERATOR":
                         Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);
@@ -72,49 +97,33 @@ public class AuthenticationService {
         }
                         user.setRoles(roles);
                         userRepository.save(user);
+        user.getRoles().forEach(role -> System.out.println(role.getName()));
 
-                         var jwtToken = jwtService.generateToken(user);
+                        /* var jwtToken = jwtService.generateToken(user);*/
 
-                        return AuthenticationResponse.builder()
-                                .roles(roles)
-                                .token(jwtToken)
-                                .email(signupRequest.getEmail())
-                                .build();
+                        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
                 }
 
 
     public AuthenticationResponse authenticate(LoginRequest authenticationRequest) {
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getEmail(),
-                        authenticationRequest.getPassword()
-        )
-        );
-            var user = userRepository.findByEmail(authenticationRequest.getEmail())
-                    .orElseThrow( () -> new RuntimeException("User doesn´t exist"));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        System.out.println(user);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt =jwtService.generateToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        User user = userRepository.findById(userDetails.getId())
+                .orElseThrow(() -> new RuntimeException("No user with userId " + userDetails.getId() + " found"));
+
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
 
 
 
-/*
-        UserDetails userDetails = User.builder()
-                .email(user.getEmail())
-                .id(user.getId())
-                .roles(user.getRoles())
-                .birthDate(user.getBirthDate())
-                .address(user.getAddress())
-                .phoneNumber(user.getPhoneNumber())
-                .build();*/
-        var jwtToken = jwtService.generateToken(user);
-
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .email(user.getEmail())
-                .id(user.getId())
-                .roles(user.getRoles())
-                .build();
-    }
+        return ResponseEntity.ok(new JwtResponse(jwt, userDto,roles));    }
 
 
 

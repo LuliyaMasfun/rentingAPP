@@ -49,7 +49,7 @@ public class User {
 
     private String password;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+  /*  @JsonFormat(pattern = "dd-MM-yyyy")*/
     private LocalDate birthDate;
 
     @Enumerated
