@@ -172,12 +172,16 @@ function CreateBooking() {
     axios.post('http://localhost:8080/bookingsV2/placeBooking', data)
       .then(response => {
         console.log(response.data);
-        setCreatedMessage(`${rentals.name} was booked`);
+        const rentalName = response.data.rental.name;
+        setCreatedMessage(`${rentalName} was booked`);
         setTimeout(() => {
           setCreatedMessage(null);
         }, 3000);
       })
       .catch(error => {
+
+        console.log(error.response.data);
+
         const errorMessage = error.response.data.message;
         setCreatedMessage(`Booking failed: ${errorMessage}`);
       });

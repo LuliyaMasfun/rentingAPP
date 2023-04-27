@@ -26,9 +26,13 @@ height: 90px;
 background-color:${({ bookingStatus }) =>
     bookingStatus === "PENDING"
       ? "#4B3F2B"
-      : bookingStatus === "APPROVED"
-        ? "#2B4B30"
-        : "#3E1F18"};
+      : bookingStatus === "REJECTED"
+        ? "#3E1F18"
+        : bookingStatus === "APPROVED"
+          ? "#2B4B30"
+          : bookingStatus === "ACTIVE"
+            ? "#F8F360"
+            : "#3A3B3C"}
 `;
 const Name = styled.p`
 position: absolute;
@@ -41,7 +45,7 @@ font-weight: 500;
 const CreatedOn = styled.p`
 position: absolute;
 margin-top:48px;
-margin-left: 232px;
+margin-left: 230px;
 color: white;
 font-size: 14px;
 `;
@@ -92,8 +96,10 @@ margin-left: 82px;
 color: white;
 font-size: 14px;
 `;
-const BookingStatus2 = styled(Image)`
+const BookingStatus2 = styled.p`
 position: absolute;
+font-size: 14px;
+color: white;
 margin-top:28px;
 margin-left: 230px;
 `;
@@ -114,19 +120,100 @@ font-size: 16px;
 color: #EFEFEF;
 `;
 
+const AcceptBtn = styled.button`
+position: absolute;
+margin-top:75px;
+margin-left: 227px;
+height: 25px;
+width: 60px;
+color: #EFEFEF;
+font-size: 14px;
+background-color: #2B4B30;
+border-radius: 2px;
+`;
+const RejectBtn = styled.button`
+position: absolute;
+margin-top:75px;
+margin-left: 292px;
+height: 25px;
+width: 50px;
+color: #EFEFEF;
+font-size: 14px;
+background-color: #3E1F18;
+border-radius: 2px;
+`;
+const SavedMessageContainer = styled.div`
+width: 280px;
+margin-left: 55px;
+margin-top: 700px;
+position: fixed;
+transition: visibility 0.5s ease-in-out;
+`;
+const SaveMessage = styled.p`
+text-align: center;
+font-weight: 600;
+background-color: #F8F360;
+border-radius: 2px;
+`;
+
+
 function Booking() {
   const [data, setData] = useState([]);
-  const [hubNames, setHubNames] = useState({});
+  const [rentalNames, setRentalNames] = useState({});
+  const [bookingStatus, setBookingStatus] = useState('PENDING');
+  const [savedMessage, setSavedMessage] = useState(null);
   const [userInfo, setUserInfo] = useState({});
   const [selected, setSelected] = useState(false);
   const [selectedId, setSelectedId] = useState(null);;
 
+  const handleRejectBooking = (id) => {
+    axios.put(`http://localhost:8080/bookingsV2/updateBookingStatus/${id}`, {
+      bookingStatus: "REJECTED"
+    })
+      .then(response => {
+        // handle success
+        console.log(response);
+
+        setSavedMessage(`${data.bookingNumber} was ${data.bookingStatus}`);
+        setTimeout(() => {
+          setSavedMessage(null);
+        }, 3000);
+        window.location.reload();
+      })
+      .catch(error => {
+        // handle error
+        console.log(error);
+      });
+  }
+
+  const handleApproveBooking = (id) => {
+    axios.put(`http://localhost:8080/bookingsV2/updateBookingStatus/${id}`, {
+      bookingStatus: "APPROVED"
+    })
+      .then(response => {
+        // handle success
+        console.log(response);
+
+        setSavedMessage(`${data.bookingNumber} was ${data.bookingStatus}`);
+        setTimeout(() => {
+          setSavedMessage(null);
+        }, 3000);
+
+        window.location.reload();
+      })
+      .catch(error => {
+        // handle error
+        console.log(error);
+      });
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/bookings/allHubBookings`);
+        const response = await axios.get(`http://localhost:8080/bookingsV2/allBookings`);
         if (response.data.length > 0) {
           setData(response.data);
+          console.log(response.data)
         }
       } catch (error) {
         console.error(error);
@@ -136,24 +223,24 @@ function Booking() {
   }, []);
 
   useEffect(() => {
-    const fetchHubNames = async () => {
+    const fetchRentalNames = async () => {
       try {
         console.log(data)
-        const hubIds = data.map((booking) => booking.hub.id).join(",");
-        console.log("hubIds", hubIds);
-        const response = await axios.get(`http://localhost:8080/hub/hubNames?ids=${hubIds}`);
+        const rentalIds = data.map((booking) => booking.rental.id).join(",");
+        console.log("rentalIds", rentalIds);
+        const response = await axios.get(`http://localhost:8080/rental/rentalNames?ids=${rentalIds}`);
         if (Array.isArray(response.data)) {
-          const hubNamesMap = response.data.reduce((map, hub) => {
-            map[hub.id] = hub.hubName;
+          const rentalNamesMap = response.data.reduce((map, rental) => {
+            map[rental.id] = rental.name;
             return map;
           }, {});
-          setHubNames(hubNamesMap);
+          setRentalNames(rentalNamesMap);
         }
       } catch (error) {
         console.error(error);
       }
     };
-    fetchHubNames();
+    fetchRentalNames();
   }, [data]);
 
   useEffect(() => {
@@ -210,18 +297,42 @@ function Booking() {
         Bookings ({totalNumbersOfBookings})
       </TotalBookings>
       {data.map((booking) => (
-        <TheBooking key={booking.bookingId}>
-          <Name>{booking.user.firstName} {booking.user.lastName}</Name>
+        <TheBooking key={booking.id}>
+          <Name>{booking.user ? `${booking.user.firstName} ${booking.user.lastName}` : 'Unknown'}</Name>
           <BookingNumber>{booking.bookingNumber}</BookingNumber>
-          <CreatedOn>{booking.createdOn.substring(0, 10)}</CreatedOn>
-          <BookedItem>{hubNames[booking.hubId]}</BookedItem>
+          <CreatedOn>{booking.createdOn ? booking.createdOn.substring(0, 10) : ''}</CreatedOn>
+          <BookedItem>{rentalNames[booking.rentalId]}</BookedItem>
           <HubIcon />
           <Link href="bookingRequestDetails/[id]" as={`/admin/bookingRequestDetails/${booking.id}`}>
             <SideIcon />
           </Link>
           <BookingIndicator bookingStatus={booking.bookingStatus} />
-          <BookedItem>{booking.hub.hubName}</BookedItem>
-          <BookingStatus2 src={checkBookingStatus(booking)} />
+          <BookedItem>{booking.rental ? `${booking.rental.name}` : 'Unknown'}</BookedItem>
+          {booking?.bookingStatus === "PENDING" && (
+            <BookingStatus2>Pending</BookingStatus2>
+          )}
+          {booking?.bookingStatus === "APPROVED" && (
+            <BookingStatus2>Approved</BookingStatus2>
+          )}
+          {booking?.bookingStatus === "ACTIVE" && (
+            <BookingStatus2>Active</BookingStatus2>
+          )}
+          {booking?.bookingStatus === "COMPLETED" && (
+            <BookingStatus2>Completed</BookingStatus2>
+          )}
+          {booking?.bookingStatus === "REJECTED" && (
+            <BookingStatus2>Rejected</BookingStatus2>
+          )}
+
+          {booking?.bookingStatus === "PENDING" && (
+            <div>
+              <SavedMessageContainer>
+                {savedMessage && <SaveMessage>{savedMessage}</SaveMessage>}
+              </SavedMessageContainer>
+              <RejectBtn onClick={() => handleApproveBooking(booking?.id)}>Reject</RejectBtn>
+              <AcceptBtn onClick={() => handleRejectBooking(booking?.id)}>Approve</AcceptBtn>
+            </div>
+          )}
           <Border />
         </TheBooking>
 

@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const Page = styled.div`
   position: absolute;
-  height: 1080px;
+  height:3500px;
   width: 390px;
   background-color: #1E1E1E;
   margin:0;
@@ -100,7 +100,7 @@ transform: rotate(90deg);
 `;
 const CreateBtn = styled.button`
 position: absolute;
-margin-left: 31vh;
+margin-left: 38vh;
 margin-top: 21px;
 font-size: 14px;
 color: #F8F360;
@@ -114,6 +114,7 @@ color: #F8F360;
 `;
 
 const Bookings = styled.div``;
+
 
 function ManageBookings() {
 
@@ -131,6 +132,9 @@ function ManageBookings() {
     setSelectedOption(option);
     setIsOpen(false);
   };
+
+
+
   return (
     <Page>
       <NavbarAdmin />
@@ -169,8 +173,6 @@ function ManageBookings() {
       }}>
         <CreateBtn>Create</CreateBtn>
       </Link>
-      <DeleteBtn>Delete</DeleteBtn>
-
       <Bookings>
         <Booking />
       </Bookings>
