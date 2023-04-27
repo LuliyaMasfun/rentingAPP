@@ -40,8 +40,7 @@ public class HubService {
         existingRental.setHubDescription(rental.getHubDescription());
         existingRental.setRentalType(rental.getRentalType());
         existingRental.setRentalStatus(rental.getRentalStatus());
-        existingRental.setRentalStatus(rental.getRentalStatus());
-        existingRental.setMaxTimeToRent(rental.getMaxTimeToRent());
+
         return hubRepository.save(existingRental);
     }
 
