@@ -180,9 +180,9 @@ export default function Example() {
                       isEqual(day, startDay) && isToday(day) && "bg-red-500",
                       isEqual(day, startDay) &&
                         !isToday(day) &&
-                        "bg-yellow-500",
+                        "bg-yellow-500 rounded-full min-w-full",
 
-                      isEqual(day, endDay) && "bg-yellow-500",
+                      isEqual(day, endDay) && "bg-yellow-500 rounded-full",
 
                       // console.log(
                       //   isWithinInterval(format(day, "yyyy-MM-dd"), {
