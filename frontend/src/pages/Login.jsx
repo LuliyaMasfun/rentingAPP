@@ -162,13 +162,22 @@ font-size: 12px;
 color: white;
 margin-left: -10vh;
 `;
+const Alert = styled.p`
+  position: absolute;
+  margin-top:18vh;
+  margin-left: 6vh;
+  font-size: 18px;
+  margin-bottom: 40px;
+  color:white;
+`;
+
 
 const required = (value) => {
   if (!value) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <Alert role="alert">
         This field is required!
-      </div>
+      </Alert>
     );
   }
 };
@@ -203,9 +212,15 @@ const Login = () => {
     form.current.validateAll();
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(email, password).then(
-        () => {
-
-          router.push('/user/LandingPage');
+        (response) => {
+          if (response.roles.some(role => role.name === "ROLE_ADMIN")) {
+            router.push("/admin/LandingPage");
+          } else if (response.roles.some(role => role.name === "ROLE_USER")) {
+            router.push("/user/LandingPage");
+          } else {
+            setLoading(false);
+            setMessage("Invalid role");
+          }
         },
         (error) => {
           const resMessage =
