@@ -116,7 +116,6 @@ opacity: 0.7;
 `;
 const CreateBtn = styled.button`
 margin-left: 95px;
-
 width:202px;
 height: 36px;
 border-radius: 5px;

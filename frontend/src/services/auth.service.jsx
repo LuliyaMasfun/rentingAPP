@@ -31,7 +31,13 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+  const userToken = JSON.parse(localStorage.getItem("user"));
+  if (userToken) {
+    const decodedToken = jwt.decode(userToken.accessToken);
+    return decodedToken.user; // is the user details stored in a property called 'user'?
+  } else {
+    return null;
+  }
 };
 
 const AuthService = {

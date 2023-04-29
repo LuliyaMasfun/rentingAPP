@@ -242,6 +242,7 @@ text-align: center;
 font-weight: 300;
 font-size: 14px;
 margin-top: -70px;
+
 `;
 const SavedMessageContainer = styled.div`
 width: 280px;
@@ -256,28 +257,29 @@ font-weight: 600;
 background-color: #F8F360;
 border-radius: 2px;
 `;
+const Select = styled.select`
+width: 279px;
+height: 24px;
+background-color: transparent;
+color: #EFEFEF;
+font-size: 16px;
+border: 1px solid #FFFFFF;
+border-radius: 5px;
+opacity: 0.7;
+`;
 
 //man ska kunna redigera utan att behöva skicka in alla fält i modellen, fixa när du löst rental modell ist för hub
 function EditRental() {
+
+  const [rentalTypes, setRentalTypes] = useState([]);
   let [data, setData] = useState([])
   const router = useRouter();
   const { id } = router.query
-  /* DROPDOWN */
-  const Equipment = "Equipment";
-  const Hub = "Hub";
-  const Event = "Event";
-
-
-  const optionsRentalType = [
-    { label: 'Equipment', value: 'Equipment' },
-    { label: 'Hub', value: 'Hub' },
-    { label: 'Event', value: 'Event' },
-  ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/hub/getThisHub/${id}`);
+        const response = await axios.get(`http://localhost:8080/rental/getThisRental/${id}`);
         setData(response.data);
         console.log(response.data)
       } catch (error) {
@@ -293,14 +295,37 @@ function EditRental() {
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
   const [brand, setBrand] = useState('');
-  const [maxPpl, setMaxPpl] = useState('');
-  const [maxTime, setMaxTime] = useState('');
+  const [image, setImage] = useState('');
+  const [maxAmountOfPeople, setMaxAmountOfPeople] = useState('');
+  const [maxTimeToRent, setMaxTimeToRent] = useState('');
   const [available, setAvailable] = useState('');
   const [rentalImage, setRentalImage] = useState('');
   const [rentalStatus, setRentalStatus] = useState('');
+  const [hubType, setHubType] = useState('');
+  const [equipmentType, setEquipmentType] = useState('');
+  const [eventType, setEventType] = useState('');
+  const [createdOn, setCreatedOn] = useState('');
+  const [createdBy, setCreatedBy] = useState('');
+  const [updatedBy, setUpdatedBy] = useState('');
+  const [updatedOn, setUpdatedOn] = useState('');
   const [savedMessage, setSavedMessage] = useState(null);
 
-
+  const hubTypes = [
+    { hubType: "COWORKING" },
+    { hubType: "PODCASTSTUDIO" },
+    { hubType: "MUSICSTUDIO" },
+    { hubType: "FILMSTUDIO" }
+  ]
+  const equipmentTypes = [
+    { equipmentType: "CAMERA" },
+    { equipmentType: "SOUND" },
+    { equipmentType: "LIGHT" },
+    { equipmentType: "OTHER" }
+  ]
+  const availableToRent = [
+    { available: "Yes", value: true },
+    { available: "No", value: false }
+  ]
   useEffect(() => {
     if (savedMessage) {
       setTimeout(() => {
@@ -310,24 +335,60 @@ function EditRental() {
   }, [savedMessage]);
 
   const handleEdit = () => {
-    axios.put(`http://localhost:8080/hub/editHub/${id}`, {
-      hubName: name,
-      hubLocation: location,
-      hubImg: rentalImage,
-      maxTimeToRent: maxTime,
-      hubDescription: description,
-      rentalType: rentalType
-      //rentalAvailability: available
-      //brand: brand,
-      //maxPpl: maxPpl,
-      //available: available,
 
+    const now = new Date().toISOString();
+    setUpdatedOn(now);
 
-    })
+    const putData = {
+      updatedOn: updatedOn,
+      createdOn: createdOn
+    }
+
+    if (name) {
+      putData.name = name;
+    }
+    if (location) {
+      putData.location = location;
+    }
+
+    if (image) {
+      putData.image = rentalImage;
+    }
+
+    if (maxTimeToRent) {
+      putData.maxTimeToRent = maxTimeToRent;
+    }
+    if (description) {
+      putData.description = description;
+    }
+    if (available) {
+      putData.available = available;
+    }
+    if (createdOn) {
+      putData.createdOn = createdOn;
+    }
+    if (createdBy) {
+      putData.createdBy = createdBy;
+    }
+    if (equipmentType) {
+      putData.equipmentType = equipmentType;
+    }
+    if (hubType) {
+      putData.hubType = hubType;
+    }
+    if (maxAmountOfPeople) {
+      putData.maxAmountOfPeople = maxAmountOfPeople;
+    }
+    if (brand) {
+      putData.brand = brand;
+    }
+
+    axios.put(`http://localhost:8080/rental/editThisRental/${id}`, putData)
+
       .then(response => {
         // handle success
         console.log(response);
-        setSavedMessage(`${data.hubName}. was saved`);
+        setSavedMessage(`${data.name}. was saved`);
         setTimeout(() => {
           setSavedMessage(null);
         }, 3000);
@@ -354,6 +415,20 @@ function EditRental() {
     formData.append('rentalImage', selectedFile);
   }
 
+  useEffect(() => {
+    const fetchRentalTypes = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/rental/getRentalTypes");
+        setRentalTypes(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchRentalTypes();
+  }, []);
+
+
   return (
     <Page>
       {data ? (
@@ -363,50 +438,100 @@ function EditRental() {
           </SavedMessageContainer>
           <Header>
             <GreyDiagonal src={DiagonalImg} />
-            <PageTitle>Create Rental</PageTitle>
+            <PageTitle>Edit Rental</PageTitle>
             <CreateIcon />
           </Header>
           <InputContainer>
             <NameContainer>
               <NameLbl>Name</NameLbl>
-              <NameInput value={name || data.hubName} onChange={(e) => setName(e.target.value)} />
+              <NameInput value={name} placeholder={data.name} onChange={(e) => setName(e.target.value)} />
             </NameContainer>
             <RentalTypeContainer>
               <RentalTypeLbl>Rental Type</RentalTypeLbl>
-              <RentalTypeInput placeholder="Select" value={rentalType || data.rentalType} options={optionsRentalType} onChange={(e) => setRentalType(e.target.value)} />
+              <Select onChange={(e) => setRentalType(e.target.value)} value={rentalType}>
+                <option value="">{data.rentalType}</option>
+                {rentalTypes.map(rentalType => (
+                  <option key={rentalType} value={rentalType}>
+                    {rentalType}
+                  </option>
+                ))}
+              </Select>
             </RentalTypeContainer>
+            {data.rentalType === "HUB" && (
+              <RentalTypeContainer>
+                <RentalTypeLbl>Hub Type</RentalTypeLbl>
+                <Select onChange={(e) => setHubType(e.target.value)} value={hubType}>
+                  <option value="">{data.hubType}</option>
+                  {hubTypes.map(hubTypeObj => (
+                    <option key={hubTypeObj.hubType} value={hubTypeObj.hubType}>
+                      {hubTypeObj.hubType}
+                    </option>
+                  ))}
+                </Select>
+              </RentalTypeContainer>
+            )}
+            {data.rentalType === "EQUIPMENT" && (
+              <RentalTypeContainer>
+                <RentalTypeLbl>Equipment Type</RentalTypeLbl>
+                <Select onChange={(e) => setEquipmentType(e.target.value)} value={data.equipmentType}>
+                  <option value="">{data.equipmentType}</option>
+                  {equipmentTypes.map(equipmentTypeObj => (
+                    <option key={equipmentTypeObj.equipmentType} value={equipmentTypeObj.equipmentType}>
+                      {equipmentTypeObj.equipmentType}
+                    </option>
+                  ))}
+                </Select>
+              </RentalTypeContainer>
+            )}
+
             <LocationContainer>
               <LocationLbl>Location</LocationLbl>
-              <LocationInput value={location || data.hubLocation} onChange={(e) => setLocation(e.target.value)} />
+              <LocationInput value={location} placeholder={data.location} onChange={(e) => setLocation(e.target.value)} />
             </LocationContainer>
             <DescriptionContainer>
               <DescriptionLbl>Description</DescriptionLbl>
-              <DescriptionInput value={description || data.hubDescription} onChange={(e) => setDescription(e.target.value)} />
+              <DescriptionInput value={description} placeholder={data.description} onChange={(e) => setDescription(e.target.value)} />
             </DescriptionContainer>
-            <BrandContainer>
-              <BrandLbl>Brand</BrandLbl>
-              <BrandInput value={brand || "NaN"} onChange={(e) => setBrand(e.target.value)} />
-            </BrandContainer>
-            <MaxPplContainer>
-              <MaxPplLbl>Maximum Amount of People</MaxPplLbl>
-              <MaxPplInput value={maxPpl || "NaN"} onChange={(e) => setMaxPpl(e.target.value)} />
-            </MaxPplContainer>
+            {rentalType === "EQUIPMENT" && (
+              <BrandContainer>
+                <BrandLbl>Brand</BrandLbl>
+                <BrandInput value={brand} placeholder={data.brand} onChange={(e) => setBrand(e.target.value)} />
+              </BrandContainer>
+            )}
+            {rentalType === "HUB" && (
+              <MaxPplContainer>
+                <MaxPplLbl>Maximum Amount of People</MaxPplLbl>
+                <MaxPplInput value={maxAmountOfPeople} placeholder={data.maxAmountOfPeople} onChange={(e) => setMaxAmountOfPeople(e.target.value)} />
+              </MaxPplContainer>
+            )}
             <MaxTimeContainer>
               <MaxTimeLbl>Maximum Time to Rent (h)</MaxTimeLbl>
-              <MaxTimeInput value={maxTime || data.maxTimeToRent} onChange={(e) => setMaxTime(e.target.value)} />
+              <MaxTimeInput value={maxTimeToRent} placeholder={data.maxTimeToRent} onChange={(e) => setMaxTimeToRent(e.target.value)} />
             </MaxTimeContainer>
+
             <AvailableContainer>
               <AvailableLbl>Available to Rent</AvailableLbl>
-              <AvailableInput placeholder="Select" value={rentalStatus || data.rentalStatus} onChange={(e) => setRentalStatus(e.target.value)} />
+              <Select onChange={(e) => setAvailable(e.target.value)} value={available}>
+                <option value="">Select</option>
+                {availableToRent.map(availableObj => (
+                  <option key={availableObj.available} value={availableObj.available}>
+                    {availableObj.available}
+                  </option>
+                ))}
+              </Select>
             </AvailableContainer>
             <ImgContainer>
               <ImgLbl>Image</ImgLbl>
-
-              <ImgInputContainer value={rentalImage || data.testImg} onChange={(e) => setRentalImage(e.target.value)}>
+              <ImgInputContainer value={image} onChange={(e) => setImage(e.target.value)}>
                 <UploadIcon />
                 <ImgInput type="file" onChange={handleFileChange} />
                 <UploadTxt>
                   Choose image to upload
+                  <div style={{
+                    marginTop: 30
+                  }}>
+                    {image}
+                  </div>
                 </UploadTxt>
               </ImgInputContainer>
             </ImgContainer>

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import styled from "@emotion/styled"
 import { FaCheckSquare, FaToolbox, FaInbox, FaChartPie } from "react-icons/fa";
 import Link from 'next/link';
+import LineChart from "../../components/charts/LineChart";
+import axios from "axios";
 
 const Page = styled.div`
   position: absolute;
@@ -75,6 +77,15 @@ font-weight: 500;
 color: #EFEFEF;
 font-size: 18px;
 `;
+
+const NumberOfWorkflows = styled.p`
+margin-left: 10vh;
+margin-top: 4.3vh;
+position: absolute;
+font-weight: 500;
+font-size: 62px;
+color: #EFEFEF;
+`;
 const ManageBookingsTitle = styled.p`
 position:absolute;
 margin-top: 2vh;
@@ -139,7 +150,36 @@ color: yellow;
 
 
 
+
+
 const LandingPage = () => {
+  const [pendingBookings, setPendingBookings] = useState([]);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/bookingsV2/allBookings`);
+        if (response.data.length > 0) {
+          setData(response.data);
+          console.log(response.data)
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      const pendingBookings = data.filter(booking => booking.bookingStatus === "PENDING");
+      setPendingBookings(pendingBookings);
+    }
+  }, [data]);
+
+  const numberOfWorkFlows = pendingBookings.length;
+
   return (
     <Page>
       <Navbar />
@@ -148,6 +188,7 @@ const LandingPage = () => {
           <MyTasksTitle>
             My Tasks
           </MyTasksTitle>
+          <NumberOfWorkflows>{numberOfWorkFlows}</NumberOfWorkflows>
           <MyTasksIcon />
         </MyTasksCard>
 
@@ -178,10 +219,11 @@ const LandingPage = () => {
           </TrackBookingsCard>
         </Link>
         <UnkownCard>
+          <LineChart />
         </UnkownCard>
       </DashboardContainer>
 
-    </Page>
+    </Page >
   )
 }
 export default LandingPage;

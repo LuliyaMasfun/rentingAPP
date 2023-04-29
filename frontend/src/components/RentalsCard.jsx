@@ -28,26 +28,12 @@ const DropdownContainer = styled.div`
   position: absolute;
   margin-left:16vh;
 `;
-
-const DropdownButton = styled.button`
-  background-color: transparent;
-  color: #EFEFEF;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-`;
-
-const DropdownMenu = styled.div`
-  position: absolute;
-  background-color: #EFEFEF;
-  border-radius: 5px;
-  color: #3A3B3C;
-  z-index: 1;
-`;
-const DropdownMenuItem = styled.div`
-  font-size: 14px;
-  cursor: pointer;
-  
+const Select = styled.select`
+width: 80px;
+height: 20px;
+background-color: transparent;
+color: #EFEFEF;
+font-size: 16px;
 `;
 const DownIcon = styled(IoChevronForward)`
 position: absolute;
@@ -228,21 +214,36 @@ function RentalCard() {
   const [selected, setSelected] = useState(false);
   const [selectedId, setSelectedId] = useState(null);;
   const [deletedMessage, setDeletedMessage] = useState(null);
+  const [rentals, setRentals] = useState([]);
+  const [rentalTypes, setRentalTypes] = useState([]);
+  const [selectedRentalType, setSelectedRentalType] = useState([]);
+
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchRentalTypes = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/hub/getAllHubs`);
-        console.log(response.data);
-        if (response.data.length > 0) {
-          setData(response.data);
-        }
+        const response = await axios.get("http://localhost:8080/rental/getRentalTypes");
+        setRentalTypes(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchData();
+
+    fetchRentalTypes();
   }, []);
+
+  useEffect(() => {
+    const fetchRentals = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/rental/getAllRentals");
+        setData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchRentals();
+  }, []);
+
 
   const handleDelete = async (id) => {
     if (isNaN(id)) {
@@ -254,10 +255,10 @@ function RentalCard() {
       return;
     }
     try {
-      await axios.delete(`http://localhost:8080/hub/deleteHub/${id}`);
+      await axios.delete(`http://localhost:8080/rental/deleteRental/${id}`);
       setData(data.filter((rental) => rental.id !== id));
       setSelectedId(null);
-      setDeletedMessage(`${data.find((rental) => rental.id === id).hubName} was deleted`);
+      setDeletedMessage(`${data.find((rental) => rental.id === id).name} was deleted`);
       setTimeout(() => {
         setDeletedMessage(null);
       }, 3000);
@@ -265,7 +266,6 @@ function RentalCard() {
       console.error(error);
     }
   };
-
 
   const handleSelect = (id) => {
     setSelected(id);
@@ -279,22 +279,12 @@ function RentalCard() {
     }
   }, [deletedMessage]);
 
-  const options = [
-    "View All",
-    "Hub",
-    "Equipment",
-    "Events",
-
-  ];
-
-  const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [isOpen, setIsOpen] = useState(false);
-
   const totalNumbersOfRentals = data.length;
 
-  const handleOptionClick = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
+
+  const handleMenyOption = (event) => {
+    const selectedRentalType = event.target.value;
+    setSelectedRentalType(selectedRentalType);
   };
 
   return (
@@ -309,22 +299,14 @@ function RentalCard() {
             Rentals ({totalNumbersOfRentals})
           </TotalBookings>
           <DropdownContainer>
-            <DropdownButton onClick={() => setIsOpen(!isOpen)}>
-              {selectedOption}
-              <DownIcon />
-            </DropdownButton>
-            {isOpen && (
-              <DropdownMenu>
-                {options.map((option) => (
-                  <DropdownMenuItem
-                    key={option}
-                    onClick={() => handleOptionClick(option)}
-                  >
-                    {option}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenu>
-            )}
+            <Select onChange={handleMenyOption} value={selectedRentalType}>
+              <option value="">View all</option>
+              {rentalTypes.map(rentalType => (
+                <option key={rentalType} value={rentalType}>
+                  {rentalType}
+                </option>
+              ))}
+            </Select>
           </DropdownContainer>
           <Link href={{ pathname: "/admin/CreateRental" }}>
             <CreateBtn>Create</CreateBtn>
@@ -340,7 +322,7 @@ function RentalCard() {
                 selected={selectedId === rental.id} />
               <RentalNameRow>
                 <RentalNameLbl>Name</RentalNameLbl>
-                <RentalName>{rental.hubName}</RentalName>
+                <RentalName>{rental.name}</RentalName>
               </RentalNameRow>
               <BorderRow1 />
               <RentalTypeRow>
@@ -350,7 +332,7 @@ function RentalCard() {
               <BorderRow2 />
               <EanNrRow>
                 <EanNrLbl>Ean Nr</EanNrLbl>
-                <EanNr>NaN</EanNr>
+                <EanNr>{rental.ean13}</EanNr>
                 <BorderRow3 />
               </EanNrRow>
               <Link href="rentalDetails/[id]" as={`/admin/rentalDetails/${rental.id}`}>
