@@ -20,7 +20,7 @@ const login = async (email, password) => {
       email,
       password,
     });
-  if (response.data.accessToken) {
+  if (response.data.token) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
   return response.data;

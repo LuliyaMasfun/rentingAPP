@@ -6,7 +6,7 @@ import LandingPage from './admin/LandingPage';
 function App() {
   return (
     <>
-      <LandingPage />
+      <Login />
     </>
   )
 }
