@@ -6,40 +6,37 @@ import HighchartsReact from "highcharts-react-official";
 
 
 function LineChart() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await axios.get("http://localhost:8080/bookings/allHubBookings");
-      const data = response.data;
-      setData(data);
-    }
-
-    fetchData();
-  }, []);
-
-  if (!data) {
-    return <div>Loading...</div>;
-  }
-
   const options = {
     chart: {
-      type: "line",
+      backgroundColor: 'transparent',
+      width: 340,
+      height: 150
+
     },
     title: {
-      text: "Line Chart",
+      text: 'Bookings made per month',
+      style: {
+        color: '#EFEFEF'
+      }
     },
     xAxis: {
-      categories: data.map((item) => item.startDate),
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     },
-    series: [
-      {
-        name: "Data",
-        data: data.map((item)),
-      },
-    ],
-  };
+    yAxis: {
+      title: {
+        text: ''
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    series: [{
+      name: 'Bookings',
+      data: [100, 150, 200, 103, 250, 280, 350, 400, 450, 390, 550, 600],
+      color: 'yellow'
+    }]
 
+  };
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 }
 

@@ -64,27 +64,6 @@ public class HubController {
         return hubNamesById;
     }
 
-    @GetMapping("/bookingsInfo")
-    public Map<Integer, Map<String, String>> getBookingInfoForRental(@RequestParam Long id) {
-
-        List<HubBooking> bookings = hubBookingRepository.findAllByHubId(id);
-
-        Map<Integer, Map<String, String>> bookingInfoById = new HashMap<>();
-
-        for (HubBooking booking : bookings) {
-            Map<String, String> hubMap = new HashMap<>();
-            hubMap.put("bookingNumber", booking.getBookingNumber());
-            hubMap.put("bookingStatus", booking.getBookingStatus().toString());
-            hubMap.put("startDate", booking.getStartDate().toString());
-            hubMap.put("endDate", booking.getEndDate().toString());
-            hubMap.put("createdOn", booking.getCreatedOn().toString());
-            hubMap.put("userFirstName", booking.getUser().getFirstName());
-            hubMap.put("userLastName", booking.getUser().getLastName());
-            bookingInfoById.put(booking.getId(), hubMap);
-        }
-        return bookingInfoById;
-    }
-
     @PutMapping("/editHub/{id}")
     public ResponseEntity<Hub> updateRental(@PathVariable Long id, @RequestBody Hub hub) {
         Hub updatedRental = hubService.updateHub(id, hub);

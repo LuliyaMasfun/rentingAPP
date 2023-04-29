@@ -7,10 +7,13 @@ import Image from "next/image";
 import podcast from '../../../../public/podcast2.png'
 import coWorking from '../../../../public/coWorking2.png'
 import film from '../../../../public/film2.png'
+import light from "../../../../public/aputure.png";
+import sound from "../../../../public/rode.png";
+import camera from "../../../../public/canon.png";
 
 const Page = styled.div`
   position: absolute;
-  height: 1080px;
+  height: 1380px;
   width: 390px;
   background-color: #1E1E1E;
   margin:0;
@@ -40,8 +43,8 @@ width:56px;
 height: 26px;
 border-radius: 5px;
 font-weight: 600;
-color: #3A3B3C;
-background-color: #EFEFEF;
+color: #EFEFEF;
+background-color: #1E1E1E;
 `;
 const TitleContainer = styled.div`
 flex-direction: column;
@@ -96,6 +99,7 @@ const RentalHubNameRow = styled.div`
   margin-top: 30px;
   width: 320px;
 `;
+
 const HubNameLbl = styled.p`
  position: absolute;
   margin-left: 35px;
@@ -114,18 +118,41 @@ const HubNameBorder = styled.hr`
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
-const HubDescLbl = styled.p`
- position: absolute;
-  margin-left: 35px;
-  font-weight: 500;
-  color: #EFEFEF;
-  width: 120px;
-`;
 const HubDesc = styled.p`
 color: #EFEFEF;
 width: 150px;
-margin-left: 178px;
+margin-left: 200px;
 `;
+const RentalImage = styled(Image)`
+float: right;
+width: 18%;
+margin-top: -35px;
+`;
+const Row = styled.div`
+  flex-direction: row;
+  margin-top: 30px;
+  width: 320px;
+`;
+const Lbl = styled.p`
+  margin-left: 35px;
+  font-weight: 500;
+  color: #EFEFEF;
+`;
+const Data = styled.p`
+color: #EFEFEF;
+text-align: right;
+
+`;
+const Border = styled.hr`
+  margin-top: 10px;
+  height: 1px;
+  width: 390px;
+  background-color: #3A3B3C;
+  opacity: 0.7;
+`;
+
+
+
 
 /* BOOKING DETAILS */
 const RentalBookingRow = styled.div`
@@ -163,7 +190,7 @@ function ThisRental() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/hub/getThisHub/${id}`);
+        const response = await axios.get(`http://localhost:8080/rental/getThisRental/${id}`);
         setData(response.data);
         console.log(response.data)
       } catch (error) {
@@ -176,7 +203,7 @@ function ThisRental() {
   useEffect(() => {
     const fetchBookingInfo = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/hub/bookingsInfo?id=${id}`);
+        const response = await axios.get(`http://localhost:8080/rental/bookingsInfo?id=${id}`);
         console.log(response.data)
         setBookingInfo(response.data);
       } catch (error) {
@@ -193,15 +220,30 @@ function ThisRental() {
 
 
   function Header() {
+
     const checkType = (imageType) => {
-      if (imageType.hubName == "The Podcast Studio") {
-        return podcast;
-      } else if (imageType.hubName == "The Film Studio") {
-        return film;
-      } else {
-        return coWorking;
+      if (data.rentalType === "HUB") {
+        if (imageType.hubType == "PODCASTSTUDIO") {
+          return podcast;
+        } else if (imageType.hubType == "MUSICSTUDIO") {
+          return podcast;
+        } else if (imageType.hubType == "FILMSTUDIO") {
+          return film;
+        } else if (imageType.hubType == "COWORKING") {
+          return coWorking;
+        }
+      } else if (data.rentalType === "EQUIPMENT") {
+        if (imageType.equipmentType == "CAMERA") {
+          return camera;
+        } else if (imageType.equipmentType == "SOUND") {
+          return sound;
+        } else if (imageType.equipmentType == "LIGHT") {
+          return light;
+        }
       }
     }
+
+
     function handleEdit() {
       console.log(id);
       router.push(`/admin/editRental/${id}`);
@@ -214,8 +256,8 @@ function ThisRental() {
           <YellowDiagonal src={diagonalYellow} />
           <EditBtn onClick={handleEdit}>Edit</EditBtn>
           <TitleContainer>
-            <TitleName>{data.hubName}</TitleName>
-            <RentalNumber>1234567891234</RentalNumber>
+            <TitleName>{data.name}</TitleName>
+            <RentalNumber>{data.rentalNumber}</RentalNumber>
           </TitleContainer>
           <Meny>
             <GeneralInfo onClick={() => handleMenuClick('GeneralInfo')}
@@ -235,70 +277,123 @@ function ThisRental() {
     )
   }
   function GeneralInfoTab() {
+
+    const checkType = (imageType) => {
+      if (data.rentalType === "HUB") {
+        if (imageType.hubType == "PODCASTSTUDIO") {
+          return podcast;
+        } else if (imageType.hubType == "MUSICSTUDIO") {
+          return podcast;
+        } else if (imageType.hubType == "FILMSTUDIO") {
+          return film;
+        } else if (imageType.hubType == "COWORKING") {
+          return coWorking;
+        }
+      } else if (data.rentalType === "EQUIPMENT") {
+        if (imageType.equipmentType == "CAMERA") {
+          return camera;
+        } else if (imageType.equipmentType == "SOUND") {
+          return sound;
+        } else if (imageType.equipmentType == "LIGHT") {
+          return light;
+        }
+      }
+    }
+
     return (
       <div>
         {data ? (
           <div>
             <RentalHubNameRow>
               <HubNameLbl>Rental Name</HubNameLbl>
-              <HubName>{data.hubName}</HubName>
+              <HubName>{data ? data.name : "NaN"}</HubName>
               <HubNameBorder />
             </RentalHubNameRow>
             <RentalHubNameRow>
               <HubNameLbl>Rental Type</HubNameLbl>
-              <HubName>{data.rentalType}</HubName>
+              <HubName>{data ? data.rentalType : "NaN"}</HubName>
               <HubNameBorder />
             </RentalHubNameRow>
             <RentalHubNameRow>
               <HubNameLbl>EAN13 Nr</HubNameLbl>
-              <HubName>NaN</HubName>
+              <HubName>{data ? data.ean13 : "NaN"}</HubName>
               <HubNameBorder />
             </RentalHubNameRow>
-            <RentalHubNameRow>
-              <HubNameLbl>Available to Rent</HubNameLbl>
-              <HubName>True / False</HubName>
-              <HubNameBorder />
-            </RentalHubNameRow>
+
+            {data?.rentalType === "HUB" && (
+              <RentalHubNameRow>
+                <HubNameLbl>Hub Type</HubNameLbl>
+                <HubName>{data ? data.hubType : "NaN"}</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+            )}
+
+            {data?.rentalType === "EQUIPMENT" && (
+              <RentalHubNameRow>
+                <HubNameLbl>Equipment Type</HubNameLbl>
+                <HubName>{data ? data.equipmentType : "NaN"}</HubName>
+                <HubNameBorder />
+              </RentalHubNameRow>
+            )}
             <RentalHubNameRow>
               <HubNameLbl>Maximum Time to Rent</HubNameLbl>
-              <HubName>{data.maxTimeToRent} h</HubName>
+              <HubName>{data ? data.maxTimeToRent : "NaN"} h</HubName>
               <HubNameBorder />
             </RentalHubNameRow>
             <RentalHubNameRow>
               <HubNameLbl>Location</HubNameLbl>
-              <HubName>{data.hubLocation}</HubName>
+              <HubName>{data ? data.location : "NaN"}</HubName>
               <HubNameBorder />
             </RentalHubNameRow>
-            <RentalHubNameRow>
-              <HubDescLbl>Description</HubDescLbl>
-              <HubDesc>{data.hubDescription}</HubDesc>
-              <HubNameBorder />
-            </RentalHubNameRow>
-            <RentalHubNameRow>
-              <HubNameLbl>Rental Image</HubNameLbl>
-              <HubName>{data.hubImg}</HubName>
-              <HubNameBorder />
-            </RentalHubNameRow>
-            <RentalHubNameRow>
-              <HubNameLbl>Created By</HubNameLbl>
-              <HubName>NaN</HubName>
-              <HubNameBorder />
-            </RentalHubNameRow>
-            <RentalHubNameRow>
-              <HubNameLbl>Created On</HubNameLbl>
-              <HubName>NaN</HubName>
-              <HubNameBorder />
-            </RentalHubNameRow>
-            <RentalHubNameRow>
-              <HubNameLbl>Updated By</HubNameLbl>
-              <HubName>NaN</HubName>
-              <HubNameBorder />
-            </RentalHubNameRow>
-            <RentalHubNameRow>
-              <HubNameLbl>Updated On</HubNameLbl>
-              <HubName>NaN</HubName>
-              <HubNameBorder />
-            </RentalHubNameRow>
+            <Row>
+              <Lbl>Description</Lbl>
+              <HubDesc>{data ? data.description : "NaN"}</HubDesc>
+              <Border />
+            </Row>
+            <Row>
+              <Lbl>Rental Image</Lbl>
+              <RentalImage src={checkType(data)}></RentalImage>
+              <Border />
+            </Row>
+            {data?.rentalType === "HUB" && (
+              <Row>
+                <Lbl>Max Amount Of People</Lbl>
+                <Data>{data ? data.maxAmountOfPeople : "NaN"}</Data>
+                <Border />
+              </Row>
+            )}
+            {data?.rentalType === "EQUIPMENT" && (
+              <Row>
+                <Lbl>Brand</Lbl>
+                <Data>{data ? data.brand : "NaN"}</Data>
+                <Border />
+              </Row>
+            )}
+            <Row>
+              <Lbl>Created By</Lbl>
+              <Data>{data ? data.createdBy : "NaN"}</Data>
+              <Border />
+            </Row>
+            <Row>
+              <Lbl>Created On</Lbl>
+              <Data>{data ? data.createdOn : "NaN"}</Data>
+              <Border />
+            </Row>
+            <Row>
+              <Lbl>Updated By</Lbl>
+              <Data>{data ? data.updatedBy : "NaN"}</Data>
+              <Border />
+            </Row>
+            <Row>
+              <Lbl>Updated On</Lbl>
+              <Data>{data ? data.updatedOn : "NaN"}</Data>
+              <Border />
+            </Row>
+            <Row>
+              <Lbl>Available to Rent</Lbl>
+              <Data>{data ? data.availableToRent : "NaN"}</Data>
+              <Border />
+            </Row>
 
           </div>
         ) : (

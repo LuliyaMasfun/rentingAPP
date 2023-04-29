@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { IoCreateOutline } from "react-icons/io5";
 import DropDown from "../../components/DropDown";
 import { useRouter } from 'next/router';
+import AuthService from '../../services/auth.service';
 
 
 const Page = styled.div`
@@ -27,6 +28,8 @@ width: 390px;
 `;
 const GreyDiagonal = styled(Image)`
 float: right;
+width: 100%;
+height: 134%;
 `;
 const PageTitle = styled.h1`
 position: absolute;
@@ -243,8 +246,19 @@ font-weight: 300;
 font-size: 14px;
 margin-top: -70px;
 `;
+const Select = styled.select`
+width: 279px;
+height: 24px;
+background-color: transparent;
+color: #EFEFEF;
+font-size: 16px;
+border: 1px solid #FFFFFF;
+border-radius: 5px;
+opacity: 0.7;
+`;
 
 function CreateRental() {
+  const [rentalTypes, setRentalTypes] = useState([]);
   const router = useRouter();
   /* DROPDOWN */
   const Equipment = "Equipment";
@@ -263,27 +277,73 @@ function CreateRental() {
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
   const [brand, setBrand] = useState('');
-  const [maxPpl, setMaxPpl] = useState('');
-  const [maxTime, setMaxTime] = useState('');
+  const [image, setImage] = useState('');
+  const [maxAmountOfPeople, setMaxAmountOfPeople] = useState(0);
+  const [maxTimeToRent, setMaxTimeToRent] = useState('');
   const [available, setAvailable] = useState('');
   const [rentalImage, setRentalImage] = useState('');
   const [rentalStatus, setRentalStatus] = useState('');
+  const [hubType, setHubType] = useState('');
+  const [equipmentType, setEquipmentType] = useState('');
+  const [eventType, setEventType] = useState('');
+  const [createdOn, setCreatedOn] = useState('');
+  const [createdBy, setCreatedBy] = useState('');
+
+
+  const hubTypes = [
+    { hubType: "COWORKING" },
+    { hubType: "PODCASTSTUDIO" },
+    { hubType: "MUSICSTUDIO" },
+    { hubType: "FILMSTUDIO" }
+  ]
+  const equipmentTypes = [
+    { equipmentType: "CAMERA" },
+    { equipmentType: "SOUND" },
+    { equipmentType: "LIGHT" },
+    { equipmentType: "OTHER" }
+  ]
+  const availableToRent = [
+    { label: "Yes", value: true },
+    { label: "No", value: false }
+  ]
 
   const handleCreate = () => {
-    axios.post('http://localhost:8080/hub/createHub', {
-      hubName: name,
-      hubLocation: location,
-      hubImg: rentalImage,
-      maxTimeToRent: maxTime,
-      hubDescription: description,
+    const now = new Date().toISOString();
+    setCreatedOn(now);
+
+    // const currentUser = AuthService.getCurrentUser();
+    // const { firstName, lastName } = currentUser;
+    // setCreatedBy(`${firstName} ${lastName}`);
+
+    const postData = {
+      name: name,
+      location: location,
+      image: rentalImage,
+      maxTimeToRent: maxTimeToRent,
       rentalType: rentalType,
-      //rentalAvailability: available
-      //brand: brand,
-      //maxPpl: maxPpl,
+      createdOn: now,
+      description: description,
+      // createdBy: createdBy,
+      available: available,
+      image: image
+    }
+    if (equipmentType) {
+      postData.equipmentType = equipmentType;
+    }
+    if (hubType) {
+      postData.hubType = hubType;
+    }
+    if (maxAmountOfPeople) {
+      postData.maxAmountOfPeople = maxAmountOfPeople;
+    }
+    if (brand) {
+      postData.brand = brand;
+    }
 
-      //available: available,
 
-    })
+    axios.post('http://localhost:8080/rental/createRental', postData)
+
+
       .then(response => {
         // handle success
         console.log(response);
@@ -310,7 +370,18 @@ function CreateRental() {
     const formData = new FormData();
     formData.append('rentalImage', selectedFile);
   }
+  useEffect(() => {
+    const fetchRentalTypes = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/rental/getRentalTypes");
+        setRentalTypes(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
+    fetchRentalTypes();
+  }, []);
   return (
     <Page>
       <Header>
@@ -325,36 +396,82 @@ function CreateRental() {
         </NameContainer>
         <RentalTypeContainer>
           <RentalTypeLbl>Rental Type</RentalTypeLbl>
-          <RentalTypeInput placeholder="Select" value={rentalType} options={optionsRentalType} onChange={(e) => setRentalType(e.target.value)} />
+          <Select onChange={(e) => setRentalType(e.target.value)} value={rentalType}>
+            <option value="">Select</option>
+            {rentalTypes.map(rentalType => (
+              <option key={rentalType} value={rentalType}>
+                {rentalType}
+              </option>
+            ))}
+          </Select>
         </RentalTypeContainer>
+        {rentalType === "HUB" && (
+          <RentalTypeContainer>
+            <RentalTypeLbl>Hub Type</RentalTypeLbl>
+            <Select onChange={(e) => setHubType(e.target.value)} value={hubType}>
+              <option value="">Select</option>
+              {hubTypes.map(hubTypeObj => (
+                <option key={hubTypeObj.hubType} value={hubTypeObj.hubType}>
+                  {hubTypeObj.hubType}
+                </option>
+              ))}
+            </Select>
+          </RentalTypeContainer>
+        )}
+        {rentalType === "EQUIPMENT" && (
+          <RentalTypeContainer>
+            <RentalTypeLbl>Equipment Type</RentalTypeLbl>
+            <Select onChange={(e) => setEquipmentType(e.target.value)} value={equipmentType}>
+              <option value="">Select</option>
+              {equipmentTypes.map(equipmentTypeObj => (
+                <option key={equipmentTypeObj.equipmentType} value={equipmentTypeObj.equipmentType}>
+                  {equipmentTypeObj.equipmentType}
+                </option>
+              ))}
+            </Select>
+          </RentalTypeContainer>
+        )}
+
         <LocationContainer>
           <LocationLbl>Location</LocationLbl>
           <LocationInput value={location} onChange={(e) => setLocation(e.target.value)} />
         </LocationContainer>
         <DescriptionContainer>
-          <DescriptionLbl value={description} onChange={(e) => setDescription(e.target.value)}>Description</DescriptionLbl>
-          <DescriptionInput />
+          <DescriptionLbl>Description</DescriptionLbl>
+          <DescriptionInput value={description} onChange={(e) => setDescription(e.target.value)} />
         </DescriptionContainer>
-        <BrandContainer>
-          <BrandLbl>Brand</BrandLbl>
-          <BrandInput value={brand} onChange={(e) => setBrand(e.target.value)} />
-        </BrandContainer>
-        <MaxPplContainer>
-          <MaxPplLbl value={maxPpl} onChange={(e) => setMaxPpl(e.target.value)}>Maximum Amount of People</MaxPplLbl>
-          <MaxPplInput />
-        </MaxPplContainer>
+        {rentalType === "EQUIPMENT" && (
+          <BrandContainer>
+            <BrandLbl>Brand</BrandLbl>
+            <BrandInput value={brand} onChange={(e) => setBrand(e.target.value)} />
+          </BrandContainer>
+        )}
+        {rentalType === "HUB" && (
+          <MaxPplContainer>
+            <MaxPplLbl>Maximum Amount of People</MaxPplLbl>
+            <MaxPplInput value={maxAmountOfPeople} onChange={(e) => setMaxAmountOfPeople(e.target.value)} />
+          </MaxPplContainer>
+        )}
         <MaxTimeContainer>
           <MaxTimeLbl>Maximum Time to Rent (h)</MaxTimeLbl>
-          <MaxTimeInput value={maxTime} onChange={(e) => setMaxTime(e.target.value)} />
+          <MaxTimeInput value={maxTimeToRent} onChange={(e) => setMaxTimeToRent(e.target.value)} />
         </MaxTimeContainer>
+
         <AvailableContainer>
           <AvailableLbl>Available to Rent</AvailableLbl>
-          <AvailableInput placeholder="Select" value={rentalStatus} onChange={(e) => setRentalStatus(e.target.value)} />
+          <Select onChange={(e) => setAvailable(e.target.options[e.target.selectedIndex].value)}
+            value={available}>
+            <option value="">Select</option>
+            {availableToRent.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Select>
         </AvailableContainer>
         <ImgContainer>
           <ImgLbl>Image</ImgLbl>
-
-          <ImgInputContainer value={rentalImage} onChange={(e) => setRentalImage(e.target.value)}>
+          <ImgInputContainer value={image} onChange={(e) => setImage(e.target.value)}>
             <UploadIcon />
             <ImgInput type="file" onChange={handleFileChange} />
             <UploadTxt>
