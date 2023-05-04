@@ -158,8 +158,15 @@ export default function Example() {
                 <div
                   key={day.toString()}
                   className={classNames(
-                    dayIdx === 0 && colStartClasses[getDay(day)]
-                    // "py-1.5"
+                    dayIdx === 0 && colStartClasses[getDay(day)],
+                    {
+                      /* detta är style för varje datum i kalender */
+                    },
+                    "pt-1",
+                    "justify-center",
+                    "items-center",
+                    "rounded-full",
+                    "pl-5"
                   )}
                 >
                   <button
@@ -180,9 +187,10 @@ export default function Example() {
                       isEqual(day, startDay) && isToday(day) && "bg-red-500",
                       isEqual(day, startDay) &&
                         !isToday(day) &&
-                        "bg-yellow-500 rounded-full min-w-full",
+                        "bg-yellow-500 rounded-full w-7 pr-10 ",
 
-                      isEqual(day, endDay) && "bg-yellow-500 rounded-full",
+                      isEqual(day, endDay) &&
+                        "bg-yellow-500 rounded-full w-7 pr-2 ",
 
                       // console.log(
                       //   isWithinInterval(format(day, "yyyy-MM-dd"), {

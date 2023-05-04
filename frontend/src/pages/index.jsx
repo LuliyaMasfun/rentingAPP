@@ -6,10 +6,9 @@ import Calendar from "../components/Calendar";
 
 function App() {
   return (
-    <>
-      <Calendar />
-      {/* <LandingPage /> */}
-    </>
+    <div>
+      <LandingPage />
+    </div>
   );
 }
 
