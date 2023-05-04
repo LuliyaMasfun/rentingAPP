@@ -52,6 +52,17 @@ public class RentalController {
         List<Rental> rentals = rentalRepository.findRentalByRentalType(rentalType);
         return new ResponseEntity<>(rentals, HttpStatus.OK);
     }
+    @GetMapping("/getEquipmentRentals")
+    public ResponseEntity<List<Rental>> getRentalsOnRentalTypeEquipment() {
+        List<Rental> rentals = rentalRepository.findRentalByRentalType(RentalType.EQUIPMENT);
+        return new ResponseEntity<>(rentals, HttpStatus.OK);
+    }
+
+    @GetMapping("/getHubRentals")
+    public ResponseEntity<List<Rental>> getRentalsOnRentalTypeHub() {
+        List<Rental> rentals = rentalRepository.findRentalByRentalType(RentalType.HUB);
+        return new ResponseEntity<>(rentals, HttpStatus.OK);
+    }
 
     @DeleteMapping(value = "/deleteRental/{id}")
     public ResponseEntity<?> deleteRental (@PathVariable Long id){

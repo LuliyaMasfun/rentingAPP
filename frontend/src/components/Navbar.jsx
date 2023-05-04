@@ -6,6 +6,7 @@ import { IoFilter } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa";
 import changersHub from "../../public/changershub.png";
 import Link from "next/link";
+import Menu1 from "./Menu";
 
 const Container = styled.div`
   display: flex;
@@ -42,20 +43,25 @@ const ProfileImg = styled(Image)`
   position: absolute;
   margin-left: 35vh;
 `;
+const Menu = styled(Menu1)`
+`;
+
 
 const Navbar = () => {
   return (
-    <Container>
+    <div>
 
-      <HamburgerIcon />
-      <Link href="/user/LandingPage" >
-        <CompanyLogo src={changersHub} />
-      </Link>
+      <Container>
+        <HamburgerIcon />
 
-      <NotificationIcon />
-      <ProfileImg src={profileImg} />
+        <Link href="/user/LandingPage" >
+          <CompanyLogo src={changersHub} />
+        </Link>
 
-    </Container>
+        <NotificationIcon />
+        <ProfileImg src={profileImg} />
+      </Container>
+    </div>
   )
 };
 

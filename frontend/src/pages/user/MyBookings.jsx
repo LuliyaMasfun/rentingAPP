@@ -2,22 +2,18 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
 import styled from "@emotion/styled";
-import "../styles/globals.css";
-import bookingImg from "../../public/bookingImg.png"
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import axios from 'axios';
+import { FaWrench, FaHouseUser, FaUsers } from "react-icons/fa";
+import { IoChevronForward } from 'react-icons/io5';
+import rejected from '../../../public/rejected.png'
+import approved from '../../../public/approved.png'
+import pending from '../../../public/pending.png'
+import "../../styles/globals.css"
+import Link from "next/link";
 
-const bookings = [
-  {
-    id: 1,
-    equipmentName: 'Canon 70c',
-    equipBookedImg: '../../public/bookingImg.png',
-    startDate: '12 Feb',
-    endDate: '14 Feb',
-    pickUp: '12:00',
-    dropOff: '13:00',
-    bookingStatus: 'PENDING'
-  }
-]
+
 const Page = styled.div`
   position: absolute;
   height: 1000px;
@@ -33,156 +29,302 @@ margin-top: 60px;
 margin-left: 35px;
 color: white;
 `;
-const Card = styled.div``;
 
-const Booking = styled.div`
+const Header = styled.div`
+height: 180px;
+box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.3);
 `;
-
-const BookingImg = styled(Image)`
+const SearchBar = styled.input`
 position:absolute;
-margin-top: 18vh;
-margin-left:3.5vh;
-`;
-
-const EquipmentName = styled.p`
-position: absolute;
-margin-top: 18vh;
-margin-left: 15vh;
-color: white;
-font-weight: 700;
-`;
-
-const StartDateTitle = styled.p`
-position: absolute;
-margin-top: 21vh;
-margin-left: 15vh;
-font-size: 12px;
-color: #A9A9A9;
-`;
-
-const StartDate = styled.p`
-position: absolute;
-margin-top: 21vh;
-margin-left: 25vh;
-font-size: 12px;
-color: #ffffff;
-`;
-const EndDateTitle = styled.p`
-position: absolute;
-margin-top: 23vh;
-margin-left: 15vh;
-font-size: 12px;
-color: #A9A9A9;
-`;
-const EndDate = styled.p`
-position: absolute;
-margin-top: 23vh;
-margin-left: 25vh;
-font-size: 12px;
-color: #ffffff;
-`;
-const PickUpTitle = styled.p`
-position: absolute;
-margin-top: 26vh;
-margin-left: 15vh;
-font-size: 12px;
-color: #A9A9A9;
-`;
-const Pickup = styled.p`
-position: absolute;
-margin-top: 26vh;
-margin-left: 25vh;
-font-size: 12px;
-color: #ffffff;
-`;
-const DropOffTitle = styled.p`
-position: absolute;
-margin-top: 28vh;
-margin-left: 15vh;
-font-size: 12px;
-color: #A9A9A9;
-`;
-const DropOff = styled.p`
-position: absolute;
-margin-top: 28vh;
-margin-left: 25vh;
-font-size: 12px;
-color: #ffffff;
-`;
-const BookingStatusContainer = styled.div`
-position: absolute;
-background-color: #F19F4D;
-width: 65px;
-border-radius: 10px;
-margin-top: 31vh;
-margin-left:15vh;
-`;
-const BookingStatus = styled.p`
-font-size: 12px;
-color: white;
-font-weigth: 600;
-text-align: center;
-`;
-const CancelBtn = styled.button`
-position: absolute;
-margin-top: 31vh;
-margin-left:29vh;
-background-color: #3A3B3C;
-width: 55px;
-heigth: 30px;
-border-radius: 5px;
-color: #ffffff;
-font-size: 14px;
-font-weight: 600;
-
-`;
-const EditBtn = styled.button`
-position: absolute;
-margin-top: 31vh;
-margin-left:37vh;
+margin-left: 95px;
+margin-top: 117px;
+padding-bottom:2px;
 background-color: transparent;
-border: 1px solid #F8F360;
-width: 45px;
+border: 1px solid #EFEFEF;
 border-radius: 5px;
+ ::placeholder {
+    color: #EFEFEF;
+    opacity: 0.4;
+    padding:10px;
+    font-size: 12px;
+  }
+`;
+const SearchTxt = styled.p`
+position: absolute;
+margin-top: 120px;
+margin-left: 35px;
 color: #ffffff;
+font-size:14px;
+`;
+const SubHeaderContainer = styled.div`
+display: flex;
+flex-direction: row;
+`;
+const SeperationBorder = styled.div`
+position: absolute;
+margin-left: 13vh;
+margin-top: 2vh;
+width: 8px;
+height: 20px;
+box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.3);
+`;
+const DropdownContainer = styled.div`
+  position: absolute;
+  margin-top: 21px;
+  margin-left:16vh;
+`;
+
+const TheBooking = styled.div`
+margin-top: 40px;
+display: flex;
+flex-direction: column;
+margin-bottom: 93px;
+ 
+`;
+const BookingIndicator = styled.div`
+position: absolute;
+margin-top: 20px;
+width: 8px;
+height: 90px;
+background-color:${({ bookingStatus }) =>
+    bookingStatus === "PENDING"
+      ? "#4B3F2B"
+      : bookingStatus === "REJECTED"
+        ? "#3E1F18"
+        : bookingStatus === "APPROVED"
+          ? "#2B4B30"
+          : bookingStatus === "ACTIVE"
+            ? "#F8F360"
+            : "#3A3B3C"}
+`;
+const Name = styled.p`
+position: absolute;
+margin-top:25px;
+margin-left: 82px;
+color: white;
+font-size: ;
+font-weight: 500;
+`;
+const CreatedOn = styled.p`
+position: absolute;
+margin-top:48px;
+margin-left: 230px;
+color: white;
 font-size: 14px;
-font-weight: 600;
+`;
+const BookingNumber = styled.p`
+position: absolute;
+margin-top:48px;
+margin-left: 82px;
+color: white;
+font-size: 14px;
+
+`;
+const EquipmentIcon = styled(FaWrench)`
+position: absolute;
+margin-top:45px;
+margin-left: 31px;
+width: 24px;
+height: 24px;
+color: white;
+`;
+const HubIcon = styled(FaHouseUser)`
+position: absolute;
+margin-top:50px;
+margin-left: 31px;
+width: 24px;
+height: 24px;
+color: white;
+`;
+const EventIcon = styled(FaUsers)`
+position: absolute;
+margin-top:45px;
+margin-left: 31px;
+width: 24px;
+height: 24px;
+color: white;
+`;
+const SideIcon = styled(IoChevronForward)`
+position: absolute;
+margin-top:45px;
+margin-left: 350px;
+width: 24px;
+height: 24px;
+color: white;
+`;
+const BookedItem = styled.p`
+position: absolute;
+margin-top:75px;
+margin-left: 82px;
+color: white;
+font-size: 14px;
+`;
+const BookingStatus2 = styled.p`
+position: absolute;
+font-size: 14px;
+color: white;
+margin-top:28px;
+margin-left: 230px;
 `;
 const Border = styled.hr`
+position:absolute;
+margin-top: 110px;
+  height: 1px;
+  width: 390px;
+  border: 1px solid white;
+  opacity: 0.5;
+
+`;
+const TotalBookings = styled.div`
 position: absolute;
-width: 390px;
-margin-top: 36vh;
+margin-top: -30px;
+margin-left:33px;
+font-size: 16px;
+color: #EFEFEF;
+`;
+
+const AcceptBtn = styled.button`
+position: absolute;
+margin-top:75px;
+margin-left: 227px;
+height: 25px;
+width: 60px;
+color: #EFEFEF;
+font-size: 14px;
+background-color: #2B4B30;
+border-radius: 2px;
+`;
+const RejectBtn = styled.button`
+position: absolute;
+margin-top:75px;
+margin-left: 315px;
+height: 25px;
+width: 50px;
+color: #EFEFEF;
+font-size: 14px;
+background-color: #3E1F18;
+border-radius: 2px;
 `;
 
 
 
-const MyBookings = ({ booking }) => {
+
+
+const MyBookings = () => {
+  const [data, setData] = useState([]);
+  const [rentalNames, setRentalNames] = useState({});
+
+  useEffect(() => {
+    const userId = 47;
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/bookingsV2/bookingsOnThisUser/${userId}`);
+        if (response.data.length > 0) {
+          setData(response.data);
+          console.log(response.data)
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchRentalNames = async () => {
+      try {
+        console.log(data)
+        const rentalIds = data.map((booking) => booking.rental.id).join(",");
+        console.log("rentalIds", rentalIds);
+        const response = await axios.get(`http://localhost:8080/rental/rentalNames?ids=${rentalIds}`);
+        if (Array.isArray(response.data)) {
+          const rentalNamesMap = response.data.reduce((map, rental) => {
+            map[rental.id] = rental.name;
+            return map;
+          }, {});
+          setRentalNames(rentalNamesMap);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchRentalNames();
+  }, [data]);
+
+
+  const totalNumbersOfBookings = data.length;
   return (
     <Page>
       <Navbar />
       <PageTitle> My Bookings</PageTitle>
-      {bookings.map(booking => (
-        <Card key={bookings.id}>
-          <Booking booking={booking} key={bookings.id} >
-            <EquipmentName>{booking.equipmentName}</EquipmentName>
-            <BookingImg src={bookingImg} />
-            <StartDateTitle>Start date</StartDateTitle>
-            <StartDate>{booking.startDate}</StartDate>
-            <EndDateTitle>End date</EndDateTitle>
-            <EndDate>{booking.endDate}</EndDate>
-            <PickUpTitle>Pick up</PickUpTitle>
-            <Pickup>{booking.pickUp}</Pickup>
-            <DropOffTitle>Drop off</DropOffTitle>
-            <DropOff>{booking.dropOff}</DropOff>
-            <BookingStatusContainer>
-              <BookingStatus>{booking.bookingStatus}</BookingStatus>
-            </BookingStatusContainer>
-            <CancelBtn>Cancel</CancelBtn>
-            <EditBtn>Edit</EditBtn>
-          </Booking>
-          <Border />
-        </Card>
-      ))}
+      <Header>
+        <SearchBar
+          placeholder="Booking number"
+        //onChange={ }
+        ></SearchBar>
+        <SearchTxt>Search: </SearchTxt>
+      </Header>
+      <SeperationBorder />
+      <SubHeaderContainer>
+        <DropdownContainer>
+
+        </DropdownContainer>
+      </SubHeaderContainer>
+      <div>
+        <TotalBookings>
+          Bookings ({totalNumbersOfBookings})
+        </TotalBookings>
+        {data.map((booking) => (
+          <TheBooking key={booking.id}>
+            <Name>{booking.user ? `${booking.user.firstName} ${booking.user.lastName}` : 'Unknown'}</Name>
+            <BookingNumber>{booking.bookingNumber}</BookingNumber>
+            <CreatedOn>{booking.createdOn ? booking.createdOn.substring(0, 10) : ''}</CreatedOn>
+            <BookedItem>{rentalNames[booking.rentalId]}</BookedItem>
+
+            {`${booking.rental.rentalType}` === "HUB" && (
+              <HubIcon />
+            )}
+            {`${booking.rental.rentalType}` === "EQUIPMENT" && (
+              <EquipmentIcon />
+            )}
+            {`${booking.rental.rentalType}` === "EVENT" && (
+              <EventIcon />
+            )}
+            <Link href="bookingRequestDetails/[id]" as={`/admin/bookingRequestDetails/${booking.id}`}>
+
+            </Link>
+            <BookingIndicator bookingStatus={booking.bookingStatus} />
+            <BookedItem>{booking.rental ? `${booking.rental.name}` : 'Unknown'}</BookedItem>
+            {booking?.bookingStatus === "PENDING" && (
+              <BookingStatus2>Pending</BookingStatus2>
+            )}
+            {booking?.bookingStatus === "APPROVED" && (
+              <BookingStatus2>Approved</BookingStatus2>
+            )}
+            {booking?.bookingStatus === "ACTIVE" && (
+              <BookingStatus2>Active</BookingStatus2>
+            )}
+            {booking?.bookingStatus === "COMPLETED" && (
+              <BookingStatus2>Completed</BookingStatus2>
+            )}
+            {booking?.bookingStatus === "REJECTED" && (
+              <BookingStatus2>Rejected</BookingStatus2>
+            )}
+
+            {booking?.bookingStatus === "PENDING" && (
+              <div>
+                <RejectBtn onClick={() => handleApproveBooking(booking?.id)}>Delete</RejectBtn>
+              </div>
+            )}
+            <Border />
+          </TheBooking>
+
+
+        ))
+        }
+
+      </div>
+
     </Page>
   )
 }

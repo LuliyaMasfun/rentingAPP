@@ -61,6 +61,10 @@ public class RentalBookingController {
     public List <RentalBooking> getAllBookingsOnThisRental (@PathVariable Long id) {
         return rentalBookingService.getAllBookingsOnThisRental(id);
     }
+    @GetMapping("/bookingsOnThisUser/{id}")
+    public List <RentalBooking> getAllBookingsOnThisUser (@PathVariable Long id) {
+        return rentalBookingRepository.findAllByUserId(id);
+    }
 
     @PutMapping (value= "/updateBookingStatus/{id}")
     public ResponseEntity<RentalBooking> updateBookingStatus (@PathVariable int id, @RequestBody RentalBooking rentalBooking) {

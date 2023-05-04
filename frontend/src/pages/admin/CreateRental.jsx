@@ -311,9 +311,12 @@ function CreateRental() {
     const now = new Date().toISOString();
     setCreatedOn(now);
 
-    // const currentUser = AuthService.getCurrentUser();
-    // const { firstName, lastName } = currentUser;
+
+    // 
     // setCreatedBy(`${firstName} ${lastName}`);
+    const user = AuthService.getCurrentUser();
+    const userName = `${user.firstName} ${user.lastName}`;
+    setCreatedBy(userName)
 
     const postData = {
       name: name,
@@ -323,7 +326,7 @@ function CreateRental() {
       rentalType: rentalType,
       createdOn: now,
       description: description,
-      // createdBy: createdBy,
+      createdBy: createdBy,
       available: available,
       image: image
     }
@@ -342,8 +345,6 @@ function CreateRental() {
 
 
     axios.post('http://localhost:8080/rental/createRental', postData)
-
-
       .then(response => {
         // handle success
         console.log(response);

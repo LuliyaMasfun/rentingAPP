@@ -44,7 +44,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Calendar() {
+export default function Calendar2() {
   let today = startOfToday();
   let [startDate, setStartDate] = useState(today);
   let [endDate, setEndDate] = useState(null);

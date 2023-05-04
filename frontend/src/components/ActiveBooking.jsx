@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IoEllipsisHorizontalCircle } from 'react-icons/io5';
 import styled from "@emotion/styled";
+import AuthService from "../services/auth.service";
+import axios from "axios";
 
 
 const ActiveBookingCard = styled.div`
@@ -72,23 +74,68 @@ margin-left: 1vh;
 font-size: 12px;
 color: #8E8E8E;
 `;
+const StartDate = styled.p``;
+const EndDate = styled.p``;
+
 
 
 const MyActiveBooking = () => {
-  return (
+  const [data, setData] = useState([]);
 
-    <ActiveBookingCard>
-      <CardTitle>My Active Bookings</CardTitle>
-      <OptionIcon />
-      <Border />
-      <NoBookings>No active bookings</NoBookings>
-      <StartCard>
-        <StartDateTitle>Start date</StartDateTitle>
-      </StartCard>
-      <EndCard>
-        <EndDateTitle>End date</EndDateTitle>
-      </EndCard>
-    </ActiveBookingCard>
+  /*
+  const currentUser = AuthService.getCurrentUser();
+  const userId = currentUser ? JSON.parse(currentUser)?.id : null;
+*/
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/bookingsV2/bookingsOnThisUser/${userId}`);
+        if (response.data.length > 0) {
+          const today = new Date();
+          const closestBooking = response.data.filter(booking => {
+            const bookingDate = new Date(booking.startDateTime);
+            return bookingDate >= today;
+          })[0];
+          setData([closestBooking]);
+          console.log(response.data)
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      {
+        data ? (
+          <ActiveBookingCard>
+            <CardTitle>My Active Bookings</CardTitle>
+            <OptionIcon />
+            <Border />
+            <NoBookings>{ }</NoBookings>
+            <StartCard>
+              <StartDateTitle>Start date</StartDateTitle>
+              <StartDate>{data.startDateTime}</StartDate>
+
+            </StartCard>
+            <EndCard>
+              <EndDateTitle>End date</EndDateTitle>
+              <EndDate>{data.endDateTime}</EndDate>
+            </EndCard>
+          </ActiveBookingCard>
+        ) : (
+          <ActiveBookingCard>
+            <CardTitle>My Active Bookings</CardTitle>
+            <OptionIcon />
+            <Border />
+            <NoBookings>No active bookings</NoBookings>
+
+          </ActiveBookingCard>
+        )}
+    </div>
   )
 }
 
