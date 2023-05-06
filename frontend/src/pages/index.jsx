@@ -8,7 +8,6 @@ import Login2 from "./Login2";
 function App() {
   return (
     <div>
-      <Login />
       <Login2 />
 
       {/* <LandingPage /> */}
