@@ -12,6 +12,8 @@ import CheckButton from "react-validation/build/button";
 import { useRouter } from "next/router";
 
 import AuthService from "../services/auth-service";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const Page = styled.div`
   height: 100vh;
@@ -65,7 +67,7 @@ const InputEmail = styled(Input)`
 `;
 const InputPassword = styled(Input)`
   position: absolute;
-  margin-top: 180px;
+  margin-top: 150px;
   border: none;
   padding: 10px;
   width: 260px;
@@ -180,6 +182,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
   const onChangeEmail = (e) => {
     const email = e.target.value;
@@ -226,29 +229,41 @@ const Login = () => {
       <Title>Welcome Back,</Title>
       <Subtitle>please enter your credentials</Subtitle>
       <FormLogin onSubmit={handleLogin} ref={form}>
-        <InputEmail
-          type="text"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={onChangeEmail}
-          validations={[required]}
-        />
-        <InputPassword
-          type="text"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={onChangePassword}
-          validations={[required]}
-        />
-        <Link
-          href={{
-            pathname: "/resetPassword",
-          }}
-        >
-          <ForgotPasswordLink>Forgot password</ForgotPasswordLink>
-        </Link>
+        <div className="flex-col justify-center items-center">
+          <InputEmail
+            type="text"
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={onChangeEmail}
+            validations={[required]}
+          />
+          <div className="flex justify-center items-center">
+            <div onClick={() => setPasswordIsVisible(!passwordIsVisible)}>
+              {passwordIsVisible ? (
+                <VisibilityOffIcon />
+              ) : (
+                <VisibilityOffIcon />
+              )}
+            </div>
+
+            <InputPassword
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={password}
+              onChange={onChangePassword}
+              validations={[required]}
+            />
+          </div>
+          <Link
+            href={{
+              pathname: "/resetPassword",
+            }}
+          >
+            <ForgotPasswordLink>Forgot password</ForgotPasswordLink>
+          </Link>
+        </div>
 
         <ButtonLogin onClick={handleLogin}>Log in</ButtonLogin>
         <CheckButton ref={checkBtn} />

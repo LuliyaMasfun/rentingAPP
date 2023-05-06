@@ -28,16 +28,16 @@ const Sidebar = ({ isOpen, onDataChange }) => {
           </div> */}
 
           <div
-            className={`md:block md:w-64 bg-gray-800 h-screen fixed sm:w-32 md:bg-neutral-700 top-0 right-0 z-40 transform ${
+            className={`md:block md:w-64 bg-gray-800 h-screen fixed sm:w-24 md:bg-neutral-700 top-0 right-0 z-40 transform ${
               isOpen ? "translate-x-0" : "translate-x-full"
             } transition-all duration-300 ease-in-out`}
           >
             <div className="flex items-center justify-center mt-10">
-              <div className="flex items-center justify-center bg-transparent border-none rounded-md shadow-black hover:cursor-pointer">
+              <div className="flex items-center justify-center bg-transparent border-none rounded-md shadow-black outline-none hover:cursor-pointer focus:border-none">
                 <SearchIcon />
                 <input
                   type="   search"
-                  className="rounded-md bg-transparent shadow-md shadow-black border-none text-white "
+                  className="rounded-md bg-transparent shadow-sm shadow-black border-none text-white focus:border-none outline-none "
                   placeholder="Search..."
                   onChange={(event) => setQuery(event.target.value)}
                 />
