@@ -99,11 +99,14 @@ const Login2 = () => {
 
             <div className="flex w-full relative justify-center items-center">
               <label className="" htmlFor="password"></label>
-              <div onClick={handlePasswordVisibility} className=" left-0">
+              <div
+                onClick={handlePasswordVisibility}
+                className="flex-col left-0 justify-end items-end hover:cursor"
+              >
                 {isPasswordVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
               </div>
               <input
-                className="border-b py-2 w-260 bg-transparent rounded-sm focus:border focus:border-b-white text-white placeholder-white mt-5"
+                className="border-b py-2 w-full w-260 bg-transparent rounded-sm focus:border focus:border-b-white text-white placeholder-white mt-5 justify-end text-start"
                 id="password"
                 name="password"
                 type={isPasswordVisible ? "text" : "password"}
@@ -122,14 +125,14 @@ const Login2 = () => {
             <div className="container w-full mt-32">
               <div className="text-center mb-4">
                 <button
-                  className="flex border-none h-3 p-10 w-full text-center items-center justify-center bg-white text-#1e1e1e font-bold text-lg rounded-md shadow-md "
+                  className="flex border-none h-2 p-6 w-full text-center items-center justify-center bg-white text-#1e1e1e font-bold text-lg rounded-md shadow-md "
                   type="submit"
                 >
                   Log in
                 </button>
               </div>
 
-              <div className="flex p-3 bg-transparent border border-white mt-5 justify-start rounded-md shadow-sm shadow-black">
+              <div className="flex p-2 bg-transparent border border-white mt-5 justify-start rounded-md shadow-sm shadow-black">
                 <Image src={bankid} alt="bankId logga" />
                 <button
                   className="w-full text-center text-white font-bold text-lg "
