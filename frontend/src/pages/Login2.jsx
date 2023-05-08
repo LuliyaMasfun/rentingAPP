@@ -27,11 +27,11 @@ const Login2 = () => {
     validationSchema: Yup.object({
       email: Yup.string()
         .max(15, "Must be 15 characters or less")
-        .required("Required"),
+        .required("This field is required"),
       password: Yup.string()
         .max(20, "Must between 5 and 20 charakters")
         .min(5, "Must between 5 and 20 charakters")
-        .required("Required"),
+        .required("This field is required"),
     }),
 
     onSubmit: (values) => {
@@ -94,7 +94,7 @@ const Login2 = () => {
               placeholder="Email"
             />
             {formik.touched.email && formik.errors.email ? (
-              <p2 className="error">{formik.errors.email}</p2>
+              <p className="error">{formik.errors.email}</p>
             ) : null}
 
             <div className="flex w-full relative justify-center items-center">
@@ -120,7 +120,7 @@ const Login2 = () => {
               <p className="error">{formik.errors.password}</p>
             ) : null}
 
-            {errorMessage && <div className="error">{errorMessage}</div>}
+            {errorMessage && <div className="text-white">{errorMessage}</div>}
 
             <div className="flex pt-5 w-full items-center justify-center ">
               <Link href="/">
