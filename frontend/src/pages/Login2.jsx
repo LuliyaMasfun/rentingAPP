@@ -122,6 +122,14 @@ const Login2 = () => {
 
             {errorMessage && <div className="error">{errorMessage}</div>}
 
+            <div className="flex pt-5 w-full items-center justify-center ">
+              <Link href="/">
+                <p className="border-b text-white items-center w-full justify-center pt-5">
+                  Forgot password
+                </p>
+              </Link>
+            </div>
+
             <div className="container w-full mt-32">
               <div className="text-center mb-4">
                 <button

@@ -14,10 +14,14 @@ const TestNavbar = () => {
   };
 
   return (
-    <nav className="flex items-center bg-dgray p-6">
+    <nav
+      className={`flex items-center bg-dgray p-6 ${
+        isOpen ? "flex-shrink-1" : ""
+      }`}
+    >
       <div className="flex w-full items-center flex-shrink-0 text-white">
-        <div className="flex items-center flex-shrink-0 justify-between w-full">
-          <div className="flex items-center justify-between">
+        <div className="relative pt-10 flex w-full items-center flex-shrink-0 justify-evenly">
+          <div className="flex absolute left-0 items-center justify-between">
             <button
               className="flex items-center px-3 py-2 border rounded text-gray-200 border-gray-400 hover:text-white hover:border-white"
               onClick={() => setIsOpen(!isOpen)}
@@ -36,7 +40,7 @@ const TestNavbar = () => {
             </Link>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex absolute right-0 items-center justify-between">
             <div className="pr-10">
               <FaRegBell height={100} width={100} />
             </div>

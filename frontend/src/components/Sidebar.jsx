@@ -13,7 +13,7 @@ const Sidebar = ({ isOpen, onDataChange }) => {
         <>
           <button
             onClick={() => onDataChange(isOpen)}
-            className="fixed top-0 right-0 p-2 text-gray-800 bg-gray-200 rounded-full z-50"
+            className="fixed top-0 right-0 p-2 text-gray-800 bg-gray-200 rounded-full"
           >
             {isOpen ? <IoClose size={20} /> : <IoMenu size={20} />}
           </button>
@@ -28,16 +28,16 @@ const Sidebar = ({ isOpen, onDataChange }) => {
           </div> */}
 
           <div
-            className={`md:block md:w-64 bg-gray-800 h-screen fixed sm:w-24 md:bg-neutral-700 top-0 right-0 z-40 transform ${
+            className={`md:block md:w-64 bg-gray-800 h-screen fixed sm:bg-red-500 md:bg-neutral-700 top-0 right-0 z-40 transform ${
               isOpen ? "translate-x-0" : "translate-x-full"
             } transition-all duration-300 ease-in-out`}
           >
             <div className="flex items-center justify-center mt-10">
-              <div className="flex items-center justify-center bg-transparent border-none rounded-md shadow-black outline-none hover:cursor-pointer focus:border-none">
+              <div className="flex items-center justify-center bg-transparent border-none active:border-none rounded-md shadow-black hover:cursor-pointer min-w-max">
                 <SearchIcon />
                 <input
                   type="   search"
-                  className="rounded-md bg-transparent shadow-sm shadow-black border-none text-white focus:border-none outline-none "
+                  className="rounded-md bg-transparent shadow-sm shadow-black border-none text-white focus:border-none pl-2 active:border-none "
                   placeholder="Search..."
                   onChange={(event) => setQuery(event.target.value)}
                 />
@@ -69,7 +69,7 @@ const Sidebar = ({ isOpen, onDataChange }) => {
                     onClick={() => (window.location.pathname = item.path)}
                     className="flex w-full my-5 hover:bg-slate-300 cursor-pointer hover:rounded-md"
                   >
-                    <div className="pr-5">{item.icon}</div>{" "}
+                    <div className="pr-5 min-w-max">{item.icon}</div>{" "}
                     <p className="pl=5">{item.title}</p>
                   </li>
                 ))}
