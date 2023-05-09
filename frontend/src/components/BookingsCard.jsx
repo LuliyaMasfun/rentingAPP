@@ -329,8 +329,8 @@ function Booking() {
               <SavedMessageContainer>
                 {savedMessage && <SaveMessage>{savedMessage}</SaveMessage>}
               </SavedMessageContainer>
-              <RejectBtn onClick={() => handleApproveBooking(booking?.id)}>Reject</RejectBtn>
-              <AcceptBtn onClick={() => handleRejectBooking(booking?.id)}>Approve</AcceptBtn>
+              <RejectBtn onClick={() => handleRejectBooking(booking?.id)} >Reject</RejectBtn>
+              <AcceptBtn onClick={() => handleApproveBooking(booking?.id)}>Approve</AcceptBtn>
             </div>
           )}
           <Border />

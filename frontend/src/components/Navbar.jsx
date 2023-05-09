@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import profileImg from "../../public/profilePic16.png"
@@ -44,19 +44,33 @@ const ProfileImg = styled(Image)`
   margin-left: 35vh;
 `;
 const Menu = styled(Menu1)`
+position: fixed;
+
+transition: transform 0.3s ease - out;
+transform: translateX(${({ isOpen }) => (isOpen ? '0' : '100%')});
+
 `;
 
-
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div>
 
       <Container>
-        <HamburgerIcon />
+        <HamburgerIcon onClick={toggleMenu} />
 
         <Link href="/user/LandingPage" >
           <CompanyLogo src={changersHub} />
         </Link>
+
+        {isMenuOpen && (
+          <Menu />
+        )}
 
         <NotificationIcon />
         <ProfileImg src={profileImg} />

@@ -16,11 +16,12 @@ function LineChart() {
     title: {
       text: 'Bookings made per month',
       style: {
-        color: '#EFEFEF'
+        color: '#EFEFEF',
+        fontSize: 16,
       }
     },
     xAxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      categories: ['1 May', '', '', '', '', '', '15 Maj', '', '', '', '', '', '', '', '30 May']
     },
     yAxis: {
       title: {
@@ -32,7 +33,7 @@ function LineChart() {
     },
     series: [{
       name: 'Bookings',
-      data: [100, 150, 200, 103, 250, 280, 350, 400, 450, 390, 550, 600],
+      data: [58, 142, 187, 103, 221, 43, 58, 108, 58, 142, 187, 103, 221, 43, 58],
       color: 'yellow'
     }]
 

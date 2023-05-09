@@ -3,6 +3,7 @@ import { IoEllipsisHorizontalCircle } from 'react-icons/io5';
 import styled from "@emotion/styled";
 import AuthService from "../services/auth.service";
 import axios from "axios";
+import Link from "next/link";
 
 
 const ActiveBookingCard = styled.div`
@@ -74,32 +75,45 @@ margin-left: 1vh;
 font-size: 12px;
 color: #8E8E8E;
 `;
-const StartDate = styled.p``;
-const EndDate = styled.p``;
+const StartDate = styled.p`
+color: #FEFEFE;
+font-size: 12px;
+margin-left: 9px;
+`;
+const EndDate = styled.p`
+color: #FEFEFE;
+font-size: 12px;
+margin-left: 9px;
 
+`;
+const BookingName = styled.p`
+position:absolute;
+margin-top: 6vh;
+margin-left:3vh;
+color: #FEFEFE;
+font-size: 16px;
+`;
+const BookingStatus = styled.p`
+position:absolute;
+margin-top: 9vh;
+margin-left:3vh;
+color: #8E8E8E;
+font-size: 12px;
+`;
 
 
 const MyActiveBooking = () => {
   const [data, setData] = useState([]);
 
-  /*
-  const currentUser = AuthService.getCurrentUser();
-  const userId = currentUser ? JSON.parse(currentUser)?.id : null;
-*/
-
   useEffect(() => {
+    const userId = AuthService.getCurrentUser().id;
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/bookingsV2/bookingsOnThisUser/${userId}`);
-        if (response.data.length > 0) {
-          const today = new Date();
-          const closestBooking = response.data.filter(booking => {
-            const bookingDate = new Date(booking.startDateTime);
-            return bookingDate >= today;
-          })[0];
-          setData([closestBooking]);
-          console.log(response.data)
-        }
+        const data = response.data[0]
+        setData(data);
+        console.log(data)
+
       } catch (error) {
         console.error(error);
       }
@@ -111,21 +125,26 @@ const MyActiveBooking = () => {
     <div>
       {
         data ? (
-          <ActiveBookingCard>
-            <CardTitle>My Active Bookings</CardTitle>
-            <OptionIcon />
-            <Border />
-            <NoBookings>{ }</NoBookings>
-            <StartCard>
-              <StartDateTitle>Start date</StartDateTitle>
-              <StartDate>{data.startDateTime}</StartDate>
+          <Link href={{
+            pathname: "/../user/MyBookings"
+          }}>
+            <ActiveBookingCard>
+              <CardTitle>My Active Bookings</CardTitle>
+              <OptionIcon />
+              <Border />
+              <BookingName>{[data.rental ? data.rental.name : "NaN"]}</BookingName>
+              <BookingStatus>{[data.bookingStatus]}</BookingStatus>
+              <StartCard>
+                <StartDateTitle>Start date</StartDateTitle>
+                <StartDate>{[data.startDateTime]}</StartDate>
 
-            </StartCard>
-            <EndCard>
-              <EndDateTitle>End date</EndDateTitle>
-              <EndDate>{data.endDateTime}</EndDate>
-            </EndCard>
-          </ActiveBookingCard>
+              </StartCard>
+              <EndCard>
+                <EndDateTitle>End date</EndDateTitle>
+                <EndDate>{data.endDateTime}</EndDate>
+              </EndCard>
+            </ActiveBookingCard>
+          </Link>
         ) : (
           <ActiveBookingCard>
             <CardTitle>My Active Bookings</CardTitle>

@@ -228,10 +228,6 @@ height:65px;
 margin-bottom: 3vh;
 color: white;
 `;
-const Calendar = styled(DateRangePickerCalendar)({
-
-});
-
 
 const TimePicker2 = styled(TimePicker.RangePicker)`
 background-color: transparent;
@@ -244,9 +240,20 @@ text-align: center;
 background-color: #F3F3F3;
 margin-top: 3vh;
 color: yellow !important;
-  
 `;
-
+const CreateMessageContainer = styled.div`
+width: 280px;
+margin-left: 55px;
+margin-top: 520px;
+position: fixed;
+transition: visibility 0.5s ease-in-out;
+`;
+const CreateMessage = styled.p`
+text-align: center;
+font-weight: 600;
+background-color: #F8F360;
+border-radius: 2px;
+`;
 
 
 const ThisEquipment = () => {
@@ -263,6 +270,7 @@ const ThisEquipment = () => {
   const handleFocusChange = newFocus => {
     setFocus(newFocus || START_DATE)
   }
+  const [createdMessage, setCreatedMessage] = useState(null);
 
   /* EQUIPMENT */
   useEffect(() => {
@@ -307,15 +315,26 @@ const ThisEquipment = () => {
       .then(response => {
         console.log(response.data);
         const rentalName = response.data.rental.name;
-        /* setCreatedMessage(`${rentalName} was booked`);
-          setTimeout(() => {
-            setCreatedMessage(null);
-          }, 3000); */
+        setCreatedMessage(`${rentalName} was booked`);
+        setTimeout(() => {
+          setCreatedMessage(null);
+        }, 3000);
       })
       .catch(error => {
-        console.error(error);
+
+        console.log(error.response.data);
+
+        const errorMessage = error.response.data.message;
+        setCreatedMessage(`Booking failed: ${errorMessage}`);
       });
   };
+  useEffect(() => {
+    if (createdMessage) {
+      setTimeout(() => {
+        setCreatedMessage(null);
+      }, 3000);
+    }
+  }, [createdMessage]);
 
 
   /* CALENDAR */
@@ -443,7 +462,9 @@ const ThisEquipment = () => {
     <div>
       {data ? (
         <Page>
-
+          <CreateMessageContainer>
+            {createdMessage && <CreateMessage>{createdMessage}</CreateMessage>}
+          </CreateMessageContainer>
           <EquipmentImage src={checkType(data)} />
           <Brand>{equipmentBrand}</Brand>
           <Name>{data.name}</Name>

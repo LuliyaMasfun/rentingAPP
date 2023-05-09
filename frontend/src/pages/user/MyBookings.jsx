@@ -12,6 +12,7 @@ import approved from '../../../public/approved.png'
 import pending from '../../../public/pending.png'
 import "../../styles/globals.css"
 import Link from "next/link";
+import AuthService from "../../services/auth.service";
 
 
 const Page = styled.div`
@@ -206,16 +207,12 @@ background-color: #3E1F18;
 border-radius: 2px;
 `;
 
-
-
-
-
 const MyBookings = () => {
   const [data, setData] = useState([]);
   const [rentalNames, setRentalNames] = useState({});
 
   useEffect(() => {
-    const userId = 47;
+    const userId = AuthService.getCurrentUser().id;
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/bookingsV2/bookingsOnThisUser/${userId}`);

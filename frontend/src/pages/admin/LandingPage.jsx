@@ -23,7 +23,7 @@ const MyTasksCard = styled.div`
 position:absolute;
 background-color:#424242;
 margin-left:3vh;
-margin-top: 10vh;
+margin-top: 35vh;
 width: 160px;
 height: 150px;
 border-radius: 10px;
@@ -33,7 +33,7 @@ const ManageBookingsCard = styled.div`
 position:absolute;
 background-color:#424242;
 margin-left:24vh;
-margin-top: 10vh;
+margin-top: 35vh;
 width: 160px;
 height: 150px;
 border-radius: 10px;
@@ -43,7 +43,7 @@ const ManageRentalsCard = styled.div`
 position:absolute;
 background-color:#424242;
 margin-left:24vh;
-margin-top: 30vh;
+margin-top: 55vh;
 width: 160px;
 height: 150px;
 border-radius: 10px;
@@ -53,7 +53,7 @@ const TrackBookingsCard = styled.div`
 position:absolute;
 background-color:#424242;
 margin-left:3vh;
-margin-top: 30vh;
+margin-top: 55vh;
 width: 160px;
 height: 150px;
 border-radius: 10px;
@@ -63,8 +63,8 @@ const UnkownCard = styled.div`
 position:absolute;
 background-color:#424242;
 margin-left:3vh;
-margin-top: 50vh;
-width: 340px;
+margin-top: 15vh;
+width: 337px;
 height: 150px;
 border-radius: 10px;
 box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
@@ -148,6 +148,16 @@ margin-top: 7vh;
 color: yellow;
 `;
 
+const DashboardTxt = styled.p`
+position:absolute;
+margin-top: 8vh;
+line-height:20px;
+margin-left: 3vh;
+font-weight: 500;
+color: #EFEFEF;
+font-size: 20px;
+`;
+
 
 
 
@@ -183,7 +193,11 @@ const LandingPage = () => {
   return (
     <Page>
       <Navbar />
+      <DashboardTxt>Dashboard</DashboardTxt>
       <DashboardContainer>
+        <UnkownCard>
+          <LineChart />
+        </UnkownCard>
         <MyTasksCard>
           <MyTasksTitle>
             My Tasks
@@ -218,9 +232,6 @@ const LandingPage = () => {
             <TrackBookingsIcon />
           </TrackBookingsCard>
         </Link>
-        <UnkownCard>
-          <LineChart />
-        </UnkownCard>
       </DashboardContainer>
 
     </Page >

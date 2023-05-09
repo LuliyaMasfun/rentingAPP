@@ -33,16 +33,13 @@ const login = async (email, password) => {
 };
 
 const getCurrentUser = () => {
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
-  }, []);
 
-  return user;
+  const userData = localStorage.getItem("user");
+
+
+
+  return JSON.parse(userData);;
 };
 
 const logout = () => {

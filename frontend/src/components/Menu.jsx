@@ -4,12 +4,14 @@ import Link from "next/link";
 
 
 const BackgroundContainer = styled.div`
-position: absolute;
+z-index: 1;
+position: fixed;
 background-color: #F3F3F3;
-height: 844px;
+height: 787px;
 width: 195px;
-margin-top: 55px;
+margin-top: 850px;
 border-radius: 5px;
+margin-left: -190px;
 `;
 const MyBookingsLbl = styled.p``;
 function Menu() {

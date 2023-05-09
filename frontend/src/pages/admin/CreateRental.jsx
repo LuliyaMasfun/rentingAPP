@@ -310,25 +310,26 @@ function CreateRental() {
   const handleCreate = () => {
     const now = new Date().toISOString();
     setCreatedOn(now);
-
-
-    // 
-    // setCreatedBy(`${firstName} ${lastName}`);
     const user = AuthService.getCurrentUser();
     const userName = `${user.firstName} ${user.lastName}`;
     setCreatedBy(userName)
 
     const postData = {
-      name: name,
-      location: location,
-      image: rentalImage,
-      maxTimeToRent: maxTimeToRent,
-      rentalType: rentalType,
-      createdOn: now,
-      description: description,
-      createdBy: createdBy,
-      available: available,
-      image: image
+    }
+    if (name) {
+      postData.name = name;
+    }
+    if (location) {
+      postData.location = location;
+    }
+    if (maxTimeToRent) {
+      postData.maxTimeToRent = maxTimeToRent;
+    }
+    if (rentalType) {
+      postData.rentalType = rentalType;
+    }
+    if (description) {
+      postData.description = description;
     }
     if (equipmentType) {
       postData.equipmentType = equipmentType;
