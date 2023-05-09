@@ -11,4 +11,6 @@ public interface RentalRepository  extends JpaRepository<Rental, Long> {
 
     List<Rental> findRentalByRentalType(RentalType rentalType);
     Rental findRentalById(Long id);
+
+
 }

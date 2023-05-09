@@ -9,7 +9,7 @@ function ColumnChart() {
   useEffect(() => {
     async function fetchData() {
       const response = await axios.get(
-        "http://localhost:8080/bookings/allHubBookings"
+        "http://localhost:8080/bookingsV2/allBookings"
       );
       const bookings = response.data;
       const groupedData = bookings.reduce((result, booking) => {
@@ -30,10 +30,15 @@ function ColumnChart() {
     chart: {
       type: "column",
       width: 350,
-      height: 250
+      height: 250,
+      backgroundColor: 'transparent'
     },
     title: {
-      text: "Column Chart",
+      text: "Rejected and approved bookings",
+      style: {
+        color: '#EFEFEF',
+        fontSize: 16,
+      }
     },
     xAxis: {
       categories: Object.keys(data),

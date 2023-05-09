@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import profileImg from "../../public/profilePic16.png"
@@ -6,6 +6,7 @@ import { IoFilter } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa";
 import changersHub from "../../public/changershub.png";
 import Link from "next/link";
+import Menu1 from "./Menu";
 
 const Container = styled.div`
   display: flex;
@@ -42,20 +43,39 @@ const ProfileImg = styled(Image)`
   position: absolute;
   margin-left: 35vh;
 `;
+const Menu = styled(Menu1)`
+position: fixed;
+
+transition: transform 0.3s ease - out;
+transform: translateX(${({ isOpen }) => (isOpen ? '0' : '100%')});
+
+`;
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <Container>
+    <div>
 
-      <HamburgerIcon />
-      <Link href="/user/LandingPage" >
-        <CompanyLogo src={changersHub} />
-      </Link>
+      <Container>
+        <HamburgerIcon onClick={toggleMenu} />
 
-      <NotificationIcon />
-      <ProfileImg src={profileImg} />
+        <Link href="/user/LandingPage" >
+          <CompanyLogo src={changersHub} />
+        </Link>
 
-    </Container>
+        {isMenuOpen && (
+          <Menu />
+        )}
+
+        <NotificationIcon />
+        <ProfileImg src={profileImg} />
+      </Container>
+    </div>
   )
 };
 

@@ -4,37 +4,40 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 function PieChart() {
-  const [data, setData] = useState(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await axios.get("http://localhost:8080/hub/getAllHubs");
-      const data = response.data;
-      setData(data);
-    }
-
-    fetchData();
-  }, []);
-
-
-  if (!data) {
-    return <div>Loading...</div>;
-  }
-
+  const rentalTypes = ["Hub", "Events", "Equipments"];
 
   const options = {
     chart: {
       type: "pie",
       width: 350,
-      height: 200
+      height: 200,
+      backgroundColor: "transparent",
     },
     title: {
-      text: "Pie Chart",
+      text: "Bookings per rental type",
+      style: {
+        color: "#EFEFEF",
+        fontSize: 16,
+      },
     },
     series: [
       {
-        name: "Hubs",
-        data: data.map((item) => ({ name: item.hub, y: 2 })),
+        name: "Rental Types",
+        data: [
+          {
+            name: rentalTypes[0],
+            y: 13
+          },
+          {
+            name: rentalTypes[1],
+            y: 2
+          },
+          {
+            name: rentalTypes[2],
+            y: 27
+          }
+        ],
       },
     ],
   };

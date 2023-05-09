@@ -1,7 +1,7 @@
 import React from "react";
 import LineChart from "../../components/charts/LineChart";
-import PieChartImport from "../../components/charts/PieChart";
-import ColumnChartImport from "../../components/charts/ColumnChart";
+import PieChart from "../../components/charts/PieChart";
+import ColumnChart from "../../components/charts/ColumnChart";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import styled from "@emotion/styled";
 
@@ -20,12 +20,12 @@ margin-top: 60px;
 margin-left: 35px;
 color: white;
 `;
-const PieChart = styled(PieChartImport)`
-display: flex;
-margin-top: 130px;
+const PieContainer = styled.div`
+margin-top: 140px;
+margin-bottom: 40px;
 `;
-const ColumnChart = styled(ColumnChartImport)`
-margin-left: 30px;
+const ColumnContainer = styled.div`
+margin-bottom: 40px;
 `;
 
 function TrackBooking() {
@@ -34,8 +34,13 @@ function TrackBooking() {
       <Page>
         <NavbarAdmin />
         <PageTitle>Track Bookings</PageTitle>
-        <PieChart />
-        <ColumnChart />
+        <PieContainer>
+          <PieChart />
+        </PieContainer>
+        <ColumnContainer>
+          <ColumnChart />
+        </ColumnContainer>
+        <LineChart />
       </Page>
 
     </div>

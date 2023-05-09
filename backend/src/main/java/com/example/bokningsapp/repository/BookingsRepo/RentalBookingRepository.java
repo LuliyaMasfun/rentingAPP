@@ -12,6 +12,7 @@ public interface RentalBookingRepository extends JpaRepository <RentalBooking, I
     RentalBooking findRentalBookingById(int id);
 
     List <RentalBooking> findAllByRentalId(Long id);
+    List <RentalBooking> findAllByUserId(Long id);
     Boolean existsByRentalIdAndStartDateTimeLessThanEqualAndEndDateTimeGreaterThanEqual(
             Long rentalId, LocalDateTime endDateTime, LocalDateTime startDateTime);
 

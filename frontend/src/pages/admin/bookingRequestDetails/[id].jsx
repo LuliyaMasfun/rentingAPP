@@ -606,7 +606,7 @@ function BookingDetails() {
     const startDateTime = new Date(data.startDateTime);
     const endDateTime = new Date(data.endDateTime);
     const diffInMs = Math.abs(startDateTime.getTime() - endDateTime.getTime());
-    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
     if (data.length > 13) {
       data = data.substr(0, 13) + '\n' + data.substr(13);
     }
@@ -656,7 +656,7 @@ function BookingDetails() {
 
             <RowTotalTime>
               <TotalTimeLbl>Total Time Requested</TotalTimeLbl>
-              <TotalTime>{diffInMs}</TotalTime>
+              <TotalTime>{diffInHours}</TotalTime>
               <BorderRow7 />
             </RowTotalTime>
 

@@ -202,9 +202,9 @@ const required = (value) => {
 const validEmail = (value) => {
   if (!isEmail(value)) {
     return (
-      <AlertEmail role="alert">
+      <Alert role="alert">
         This is not a valid email.
-      </AlertEmail>
+      </Alert>
     );
   }
 };
@@ -212,9 +212,9 @@ const validEmail = (value) => {
 const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
-      <AlertPassword role="alert">
+      <Alert role="alert">
         The password must be between 6 and 40 characters.
-      </AlertPassword>
+      </Alert>
     );
   }
 };

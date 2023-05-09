@@ -310,22 +310,26 @@ function CreateRental() {
   const handleCreate = () => {
     const now = new Date().toISOString();
     setCreatedOn(now);
-
-    // const currentUser = AuthService.getCurrentUser();
-    // const { firstName, lastName } = currentUser;
-    // setCreatedBy(`${firstName} ${lastName}`);
+    const user = AuthService.getCurrentUser();
+    const userName = `${user.firstName} ${user.lastName}`;
+    setCreatedBy(userName)
 
     const postData = {
-      name: name,
-      location: location,
-      image: rentalImage,
-      maxTimeToRent: maxTimeToRent,
-      rentalType: rentalType,
-      createdOn: now,
-      description: description,
-      // createdBy: createdBy,
-      available: available,
-      image: image
+    }
+    if (name) {
+      postData.name = name;
+    }
+    if (location) {
+      postData.location = location;
+    }
+    if (maxTimeToRent) {
+      postData.maxTimeToRent = maxTimeToRent;
+    }
+    if (rentalType) {
+      postData.rentalType = rentalType;
+    }
+    if (description) {
+      postData.description = description;
     }
     if (equipmentType) {
       postData.equipmentType = equipmentType;
@@ -342,8 +346,6 @@ function CreateRental() {
 
 
     axios.post('http://localhost:8080/rental/createRental', postData)
-
-
       .then(response => {
         // handle success
         console.log(response);

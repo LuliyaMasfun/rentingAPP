@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IoEllipsisHorizontalCircle } from 'react-icons/io5';
 import styled from "@emotion/styled";
+import AuthService from "../services/auth.service";
+import axios from "axios";
+import Link from "next/link";
 
 
 const ActiveBookingCard = styled.div`
@@ -72,23 +75,86 @@ margin-left: 1vh;
 font-size: 12px;
 color: #8E8E8E;
 `;
+const StartDate = styled.p`
+color: #FEFEFE;
+font-size: 12px;
+margin-left: 9px;
+`;
+const EndDate = styled.p`
+color: #FEFEFE;
+font-size: 12px;
+margin-left: 9px;
+
+`;
+const BookingName = styled.p`
+position:absolute;
+margin-top: 6vh;
+margin-left:3vh;
+color: #FEFEFE;
+font-size: 16px;
+`;
+const BookingStatus = styled.p`
+position:absolute;
+margin-top: 9vh;
+margin-left:3vh;
+color: #8E8E8E;
+font-size: 12px;
+`;
 
 
 const MyActiveBooking = () => {
-  return (
+  const [data, setData] = useState([]);
 
-    <ActiveBookingCard>
-      <CardTitle>My Active Bookings</CardTitle>
-      <OptionIcon />
-      <Border />
-      <NoBookings>No active bookings</NoBookings>
-      <StartCard>
-        <StartDateTitle>Start date</StartDateTitle>
-      </StartCard>
-      <EndCard>
-        <EndDateTitle>End date</EndDateTitle>
-      </EndCard>
-    </ActiveBookingCard>
+  useEffect(() => {
+    const userId = AuthService.getCurrentUser().id;
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/bookingsV2/bookingsOnThisUser/${userId}`);
+        const data = response.data[0]
+        setData(data);
+        console.log(data)
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      {
+        data ? (
+          <Link href={{
+            pathname: "/../user/MyBookings"
+          }}>
+            <ActiveBookingCard>
+              <CardTitle>My Active Bookings</CardTitle>
+              <OptionIcon />
+              <Border />
+              <BookingName>{[data.rental ? data.rental.name : "NaN"]}</BookingName>
+              <BookingStatus>{[data.bookingStatus]}</BookingStatus>
+              <StartCard>
+                <StartDateTitle>Start date</StartDateTitle>
+                <StartDate>{[data.startDateTime]}</StartDate>
+
+              </StartCard>
+              <EndCard>
+                <EndDateTitle>End date</EndDateTitle>
+                <EndDate>{data.endDateTime}</EndDate>
+              </EndCard>
+            </ActiveBookingCard>
+          </Link>
+        ) : (
+          <ActiveBookingCard>
+            <CardTitle>My Active Bookings</CardTitle>
+            <OptionIcon />
+            <Border />
+            <NoBookings>No active bookings</NoBookings>
+
+          </ActiveBookingCard>
+        )}
+    </div>
   )
 }
 
