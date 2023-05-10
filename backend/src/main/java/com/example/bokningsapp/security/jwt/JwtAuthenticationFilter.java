@@ -16,20 +16,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 @Component
+@RequiredArgsConstructor
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
-    private  JwtService jwtService;
-    private  UserDetailsService userDetailsService;
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
-        this.jwtService = jwtService;
-        this.userDetailsService = userDetailsService;
-    }
-
-    public JwtAuthenticationFilter() {
-    }
 
     @Override
     protected void doFilterInternal(
@@ -41,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String userEmail;
+        final String email;
 
         if (authHeader == null || authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
@@ -49,10 +43,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwt);
+        email = jwtService.extractUsername(jwt);
 
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication()==null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+        if (email != null && SecurityContextHolder.getContext().getAuthentication()==null) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
             if(jwtService.isTokenValid(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,

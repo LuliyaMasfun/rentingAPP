@@ -3,15 +3,16 @@ package com.example.bokningsapp.security.jwt;
 
 import com.example.bokningsapp.enums.ERole;
 import com.example.bokningsapp.model.User;
+import com.example.bokningsapp.service.UserDetailsImpl.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,9 +20,16 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class  JwtService {
 
-    private static final String SECRET_KEY="2A46294A404E635266556A586E3272357538782F413F4428472B4B6150645367";
+
+
+    private static final String SECRET_KEY="3777217A25432A462D4A614E645267556B586E3272357538782F413F4428472B4B6250655368566D5971337336763979244226452948404D635166546A576E5A";
+
+    private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
+
+
+
 
     public static Long getUserIdFromToken(String token) {
         Claims claims;
@@ -64,14 +72,15 @@ public class JwtService {
     }
     public String generateToken(
             Map<String, Object> extraClaims,
+            //han kör UserDetails ist för Usrt
             User userDetails
     ) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUserName())
+                .setSubject(userDetails.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -80,16 +89,16 @@ public class JwtService {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
+                .setSubject(String.format("%s,%s",userPrincipal.getId(),userPrincipal.getEmail()))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .setExpiration(new Date((new Date()).getTime() + EXPIRE_DURATION))
+                .signWith(SignatureAlgorithm.HS512,SECRET_KEY)
                 .compact();
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        final String email = extractUsername(token);
+        return (email.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
     public boolean isTokenExpired(String token) {

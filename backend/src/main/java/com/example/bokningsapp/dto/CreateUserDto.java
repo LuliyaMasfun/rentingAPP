@@ -1,9 +1,11 @@
 package com.example.bokningsapp.dto;
 
 import com.example.bokningsapp.model.Role;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Set;
 
+@RequiredArgsConstructor
 public class CreateUserDto {
 
     private String firstName;
@@ -14,13 +16,8 @@ public class CreateUserDto {
 
     private String password;
 
-    private Set<Role> roles;
+    private Role role;
 
-    public CreateUserDto() {
-    }
-
-    public CreateUserDto(String firstName, String lastName, String email, String password, Set<Role> roles) {
-    }
 
     public String getFirstName() {
         return firstName;
@@ -38,8 +35,8 @@ public class CreateUserDto {
         return password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
     public void setFirstName(String firstName) {
@@ -58,7 +55,7 @@ public class CreateUserDto {
         this.password = password;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRoles(Role role) {
+        this.role = role;
     }
 }

@@ -25,16 +25,14 @@ public class EquipmentController {
 
     private final EquipmentRepository equipmentRepo;
     private final EquipmentService equipmentService;
-    private final JwtService jwtService;
-    private final UserRepository userRepository;
+
     private static final String SECRET_KEY="2A46294A404E635266556A586E3272357538782F413F4428472B4B6150645367";
 
     @Autowired
-    public EquipmentController(EquipmentRepository equipmentRepo, EquipmentService equipmentService, JwtService jwtService, UserRepository userRepository) {
+    public EquipmentController(EquipmentRepository equipmentRepo, EquipmentService equipmentService) {
         this.equipmentRepo = equipmentRepo;
         this.equipmentService = equipmentService;
-        this.jwtService = jwtService;
-        this.userRepository = userRepository;
+
     }
     @PostMapping(value = "/createEquipment")
     @PreAuthorize("hasRole('ADMIN')")

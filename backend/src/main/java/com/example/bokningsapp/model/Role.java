@@ -1,6 +1,7 @@
 package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.ERole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -17,8 +18,10 @@ public class Role {
     @Column(length = 20)
     private ERole name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+
+    @OneToOne
+    @JsonIgnore
+    private User user;
 
     public Role() {
     }
@@ -43,12 +46,11 @@ public class Role {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
-
 }
