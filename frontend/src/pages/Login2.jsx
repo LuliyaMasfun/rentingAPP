@@ -1,15 +1,11 @@
 "use client";
 import React from "react";
 import { useState, useRef } from "react";
-import styled from "@emotion/styled";
 import Link from "next/link";
 import Image from "next/image";
 import bankid from "../../public/bankidIcon.png";
 import "../styles/globals.css";
 import "../styles/Body.css";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-import { useRouter } from "next/router";
 
 import AuthService from "../services/auth-service";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
