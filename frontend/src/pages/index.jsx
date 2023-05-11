@@ -10,7 +10,7 @@ function App() {
     <div>
       <Login2 />
 
-      <LandingPage />
+      {/* <LandingPage /> */}
     </div>
   );
 }

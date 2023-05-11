@@ -39,7 +39,7 @@ public class SignupRequest {
     @Size(max = 15)
     private LocalDate birthDate;
 
-    private Set<String> role;
+    private String role;
 
     public SignupRequest(String firstName, String lastName, String email, String encode, String phoneNumber, String address, LocalDate birthDate) {
     }
@@ -101,11 +101,19 @@ public class SignupRequest {
         this.birthDate = birthDate;
     }*/
 
-    public Set<String> getRoles() {
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Set<String> role) {
+    public void setRole(String role) {
         this.role = role;
     }
 }

@@ -86,7 +86,7 @@ public class UserService {
           user1.setLastName(createUserDto.getLastName());
           user1.setEmail(createUserDto.getEmail());
           user1.setPassword(createUserDto.getPassword());
-          user1.setRoles(user1.getRoles());
+          user1.setRoles(user1.getRole());
           User _user = new User();
 
             System.out.println("Vi testar denna"+user1.getFirstName());
@@ -96,32 +96,40 @@ public class UserService {
           _user.setEmail(user1.getEmail());
           _user.setPassword(user1.getPassword());
 
-            Set<Role> strRoles = createUserDto.getRoles();
-            Set<Role> roles = new HashSet<>();
+          Role role = createUserDto.getRole();
 
-            if (strRoles == null) {
+            Role roleUser = roleRepository.findByName(ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+
+
+            if (role == null) {
                 Role userRole = roleRepository.findByName(ROLE_USER)
                         .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                roles.add(userRole);
+               _user.setRole(userRole);
             } else {
-                strRoles.forEach(role -> {
-                    if (role.equals("admin")) {
+                switch (role.getName().toString()) {
+                    case "admin" -> {
                         Role adminRole = roleRepository.findByName(ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-                    } else if (role.equals("mod")) {
-                        Role modRole = roleRepository.findByName(ROLE_MODERATOR)
+                        _user.setRole(adminRole);
+                    }
+                    case "ROLE_MODERATOR" -> {
+                        Role moderatorRole = roleRepository.findByName(ROLE_MODERATOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-                    } else {
+                        _user.setRole(moderatorRole);
+                    }
+                    case "ROLE_USER" -> {
                         Role userRole = roleRepository.findByName(ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
+                        _user.setRole(userRole);
                     }
-                });
-            }
-            System.out.println(_user);
-          _user.setRoles(roles);
+                    default -> _user.setRole(roleUser);
+                }
+                }
+
+
+
+            System.out.println(_user.getRole().toString());
           userRepository.save(_user);
             return new ResponseEntity<>("User was successfully saved",HttpStatus.OK);
 

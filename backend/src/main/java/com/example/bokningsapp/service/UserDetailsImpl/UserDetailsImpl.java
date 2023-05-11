@@ -1,6 +1,7 @@
 package com.example.bokningsapp.service.UserDetailsImpl;
 
 
+import com.example.bokningsapp.model.Role;
 import com.example.bokningsapp.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +38,13 @@ public class UserDetailsImpl implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserDetailsImpl build(User user) {
+    public UserDetailsImpl(Long id, String email, String password){
+        this.id=id;
+        this.email=email;
+        this.password= password;
+    }
+
+    /*public static UserDetailsImpl build(User user) {
         Collection<GrantedAuthority> authorities = new HashSet<>();
         user.getRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role.getName().toString()));
@@ -53,6 +60,17 @@ public class UserDetailsImpl implements UserDetails {
                 authorities
 
         );
+    }*/
+
+    public static UserDetailsImpl buildWithOutAuthorities(User user){
+
+        return new UserDetailsImpl(
+                user.getId(),
+                user.getEmail(),
+                user.getPassword()
+
+        );
+
     }
 
     @Override

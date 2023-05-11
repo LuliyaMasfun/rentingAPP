@@ -6,7 +6,7 @@ import changersHub from "../../public/changershub.png";
 import profileImg from "../../public/profilePic16.png";
 import Sidebar from "./Sidebar";
 
-const TestNavbar = () => {
+const Navbar2 = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDataChange = (isOpen) => {
@@ -52,4 +52,4 @@ const TestNavbar = () => {
     </nav>
   );
 };
-export default TestNavbar;
+export default Navbar2;

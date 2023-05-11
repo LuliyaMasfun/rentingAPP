@@ -1,10 +1,11 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import TestNavbar from "../../components/TestNavbar";
+import Navbar2 from "../../components/Navbar2";
 import styled from "@emotion/styled";
 import { FaCheckSquare, FaToolbox, FaInbox, FaChartPie } from "react-icons/fa";
 import Link from "next/link";
 import Example from "../../components/Calendar";
+import AuthService from "../../services/auth-service";
 
 const Page = styled.div`
   position: absolute;
@@ -142,7 +143,7 @@ const ManageRentalsIcon = styled(FaToolbox)`
 const LandingPage = () => {
   return (
     <Page>
-      <TestNavbar />
+      <Navbar2 />
       <DashboardContainer>
         <MyTasksCard>
           <MyTasksTitle>My Tasks</MyTasksTitle>

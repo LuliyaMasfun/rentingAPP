@@ -1,17 +1,23 @@
 import axios from "axios";
-import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:8080/auth/authenticate";
+const API_URL = "http://localhost:8080/auth/";
 
 const login = async (email, password) => {
-  const response = await axios.post(API_URL + "signin", {
-    email,
-    password,
-  });
-  if (response.data.jwtToken) {
-    localStorage.setItem("user", JSON.stringify(response.data));
+  try {
+    const response = await axios.post(API_URL + "sign-in", {
+      email,
+      password,
+    });
+    if (response.data.token) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } else {
+      alert("Session storage funkar inte");
+    }
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    setLoading(false);
   }
-  return response.data;
 };
 
 const logout = () => {
@@ -27,7 +33,7 @@ const register = (
   phoneNumber,
   birthdate
 ) => {
-  return axios.post(API_URL + "signup", {
+  return axios.post(API_URL + "sign-up", {
     firstname,
     lastname,
     email,
