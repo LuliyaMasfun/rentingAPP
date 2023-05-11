@@ -12,7 +12,10 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { formik, useFormik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useRouter } from "next/router";
 const Login2 = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const formik = useFormik({
@@ -31,14 +34,14 @@ const Login2 = () => {
     }),
 
     onSubmit: (values) => {
-      console.log(JSON.stringify(values));
       setLoading(true);
       setErrorMessage("");
+      console.log(JSON.stringify(values));
 
       try {
         AuthService.login(values.email, values.password).then(
           () => {
-            navigate("/home");
+            router.push("/LandingPage");
             window.location.reload();
           },
           (error) => {
