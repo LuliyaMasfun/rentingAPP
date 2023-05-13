@@ -1,18 +1,13 @@
 import Navbar2 from "../components/Navbar2";
+import Provider from "../components/Provider";
 import "../styles/globals.css";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.jsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-      <head />
+    <html lang="en" className="">
       <body>
-        <Navbar2 />
-
-        {children}
+        {/* <Navbar2 /> */}
+        <main className="grow">{children}</main>
       </body>
     </html>
   );

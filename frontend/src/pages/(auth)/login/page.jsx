@@ -3,14 +3,12 @@ import React from "react";
 import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import bankid from "../../public/bankidIcon.png";
-import "../styles/globals.css";
-import "../styles/Body.css";
+import bankId from "../../../../public/bankidIcon.png";
 
-import AuthService from "../services/auth-service";
+import AuthService from "../../../services/auth-service";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { formik, useFormik, Form, Field, ErrorMessage } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 const Login2 = () => {
@@ -41,7 +39,7 @@ const Login2 = () => {
       try {
         AuthService.login(values.email, values.password).then(
           () => {
-            router.push("/LandingPage");
+            router.push("/user/landingPage");
             window.location.reload();
           },
           (error) => {
@@ -53,7 +51,7 @@ const Login2 = () => {
               error.toString();
 
             setLoading(false);
-            setErrorMessage(resMessage);
+            setErrorMessage("Your credentials are incorrect, try again!");
           }
         );
       } catch (error) {
@@ -140,7 +138,12 @@ const Login2 = () => {
               </div>
 
               <div className="flex p-2 bg-transparent border border-white mt-5 justify-start rounded-md shadow-sm shadow-black">
-                <Image src={bankid} alt="bankId logga" />
+                <Image
+                  src={bankId}
+                  // width={100}
+                  // height={100}
+                  alt="bankId logga"
+                />
                 <button
                   className="w-full text-center text-white font-bold text-lg "
                   type="submit"

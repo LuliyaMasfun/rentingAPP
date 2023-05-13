@@ -1,9 +1,10 @@
 "use client";
-import '../styles/Body.css'
-import '../styles/globals.css'
+
+import "../styles/Body.css";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps, router }) {
-  return <Component {...pageProps} key={router.route} />
+  return <Component {...pageProps} key={router.route} />;
 }
 
-export default MyApp
+export default MyApp;

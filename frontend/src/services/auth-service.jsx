@@ -8,8 +8,9 @@ const login = async (email, password) => {
       email,
       password,
     });
+    console.log(response.data);
     if (response.data.token) {
-      localStorage.setItem("user", JSON.stringify(response.data));
+      sessionStorage.setItem("user", JSON.stringify(response.data));
     } else {
       alert("Session storage funkar inte");
     }
@@ -21,7 +22,7 @@ const login = async (email, password) => {
 };
 
 const logout = () => {
-  localStorage.removeItem("user");
+  sessionStorage.removeItem("user");
 };
 
 const register = (
@@ -45,7 +46,7 @@ const register = (
 };
 
 const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem("user"));
+  return JSON.parse(sessionStorage.getItem("user"));
 };
 
 const AuthService = {

@@ -1,14 +1,10 @@
 import React from "react";
 
-import Login from "./Login";
-import LandingPage from "./admin/LandingPage";
-import Calendar from "../components/Calendar";
-import Login2 from "./Login2";
-
+import Login from "./(auth)/login/page";
 function App() {
   return (
     <div>
-      <Login2 />
+      <Login />
 
       {/* <LandingPage /> */}
     </div>

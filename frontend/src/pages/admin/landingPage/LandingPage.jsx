@@ -1,11 +1,19 @@
+"use client";
 import React from "react";
-import Navbar from "../../components/Navbar";
-import Navbar2 from "../../components/Navbar2";
+import Navbar from "../../../components/Navbar";
+import Navbar2 from "../../../components/Navbar2";
 import styled from "@emotion/styled";
 import { FaCheckSquare, FaToolbox, FaInbox, FaChartPie } from "react-icons/fa";
 import Link from "next/link";
-import Example from "../../components/Calendar";
-import AuthService from "../../services/auth-service";
+import Example from "../../../components/Calendar";
+import AuthService from "../../../services/auth-service";
+import Login2 from "../../Login2";
+
+import { useSession } from "next-auth/react";
+import { Redirect } from "next";
+import { redirect } from "next/dist/server/api-utils";
+
+const user = AuthService.getCurrentUser();
 
 const Page = styled.div`
   position: absolute;
@@ -140,7 +148,14 @@ const ManageRentalsIcon = styled(FaToolbox)`
   color: yellow;
 `;
 
-const LandingPage = () => {
+const ClientProtectPage = () => {
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/login2?callbackUrl=../../(auth)/login/Login2");
+    },
+  });
+
   return (
     <Page>
       <Navbar2 />
@@ -176,4 +191,5 @@ const LandingPage = () => {
     </Page>
   );
 };
-export default LandingPage;
+
+export default ClientProtectPage;
