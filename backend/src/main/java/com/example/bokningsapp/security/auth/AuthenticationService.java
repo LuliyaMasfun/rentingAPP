@@ -126,8 +126,7 @@ public class AuthenticationService {
             );
             User user = userRepository.findByEmail(authenticationRequest.getEmail()).orElseThrow(()-> new RuntimeException("User not found"));
              String jwtToken = jwtService.generateToken(user);
-        System.out.println("Detta är användarens roll:" + user.getRole().getName().toString());
-
+             
         Set<Role> roles = new HashSet<>();
         roles.add(user.getRole());
 
