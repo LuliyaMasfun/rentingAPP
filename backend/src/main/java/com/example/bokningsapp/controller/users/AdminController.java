@@ -1,6 +1,6 @@
 package com.example.bokningsapp.controller.users;
 
-import com.example.bokningsapp.repository.EquipBookingRepository;
+import com.example.bokningsapp.repository.BookingsRepo.EquipBookingRepository;
 import com.example.bokningsapp.service.adminService.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

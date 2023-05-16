@@ -171,16 +171,30 @@ const Login = styled.span`
   color: white;
   margin-left: 5vh;
 `;
+const Alert = styled.p`
+  position: absolute;
+  margin-top: 50vh;
+  margin-left: 6vh;
+  font-size: 18px;
+  margin-bottom: 40px;
+  color:white;
+`;
 
+const SuccessMessage = styled.div`
+position:absolute;
+margin-top: 10vh;
+margin-left: 5vh;
+color: white;
+`
 
 
 
 const required = (value) => {
   if (!value) {
     return (
-      <div className="alert alert-danger" style={{ marginLeft: "20px" }} role="alert">
+      <Alert role="alert">
         This field is required!
-      </div>
+      </Alert>
     );
   }
 };
@@ -188,9 +202,9 @@ const required = (value) => {
 const validEmail = (value) => {
   if (!isEmail(value)) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <Alert role="alert">
         This is not a valid email.
-      </div>
+      </Alert>
     );
   }
 };
@@ -198,9 +212,9 @@ const validEmail = (value) => {
 const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <Alert role="alert">
         The password must be between 6 and 40 characters.
-      </div>
+      </Alert>
     );
   }
 };
@@ -345,18 +359,20 @@ const SignUp = () => {
 
             </>
           )}
-          {message && (
-            <div className="form-group">
-              <div
-                className={
-                  successful ? "alert alert-success" : "alert alert-danger"
-                }
-                role="alert"
-              >
-                {message}
+          <SuccessMessage>
+            {message && (
+              <div className="form-group">
+                <div
+                  className={
+                    successful ? "alert alert-success" : "alert alert-danger"
+                  }
+                  role="alert"
+                >
+                  {message}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </SuccessMessage>
           <CheckButton ref={checkBtn} />
         </div>
         <Link href={{

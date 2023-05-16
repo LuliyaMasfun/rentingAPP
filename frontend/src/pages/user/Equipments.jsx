@@ -122,11 +122,11 @@ const Name = styled.p`
 position: absolute;
 z-index:2;
 margin-top: 20vh;
-margin-left: -15vh;
+margin-left: -1.5vh;
 font-size: 16px;
 font-weight: 700;
 color: white;
-width: 160px;
+width: 270px;
 `;
 
 const LocationIcon = styled(FaMapMarkerAlt)`
@@ -140,8 +140,9 @@ const LocationTxt = styled.p`
 position: absolute;
 z-index:2;
 margin-top: 23.6vh;
-margin-left: -16vh;
+margin-left: -5.5vh;
 color:white;
+width: 190px;
 `;
 
 
@@ -156,7 +157,7 @@ const EquipmentPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/equipment/allEquipment');
+        const response = await axios.get('http://localhost:8080/rental/getEquipmentRentals');
         setData(response.data);
         console.log(response.data)
       } catch (error) {
@@ -216,11 +217,11 @@ const EquipmentPage = () => {
             </BookmarkContainer>
             <Border />
             <Name>
-              {item.equipmentName}
+              {item.name}
             </Name>
             <LocationIcon />
             <LocationTxt>
-              {item.equipmentLocation}
+              {item.location}
             </LocationTxt>
             <Link href="equipment/[id]" as={`/user/equipment/${item.id}`}>
               <EquipmentImage src={checkType(item)} />

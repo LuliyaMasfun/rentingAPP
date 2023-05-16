@@ -1,27 +1,17 @@
-import { Menu, Transition } from "@headlessui/react";
-import { DotsVerticalIcon } from "@heroicons/react/outline";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
-
+import React, { useState, useEffect } from "react";
+import { format } from "date-fns";
+import { enGB } from "date-fns/locale";
 import {
-  add,
-  addDays,
-  eachDayOfInterval,
-  endOfMonth,
-  format,
-  getDay,
-  isEqual,
-  isSameDay,
-  isSameMonth,
-  isToday,
-  parse,
-  parseISO,
-  differenceInDays,
-  startOfToday,
-  isWithinInterval,
-  isBefore,
-} from "date-fns";
-import Image from "next/image";
-import { Fragment, useState } from "react";
+  DateRangePickerCalendar,
+  START_DATE,
+  useDateInput,
+} from "react-nice-dates";
+import "react-nice-dates/build/style.css";
+import styled from "@emotion/styled";
+import { getDay, isWithinInterval } from "date-fns";
+import { TimePicker } from "antd";
+import axios from "axios";
+import moment from "moment";
 
 const bookings = [
   {
@@ -66,288 +56,200 @@ const bookings = [
   },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+const Container = styled.div`
+  position: absolute;
+  margin-top: 37vh;
+  margin-left: 3vh;
+  width: 340px;
+
+  .nice-dates-day.-modifiers {
+    color: orange;
+  }
+`;
+const SelectContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 340px;
+  height: 65px;
+  margin-bottom: 3vh;
+`;
+
+const SelectStartTxt = styled.p`
+  position: absolute;
+  color: #efefef;
+  width: 160px;
+  margin-top: 1vh;
+  background-color: transparent;
+  border: 1px solid #323232;
+  width: 160px;
+  height: 60px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
+`;
+const SelectEndTxt = styled.p`
+  position: absolute;
+  color: #efefef;
+  margin-top: 1vh;
+  margin-left: 21.5vh;
+  background-color: transparent;
+  border: 1px solid #323232;
+  width: 160px;
+  height: 60px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
+`;
+
+function swapDates(startDay, endDay) {
+  setStartDay(endDay);
+  setEndDay(startDay);
 }
 
-export default function Example() {
-  const today = startOfToday();
-  const [startDay, setStartDay] = useState();
-  const [endDay, setEndDay] = useState();
-  const [isRentable, setIsRentable] = useState(true);
-  const [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
-  const firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
+export default function Calendar({ rentalId, handleBooking }) {
+  const [startDateTime, setStartDateTime] = useState();
+  const [endDateTime, setEndDateTime] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [focus, setFocus] = useState(START_DATE);
+  const [data, setData] = useState([]);
+  const handleFocusChange = (newFocus) => {
+    setFocus(newFocus || START_DATE);
+  };
+  const handleSelect = (startDateTime, endDateTime) => {
+    // Pass startDateTime and endDateTime up to the parent component
+    onSelect(startDateTime, endDateTime);
+  };
+  /*
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`http://localhost:8080/bookingsV2/bookingsOnThisRental/${id}`);
+          if (response.data.length > 0) {
+            setData(response.data);
+            console.log(response.data)
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchData();
+    }, []);
+  */
 
-  const days = eachDayOfInterval({
-    start: firstDayCurrentMonth,
-    end: endOfMonth(firstDayCurrentMonth),
-  });
-
-  function handleDateClick(date) {
-    if (!startDay) {
-      setStartDay(date);
-    } else if (!endDay) {
-      setEndDay(date);
-    } else {
-      setStartDay(date);
-      setEndDay(null);
-    }
-  }
-
-  function swapDates(startDay, endDay) {
-    setStartDay(endDay);
-    setEndDay(startDay);
-  }
-
-  // const daysBetween = eachDayOfInterval({
-  //   start: new Date(startDay),
-  //   end: new Date(endDay),
-  // });
+  // Define modifiers
+  const modifiers = {
+    disabled: (date) => {
+      // Check if date is within any booking interval
+      for (const booking of data) {
+        const start = new Date(booking.startDateTime);
+        const end = new Date(booking.endDateTime);
+        if (isWithinInterval(date, { start, end })) {
+          return true;
+        }
+      }
+      return false;
+    },
+  };
 
   function previousMonth() {
     let firstDayNextMonth = add(firstDayCurrentMonth, { months: -1 });
     setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
   }
 
-  function nextMonth() {
-    let firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
-    setCurrentMonth(format(firstDayNextMonth, "MMM-yyyy"));
-  }
+  // const maximumLength = data.maxTimeToRent;
 
-  let selectedDaybookings = bookings.filter((booking) =>
-    isSameDay(parseISO(booking.startDatetime), startDay)
-  );
+  const [startTime, setStartTime] = useState();
+  const [endTime, setEndTime] = useState();
 
-  return (
-    <div className="pt-16 bg-dgray">
-      <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6 ">
-        <div className="md:grid md:grid-cols-1 md:divide-x md:divide-gray-200">
-          <div className="md:pr-14">
-            <div className="flex items-center">
-              <button
-                type="button"
-                onClick={previousMonth}
-                className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
-              >
-                <span className="sr-only">Previous month</span>
-                <ChevronLeftIcon className="w-5 h-5" aria-hidden="true" />
-              </button>
-              <h2 className="text-white text-xs">
-                {format(firstDayCurrentMonth, "MMMM yyyy")}
-              </h2>
-              <button
-                onClick={nextMonth}
-                type="button"
-                className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
-              >
-                <span className="sr-only">Next month</span>
-                <ChevronRightIcon className="w-5 h-5" aria-hidden="true" />
-              </button>
-            </div>
-            <div className="grid grid-cols-7 mt-2 text-xs leading-6 text-center text-white">
-              <div>S</div>
-              <div>M</div>
-              <div>T</div>
-              <div>W</div>
-              <div>T</div>
-              <div>F</div>
-              <div>S</div>
-            </div>
-            <div className="grid grid-cols-7 mt-2 text-sm">
-              {days.map((day, dayIdx) => (
-                <div
-                  key={day.toString()}
-                  className={classNames(
-                    dayIdx === 0 && colStartClasses[getDay(day)],
-                    {
-                      /* detta är style för varje datum i kalender */
-                    },
-                    "pt-1",
-                    "justify-center",
-                    "items-center",
-                    "rounded-full",
-                    "pl-5"
-                  )}
-                >
-                  <button
-                    type="button"
-                    onClick={() => handleDateClick(day)}
-                    className={classNames(
-                      isEqual(day, startDay) && "text-white",
-                      !isEqual(day, startDay) && isToday(day) && "text-red-500",
-                      !isEqual(day, startDay) &&
-                        !isToday(day) &&
-                        isSameMonth(day, firstDayCurrentMonth) &&
-                        "text-white",
-                      !isEqual(day, startDay) &&
-                        !isToday(day) &&
-                        !isSameMonth(day, firstDayCurrentMonth) &&
-                        "text-gray-400",
+  const handleStartTimeChange = (time) => {
+    setStartTime(time);
+    if (time) {
+      const formattedTime = time.format("HH:mm");
+      const newDate = new Date(startDate);
+      newDate.setHours(formattedTime.split(":")[0]);
+      newDate.setMinutes(formattedTime.split(":")[1]);
+      if (isNaN(newDate.getTime())) {
+        console.error("Invalid date:", newDate);
+        return;
+      }
+      const formattedDate = `${format(newDate, "yyyy-MM-dd")} ${formattedTime}`;
+      setStartDateTime(formattedDate);
+      //console.log(formattedDate);
+    }
+  };
 
-                      isEqual(day, startDay) && isToday(day) && "bg-red-500",
-                      isEqual(day, startDay) &&
-                        !isToday(day) &&
-                        "bg-yellow-500 rounded-full w-7 pr-10 ",
+  const handleEndTimeChange = (time) => {
+    setEndTime(time);
+    if (time) {
+      console.log("time:", time);
+      const formattedTime = time.format("HH:mm");
+      console.log("formattedTime:", formattedTime);
+      const newDate = new Date(endDate);
+      newDate.setHours(formattedTime.split(":")[0]);
+      newDate.setMinutes(formattedTime.split(":")[1]);
+      console.log("newDate:", newDate);
+      const formattedDate = `${format(newDate, "yyyy-MM-dd")} ${formattedTime}`;
+      console.log("formattedDate:", formattedDate);
+      setEndDateTime(formattedDate);
+    }
+  };
 
-                      isEqual(day, endDay) &&
-                        "bg-yellow-500 rounded-full w-7 pr-2 ",
+  useEffect(() => {
+    console.log("startDateTime:", startDateTime);
+  }, [startDateTime]);
 
-                      // console.log(
-                      //   isWithinInterval(format(day, "yyyy-MM-dd"), {
-                      //     start: format(startDay, "yyyy-MM-dd"),
-                      //     end: format(endDay, "yyyy-MM-dd"),
-                      //   })
-                      // ),
-
-                      isEqual(day, startDay) &&
-                        isEqual(day, endDay) &&
-                        isWithinInterval(format(day, "yyyy-MM-dd"), {
-                          start: format(startDay, "yyyy-MM-dd"),
-                          end: format(endDay, "yyyy-MM-dd"),
-                        }) &&
-                        // differenceInDays(endDay, startDay) == 2 &&
-                        "bg-white"
-
-                      //   // isBefore(endDay, startDay) && swapDates(startDay, endDay),
-                      //   // differenceInDays(endDay, startDay) > 2 &&
-                      //   //   setIsRentable(false),
-                      //   !isEqual(day, startDay) &&
-                      //     !isEqual(day, endDay) &&
-                      //     "hover:bg-indigo-500",
-                      //   (isEqual(day, startDay) || isToday(day)) &&
-                      //     "font-semibold",
-                      //   "mx-auto flex h-8 w-8 items-center justify-center rounded-full"
-                    )}
-                  >
-                    <time dateTime={format(day, "yyyy-MM-dd")}>
-                      {format(day, "d")}
-                    </time>
-                  </button>
-
-                  <div className="w-1 h-1 mx-auto mt-1">
-                    {bookings.some((booking) =>
-                      isSameDay(parseISO(booking.startDatetime), day)
-                    ) && (
-                      <div className="w-1 h-1 rounded-full bg-sky-500"></div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* <section className="mt-12 md:mt-0 md:pl-14">
-            <h2 className="font-semibold text-gray-300">
-              Schedule for{" "}
-              <time dateTime={format(today, "yyyy-MM-dd")}>
-                {format(today, "MMM dd, yyy")}
-              </time>
-            </h2>
-            <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
-              {selectedDaybookings.length > 0 ? (
-                selectedDaybookings.map((booking) => (
-                  <Booking booking={booking} key={booking.id} />
-                ))
-              ) : (
-                <p>No booking for today.</p>
-              )}
-            </ol>
-          </section> */}
-          <div className="flex justify-center items-center border-none pt-20">
-            <button className=" text-lg font-semibold bg-yellows px-10 sm:px-2 sm:w-1/3 rounded-md h-10 mb-10 whitespace-nowrap">
-              Make Reservation
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Booking({ booking }) {
-  const startDateTime = parseISO(booking.startDatetime);
-  const endDateTime = parseISO(booking.endDatetime);
+  useEffect(() => {
+    console.log("endDateTime:", endDateTime);
+  }, [endDateTime]);
 
   return (
-    <li className="flex items-center px-4 py-2 space-x-4 group rounded-xl focus-within:bg-gray-100 hover:bg-gray-100">
-      <Image
-        src={booking.imageUrl}
-        alt=""
-        className="flex-none w-10 h-10 rounded-full"
-      />
-      <div className="flex-auto">
-        <p className="text-gray-900">{booking.name}</p>
-        <p className="mt-0.5">
-          <time dateTime={booking.startDatetime}>
-            {format(startDateTime, "h:mm a")}
-          </time>{" "}
-          -{" "}
-          <time dateTime={booking.endDatetime}>
-            {format(endDateTime, "h:mm a")}
-          </time>
-        </p>
-      </div>
-      <Menu
-        as="div"
-        className="relative opacity-0 focus-within:opacity-100 group-hover:opacity-100"
-      >
-        <div>
-          <Menu.Button className="-m-2 flex items-center rounded-full p-1.5 text-gray-500 hover:text-gray-600">
-            <span className="sr-only">Open options</span>
-            <DotsVerticalIcon className="w-6 h-6" aria-hidden="true" />
-          </Menu.Button>
-        </div>
+    <Container>
+      <div>
+        <SelectContainer>
+          <SelectStartTxt>
+            Start date:{" "}
+            {startDate
+              ? format(startDate, "yyyy-MM-dd", { locale: enGB })
+              : "none"}
+            .
+          </SelectStartTxt>
+          <SelectEndTxt>
+            End date:{" "}
+            {endDate ? format(endDate, "yyyy-MM-dd", { locale: enGB }) : "none"}
+            .
+          </SelectEndTxt>
+        </SelectContainer>
+        <DateRangePickerCalendar
+          startDate={startDate}
+          endDate={endDate}
+          focus={focus}
+          onStartDateChange={setStartDate}
+          onEndDateChange={setEndDate}
+          onFocusChange={handleFocusChange}
+          locale={enGB}
+          modifiers={modifiers}
+          touchDragEnabled={true}
+          dateFormat="yyyy-MM-dd:HH:mm"
+          onSelectSlot={handleSelect}
+          onBooking={handleBooking}
+        />
 
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <Menu.Items className="absolute right-0 z-10 mt-2 origin-top-right bg-white rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="py-1">
-              <Menu.Item>
-                {({ active }) => (
-                  <a
-                    href="#"
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-sm"
-                    )}
-                  >
-                    Edit
-                  </a>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <a
-                    href="#"
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block px-4 py-2 text-sm"
-                    )}
-                  >
-                    Cancel
-                  </a>
-                )}
-              </Menu.Item>
-            </div>
-          </Menu.Items>
-        </Transition>
-      </Menu>
-    </li>
+        <TimePicker
+          showSecond={false}
+          value={startTime}
+          onChange={handleStartTimeChange}
+          format="HH:mm"
+          use12Hours={false}
+        />
+        <TimePicker
+          showSecond={false}
+          value={endTime}
+          onChange={handleEndTimeChange}
+          format="HH:mm"
+          use12Hours={false}
+        />
+      </div>
+    </Container>
   );
 }
-
-let colStartClasses = [
-  "",
-  "col-start-2",
-  "col-start-3",
-  "col-start-4",
-  "col-start-5",
-  "col-start-6",
-  "col-start-7",
-];

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import Navbar2 from "../../components/Navbar2";
 import styled from "@emotion/styled";
 import { FaCheckSquare, FaToolbox, FaInbox, FaChartPie } from "react-icons/fa";
-import Link from "next/link";
-import Example from "../../components/Calendar";
-import AuthService from "../../services/auth-service";
+import Link from 'next/link';
+import LineChart from "../../components/charts/LineChart";
+import axios from "axios";
 
 const Page = styled.div`
   position: absolute;
@@ -21,62 +21,71 @@ const DashboardContainer = styled.div`
 `;
 
 const MyTasksCard = styled.div`
-  position: absolute;
-  background-color: #424242;
-  margin-left: 3vh;
-  margin-top: 10vh;
-  width: 160px;
-  height: 150px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+position:absolute;
+background-color:#424242;
+margin-left:3vh;
+margin-top: 35vh;
+width: 160px;
+height: 150px;
+border-radius: 10px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
 `;
 const ManageBookingsCard = styled.div`
-  position: absolute;
-  background-color: #424242;
-  margin-left: 24vh;
-  margin-top: 10vh;
-  width: 160px;
-  height: 150px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+position:absolute;
+background-color:#424242;
+margin-left:24vh;
+margin-top: 35vh;
+width: 160px;
+height: 150px;
+border-radius: 10px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
 `;
 const ManageRentalsCard = styled.div`
-  position: absolute;
-  background-color: #424242;
-  margin-left: 24vh;
-  margin-top: 30vh;
-  width: 160px;
-  height: 150px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+position:absolute;
+background-color:#424242;
+margin-left:24vh;
+margin-top: 55vh;
+width: 160px;
+height: 150px;
+border-radius: 10px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
 `;
 const TrackBookingsCard = styled.div`
-  position: absolute;
-  background-color: #424242;
-  margin-left: 3vh;
-  margin-top: 30vh;
-  width: 160px;
-  height: 150px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+position:absolute;
+background-color:#424242;
+margin-left:3vh;
+margin-top: 55vh;
+width: 160px;
+height: 150px;
+border-radius: 10px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
 `;
 const UnkownCard = styled.div`
-  position: absolute;
-  background-color: #424242;
-  margin-left: 3vh;
-  margin-top: 50vh;
-  width: 340px;
-  height: 150px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+position:absolute;
+background-color:#424242;
+margin-left:3vh;
+margin-top: 15vh;
+width: 337px;
+height: 150px;
+border-radius: 10px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
 `;
 const MyTasksTitle = styled.p`
-  position: absolute;
-  margin-left: 2vh;
-  margin-top: 2vh;
-  font-weight: 500;
-  color: #efefef;
-  font-size: 18px;
+position:absolute;
+margin-left: 2vh;
+margin-top: 2vh;
+font-weight: 500;
+color: #EFEFEF;
+font-size: 18px;
+`;
+
+const NumberOfWorkflows = styled.p`
+margin-left: 10vh;
+margin-top: 4.3vh;
+position: absolute;
+font-weight: 500;
+font-size: 62px;
+color: #EFEFEF;
 `;
 const ManageBookingsTitle = styled.p`
   position: absolute;
@@ -140,13 +149,61 @@ const ManageRentalsIcon = styled(FaToolbox)`
   color: yellow;
 `;
 
+const DashboardTxt = styled.p`
+position:absolute;
+margin-top: 8vh;
+line-height:20px;
+margin-left: 3vh;
+font-weight: 500;
+color: #EFEFEF;
+font-size: 20px;
+`;
+
+
+
+
+
 const LandingPage = () => {
+  const [pendingBookings, setPendingBookings] = useState([]);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/bookingsV2/allBookings`);
+        if (response.data.length > 0) {
+          setData(response.data);
+          console.log(response.data)
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      const pendingBookings = data.filter(booking => booking.bookingStatus === "PENDING");
+      setPendingBookings(pendingBookings);
+    }
+  }, [data]);
+
+  const numberOfWorkFlows = pendingBookings.length;
+
   return (
     <Page>
-      <Navbar2 />
+      <Navbar />
+      <DashboardTxt>Dashboard</DashboardTxt>
       <DashboardContainer>
+        <UnkownCard>
+          <LineChart />
+        </UnkownCard>
         <MyTasksCard>
-          <MyTasksTitle>My Tasks</MyTasksTitle>
+          <MyTasksTitle>
+            My Tasks
+          </MyTasksTitle>
+          <NumberOfWorkflows>{numberOfWorkFlows}</NumberOfWorkflows>
           <MyTasksIcon />
         </MyTasksCard>
 
@@ -166,14 +223,17 @@ const LandingPage = () => {
             <ManageRentalsIcon />
           </ManageRentalsCard>
         </Link>
-        <TrackBookingsCard>
-          <TrackBookingsTitle>Track Bookings</TrackBookingsTitle>
-          <TrackBookingsIcon />
-        </TrackBookingsCard>
-        <UnkownCard></UnkownCard>
+        <Link href={{ pathname: "/admin/TrackBookings" }}>
+          <TrackBookingsCard>
+            <TrackBookingsTitle>
+              Track Bookings
+            </TrackBookingsTitle>
+            <TrackBookingsIcon />
+          </TrackBookingsCard>
+        </Link>
       </DashboardContainer>
-      <Example />
-    </Page>
-  );
-};
+
+    </Page >
+  )
+}
 export default LandingPage;

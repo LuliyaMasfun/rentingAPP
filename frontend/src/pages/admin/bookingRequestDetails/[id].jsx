@@ -160,9 +160,9 @@ const Container = styled.div`
   margin-top: 340px;
   `;
 const RowBookingNumber = styled.div`
-  display: flex;
   flex-direction: row;
   color: #EFEFEF;
+  width: 320px;
   `;
 const BookingNumberLbl = styled.p`
   margin-left: 35px;
@@ -170,46 +170,48 @@ const BookingNumberLbl = styled.p`
   color: #EFEFEF;
   `;
 const BookingNumber = styled.p`
-   margin-left: 80px;
   color: #EFEFEF;
+   text-align: right;
+   margin-top: -20px;
   `;
 const BorderRow1 = styled.hr`
+  margin-top: 10px;
   position: absolute;
-  margin-top: 35px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowName = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const NameLbl = styled.p`
   position: absolute;
   margin-left: 35px;
   font-weight: 500;
   color: #EFEFEF;
+  
   `;
 const Name = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow2 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowBookingType = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width:320px;
   `;
 const BookingTypeLbl = styled.p`
   position: absolute;
@@ -220,20 +222,21 @@ const BookingTypeLbl = styled.p`
 const BookingType = styled.p`
    margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow3 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowRequestedRental = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const RequestedRentalLbl = styled.p`
   position: absolute;
@@ -242,22 +245,22 @@ const RequestedRentalLbl = styled.p`
   color: #EFEFEF;
   `;
 const RequestedRental = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow4 = styled.hr`
   position: absolute;
-  margin-top: ${(data) => (data?.hub?.hubName.length > 10 ? '45px' : '35px')};
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowStartDate = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const StartDateLbl = styled.p`
   position: absolute;
@@ -266,22 +269,22 @@ const StartDateLbl = styled.p`
   color: #EFEFEF;
   `;
 const StartDate = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow5 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowEndDate = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const EndDateLbl = styled.p`
   position: absolute;
@@ -290,22 +293,22 @@ const EndDateLbl = styled.p`
   color: #EFEFEF;
   `;
 const EndDate = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow6 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowTotalTime = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const TotalTimeLbl = styled.p`
   position: absolute;
@@ -314,22 +317,22 @@ const TotalTimeLbl = styled.p`
   color: #EFEFEF;
   `;
 const TotalTime = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow7 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
 const RowCreatedOn = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const CreatedOnLbl = styled.p`
   position: absolute;
@@ -338,22 +341,48 @@ const CreatedOnLbl = styled.p`
   color: #EFEFEF;
   `;
 const CreatedOn = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const BorderRow8 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
-const RowStatus = styled.div`
-  display: flex;
+/*
+const RowUpdatedOn = styled.div`
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
+  `;
+const UpdatedOnLbl = styled.p`
+  position: absolute;
+  margin-left: 35px;
+  font-weight: 500;
+  color: #EFEFEF;
+  `;
+const UpdatedOn = styled.p`
+  color: #EFEFEF;
+  text-align: right;
+  `;
+const BorderRow9 = styled.hr`
+  position: absolute;
+  margin-top: 10px;
+  height: 1px;
+  width: 390px;
+  background-color: #3A3B3C;
+  opacity: 0.7;
+`;
+*/
+const RowStatus = styled.div`
+  flex-direction: row;
+  margin-top: 30px;
+  color: #EFEFEF;
+  width: 320px;
   `;
 const StatusLbl = styled.p`
   position: absolute;
@@ -362,28 +391,21 @@ const StatusLbl = styled.p`
   color: #EFEFEF;
   `;
 const Status = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
-const BorderRow9 = styled.hr`
-  position: absolute;
-  margin-top: 35px;
-  height: 1px;
-  width: 390px;
-  background-color: #3A3B3C;
-  opacity: 0.7;
-`;
+
 
 /* USER USER USER USER USER USER USER USER USER USER USER */
 const UserRowName = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 40vh;
+  width: 320px;
 `;
 const RowNumber = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
+  width: 320px;
   `;
 const NumberLbl = styled.p`
   position: absolute;
@@ -392,15 +414,15 @@ const NumberLbl = styled.p`
   color: #EFEFEF;
   `;
 const Number = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 
 const RowEmail = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
   color: #EFEFEF;
+  width: 320px;
   `;
 const EmailLbl = styled.p`
   position: absolute;
@@ -409,21 +431,26 @@ const EmailLbl = styled.p`
   color: #EFEFEF;
   `;
 const Email = styled.p`
-   margin-left: 240px;
   color: #EFEFEF;
+  text-align: right;
   `;
 const UserBorderRow2 = styled.hr`
   position: absolute;
-  margin-top: 35px;
+  margin-top: 10px;
   height: 1px;
   width: 390px;
   background-color: #3A3B3C;
   opacity: 0.7;
 `;
+const Row = styled.div`
+  flex-direction: row;
+  margin-top: 4vh;
+  width: 320px;
+`;
 const Row1 = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 40vh;
+  width: 320px;
 `;
 const RowLbl = styled.p`
  position: absolute;
@@ -432,50 +459,43 @@ const RowLbl = styled.p`
   color: #EFEFEF;
 `;
 const DataLbl = styled.p`
- margin-left: 240px;
+text-align: right;
 color: #EFEFEF;
 `;
 const Row2 = styled.div`
-  display: flex;
+  width: 320px;
   flex-direction: row;
   margin-top: 30px;
 `;
 const Row3 = styled.div`
-  display: flex;
     margin-top: 30px;
   flex-direction: row;
+    width: 320px;
 `;
 const Row4 = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
+    width: 320px;
 `;
 const Row5 = styled.div`
-  display: flex;
   flex-direction: row;
   margin-top: 30px;
+    width: 320px;
 `;
-
-
 
 
 function BookingDetails() {
   let [data, setData] = useState([])
   const [selectedMenu, setSelectedMenu] = useState('GeneralInfo');
-  const [hubNames, setHubNames] = useState({});
+  const [rentalNames, setRentalNames] = useState({});
   const [userInfo, setUserInfo] = useState({});
   const router = useRouter()
   const { id } = router.query
 
-  function handleMenuClick(menuOption) {
-    setSelectedMenu(menuOption);
-  }
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/bookings/hubBooking/${id}`);
+        const response = await axios.get(`http://localhost:8080/bookingsV2/booking/${id}`);
         setData(response.data);
         console.log(response.data)
       } catch (error) {
@@ -486,21 +506,21 @@ function BookingDetails() {
   }, [id]);
 
   useEffect(() => {
-    const fetchHubNames = async () => {
+    const fetchRentalNames = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/hub/hubNames?ids=${id}`);
+        const response = await axios.get(`http://localhost:8080/rental/rentalNames?ids=${id}`);
         if (Array.isArray(response.data)) {
-          const hubNamesMap = response.data.reduce((map, hub) => {
-            map[hub.id] = hub.hubName;
+          const rentalNamesMap = response.data.reduce((map, rental) => {
+            map[rental.id] = rental.name;
             return map;
           }, {});
-          setHubNames(hubNamesMap);
+          setRentalNames(rentalNamesMap);
         }
       } catch (error) {
         console.error(error);
       }
     };
-    fetchHubNames();
+    fetchRentalNames();
   }, [data, id]);
 
   useEffect(() => {
@@ -509,7 +529,7 @@ function BookingDetails() {
         const response = await axios.get(`http://localhost:8080/user/userInfo?ids=${id}`);
         if (Array.isArray(response.data)) {
           const userInfoMap = response.data.reduce((map, userInfo) => {
-            map[data.user.id] = data.user.firstName;
+            map[data.user.id] = userInfo;
             return map;
           }, {});
           setUserInfo(userInfoMap);
@@ -536,8 +556,8 @@ function BookingDetails() {
             <EditBtn>Edit</EditBtn> <SaveBtn>Save</SaveBtn>
 
             <HeaderContent>
-              <BookedItemHeader>{data?.hub?.hubName}</BookedItemHeader>
-              <BookingNumberHeader>{data.bookingNumber}</BookingNumberHeader>
+              <BookedItemHeader>{data?.rental?.name}</BookedItemHeader>
+              <BookingNumberHeader>{data?.bookingNumber}</BookingNumberHeader>
 
               <LblRow>
                 <StartDateHeaderLbl>Start Date</StartDateHeaderLbl>
@@ -546,9 +566,9 @@ function BookingDetails() {
               </LblRow>
 
               <DataRow>
-                <StartDateHeader>{data.startDate}</StartDateHeader>
-                <EndDateHeader>{data.endDate}</EndDateHeader>
-                <StatusHeader>{data.bookingStatus}</StatusHeader>
+                <StartDateHeader>{data?.startDateTime}</StartDateHeader>
+                <EndDateHeader>{data?.endDateTime}</EndDateHeader>
+                <StatusHeader>{data?.bookingStatus}</StatusHeader>
               </DataRow>
 
               <Meny>
@@ -583,13 +603,15 @@ function BookingDetails() {
   /* GENERAL INFO */
   function GeneralInfoTab() {
 
-    const startDate = new Date(data.startDate);
-    const endDate = new Date(data.endDate);
-    const diffInMs = Math.abs(startDate.getTime() - endDate.getTime());
-    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    const startDateTime = new Date(data.startDateTime);
+    const endDateTime = new Date(data.endDateTime);
+    const diffInMs = Math.abs(startDateTime.getTime() - endDateTime.getTime());
+    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
     if (data.length > 13) {
       data = data.substr(0, 13) + '\n' + data.substr(13);
     }
+
+    //LÄGG TILL NYA FÄLT NY DATA TEX HUBTYPE, EVENTYPE, EQUIPMENTTYPE
     return (
       <Container>
         {data ? (
@@ -597,7 +619,7 @@ function BookingDetails() {
           <div>
             <RowBookingNumber>
               <BookingNumberLbl>Booking Number</BookingNumberLbl>
-              <BookingNumber>{data.bookingNumber}</BookingNumber>
+              <BookingNumber>{data?.bookingNumber}</BookingNumber>
               <BorderRow1 />
             </RowBookingNumber>
             <RowName>
@@ -608,39 +630,45 @@ function BookingDetails() {
 
             <RowBookingType>
               <BookingTypeLbl>Booking Type</BookingTypeLbl>
-              <BookingType>{data?.hub?.rentalType}</BookingType>
+              <BookingType>{data?.rental?.rentalType}</BookingType>
               <BorderRow3 />
             </RowBookingType>
 
             <RowRequestedRental>
               <RequestedRentalLbl>Requested Rental</RequestedRentalLbl>
-              <RequestedRental>{data?.hub?.hubName.length > 10
-                ? `${data?.hub?.hubName.substr(0,)}\n${data?.hub?.hubName.substr(data.hub.hubName.length)}`
-                : data?.hub?.hubName}</RequestedRental>
+              <RequestedRental>{data?.rental?.name.length > 10
+                ? `${data?.rental?.name.substr(0,)}\n${data?.rental?.name.substr(data.rental.name.length)}`
+                : data?.rental?.name}</RequestedRental>
               <BorderRow4 />
             </RowRequestedRental>
 
             <RowStartDate>
               <StartDateLbl>Start Date</StartDateLbl>
-              <StartDate>{data.startDate}</StartDate>
+              <StartDate>{data.startDateTime}</StartDate>
               <BorderRow5 />
             </RowStartDate>
 
             <RowEndDate>
               <EndDateLbl>End Date</EndDateLbl>
-              <EndDate>{data.endDate}</EndDate>
+              <EndDate>{data.endDateTime}</EndDate>
               <BorderRow6 />
             </RowEndDate>
 
             <RowTotalTime>
               <TotalTimeLbl>Total Time Requested</TotalTimeLbl>
-              <TotalTime>{diffInMs}</TotalTime>
+              <TotalTime>{diffInHours}</TotalTime>
               <BorderRow7 />
             </RowTotalTime>
 
             <RowCreatedOn>
               <CreatedOnLbl>Created On</CreatedOnLbl>
               <CreatedOn>{data.createdOn}</CreatedOn>
+              <BorderRow8 />
+            </RowCreatedOn>
+
+            <RowCreatedOn>
+              <CreatedOnLbl>Updated On</CreatedOnLbl>
+              <CreatedOn>{data.updatedOn}</CreatedOn>
               <BorderRow8 />
             </RowCreatedOn>
 
@@ -684,27 +712,54 @@ function BookingDetails() {
       <div>
         <Row1>
           <RowLbl>Rental</RowLbl>
-          <DataLbl>{data?.hub?.hubName}</DataLbl>
+          <DataLbl>{data?.rental?.name}</DataLbl>
           <BorderRow3 />
         </Row1>
         <Row2>
           <RowLbl>Rental Status</RowLbl>
-          <DataLbl>{data?.hub?.rentalStatus}</DataLbl>
+          <DataLbl>{data?.rental?.rentalStatus}</DataLbl>
           <BorderRow3 />
         </Row2>
         <Row3>
           <RowLbl>Rental Type</RowLbl>
-          <DataLbl>{data?.hub?.rentalType}</DataLbl>
+          <DataLbl>{data?.rental?.rentalType}</DataLbl>
           <BorderRow3 />
         </Row3>
+        {data?.rental?.rentalType === "EQUIPMENT" && (
+          <div>
+            <Row>
+              <RowLbl>Equipment Type</RowLbl>
+              <DataLbl>{data?.rental?.equipmentType}</DataLbl>
+              <BorderRow3 />
+            </Row>
+          </div>
+        )}
+        {data?.rental?.rentalType === "HUB" && (
+          <div>
+            <Row>
+              <RowLbl>Hub Type</RowLbl>
+              <DataLbl>{data?.rental?.hubType}</DataLbl>
+              <BorderRow3 />
+            </Row>
+          </div>
+        )}
+        {data?.rental?.rentalType === "EVENT" && (
+          <div>
+            <Row>
+              <RowLbl>Event Type</RowLbl>
+              <DataLbl>{data?.rental?.eventType}</DataLbl>
+              <BorderRow3 />
+            </Row>
+          </div>
+        )}
         <Row4>
           <RowLbl>Maximum Time to Rent</RowLbl>
-          <DataLbl>{data?.hub?.maxTimeToRent} h</DataLbl>
+          <DataLbl>{data?.rental?.maxTimeToRent} h</DataLbl>
           <BorderRow3 />
         </Row4>
         <Row5>
           <RowLbl>Location</RowLbl>
-          <DataLbl>{data?.hub?.hubLocation}</DataLbl>
+          <DataLbl>{data?.rental?.location}</DataLbl>
           <BorderRow3 />
         </Row5>
       </div>

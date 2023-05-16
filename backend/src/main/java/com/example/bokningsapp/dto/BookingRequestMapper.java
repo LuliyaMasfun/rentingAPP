@@ -3,8 +3,8 @@ package com.example.bokningsapp.dto;
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.bookings.EquipmentBooking;
 import com.example.bokningsapp.model.User;
-import com.example.bokningsapp.repository.EquipmentRepository;
-import com.example.bokningsapp.repository.UserRepository;
+import com.example.bokningsapp.repository.RentalsRepo.EquipmentRepository;
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

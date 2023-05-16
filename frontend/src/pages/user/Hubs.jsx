@@ -154,7 +154,7 @@ const HubsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/hub/getAllHubs');
+        const response = await axios.get('http://localhost:8080/rental/getHubRentals');
         setData(response.data);
         console.log(response.data)
       } catch (error) {
@@ -187,13 +187,14 @@ const HubsPage = () => {
   });
 
   const checkType = (imageType) => {
-    if (imageType.hubName == "The Film Studio") {
+    if (imageType.hubType == "FILMSTUDIO") {
       return filmImg;
-    } else if (imageType.hubName == "The Podcast Studio") {
+    } else if (imageType.hubType == "PODCASTSTUDIO") {
       return podcastImg;
     } else {
       return coWorkingImg;
     }
+    //MUSICSTUDIO
   }
 
   return (
@@ -214,11 +215,11 @@ const HubsPage = () => {
             </BookmarkContainer>
             <Border />
             <Name>
-              {item.hubName}
+              {item.name}
             </Name>
             <LocationIcon />
             <LocationTxt>
-              {item.hubLocation}
+              {item.location}
             </LocationTxt>
             <Link href="hub/[id]" as={`/user/hub/${item.id}`}>
               <HubsImg src={checkType(item)} />

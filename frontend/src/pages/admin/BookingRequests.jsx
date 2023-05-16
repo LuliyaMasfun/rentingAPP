@@ -1,14 +1,15 @@
 import React from "react";
-import Navbar from "../../components/Navbar";
+import NavbarAdmin from "../../components/NavbarAdmin";
 import styled from "@emotion/styled"
 import { useState, useEffect } from "react";
 import { IoChevronForward } from 'react-icons/io5';
-import Booking from "../../components/Booking";
+import Booking from "../../components/BookingsCard";
+import Link from "next/link";
 
 
 const Page = styled.div`
   position: absolute;
-  height: 1080px;
+  height:3500px;
   width: 390px;
   background-color: #1E1E1E;
   margin:0;
@@ -31,10 +32,10 @@ margin-left: 95px;
 margin-top: 117px;
 padding-bottom:2px;
 background-color: transparent;
-border: 1px solid #FFFFFF;
-border-radius: 5px;  
+border: 1px solid #EFEFEF;
+border-radius: 5px;
  ::placeholder {
-    color: #fff;
+    color: #EFEFEF;
     opacity: 0.4;
     padding:10px;
     font-size: 12px;
@@ -99,7 +100,7 @@ transform: rotate(90deg);
 `;
 const CreateBtn = styled.button`
 position: absolute;
-margin-left: 31vh;
+margin-left: 38vh;
 margin-top: 21px;
 font-size: 14px;
 color: #F8F360;
@@ -113,6 +114,7 @@ color: #F8F360;
 `;
 
 const Bookings = styled.div``;
+
 
 function ManageBookings() {
 
@@ -130,9 +132,12 @@ function ManageBookings() {
     setSelectedOption(option);
     setIsOpen(false);
   };
+
+
+
   return (
     <Page>
-      <Navbar />
+      <NavbarAdmin />
       <Header>
         <PageTitle>Booking Requests</PageTitle>
         <SearchBar
@@ -163,9 +168,11 @@ function ManageBookings() {
 
         </DropdownContainer>
       </SubHeaderContainer>
-      <CreateBtn>Create</CreateBtn>
-      <DeleteBtn>Delete</DeleteBtn>
-
+      <Link href={{
+        pathname: "/admin/CreateBooking"
+      }}>
+        <CreateBtn>Create</CreateBtn>
+      </Link>
       <Bookings>
         <Booking />
       </Bookings>

@@ -1,4 +1,4 @@
-package com.example.bokningsapp.repository;
+package com.example.bokningsapp.repository.BookingsRepo;
 
 import com.example.bokningsapp.model.bookings.EquipmentBooking;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,9 @@
 package com.example.bokningsapp.controller.rentals;
 
 import com.example.bokningsapp.model.Hub;
-import com.example.bokningsapp.repository.HubRepository;
+import com.example.bokningsapp.model.bookings.HubBooking;
+import com.example.bokningsapp.repository.BookingsRepo.HubBookingRepository;
+import com.example.bokningsapp.repository.RentalsRepo.HubRepository;
 import com.example.bokningsapp.service.hubService.HubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +22,13 @@ public class HubController {
 
     private HubService hubService;
     private HubRepository hubRepository;
+    private HubBookingRepository hubBookingRepository;
 
     @Autowired
-    public HubController(HubService hubService, HubRepository hubRepository) {
+    public HubController(HubService hubService, HubRepository hubRepository, HubBookingRepository hubBookingRepository) {
         this.hubService = hubService;
         this.hubRepository = hubRepository;
+        this.hubBookingRepository = hubBookingRepository;
     }
 
     @PostMapping(value = "/createHub")
@@ -65,5 +69,11 @@ public class HubController {
             hubNamesById.put(hub.getId(), hub.getHubName());
         }
         return hubNamesById;
+    }
+
+    @PutMapping("/editHub/{id}")
+    public ResponseEntity<Hub> updateRental(@PathVariable Long id, @RequestBody Hub hub) {
+        Hub updatedRental = hubService.updateHub(id, hub);
+        return ResponseEntity.ok(updatedRental);
     }
 }

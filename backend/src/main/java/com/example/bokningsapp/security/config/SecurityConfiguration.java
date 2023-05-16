@@ -6,6 +6,8 @@ import com.example.bokningsapp.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,13 +30,22 @@ public class SecurityConfiguration {
     private UserRepository userRepo;
 
     @Bean
+    public RoleHierarchy roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
+        return roleHierarchy;
+    }
+
+
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
               .csrf().disable()
-                .cors().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/auth/**","/api/**","/role/create-role").permitAll()
-                .requestMatchers("/user/**","/bookings/**", "/hub/**", "/role/**", "/equipment/**").hasRole("ROLE_ADMIN")
+                .cors().disable();
+             /*  .authorizeHttpRequests()
+                .requestMatchers("/auth/**", "/equipment/**", "/user/**", "/bookings/**", "/hub/**", "/rental/**").permitAll()
+                .requestMatchers("/user/**").hasRole("ROLE_ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -43,6 +54,7 @@ public class SecurityConfiguration {
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+*/
         return http.build();
     }
 

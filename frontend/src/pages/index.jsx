@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import 'react-nice-dates/build/style.css';
 
 import Login from "./Login";
 import LandingPage from "./admin/LandingPage";
@@ -7,12 +8,10 @@ import Login2 from "./Login2";
 
 function App() {
   return (
-    <div>
-      <Login2 />
-
-      {/* <LandingPage /> */}
-    </div>
-  );
+    <>
+      <Login />
+    </>
+  )
 }
 
 export default App;

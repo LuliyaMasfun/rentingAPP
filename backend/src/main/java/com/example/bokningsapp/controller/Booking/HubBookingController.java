@@ -1,24 +1,17 @@
 package com.example.bokningsapp.controller.Booking;
 
 import com.example.bokningsapp.dto.HubBookingRequest;
-import com.example.bokningsapp.model.Hub;
-import com.example.bokningsapp.model.User;
-import com.example.bokningsapp.model.bookings.EquipmentBooking;
 import com.example.bokningsapp.model.bookings.HubBooking;
-import com.example.bokningsapp.repository.HubBookingRepository;
-import com.example.bokningsapp.repository.HubRepository;
-import com.example.bokningsapp.repository.UserRepository;
-import com.example.bokningsapp.security.jwt.JwtService;
+import com.example.bokningsapp.repository.BookingsRepo.HubBookingRepository;
+import com.example.bokningsapp.repository.RentalsRepo.HubRepository;
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import com.example.bokningsapp.service.bookingService.HubBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/bookings")

@@ -13,19 +13,21 @@ After you've installed Node.js and npm, follow these steps:
 
 # Features
 - User registration and login
-- Rental search and booking
+- Rental search
+- View and place booking
 - Rsvp to Events
 - Rental management for admins
 - Booking management for admins
+- Stats reports for admins
+- Tasks workflow for admins
+- User management for admins
 
-# User management for admins
-Technologies Used
-Java Spring Boot
-Spring Security
+# Technologies Used
+Java Spring Boot (Spring Security, Spring Webservices)
 Next.js
 React.js
-CSS
-MysqlSQL
+CSS & Emotion
+MySQL
 
 # License
 This project is licensed under the MIT License. See the LICENSE file for more information

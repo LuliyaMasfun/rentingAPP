@@ -1,10 +1,13 @@
 package com.example.bokningsapp.security.auth;
 
-
+import com.example.bokningsapp.model.Equipment;
+import com.example.bokningsapp.model.User;
+import com.example.bokningsapp.repository.EquipmentRepository;
 import com.example.bokningsapp.security.payload.request.LoginRequest;
 import com.example.bokningsapp.security.payload.request.SignupRequest;
 
 import com.example.bokningsapp.security.payload.response.AuthenticationResponse;
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

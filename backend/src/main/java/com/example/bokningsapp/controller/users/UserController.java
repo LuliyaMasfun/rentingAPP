@@ -2,8 +2,9 @@ package com.example.bokningsapp.controller.users;
 
 import com.example.bokningsapp.dto.CreateUserDto;
 import com.example.bokningsapp.model.User;
-import com.example.bokningsapp.repository.UserRepository;
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 
+import com.example.bokningsapp.security.jwt.JwtService;
 import com.example.bokningsapp.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -81,6 +82,11 @@ public class UserController {
         }
         return userInfoById;
     }
+    @GetMapping("/getUserIdFromToken")
+    public ResponseEntity<Long> getUserIdFromToken (@RequestBody String token){
+        return ResponseEntity.ok(JwtService.getUserIdFromToken(token));
+    }
+
 
     @PatchMapping(value = "/updateUsersPassword/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {

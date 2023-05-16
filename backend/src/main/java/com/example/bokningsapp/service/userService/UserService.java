@@ -4,7 +4,6 @@ import com.example.bokningsapp.dto.CreateUserDto;
 import com.example.bokningsapp.exception.ResourceNotFoundException;
 import com.example.bokningsapp.model.Role;
 import com.example.bokningsapp.model.User;
-import com.example.bokningsapp.repository.RoleRepository;
 import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.security.config.BcryptPasswordConfig;
 import org.springframework.beans.factory.annotation.Autowired;

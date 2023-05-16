@@ -1,11 +1,10 @@
 package com.example.bokningsapp.service.hubService;
 
 
-import com.example.bokningsapp.exception.EquipmentNotFoundException;
-import com.example.bokningsapp.model.Equipment;
+import com.example.bokningsapp.exception.ResourceNotFoundException;
 import com.example.bokningsapp.model.Hub;
 import com.example.bokningsapp.model.User;
-import com.example.bokningsapp.repository.HubRepository;
+import com.example.bokningsapp.repository.RentalsRepo.HubRepository;
 import com.example.bokningsapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,23 +36,19 @@ public class HubService {
         hubRepository.delete(deletedHub);
     }
 
-    public String saveHubToUser(Long userId, Hub hub){
+    public Hub updateHub(Long rentalId, Hub rental) {
+        Hub existingRental = hubRepository.findById(rentalId)
+                .orElseThrow(() -> new ResourceNotFoundException("Rental not found with id: ", rentalId));
 
-       User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Hub not found with id" + userId));
+        existingRental.setHubName(rental.getHubName());
+        existingRental.setHubLocation(rental.getHubLocation());
+        existingRental.setHubImg(rental.getHubImg());
+        existingRental.setMaxTimeToRent(rental.getMaxTimeToRent());
+        existingRental.setHubDescription(rental.getHubDescription());
+        existingRental.setRentalType(rental.getRentalType());
+        existingRental.setRentalStatus(rental.getRentalStatus());
 
-  /*     try{
-           user.getHubs().stream().filter(hub1 -> hub1.)
-
-       }catch(Error error)*/
-
-       user.getHubs().add(hub);
-
-       userRepository.save(user);
-
-       return "User was successfully updated";
-
-
+        return hubRepository.save(existingRental);
     }
 
 
