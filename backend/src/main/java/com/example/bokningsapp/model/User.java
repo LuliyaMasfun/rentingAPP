@@ -16,49 +16,58 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "users",uniqueConstraints =
+@UniqueConstraint(columnNames = "email"))
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
     private String firstName;
-    @Column
+
     private String lastName;
-    @Column
+
+    private String userName;
+
     private String email;
-    @Column
+
     private String profileImg;
-    @Column
+
     private Long socialSecurityNumber;
-    @Column
+
     private String phoneNumber;
-    @Column
     private String address;
-    @Column
+
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime createdDate;
-    @Column
+
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime updatedDate;
-    @Column
+
     private String password;
-    @Column
-    @JsonFormat(pattern = "dd-MM-yyyy")
+
+
     private LocalDate birthDate;
-    @Column
+
     @Enumerated
     private AccountStatus accountStatus;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+
+    //todo amigoscode kör enums direkt istället för class på roller
+    @OneToOne
+    private Role role;
+
+   @OneToMany(mappedBy = "user")
+    private Set<Hub> hubs = new HashSet<>();
+
+    public User() {
+    }
+
+    public User(String firstName, String lastName, String email, String encode, String address) {
+    }
+
+    public User(String firstName, String lastName, String email, String encode, String phoneNumber, String address, LocalDate birthDate) {
+    }
 
     public Long getId() {
         return id;
@@ -88,13 +97,14 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
+
 
     public String getProfileImg() {
         return profileImg;
@@ -116,6 +126,14 @@ public class User implements UserDetails {
         return phoneNumber;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -130,6 +148,44 @@ public class User implements UserDetails {
 
     public LocalDateTime getCreatedDate() {
         return createdDate;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.getName().toString()));
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setCreatedDate(LocalDateTime createdDate) {
@@ -164,41 +220,12 @@ public class User implements UserDetails {
         this.accountStatus = accountStatus;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName().toString()));
-        }
-        return authorities;
-    }
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-    @Override
-    public String getPassword() {
-        return password;
+    public Set<Hub> getHubs() {
+        return hubs;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
+    public void setHubs(Set<Hub> hubs) {
+        this.hubs = hubs;
     }
 
     @Override
@@ -217,7 +244,7 @@ public class User implements UserDetails {
                 ", password='" + password + '\'' +
                 ", birthDate=" + birthDate +
                 ", accountStatus=" + accountStatus +
-                ", roles=" + roles +
+                ", role=" + role +
                 '}';
     }
 }

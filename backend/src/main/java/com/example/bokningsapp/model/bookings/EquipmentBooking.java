@@ -26,7 +26,7 @@ public class EquipmentBooking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookingId;
+    private Long bookingId;
 
     @Column
     private String reservationNumber;
@@ -59,7 +59,7 @@ public class EquipmentBooking {
     private LocalTime dropOff;
 
 
-    public int getBookingId() {
+    public Long getBookingId() {
         return bookingId;
     }
 

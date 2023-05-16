@@ -20,8 +20,8 @@ import java.time.LocalTime;
 public class HubBooking {
 
     @Id
-    @GeneratedValue
-    int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
 
     @Column
     private String bookingNumber;
@@ -63,7 +63,7 @@ public class HubBooking {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private String updatedBy;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

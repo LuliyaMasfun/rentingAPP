@@ -27,6 +27,8 @@ public class EquipmentBookingController {
         this.equipBookingRepository = equipBookingRepository;
     }
 
+
+
     @PostMapping("/bookEquipment")
     public BookingResponse createEquipmentBooking(@RequestBody EquipmentBookingRequest bookingRequest) {
         return bookingService.placeEquipmentBooking(bookingRequest);

@@ -1,5 +1,6 @@
 package com.example.bokningsapp.controller.users;
 
+import com.example.bokningsapp.dto.CreateUserDto;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 
@@ -35,6 +36,12 @@ public class UserController {
         List<User> users = userRepository.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    @PostMapping("/create-user")
+    public ResponseEntity<String> createUser(@RequestBody CreateUserDto user) {
+
+       return userService.saveUser(user);
+    };
 
     @DeleteMapping("/deleteUser/{id}")
     public void deleteUser(@PathVariable Long id) {

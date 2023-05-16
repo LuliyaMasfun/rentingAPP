@@ -1,25 +1,37 @@
 package com.example.bokningsapp.security.auth;
 
 
-
 import com.example.bokningsapp.enums.ERole;
 import com.example.bokningsapp.model.Role;
 import com.example.bokningsapp.model.User;
+import com.example.bokningsapp.security.jwt.JwtResponse;
 import com.example.bokningsapp.security.payload.request.LoginRequest;
 import com.example.bokningsapp.security.payload.request.SignupRequest;
 import com.example.bokningsapp.security.payload.response.AuthenticationResponse;
 import com.example.bokningsapp.repository.UsersRepo.RoleRepository;
 import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import com.example.bokningsapp.security.jwt.JwtService;
+import com.example.bokningsapp.security.payload.response.MessageResponse;
+import com.example.bokningsapp.service.UserDetailsImpl.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -33,85 +45,99 @@ public class AuthenticationService {
     private final RoleRepository roleRepository;
 
 
-    public AuthenticationResponse register(SignupRequest signupRequest){
+    public AuthenticationResponse register(SignupRequest signUpRequest) {
 
-        User user = User.builder()
-                .firstName(signupRequest.getFirstName())
-                .lastName(signupRequest.getLastName())
-                .email(signupRequest.getEmail())
-                .password(passwordEncoder.encode(signupRequest.getPassword()))
-                .phoneNumber(signupRequest.getPhoneNumber())
-                .address(signupRequest.getAddress())
-                .birthDate(signupRequest.getBirthDate())
-                .build();
+  /*      if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
+        }*/
 
-        Set<String> strRoles = signupRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-                        break;
-                        case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+    /*    if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return AuthenticationResponse.builder().
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }*/
 
-                        break;
-                         default:
+
+        User user = new User();
+
+        user.setFirstName(signUpRequest.getFirstName());
+        user.setLastName(signUpRequest.getLastName());
+        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setEmail(signUpRequest.getEmail());
+        user.setPhoneNumber(signUpRequest.getPhoneNumber());
+        user.setAddress(signUpRequest.getAddress());
+        user.setBirthDate(signUpRequest.getBirthDate());
+
+        System.out.println(user.getFirstName());
+
+            String role = signUpRequest.getRole();
+
+            switch (role) {
+                case "ROLE_USER" -> {
+                    Role roleUser = roleRepository.findByName(ERole.ROLE_USER)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    user.setRole(roleUser);
+
+                }
+                case "ROLE_ADMIN" -> {
+                    Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    user.setRole(adminRole);
+                }
+                case "ROLE_MODERATOR" -> {
+                    Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    user.setRole(modRole);
+                }
+
+                    default -> {
                         Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                }
-            });
-        }
-                        user.setRoles(roles);
-                        userRepository.save(user);
-
-                         var jwtToken = jwtService.generateToken(user);
-
-                        return AuthenticationResponse.builder()
-                                .roles(roles)
-                                .token(jwtToken)
-                                .email(signupRequest.getEmail())
-                                .build();
+                        user.setRole(userRole);
+                        break;
+                    }
                 }
 
 
-    public AuthenticationResponse authenticate(LoginRequest authenticationRequest) {
+        System.out.println(user.getRole().toString());
+        userRepository.save(user);
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getEmail(),
-                        authenticationRequest.getPassword()
-        )
-        );
-            var user = userRepository.findByEmail(authenticationRequest.getEmail())
-                    .orElseThrow();
+        Set<Role> roles = new HashSet<>();
+        roles.add(user.getRole());
 
-        UserDetails userDetails = User.builder()
-                .email(user.getEmail())
-                .id(user.getId())
-                .roles(user.getRoles())
-                .birthDate(user.getBirthDate())
-                .address(user.getAddress())
-                .phoneNumber(user.getPhoneNumber())
-                .build();
-        var jwtToken = jwtService.generateToken(userDetails);
+        /* var jwtToken = jwtService.generateToken(user);*/
 
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .email(user.getEmail())
-                .id(user.getId())
-                .roles(user.getRoles())
-                .build();
+        String jwt = jwtService.generateToken(user);
+
+        return AuthenticationResponse.builder().token(jwt).id(user.getId()).roles(roles).build();
     }
+
+
+    public AuthenticationResponse authenticateUser(AuthenticationResponse authenticationRequest) {
+
+
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            authenticationRequest.getEmail(),
+                            authenticationRequest.getPassword()
+                    )
+            );
+            User user = userRepository.findByEmail(authenticationRequest.getEmail()).orElseThrow(()-> new RuntimeException("User not found"));
+             String jwtToken = jwtService.generateToken(user);
+        System.out.println("Detta är användarens roll:" + user.getRole().getName().toString());
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(user.getRole());
+
+            return AuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .id(user.getId())
+                    .roles(roles)
+                    .email(user.getEmail())
+                    .build();
+        }
 
 
 

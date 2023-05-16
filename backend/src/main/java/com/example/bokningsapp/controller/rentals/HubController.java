@@ -34,8 +34,15 @@ public class HubController {
     @PostMapping(value = "/createHub")
     public ResponseEntity<Hub> createHub(@RequestBody Hub hub) {
         Hub newHub = hubService.saveHub(hub);
-        return new ResponseEntity<>(hub, HttpStatus.CREATED);
+        return new ResponseEntity<>(newHub, HttpStatus.CREATED);
     }
+
+ /*   @PostMapping(value = "/create-hub/{userId}")
+    public ResponseEntity<String>createHub(@PathVariable Long userId, Hub hub){
+
+        return new ResponseEntity<>(hubService.saveHubToUser(userId, hub),HttpStatus.OK);
+    }*/
+
 
     @GetMapping("/getAllHubs")
     public ResponseEntity<List<Hub>> getAllHubs() {

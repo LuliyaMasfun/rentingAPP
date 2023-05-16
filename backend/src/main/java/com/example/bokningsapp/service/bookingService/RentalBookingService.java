@@ -78,7 +78,7 @@ public class RentalBookingService {
         newBooking.setBookingNumber(bookingNumber);
         newBooking.setBookingStatus(BookingStatus.PENDING);
         newBooking.setCreatedOn(LocalDateTime.now());
-        if (user.getRoles().stream().anyMatch(role -> role.getName() == ERole.ROLE_USER)) {
+        if (user.getRole().getName() == ERole.ROLE_USER) {
             newBooking.setBookingHandled(false);
         } else {
             newBooking.setBookingHandled(true);

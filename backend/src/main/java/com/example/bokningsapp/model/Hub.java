@@ -6,31 +6,38 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "hubs")
 public class Hub {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
     private String hubName;
-    @Column
     private String hubLocation;
-    @Column
+
     private String hubImg;
-    @Column
+
     private int maxTimeToRent;
-    @Column
+
     private String hubDescription;
-    @Column
+
     @Enumerated
     private RentalType rentalType;
-    @Column
+
     @Enumerated
     private RentalStatus rentalStatus;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",nullable = false)
+    private User user;
+
+    public Hub() {
+    }
 
     public Long getId() {
         return id;
@@ -90,6 +97,14 @@ public class Hub {
 
     public void setRentalStatus(RentalStatus rentalStatus) {
         this.rentalStatus = rentalStatus;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUserSet(User user) {
+        this.user = user;
     }
 
     @Override

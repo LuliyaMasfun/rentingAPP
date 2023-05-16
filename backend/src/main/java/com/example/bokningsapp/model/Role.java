@@ -1,18 +1,27 @@
 package com.example.bokningsapp.model;
 
 import com.example.bokningsapp.enums.ERole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private ERole name;
+
+
+    @OneToOne
+    @JsonIgnore
+    private User user;
 
     public Role() {
     }
@@ -21,11 +30,11 @@ public class Role {
         this.name = name;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -35,5 +44,13 @@ public class Role {
 
     public void setName(ERole name) {
         this.name = name;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

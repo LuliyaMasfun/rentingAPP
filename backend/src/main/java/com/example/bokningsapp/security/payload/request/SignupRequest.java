@@ -39,7 +39,10 @@ public class SignupRequest {
     @Size(max = 15)
     private LocalDate birthDate;
 
-    private Set<String> role;
+    private String role;
+
+    public SignupRequest(String firstName, String lastName, String email, String encode, String phoneNumber, String address, LocalDate birthDate) {
+    }
 
 
     public String getFirstName() {
@@ -90,6 +93,14 @@ public class SignupRequest {
         this.address = address;
     }
 
+/*    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }*/
+
     public LocalDate getBirthDate() {
         return birthDate;
     }
@@ -98,11 +109,11 @@ public class SignupRequest {
         this.birthDate = birthDate;
     }
 
-    public Set<String> getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Set<String> role) {
+    public void setRole(String role) {
         this.role = role;
     }
 }

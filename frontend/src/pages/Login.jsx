@@ -11,7 +11,9 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { useRouter } from "next/router";
 
-import AuthService from "../services/auth.service";
+import AuthService from "../services/auth-service";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const Page = styled.div`
   height: 100vh;
@@ -65,7 +67,9 @@ const InputEmail = styled(Input)`
 `;
 const InputPassword = styled(Input)`
   position: absolute;
+
   margin-top: 180px;
+
   border: none;
   padding: 10px;
   width: 260px;
@@ -184,6 +188,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
   const onChangeEmail = (e) => {
     const email = e.target.value;
@@ -206,6 +211,9 @@ const Login = () => {
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(email, password).then(
         (response) => {
+
+          console.log(response);
+
           if (response.roles.some((role) => role.name === "ROLE_ADMIN")) {
             router.push("/admin/LandingPage");
           } else if (response.roles.some((role) => role.name === "ROLE_USER")) {
@@ -237,6 +245,7 @@ const Login = () => {
       <Title>Welcome Back,</Title>
       <Subtitle>please enter your credentials</Subtitle>
       <FormLogin onSubmit={handleLogin} ref={form}>
+
         <InputEmail
           type="text"
           name="email"
@@ -260,6 +269,7 @@ const Login = () => {
         >
           <ForgotPasswordLink>Forgot password</ForgotPasswordLink>
         </Link>
+
 
         <ButtonLogin onClick={handleLogin}>Log in</ButtonLogin>
         <CheckButton ref={checkBtn} />

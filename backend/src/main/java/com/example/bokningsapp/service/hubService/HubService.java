@@ -3,7 +3,10 @@ package com.example.bokningsapp.service.hubService;
 
 import com.example.bokningsapp.exception.ResourceNotFoundException;
 import com.example.bokningsapp.model.Hub;
+import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.RentalsRepo.HubRepository;
+
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +16,15 @@ public class HubService {
 
     private HubRepository hubRepository;
 
+    private UserRepository userRepository;
+
+
     @Autowired
-    public HubService(HubRepository hubRepository) {
+    public HubService(HubRepository hubRepository, UserRepository userRepository) {
         this.hubRepository = hubRepository;
+        this.userRepository = userRepository;
     }
+
 
     public Hub saveHub(Hub hub) {
         return hubRepository.save(hub);
