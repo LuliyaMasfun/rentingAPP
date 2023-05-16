@@ -1,4 +1,3 @@
-
 import React from "react";
 import styled from "@emotion/styled";
 import { useState, useRef } from "react";
@@ -9,7 +8,6 @@ import AuthService from "../services/auth.service";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
 
 const Page = styled.div`
   height: 900px;
@@ -43,8 +41,6 @@ const SignUpForm = styled(Form)`
   justify-content: center;
   height: 80vh;
   margin-left: -35vh;
-
-  
 `;
 const InputFirstname = styled(Input)`
   position: absolute;
@@ -172,13 +168,14 @@ const Login = styled.span`
   margin-left: 5vh;
 `;
 
-
-
-
 const required = (value) => {
   if (!value) {
     return (
-      <div className="alert alert-danger" style={{ marginLeft: "20px" }} role="alert">
+      <div
+        className="alert alert-danger"
+        style={{ marginLeft: "20px" }}
+        role="alert"
+      >
         This field is required!
       </div>
     );
@@ -219,29 +216,28 @@ const SignUp = () => {
   const [message, setMessage] = useState("");
   const [successful, setSuccessful] = useState(false);
 
-
-  const onChangeFirstName = e => {
-    setFirstName(e.target.value)
+  const onChangeFirstName = (e) => {
+    setFirstName(e.target.value);
   };
-  const onChangeLastname = e => {
-    setLastName(e.target.value)
+  const onChangeLastname = (e) => {
+    setLastName(e.target.value);
   };
-  const onChangeEmail = e => {
-    setEmail(e.target.value)
-  };
-
-  const onChangeAddress = e => {
-    setAddress(e.target.value)
-  };
-  const onChangePhoneNumber = e => {
-    setPhoneNumber(e.target.value)
-  };
-  const onChangeBirthdate = e => {
-    setBirthdate(e.target.value)
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value);
   };
 
-  const onChangePassword = e => {
-    setPassword(e.target.value)
+  const onChangeAddress = (e) => {
+    setAddress(e.target.value);
+  };
+  const onChangePhoneNumber = (e) => {
+    setPhoneNumber(e.target.value);
+  };
+  const onChangeBirthdate = (e) => {
+    setBirthdate(e.target.value);
+  };
+
+  const onChangePassword = (e) => {
+    setPassword(e.target.value);
   };
   const handleRegister = (e) => {
     e.preventDefault();
@@ -252,10 +248,18 @@ const SignUp = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(firstName, lastName, email, address, phoneNumber, birthdate, password).then(
+      AuthService.register(
+        firstName,
+        lastName,
+        email,
+        address,
+        phoneNumber,
+        birthdate,
+        password
+      ).then(
         (response) => {
           setMessage("User Registered Successfully");
-
+          console.log(response);
           setSuccessful(true);
         },
         (error) => {
@@ -278,8 +282,7 @@ const SignUp = () => {
       <Title>Create an account,</Title>
       <Subtitle>Lets get started, enter your details</Subtitle>
 
-      <SignUpForm
-        onSubmit={handleRegister} ref={form}>
+      <SignUpForm onSubmit={handleRegister} ref={form}>
         <div>
           {!successful && (
             <>
@@ -341,8 +344,9 @@ const SignUp = () => {
                 validations={[required, vpassword]}
               />
 
-              <ButtonSignUp type="submit" onClick={handleRegister}>Sign Up</ButtonSignUp>
-
+              <ButtonSignUp type="submit" onClick={handleRegister}>
+                Sign Up
+              </ButtonSignUp>
             </>
           )}
           {message && (
@@ -359,18 +363,17 @@ const SignUp = () => {
           )}
           <CheckButton ref={checkBtn} />
         </div>
-        <Link href={{
-          pathname: "/Login"
-        }}>
+        <Link
+          href={{
+            pathname: "/Login",
+          }}
+        >
           <Login>
             Already have an account? <UnderlinedText>Log in</UnderlinedText>
           </Login>
         </Link>
-
       </SignUpForm>
-
     </Page>
   );
 };
 export default SignUp;
-

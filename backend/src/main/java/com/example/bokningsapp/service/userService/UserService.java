@@ -58,17 +58,31 @@ public class UserService {
     }
 
     public ResponseEntity<String> deleteUser(Long id) {
-        User user = userRepository.findUserById(id);
+        User user = userRepository.findUserById(id).orElseThrow(()-> new RuntimeException("User with id:" + id + "not found"));
         userRepository.delete(user);
         return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
     }
 
     public ResponseEntity<User> updateUser(Long id, User user) {
-        User updatedUser = userRepository.findUserById(id);
+        User updatedUser = userRepository.findUserById(id).orElseThrow(()-> new RuntimeException("User with id:" + id + "not found"));
         updatedUser.setPassword(user.getPassword());
         userRepository.save(updatedUser);
 
         return ResponseEntity.ok(updatedUser);
+    }
+
+    public User findUserByEmail(String email){
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User with email:" + email + " not found"));
+
+        System.out.println(user.getId());
+        System.out.println(user.getFirstName());
+
+        return user;
+    }
+
+    public User getUserById(long id){
+
+        return userRepository.findUserById(id).orElseThrow(()-> new RuntimeException("User with id:" + id + "not found"));
     }
 
 

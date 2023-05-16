@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import styled from "@emotion/styled";
 import MyActiveBooking from "../../components/ActiveBooking";
@@ -12,6 +11,7 @@ import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import "../../styles/globals.css";
 import Example from "../../components/Calendar";
+import { useSession } from "next-auth/react";
 
 const Page = styled.div`
   position: absolute;
@@ -52,27 +52,40 @@ const HubsImg = styled(Image)`
 `;
 
 const LandingPage = () => {
-  return (
-    <Page>
-      <Navbar />
-      <MyActiveBooking />
-      <DashboardTitle>Dashboard</DashboardTitle>
-      <DashboardContainer>
-        <EventsImg src={EventsLp} />
-        <Link href="/user/Equipments">
-          <EquipmentImg src={EquipmentLp} />
-        </Link>
-        <CommunityImg src={CommunityLp} />
-        <Link href="/user/Hubs">
-          <HubsImg src={HubsLp} />
-        </Link>
-      </DashboardContainer>
-      {/* <Example /> */}
-      <div style={{ marginTop: "1050px" }}>
-        <Footer />
+  const { data: session } = useSession();
+
+  console.log(session);
+  {
+    session?.user ? (
+      <>
+        return (
+        <Page>
+          <Navbar />
+          <MyActiveBooking />
+          <DashboardTitle>Dashboard</DashboardTitle>
+          <DashboardContainer>
+            <EventsImg src={EventsLp} />
+            <Link href="/user/Equipments">
+              <EquipmentImg src={EquipmentLp} />
+            </Link>
+            <CommunityImg src={CommunityLp} />
+            <Link href="/user/Hubs">
+              <HubsImg src={HubsLp} />
+            </Link>
+          </DashboardContainer>
+          {/* <Example /> */}
+          <div style={{ marginTop: "1050px" }}>
+            <Footer />
+          </div>
+        </Page>
+        );
+      </>
+    ) : (
+      <div>
+        <h1>Not logged in </h1>
       </div>
-    </Page>
-  );
+    );
+  }
 };
 
 export default LandingPage;

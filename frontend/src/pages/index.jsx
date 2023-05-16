@@ -1,18 +1,14 @@
+"use client";
 import React from "react";
 
-import Login from "./Login";
-import LandingPage from "./admin/LandingPage";
-import Calendar from "../components/Calendar";
-import Login2 from "./Login2";
+import Login from "../app/auth/login/page";
 
-function App() {
+function Home() {
   return (
-    <div>
-      <Login2 />
-
-      {/* <LandingPage /> */}
-    </div>
+    <main>
+      <Login />
+    </main>
   );
 }
 
-export default App;
+export default Home;

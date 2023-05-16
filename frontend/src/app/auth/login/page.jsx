@@ -1,32 +1,32 @@
 "use client";
 import React from "react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import bankid from "../../public/bankidIcon.png";
-import "../styles/globals.css";
-import "../styles/Body.css";
+import bankid from "../../../../public/bankidIcon.png";
+import "../../../styles/globals.css";
+import "../../../styles/Body.css";
 
-import AuthService from "../services/auth-service";
+import AuthService from "../../../services/auth-service";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { formik, useFormik, Form, Field, ErrorMessage } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useRouter } from "next/router";
-const Login2 = () => {
-  const router = useRouter();
+
+import { signIn } from "next-auth/react";
+
+const Login = () => {
   const [loading, setLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .max(15, "Must be 15 characters or less")
-        .required("Required"),
+      email: Yup.string().required("Required"),
       password: Yup.string()
         .max(20, "Must between 5 and 20 charakters")
         .min(5, "Must between 5 and 20 charakters")
@@ -34,28 +34,24 @@ const Login2 = () => {
     }),
 
     onSubmit: (values) => {
+      // const res = signIn("credentials", {
+      //   email: formik.values.email,
+      //   password: formik.values.password,
+      //   redirect: false,
+      // });
+
+      console.log(res);
       setLoading(true);
       setErrorMessage("");
       console.log(JSON.stringify(values));
 
       try {
-        AuthService.login(values.email, values.password).then(
-          () => {
-            router.push("/LandingPage");
-            window.location.reload();
-          },
-          (error) => {
-            const resMessage =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString();
-
-            setLoading(false);
-            setErrorMessage(resMessage);
-          }
-        );
+        const res = signIn("credentials", {
+          email: formik.values.email,
+          password: formik.values.password,
+          redirect: false,
+        });
+        console.log(res);
       } catch (error) {
         console.log(error);
         setLoading(false);
@@ -72,7 +68,7 @@ const Login2 = () => {
       style={{ backgroundImage: "url('/bgLogin.png')" }}
     >
       <div className=" ">
-        <div className="flex flex-col justify-center items-start pl-6 pt-40">
+        <div className="flex flex-col justify-center items-start pl-6 pt-24">
           <h1 className="py-5 text-3xl font-bold text-white">Welcome Back,</h1>
           <p className="text-white text-xl">Please enter your credentials</p>
         </div>{" "}
@@ -92,6 +88,7 @@ const Login2 = () => {
               value={formik.values.email}
               placeholder="Email"
             />
+
             {formik.touched.email && formik.errors.email ? (
               <p2 className="error">{formik.errors.email}</p2>
             ) : null}
@@ -134,6 +131,7 @@ const Login2 = () => {
                 <button
                   className="flex border-none h-2 p-6 w-full text-center items-center justify-center bg-white text-#1e1e1e font-bold text-lg rounded-md shadow-md "
                   type="submit"
+                  onClick={() => signIn()}
                 >
                   Log in
                 </button>
@@ -162,4 +160,4 @@ const Login2 = () => {
   );
 };
 
-export default Login2;
+export default Login;

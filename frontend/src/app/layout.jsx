@@ -9,11 +9,13 @@ export default function RootLayout({ children }) {
         head.jsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>
+      <body className="grow h-screen">
         <Navbar2 />
-
-        {children}
+        <main>{children}</main>
       </body>
+      <footer>
+        <footer />
+      </footer>
     </html>
   );
 }

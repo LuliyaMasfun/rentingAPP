@@ -7,6 +7,7 @@ import com.example.bokningsapp.repository.UserRepository;
 import com.example.bokningsapp.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,18 @@ public class UserController {
         List<User> users = userRepository.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+        public ResponseEntity<User> getUser(@PathVariable long id){
+
+        return new ResponseEntity<>(userService.getUserById(id),HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+        return new ResponseEntity<>(userService.findUserByEmail(email),HttpStatus.OK);
+    };
+
 
     @PostMapping("/create-user")
     public ResponseEntity<String> createUser(@RequestBody CreateUserDto user) {

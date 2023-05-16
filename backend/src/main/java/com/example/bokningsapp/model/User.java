@@ -30,6 +30,7 @@ public class User implements UserDetails {
 
     private String userName;
 
+
     private String email;
 
     private String profileImg;
