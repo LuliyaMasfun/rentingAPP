@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { enGB } from "date-fns/locale";
-import {
-  DateRangePickerCalendar,
-  START_DATE,
-  useDateInput,
-} from "react-nice-dates";
+// import { DateRangePickerCalendar, START_DATE } from "react-nice-dates";
 import "react-nice-dates/build/style.css";
 import styled from "@emotion/styled";
-import { getDay, isWithinInterval } from "date-fns";
+import { isWithinInterval } from "date-fns";
 import { TimePicker } from "antd";
-import axios from "axios";
-import moment from "moment";
 
 const bookings = [
   {
@@ -111,11 +105,11 @@ export default function Calendar({ rentalId, handleBooking }) {
   const [endDateTime, setEndDateTime] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [focus, setFocus] = useState(START_DATE);
+  // const [focus, setFocus] = useState(START_DATE);
   const [data, setData] = useState([]);
-  const handleFocusChange = (newFocus) => {
-    setFocus(newFocus || START_DATE);
-  };
+  // const handleFocusChange = (newFocus) => {
+  //   setFocus(newFocus || START_DATE);
+  // };
   const handleSelect = (startDateTime, endDateTime) => {
     // Pass startDateTime and endDateTime up to the parent component
     onSelect(startDateTime, endDateTime);
@@ -220,7 +214,7 @@ export default function Calendar({ rentalId, handleBooking }) {
             .
           </SelectEndTxt>
         </SelectContainer>
-        <DateRangePickerCalendar
+        {/* <DateRangePickerCalendar
           startDate={startDate}
           endDate={endDate}
           focus={focus}
@@ -233,7 +227,7 @@ export default function Calendar({ rentalId, handleBooking }) {
           dateFormat="yyyy-MM-dd:HH:mm"
           onSelectSlot={handleSelect}
           onBooking={handleBooking}
-        />
+        /> */}
 
         <TimePicker
           showSecond={false}

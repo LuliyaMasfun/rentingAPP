@@ -37,11 +37,11 @@ public class HubController {
         return new ResponseEntity<>(newHub, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/create-hub/{userId}")
+ /*   @PostMapping(value = "/create-hub/{userId}")
     public ResponseEntity<String>createHub(@PathVariable Long userId, Hub hub){
 
         return new ResponseEntity<>(hubService.saveHubToUser(userId, hub),HttpStatus.OK);
-    }
+    }*/
 
 
     @GetMapping("/getAllHubs")

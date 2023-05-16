@@ -2,7 +2,7 @@ package com.example.bokningsapp.security.auth;
 
 import com.example.bokningsapp.model.Equipment;
 import com.example.bokningsapp.model.User;
-import com.example.bokningsapp.repository.EquipmentRepository;
+
 import com.example.bokningsapp.security.payload.request.LoginRequest;
 import com.example.bokningsapp.security.payload.request.SignupRequest;
 
@@ -26,12 +26,12 @@ public class AuthenticationController {
 
 
 
-    @PostMapping("/sign-up")
+    @PostMapping("/signup")
     public AuthenticationResponse register(@RequestBody SignupRequest request){
        return authenticationService.register(request);
     }
 
-    @PostMapping("/sign-in")
+    @PostMapping("/signin")
     public AuthenticationResponse authenticate(@RequestBody AuthenticationResponse request){
         return authenticationService.authenticateUser(request);
     }

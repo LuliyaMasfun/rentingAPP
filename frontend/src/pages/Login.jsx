@@ -164,21 +164,16 @@ const SignUp = styled.span`
 `;
 const Alert = styled.p`
   position: absolute;
-  margin-top:18vh;
+  margin-top: 18vh;
   margin-left: 6vh;
   font-size: 18px;
   margin-bottom: 40px;
-  color:white;
+  color: white;
 `;
-
 
 const required = (value) => {
   if (!value) {
-    return (
-      <Alert role="alert">
-        This field is required!
-      </Alert>
-    );
+    return <Alert role="alert">This field is required!</Alert>;
   }
 };
 const Login = () => {
@@ -214,9 +209,10 @@ const Login = () => {
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(email, password).then(
         (response) => {
-          if (response.roles.some(role => role.name === "ROLE_ADMIN")) {
+          console.log(response);
+          if (response.roles.some((role) => role.name === "ROLE_ADMIN")) {
             router.push("/admin/LandingPage");
-          } else if (response.roles.some(role => role.name === "ROLE_USER")) {
+          } else if (response.roles.some((role) => role.name === "ROLE_USER")) {
             router.push("/user/LandingPage");
           } else {
             setLoading(false);

@@ -5,7 +5,8 @@ import com.example.bokningsapp.exception.ResourceNotFoundException;
 import com.example.bokningsapp.model.Hub;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.RentalsRepo.HubRepository;
-import com.example.bokningsapp.repository.UserRepository;
+
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

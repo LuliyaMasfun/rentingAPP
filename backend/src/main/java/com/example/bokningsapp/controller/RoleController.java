@@ -2,7 +2,8 @@ package com.example.bokningsapp.controller;
 
 
 import com.example.bokningsapp.model.Role;
-import com.example.bokningsapp.repository.RoleRepository;
+
+import com.example.bokningsapp.repository.UsersRepo.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
