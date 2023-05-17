@@ -10,10 +10,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { useRouter } from "next/router";
-
 import AuthService from "../services/auth-service";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const Page = styled.div`
   height: 100vh;
@@ -201,6 +198,7 @@ const Login = () => {
   };
 
   const router = useRouter();
+
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -211,7 +209,6 @@ const Login = () => {
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(email, password).then(
         (response) => {
-
           console.log(response);
 
           if (response.roles.some((role) => role.name === "ROLE_ADMIN")) {
@@ -245,7 +242,6 @@ const Login = () => {
       <Title>Welcome Back,</Title>
       <Subtitle>please enter your credentials</Subtitle>
       <FormLogin onSubmit={handleLogin} ref={form}>
-
         <InputEmail
           type="text"
           name="email"
@@ -269,7 +265,6 @@ const Login = () => {
         >
           <ForgotPasswordLink>Forgot password</ForgotPasswordLink>
         </Link>
-
 
         <ButtonLogin onClick={handleLogin}>Log in</ButtonLogin>
         <CheckButton ref={checkBtn} />

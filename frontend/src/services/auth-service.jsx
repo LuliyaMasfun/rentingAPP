@@ -4,10 +4,11 @@ const API_URL = "http://localhost:8080/auth/";
 
 const login = async (email, password) => {
   try {
-    const response = await axios.post(API_URL + "sign-in", {
+    const response = await axios.post(API_URL + "signin", {
       email,
       password,
     });
+    console.log(response);
     if (response.data.token) {
       localStorage.setItem("user", JSON.stringify(response.data));
     } else {
