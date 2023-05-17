@@ -17,7 +17,7 @@ import java.time.LocalTime;
 @Table(name = "rental_bookings")
 public class RentalBooking {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
     @Column
