@@ -1,3 +1,4 @@
+/*
 package com.example.bokningsapp.service.emailService;
 
 import com.example.bokningsapp.model.ActivationToken;
@@ -50,3 +51,4 @@ public class EmailService {
 
 
 }
+*/
