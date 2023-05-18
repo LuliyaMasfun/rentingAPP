@@ -185,7 +185,7 @@ function ManageBookings() {
               //   return "";
               // }
             })
-            .map(val, (key) => {
+            .map((val, key) => {
               return (
                 <div key={key}>
                   <p> val.booking_number</p>
