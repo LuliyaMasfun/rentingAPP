@@ -2,7 +2,9 @@ package com.example.bokningsapp.service;
 
 import com.example.bokningsapp.enums.RentalType;
 import com.example.bokningsapp.model.Rental;
+import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.RentalsRepo.RentalRepository;
+import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,14 +16,20 @@ import java.util.*;
 public class RentalService {
 
     private final RentalRepository rentalRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public RentalService(RentalRepository rentalRepository) {
+    public RentalService(RentalRepository rentalRepository,
+                         UserRepository userRepository) {
         this.rentalRepository = rentalRepository;
+        this.userRepository = userRepository;
     }
 
     //SAVE RENTAL
-    public Rental saveRental(Rental rental) {
+    public Rental saveRental(Rental rental,long id) {
+        User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
+        System.out.println(user.getFirstName());
+        rental.setCreatedBy(user);
         return rentalRepository.save(rental);
     }
 

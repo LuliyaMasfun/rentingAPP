@@ -10,10 +10,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { useRouter } from "next/router";
-
 import AuthService from "../services/auth-service";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const Page = styled.div`
   height: 100vh;
@@ -67,7 +64,9 @@ const InputEmail = styled(Input)`
 `;
 const InputPassword = styled(Input)`
   position: absolute;
-  margin-top: 150px;
+
+  margin-top: 180px;
+
   border: none;
   padding: 10px;
   width: 260px;
@@ -199,6 +198,7 @@ const Login = () => {
   };
 
   const router = useRouter();
+
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -210,6 +210,7 @@ const Login = () => {
       AuthService.login(email, password).then(
         (response) => {
           console.log(response);
+
           if (response.roles.some((role) => role.name === "ROLE_ADMIN")) {
             router.push("/admin/LandingPage");
           } else if (response.roles.some((role) => role.name === "ROLE_USER")) {
@@ -241,41 +242,29 @@ const Login = () => {
       <Title>Welcome Back,</Title>
       <Subtitle>please enter your credentials</Subtitle>
       <FormLogin onSubmit={handleLogin} ref={form}>
-        <div className="flex-col justify-center items-center">
-          <InputEmail
-            type="text"
-            name="email"
-            placeholder="Email"
-            value={email}
-            onChange={onChangeEmail}
-            validations={[required]}
-          />
-          <div className="flex justify-center items-center">
-            <div onClick={() => setPasswordIsVisible(!passwordIsVisible)}>
-              {passwordIsVisible ? (
-                <VisibilityOffIcon />
-              ) : (
-                <VisibilityOffIcon />
-              )}
-            </div>
-
-            <InputPassword
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={password}
-              onChange={onChangePassword}
-              validations={[required]}
-            />
-          </div>
-          <Link
-            href={{
-              pathname: "/resetPassword",
-            }}
-          >
-            <ForgotPasswordLink>Forgot password</ForgotPasswordLink>
-          </Link>
-        </div>
+        <InputEmail
+          type="text"
+          name="email"
+          placeholder="Email"
+          value={email}
+          onChange={onChangeEmail}
+          validations={[required]}
+        />
+        <InputPassword
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={password}
+          onChange={onChangePassword}
+          validations={[required]}
+        />
+        <Link
+          href={{
+            pathname: "/resetPassword",
+          }}
+        >
+          <ForgotPasswordLink>Forgot password</ForgotPasswordLink>
+        </Link>
 
         <ButtonLogin onClick={handleLogin}>Log in</ButtonLogin>
         <CheckButton ref={checkBtn} />
