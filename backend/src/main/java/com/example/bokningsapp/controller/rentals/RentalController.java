@@ -33,11 +33,11 @@ public class RentalController {
         this.rentalBookingRepository = rentalBookingRepository;
     }
 
-    @PostMapping(value = "/createRental")
-    public ResponseEntity<Rental> createRental(@RequestBody Rental rental) {
+    @PostMapping(value = "/createRental/{id}")
+    public ResponseEntity<Rental> createRental(@RequestBody Rental rental, @PathVariable Long id) {
         rental.setEan13(RentalService.generateEAN13());
         rental.setRentalNumber(RentalService.generateRentalNumber());
-        Rental newRental = rentalService.saveRental(rental);
+        Rental newRental = rentalService.saveRental(rental, id);
         return new ResponseEntity<>(newRental, HttpStatus.CREATED);
     }
 

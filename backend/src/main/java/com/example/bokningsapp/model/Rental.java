@@ -215,6 +215,8 @@ public class Rental {
         return hubType;
     }
 
+
+
     public void setHubType(HubType hubType) {
         this.hubType = hubType;
     }

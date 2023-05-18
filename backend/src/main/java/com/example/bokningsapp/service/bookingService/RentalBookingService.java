@@ -44,8 +44,9 @@ public class RentalBookingService {
 
     public RentalBooking placeBooking(RentalBookingRequest bookingRequest) {
 
-        User user = userRepository.findById(bookingRequest.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found"));
-        Rental rental = rentalRepository.findById(bookingRequest.getRental().getId()).orElseThrow(() -> new RuntimeException("Rental not found"));
+        User user = userRepository.findById(bookingRequest.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+        Rental rental = rentalRepository.findById(bookingRequest.getRentalId()).orElseThrow(() -> new RuntimeException("Rental not found"));
+
 
         //Validate Rental Availability
         if (!rental.isAvailableToRent()) {
@@ -57,6 +58,10 @@ public class RentalBookingService {
         }
 
 
+        System.out.println(bookingRequest.getStartDateTime());
+        System.out.println(bookingRequest.getEndDateTime());;
+
+/*
         // Validate booking dates
         LocalDateTime startDateTime = bookingRequest.getStartDateTime();
         LocalDateTime endDateTime = bookingRequest.getEndDateTime();
@@ -67,6 +72,7 @@ public class RentalBookingService {
         if (endDateTime.isBefore(startDateTime)) {
             throw new RuntimeException("End date must be after start date");
         }
+*/
 
         //Set attributes for booking
         RentalBooking newBooking = new RentalBooking();
@@ -83,6 +89,8 @@ public class RentalBookingService {
         } else {
             newBooking.setBookingHandled(true);
         }
+
+        System.out.println(newBooking.getUser().getRole().getName());
 
         // Calculate duration
         Duration duration = Duration.between(newBooking.getStartDateTime(), newBooking.getEndDateTime());

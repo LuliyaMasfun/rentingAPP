@@ -34,7 +34,7 @@ const register = (
   phoneNumber,
   birthdate
 ) => {
-  return axios.post(API_URL + "sign-up", {
+  return axios.post(API_URL + "signup", {
     firstname,
     lastname,
     email,

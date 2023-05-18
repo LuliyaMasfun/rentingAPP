@@ -46,7 +46,7 @@ public class SecurityConfiguration {
               .csrf().disable()
                 .cors().disable()
               .authorizeHttpRequests()
-                .requestMatchers("/auth/**", "/equipment/**", "/user/**", "/bookings/**", "/hub/**", "/rental/**").permitAll()
+                .requestMatchers("/auth/**", "/equipment/**", "/user/**", "/bookings/**", "/hub/**", "/rental/**","/bookingsV2/**").permitAll()
                 .requestMatchers("/user/**").hasRole("ROLE_ADMIN")
                 .anyRequest()
                 .authenticated()

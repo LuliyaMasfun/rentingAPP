@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 
 public class RentalBookingRequest {
 
-    private User user;
+    private Long userId;
 
-    private Rental rental;
+    private Long rentalId;
     
 
     @JsonFormat(pattern = "yyyy-MM-dd:HH:mm", timezone = "Europe/Stockholm")
@@ -21,20 +21,27 @@ public class RentalBookingRequest {
     @JsonFormat(pattern = "yyyy-MM-dd:HH:mm", timezone = "Europe/Stockholm")
     private LocalDateTime endDateTime;
 
-    public User getUser() {
-        return user;
+    public RentalBookingRequest(Long userId, Long rentalId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        this.userId = userId;
+        this.rentalId = rentalId;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public Rental getRental() {
-        return rental;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public void setRental(Rental rental) {
-        this.rental = rental;
+    public Long getRentalId() {
+        return rentalId;
+    }
+
+    public void setRentalId(Long rentalId) {
+        this.rentalId = rentalId;
     }
 
     public LocalDateTime getStartDateTime() {
