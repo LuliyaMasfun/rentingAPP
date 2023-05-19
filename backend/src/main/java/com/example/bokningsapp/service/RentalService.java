@@ -1,16 +1,21 @@
 package com.example.bokningsapp.service;
 
+import com.example.bokningsapp.dto.RentalDTO;
+import com.example.bokningsapp.dto.UserDto;
 import com.example.bokningsapp.enums.RentalType;
 import com.example.bokningsapp.model.Rental;
 import com.example.bokningsapp.model.User;
 import com.example.bokningsapp.repository.RentalsRepo.RentalRepository;
 import com.example.bokningsapp.repository.UsersRepo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RentalService {
@@ -40,6 +45,42 @@ public class RentalService {
                 .orElseThrow(() -> new RuntimeException("Hub not found with id " + id));
         rentalRepository.delete(deletedRental);
     }
+
+    public ResponseEntity<List<RentalDTO>> getAllRentals() {
+        try {
+            List<RentalDTO> rentals = rentalRepository.findAll()
+                    .stream()
+                    .map(rental -> {
+                        Long id = rental.getCreatedBy().getId();
+                        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User doesn´t exist"));
+                        UserDto userDto = new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole());
+                        return new RentalDTO(
+                                rental.getId(),
+                                rental.getEan13(),
+                                rental.getRentalNumber(),
+                                rental.getMaxTimeToRent(),
+                                rental.getEquipmentType(),
+                                rental.getHubType(),
+                                rental.getEventType(),
+                                userDto
+                        );
+
+                    }).toList();
+
+            return new ResponseEntity<>(rentals,HttpStatus.OK);
+
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+
+    }
+
+ /*   public RentalDTO getRental(Long id){
+
+
+    }*/
 
     // FIND BY RENTAL TYPE
     public List<Rental> findRentalByRentalType(RentalType rentalType) {

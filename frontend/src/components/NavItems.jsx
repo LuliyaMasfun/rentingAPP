@@ -5,19 +5,25 @@ import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import WindowOutlinedIcon from "@mui/icons-material/WindowOutlined";
 import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import React from "react";
+import AuthService from "../services/auth-service";
+import { useEffect } from "react";
 
 export const NavItems = [
-  { title: "Home", path: "/", icon: <WindowOutlinedIcon /> },
-  { title: "Activity", path: "/activity", icon: <EqualizerOutlinedIcon /> },
+  { title: "Home", path: "role/LandingPage", icon: <WindowOutlinedIcon /> },
+  {
+    title: "Activity",
+    path: "role/activity",
+    icon: <EqualizerOutlinedIcon />,
+  },
   {
     title: "Task",
-    path: "/services",
+    path: "role/services",
     icon: <AssignmentTurnedInOutlinedIcon />,
   },
   { title: "Users", path: "/users", icon: <PermIdentityOutlinedIcon /> },
   {
     title: "Noticiation",
-    path: "/contact",
+    path: "role/contact",
     icon: <NotificationsNoneOutlinedIcon />,
   },
 ];

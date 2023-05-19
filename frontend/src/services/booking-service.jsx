@@ -1,8 +1,9 @@
 import axios from "axios";
-const API_URL = "http://localhost:8080/bookingsV2/";
+const API_URL = "http://localhost:8080/rentals/";
 
 const getAllBookings = async () => {
-  return await axios.get(API_URL + `allBookings`);
+  const res = await axios.get(API_URL + `getAllRentals`);
+  console.log(res);
 };
 
 const bookingservice = {

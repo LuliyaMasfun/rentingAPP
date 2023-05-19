@@ -9,14 +9,16 @@ import EquipmentLp from "../../../public/EquipmentLp.png";
 import CommunityLp from "../../../public/CommunityLp.png";
 import EventsLp from "../../../public/EventsLp.png";
 import Link from "next/link";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/Navbar2";
 import "../../styles/globals.css";
 import Example from "../../components/Calendar";
+import AuthService from "../../services/auth-service";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const Page = styled.div`
-  position: absolute;
-  height: 2705px;
-  width: 390px;
+  height: 100%;
+  width: 100%;
   background-color: #1e1e1e;
   margin: 0;
 `;
@@ -52,6 +54,15 @@ const HubsImg = styled(Image)`
 `;
 
 const LandingPage = () => {
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const currentUser = AuthService.getCurrentUser();
+    setUser({ ...currentUser });
+    console.log(currentUser);
+  }, []);
+
+  console.log(user);
+
   return (
     <Page>
       <Navbar />

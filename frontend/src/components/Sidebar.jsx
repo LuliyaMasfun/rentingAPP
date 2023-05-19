@@ -4,9 +4,53 @@ import { NavItems } from "./NavItems";
 import SearchIcon from "@mui/icons-material/Search";
 import { TextFields } from "@mui/icons-material";
 import { NavItems2 } from "./NavItems2";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import AuthService from "../services/auth-service";
 
 const Sidebar = ({ isOpen, onDataChange }) => {
   const [query, setQuery] = useState("");
+  const router = useRouter();
+  const [user, setUser] = useState({});
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    const currentUser = AuthService.getCurrentUser();
+    setUser({ ...currentUser });
+  }, []);
+
+  // console.log(user.roles[0].name);
+
+  const determineUserRole = () => {
+    if (user && user.roles && user.roles.length > 0) {
+      const _role = user.roles[0].name;
+      if (_role === "ROLE_USER") {
+        setRole("user");
+        console.log("Rollen är USER");
+      } else if (_role === "ROLE_ADMIN") {
+        setRole("admin");
+        console.log("Rollen är admin");
+      } else {
+        AuthService.logout();
+        router.push("/");
+      }
+    }
+  };
+
+  useEffect(() => {
+    determineUserRole();
+  }, [user]);
+
+  console.log(role);
+
+  // const _role = user.roles[0].name ?? [];
+
+  // {
+  //   _role == ROLE_USER ? setRole("user") : setRole("admin");
+  // }
+
+  // console.log(_role == ROLE_USER);
+
   return (
     <div className="relative">
       {isOpen && (
@@ -49,14 +93,18 @@ const Sidebar = ({ isOpen, onDataChange }) => {
             <div className="p-4">
               <ul className="flex flex-col items-center justify-center">
                 {NavItems.map((item, key) => (
-                  <li
-                    key={key}
-                    onClick={() => (window.location.pathname = item.path)}
-                    className="flex w-full my-5 hover:bg-slate-300 cursor-pointer hover:rounded-md"
-                  >
-                    <div className="pr-5">{item.icon}</div>{" "}
-                    <p className="pl=5">{item.title}</p>
-                  </li>
+                  <>
+                    <li
+                      key={key}
+                      onClick={() =>
+                        router.push(item.path.replace("role", role))
+                      }
+                      className="flex w-full my-5 hover:bg-slate-300 cursor-pointer hover:rounded-md"
+                    >
+                      <div className="pr-5">{item.icon}</div>{" "}
+                      <p className="pl=5">{item.title}</p>
+                    </li>
+                  </>
                 ))}
               </ul>
             </div>
@@ -66,7 +114,7 @@ const Sidebar = ({ isOpen, onDataChange }) => {
                 {NavItems2.map((item, key) => (
                   <li
                     key={key}
-                    onClick={() => (window.location.pathname = item.path)}
+                    onClick={() => router.push(item.path)}
                     className="flex w-full my-5 hover:bg-slate-300 cursor-pointer hover:rounded-md"
                   >
                     <div className="pr-5 min-w-max">{item.icon}</div>{" "}

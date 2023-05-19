@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { enGB } from "date-fns/locale";
 // import { DateRangePickerCalendar, START_DATE } from "react-nice-dates";
-import "react-nice-dates/build/style.css";
+// import "react-nice-dates/build/style.css";
 import styled from "@emotion/styled";
 import { isWithinInterval } from "date-fns";
 import { TimePicker } from "antd";

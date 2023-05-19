@@ -2,32 +2,29 @@ package com.example.bokningsapp.dto;
 
 
 
+import com.example.bokningsapp.model.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class UserDto {
 
     private Long id;
-    private String username;
+
     private String firstName;
     private String lastName;
     private String email;
 
+    private Role role;
+
     public UserDto() {
     }
 
-    public UserDto(Long id,
-                   String username,
-                   String firstName,
-                   String lastName,
-                   String email
-                 ) {
+    public UserDto(Long id, String firstName, String lastName, String email, Role role) {
         this.id = id;
-        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-
+        this.role = role;
     }
 
     public Long getId() {
@@ -36,14 +33,6 @@ public class UserDto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getFirstName() {
@@ -70,7 +59,12 @@ public class UserDto {
         this.email = email;
     }
 
+    public Role getRole() {
+        return role;
+    }
 
-
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }
 

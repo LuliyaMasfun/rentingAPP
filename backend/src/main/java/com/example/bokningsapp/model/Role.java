@@ -4,9 +4,6 @@ import com.example.bokningsapp.enums.ERole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -27,7 +24,6 @@ public class Role {
     }
 
     public Role(ERole name) {
-        this.name = name;
     }
 
     public Long getId() {

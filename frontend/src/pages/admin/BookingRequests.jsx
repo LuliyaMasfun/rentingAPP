@@ -127,10 +127,13 @@ function ManageBookings() {
   };
 
   useEffect(() => {
-    const fetchData = () => {
+    const fetchData = async () => {
       try {
-        const resp = bookingservice.getAllBookings();
-        setBookingRequestList(resp.data);
+        const resp = await bookingservice.getAllBookings();
+        console.log(resp);
+        if (resp.data.length > 0) {
+          setBookingRequestList(resp.data);
+        }
       } catch (Error) {
         console.log(Error);
       }
@@ -187,8 +190,8 @@ function ManageBookings() {
             })
             .map((val, key) => {
               return (
-                <div key={key}>
-                  <p> val.booking_number</p>
+                <div className="bg-white" key={key}>
+                  <p> {val.booking_number}</p>
                 </div>
               );
             })}

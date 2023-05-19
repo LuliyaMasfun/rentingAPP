@@ -10,7 +10,8 @@ const ActiveBookingCard = styled.div`
   height: 160px;
   background-color: #393939;
   border-radius: 20px;
-
+  justify-content: center;
+  align-items: center;
   margin-top: 40px;
   margin-left: 2.5vh;
 `;
@@ -118,7 +119,7 @@ const MyActiveBooking = () => {
   }, []);
 
   return (
-    <div>
+    <div className="justify-center items-center">
       {data ? (
         <Link
           href={{

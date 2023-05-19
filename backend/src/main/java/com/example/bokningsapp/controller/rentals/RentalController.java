@@ -1,5 +1,6 @@
 package com.example.bokningsapp.controller.rentals;
 
+import com.example.bokningsapp.dto.RentalDTO;
 import com.example.bokningsapp.enums.RentalType;
 import com.example.bokningsapp.model.Rental;
 import com.example.bokningsapp.model.bookings.HubBooking;
@@ -42,9 +43,13 @@ public class RentalController {
     }
 
     @GetMapping("/getAllRentals")
-    public ResponseEntity<List<Rental>> getAllRentals() {
-        List<Rental> rentals = rentalRepository.findAll();
-        return new ResponseEntity<>(rentals, HttpStatus.OK);
+    public ResponseEntity<List<RentalDTO>> getAllRentals() {
+      try{
+         return rentalService.getAllRentals();
+      }
+       catch(Exception e){
+           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
 
     @GetMapping("/getRentalsOnRentalType/{rentalType}")
