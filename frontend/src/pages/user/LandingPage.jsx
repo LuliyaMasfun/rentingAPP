@@ -17,10 +17,12 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 const Page = styled.div`
-  height: 100%;
-  width: 100%;
-  background-color: #1e1e1e;
+  display: flex;
   margin: 0;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  flex-direction: column;
 `;
 
 const DashboardContainer = styled.div`
@@ -28,11 +30,9 @@ const DashboardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 1000px;
 `;
 
 const DashboardTitle = styled.h1`
-  position: absolute;
   margin-top: 7vh;
   margin-left: 4vh;
   color: white;
@@ -41,16 +41,16 @@ const DashboardTitle = styled.h1`
 `;
 
 const EventsImg = styled(Image)`
-  margin-top: 120vh;
+  margin-top: 10px;
 `;
 const EquipmentImg = styled(Image)`
-  margin-top: 30px;
+  margin-top: 10px;
 `;
 const CommunityImg = styled(Image)`
-  margin-top: 30px;
+  margin-top: 10px;
 `;
 const HubsImg = styled(Image)`
-  margin-top: 30px;
+  margin-top: 10px;
 `;
 
 const LandingPage = () => {
@@ -64,25 +64,27 @@ const LandingPage = () => {
   console.log(user);
 
   return (
-    <Page>
+    <div className="h-screen w-screen flex-1 flex-grow">
       <Navbar />
-      <MyActiveBooking />
-      <DashboardTitle>Dashboard</DashboardTitle>
-      <DashboardContainer>
-        <EventsImg src={EventsLp} />
-        <Link href="/user/Equipments">
-          <EquipmentImg src={EquipmentLp} />
-        </Link>
-        <CommunityImg src={CommunityLp} />
-        <Link href="/user/Hubs">
-          <HubsImg src={HubsLp} />
-        </Link>
-      </DashboardContainer>
-      {/* <Example /> */}
-      <div style={{ marginTop: "1050px" }}>
-        <Footer />
-      </div>
-    </Page>
+      <Page>
+        <MyActiveBooking />
+        <DashboardTitle>Dashboard</DashboardTitle>
+        <DashboardContainer>
+          <EventsImg src={EventsLp} />
+          <Link href="/user/Equipments">
+            <EquipmentImg src={EquipmentLp} />
+          </Link>
+          <CommunityImg src={CommunityLp} />
+          <Link href="/user/Hubs">
+            <HubsImg src={HubsLp} />
+          </Link>
+        </DashboardContainer>
+
+        <div className="mt-10">
+          <Footer />
+        </div>
+      </Page>
+    </div>
   );
 };
 

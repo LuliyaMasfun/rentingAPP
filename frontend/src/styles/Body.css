@@ -6,17 +6,19 @@ html,
 body {
     z-index: 1;
     font-family: 'Outfit';
-    background: #f4f4f4;
-    display: grid;
+    display: flex;
+    flex-grow: 1;
 
     margin: 0;
 
-    overflow: scroll;
+    /* overflow: scroll; */
 
 }
 
-#_next {
 
+#_next {
+    width: 100vw;
+    height: 100vh;
     display: grid;
     grid-auto-flow: row;
     grid-auto-rows: 10%;

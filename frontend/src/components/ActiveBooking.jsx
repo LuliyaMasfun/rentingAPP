@@ -7,13 +7,16 @@ import Link from "next/link";
 
 const ActiveBookingCard = styled.div`
   width: 346px;
-  height: 160px;
+  min-height: 300px;
   background-color: #393939;
   border-radius: 20px;
   justify-content: center;
   align-items: center;
   margin-top: 40px;
-  margin-left: 2.5vh;
+  flex-grow: 1;
+  max-height: 600px;
+  overflow: auto;
+  transition: max-height 0.3s ease;
 `;
 
 const CardTitle = styled.p`
@@ -84,7 +87,7 @@ const EndDate = styled.p`
   margin-left: 9px;
 `;
 const BookingName = styled.p`
-  position: absolute;
+  width: 100%;
   margin-top: 6vh;
   margin-left: 3vh;
   color: #fefefe;
@@ -106,11 +109,13 @@ const MyActiveBooking = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/bookingsV2/bookingsOnThisUser/${userId}`
+          `http://localhost:8080/rental/getAllRentals`
         );
-        const data = response.data[0];
-        setData(data);
-        console.log(data);
+        if (response.data.length > 0) {
+          setData(response.data);
+        }
+
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -119,8 +124,8 @@ const MyActiveBooking = () => {
   }, []);
 
   return (
-    <div className="justify-center items-center">
-      {data ? (
+    <div className="flex justify-center items-center">
+      {data.length > 0 ? (
         <Link
           href={{
             pathname: "/../user/MyBookings",
@@ -131,17 +136,31 @@ const MyActiveBooking = () => {
             <OptionIcon />
             <Border />
             <BookingName>
-              {[data.rental ? data.rental.name : "NaN"]}
+              {/* {[data.rental ? data.rental.name : "NaN"]} */}
+              {data.map((item, key) => {
+                return (
+                  <div
+                    key={key}
+                    className="flex-col bg-slate-500 p-6 w-full h-full my-6 items-center justify-center"
+                  >
+                    <p className="text-white pr-2">
+                      {" "}
+                      name: {item.userDto.firstName}
+                    </p>
+                    <p>hubType:{item.hubType}</p>
+                  </div>
+                );
+              })}
             </BookingName>
             <BookingStatus>{[data.bookingStatus]}</BookingStatus>
-            <StartCard>
+            {/* <StartCard>
               <StartDateTitle>Start date</StartDateTitle>
               <StartDate>{[data.startDateTime]}</StartDate>
             </StartCard>
             <EndCard>
               <EndDateTitle>End date</EndDateTitle>
               <EndDate>{data.endDateTime}</EndDate>
-            </EndCard>
+            </EndCard> */}
           </ActiveBookingCard>
         </Link>
       ) : (

@@ -7,12 +7,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaWrench, FaHouseUser, FaUsers } from "react-icons/fa";
 import { IoChevronForward } from "react-icons/io5";
-import rejected from "../../../public/rejected.png";
-import approved from "../../../public/approved.png";
-import pending from "../../../public/pending.png";
 import "../../styles/globals.css";
 import Link from "next/link";
-import AuthService from "../../services/auth.service";
+import AuthService from "../../services/auth-service";
 
 const Page = styled.div`
   position: absolute;

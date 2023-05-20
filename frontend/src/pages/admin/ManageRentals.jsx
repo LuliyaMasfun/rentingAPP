@@ -10,7 +10,7 @@ function ManageRentals() {
     setCurrentValue(value);
   };
   return (
-    <div>
+    <div className="h-screen w-screen">
       <HeaderManageRentals onCurrentValueChange={handleCurrentValueChange} />
       <RentalCard currentValue={currentValue} />
     </div>

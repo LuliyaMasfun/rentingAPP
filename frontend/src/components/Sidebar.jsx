@@ -92,10 +92,10 @@ const Sidebar = ({ isOpen, onDataChange }) => {
             </div>
             <div className="p-4">
               <ul className="flex flex-col items-center justify-center">
-                {NavItems.map((item, key) => (
+                {NavItems.map((item, index) => (
                   <>
                     <li
-                      key={key}
+                      key={index}
                       onClick={() =>
                         router.push(item.path.replace("role", role))
                       }

@@ -15,7 +15,7 @@ const Navbar2 = () => {
 
   return (
     <nav
-      className={`flex items-center bg-dgray p-6 ${
+      className={`flex items-center bg-dgray mb-20 p-6 ${
         isOpen ? "flex-shrink-1" : ""
       }`}
     >
